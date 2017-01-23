@@ -65,6 +65,16 @@ body {
     height:40px;
 }
 
+#killfeed .buffer{
+    height: 1000px;
+    width:10px;
+}
+
+#killfeed {
+    height: 400px;
+    overflow-y: scroll;
+}
+
 #killfeed img {
     height:36px;;
 }
