@@ -1,0 +1,132 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    padding-top: 50px;
+}
+
+.navbar-fixed-top {
+    border: 0;
+}
+
+#gametable th {
+    text-align: center;
+}
+
+#gametable td {
+    height:80px;
+    line-height:80px;
+    font-size:40px;
+    
+}
+
+#gametable .gn {
+    font-size:20px;
+}
+
+#gametable .sr {
+    font-size:25px;
+    line-height:40px;
+    padding-top:0px;
+    padding-bottom:0px;
+}
+
+#gametable .sr > img {
+    height:55px;
+}
+
+#gametable .time {
+    padding-top:0px;
+    padding-bottom:0px;
+}
+
+#gametable .time > .num {
+    font-size:40px;
+    line-height:40px;
+    height:40px;
+    margin-top:20px;
+}
+
+#gametable .time > .unit{
+    line-height:20px;
+    height:20px;
+}
+
+.num {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.unit {
+    font-size: 20px; 
+}
+
+#killfeed td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    line-height: 36px;
+    height:40px;
+}
+
+#killfeed img {
+    height:36px;;
+}
+
+.jumbotron h1 {
+    color:orange;
+    text-shadow: 1px 1px 2px black; 
+}
+
+.jumbotron.view {
+    color:white;
+    text-shadow: 1px 1px 2px black;
+}
+
+#curr-sr {
+    font-size:20px;
+}
+
+/*
+ * Maps
+ */
+
+.jumbotron.view.map {
+    background-size: cover;
+    background-position: 0 0, center;
+}
+
+#gametable .map {
+    text-align: left;
+    font-size:35px;
+    text-shadow: 1px 1px 10px black;
+    color:lightgray;
+    padding-right:15px;
+    
+    background-size: cover;
+    background-position: 0 0, center;
+}
+
+.map.eichenwalde {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('maps/eichenwalde.jpg');
+}
+
+.map.numbani {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('maps/numbani.jpg');
+}
+
+.map.route-66 {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('maps/route-66.jpg');
+}
+
+.map.nepal {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('maps/nepal.png');
+}
+
+/*
+ * Heroes
+ */
+#gametable .hero {
+    padding-left:20px;
+    text-align: left;
+}
+
+#gametable .hero > img {
+    height: 70px;
+}

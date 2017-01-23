@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Home</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap-slate.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Overpass+Mono" rel="stylesheet">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top"  style="font-family: 'Roboto', sans-serif;">
+            <div class="container">
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Muon's OW App</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <form id="login-nav" class="navbar-form navbar-right hide">
+                        <div class="form-group">
+                            <input id="user-entry" type="text" placeholder="Email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password" class="form-control">
+                        </div>
+                        <a id="login" class="btn btn-success">Sign in</a>
+                        <a href="#signup" class="btn btn-warning">Sign up</a>
+                    </form>
+                    <div id="logged-in-nav">
+                        <form id="login-nav" class="navbar-form navbar-right">
+                            <a id="signout" href="#" class="btn btn-info">Sign out</a>
+                        </form>
+                        <h4 id="username" class="navbar-text navbar-right">JustAnotherPlayer</h4>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!--
+            Overview
+        -->
+        <div class="jumbotron overview view map nepal">
+            <div class="container">                      
+                <div class="pull-right col-xs-5 hidden-xs">
+                    <div class="row text-center" >
+                        <div class="col-xs-2"></div>
+                        <div id="curr-sr" class="col-xs-4">Current</div>
+                        <div class="col-xs-2">Min</div>
+                        <div class="col-xs-2">Max</div>
+                        <div class="col-xs-2">Avg</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2"></div>
+                        <img class="col-xs-4" src="icons/diamond.png">
+                        <img class="col-xs-2" src="icons/bronze.png">
+                        <img class="col-xs-2" src="icons/grandmaster.png">
+                        <img class="col-xs-2" src="icons/gold.png">
+
+                    </div>
+
+                </div>
+                <h1>Overview</h1>
+                <p>Current SR: <span class="num">1242</span></p>
+                 <div class="visible-xs">
+                <div class="row">
+                    <img class="col-xs-3" src="icons/diamond.png">
+                    <img class="col-xs-3" src="icons/bronze.png">
+                    <img class="col-xs-3" src="icons/grandmaster.png">
+                    <img class="col-xs-3" src="icons/gold.png">
+                </div>
+                <div class="row text-center" >
+                    <b class="col-xs-3">Current</b>
+                    <b class="col-xs-3">Min</b>
+                    <b class="col-xs-3">Max</b>
+                    <b class="col-xs-3">Avg</b>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="container overview view">
+            <div class="row col-md-12">
+                <h2  class="col-xs-12">Games</h2>
+                <div id="gametable" class="col-xs-12">
+                    <table class="table table-striped text-center">
+                        <tr>
+                            <th>Game #</th>
+                            <th colspan="2">Win/Loss/Tie</th>
+                            <th>Score</th>
+                            <th>Skill Rating</th>
+                            <th>Time</th>
+                            <th>Map</th>
+                            <th>Heroes</th>
+                        </tr>
+                        <tr>
+                            <td class="gn">#15</td>
+                            <td class="text-warning text-right num"><b>—</b></td>
+                            <td class="text-warning text-left" style="font-size:35px;">DRAW</td>
+                            <td><span class="num">0</span><span class="unit">m</span>/<span class="num">0</span><span class="unit">m</span></td>
+                            <td class="num sr"><img src="icons/bronze.png"/><br/>1242</td>
+                            <td class="time"><div class="num">22</div><div class="unit">min</div></td>
+                            <td class="map eichenwalde"><i>Eichenwalde</i></td>
+                            <td class="hero"><img src="heroes/dva.png"/></td>
+                        </tr>
+                        <tr>
+                            <td class="gn">#14</td>
+                            <td class="text-danger text-right num"><b>-28</b></td>
+                            <td class="text-danger text-left" style="font-size:35px;">LOSS</td>
+                            <td><span class="num">12</span><span class="unit">m</span>/<span class="num">75</span><span class="unit">m</span></td>
+                            <td class="num sr"><img src="icons/bronze.png"/><br/>1039</td>
+                            <td class="time"><div class="num">23</div><div class="unit">min</div></td>
+                            <td class="map numbani"><i>Numbani</i></td>
+                            <td class="hero"><img src="heroes/dva.png"/><img src="heroes/reinhardt.png"/></td>
+                        </tr>
+                        <tr>
+                            <td class="gn">#13</td>
+                            <td class="text-success text-right num"><b>+33</b></td>
+                            <td class="text-success text-left" style="font-size:35px;">WIN</td>
+                            <td><span class="num">53</span><span class="unit">m</span>/<span class="num">10</span><span class="unit">m</span></td>
+                            <td class="num sr"><img src="icons/grandmaster.png"/><br/>1117</td>
+                            <td class="time"><div class="num">15</div><div class="unit">min</div></td>
+                            <td class="map route-66"><i>Route 66</i></td>
+                            <td class="hero"><img src="heroes/dva.png"/><img src="heroes/Mccree.png"/><img src="heroes/s76.png"/></td>
+                        </tr>
+                        <tr>
+                            <td class="gn">#12</td>
+                            <td class="text-danger text-right num"><b>-19</b></td>
+                            <td class="text-danger text-left" style="font-size:35px;">LOSS</td>
+                            <td><span class="num">1</span>/<span class="num">3</span></td>
+                            <td class="num sr"><img src="icons/bronze.png"/><br/>1102</td>
+                            <td class="time"><div class="num">20</div><div class="unit">min</div></td>
+                            <td class="map nepal"><i>Nepal</i></td>
+                            <td class="hero"><img src="heroes/dva.png"/></td>
+                        </tr>
+                      
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 
+            Game view 
+        -->
+        <div class="jumbotron game view map numbani">
+            <div class="container">
+                <h1>Game #252</h1>
+                <p>Numbani</p>
+            </div>
+        </div>
+
+        <div class="container game view">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Statistics</h2>
+                </div>
+                <div class="col-md-6">
+                    <h2>Kill Feed</h2>
+                    <table id="killfeed" class="table table-striped text-center">
+                        <tr>
+                            <th colspan="2">Time</th>
+                            <th colspan="3">Killer</th>
+                            <th>Victim</th>
+                        </tr>
+                        <tr>
+                            <td>17:45</td>
+                            <td><img src="heroes/widowmaker.png"/></td>
+                            <td class="text-info text-left"><b>Joo</b> (Widowmaker)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/Symmetra.png"/></td>
+                            <td class="text-danger text-left"><b>KwuitHung</b> (Symmetra)</td>
+                        </tr>
+                        <tr>
+                            <td>18:05</td>
+                            <td><img src="heroes/Mei.png"/></td>
+                            <td class="text-info text-left"><b>DaddyIsHere</b> (Mei)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/ana.png"/></td>
+                            <td class="text-danger text-left"><b>howl</b> (Ana) </td>
+                        </tr>
+                        <tr>
+                            <td>18:15</td>
+                            <td><img src="heroes/s76.png"/></td>
+                            <td class="text-info text-left"><b>Muon</b> (Soldier 76)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/roadhog.png"/></td>
+                            <td class="text-danger text-left"><b>Motster</b> (Roadhog) </td>
+                        </tr>
+                        <tr>
+                            <td>18:25</td>
+                            <td><img src="heroes/widowmaker.png"/></td>
+                            <td class="text-info text-left"><b>Jipo</b> (Widowmaker)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/Symmetra.png"/></td>
+                            <td class="text-danger text-left"><b>KwuitHung</b> (Symmetra) </td>
+                        </tr>
+                        <tr>
+                            <td>18:35</td>
+                            <td><img src="heroes/widowmaker.png"/></td>
+                            <td class="text-info text-left"><b>Jipo</b> (Widowmaker)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/ana.png"/></td>
+                            <td class="text-danger text-left"><b>howl</b> (Ana) </td>
+                        </tr>
+                        <tr>
+                            <td>18:41</td>
+                            <td><img src="heroes/roadhog.png"/></td>
+                            <td class="text-danger text-left"><b>Motster</b> (Roadhog)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/widowmaker.png"/></td>
+                            <td class="text-info text-left"><b>Jipo</b> (Widowmaker) </td>
+                        </tr>
+                        <tr>
+                            <td>18:47</td>
+                            <td><img src="heroes/s76.png"/></td>
+                            <td class="text-info text-left"><b>Muon</b> (Soldier 76)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/s76.png"/></td>
+                            <td class="text-danger text-left"><b>aJuicyMango</b> (Soldier 76) </td>
+                        </tr>
+                        <tr>
+                            <td>19:20</td>
+                            <td><img src="heroes/hanzo.png"/></td>
+                            <td class="text-info text-left"><b>Aarchy</b> (Hanzo)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/mercy.png"/></td>
+                            <td class="text-danger text-left"><b>howl</b> (Mercy) </td>
+                        </tr>
+                        <tr>
+                            <td>19:21</td>
+                            <td><img src="heroes/widowmaker.png"/></td>
+                            <td class="text-info text-left"><b>Jipo</b> (Widowmaker)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/Symmetra.png"/></td>
+                            <td class="text-danger text-left"><b>KwuitHung</b> (Symmetra) </td>
+                        </tr>
+                        <tr>
+                            <td>19:30</td>
+                            <td><img src="heroes/s76.png"/></td>
+                            <td class="text-info text-left"><b>Muon</b> (Soldier 76)</td>
+                            <td>☠</td>
+                            <td><img src="heroes/lucio.png"/></td>
+                            <td class="text-danger text-left"><b>duvey</b> (Lucio) </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 
+            Footer
+        -->
+        <div class="container">
+            <footer>
+                <p>&copy; 2017 Company, Inc.</p>
+            </footer>
+        </div>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+</html>
