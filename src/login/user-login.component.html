@@ -1,9 +1,9 @@
-<form id="login-nav" class="navbar-form navbar-right hide">
-    <a id="login" class="btn btn-success">Sign in</a>
+<form [class.hidden]="currentUser !== null" id="login-nav" class="navbar-form navbar-right">
+    <a id="login" class="btn btn-success" href="{{loginUrl}}">Sign in</a>
 </form>
-<div id="logged-in-nav">
+<div [class.hidden]="currentUser === null" id="logged-in-nav">
     <form id="login-nav" class="navbar-form navbar-right">
         <a id="signout" href="#" class="btn btn-info">Sign out</a>
     </form>
-    <h4 id="username" class="navbar-text navbar-right">JustAnotherPlayer</h4>
+    <h4 id="username" class="navbar-text navbar-right">{{ currentUser?.battletag }}</h4>
 </div>
