@@ -1,0 +1,226 @@
+<nav class="navbar navbar-inverse navbar-fixed-top"  style="font-family: 'Roboto', sans-serif;">
+    <div class="container">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">SuperScience's OW App</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <user-login></user-login>
+        </div>
+    </div>
+</nav>
+
+<!--
+    Overview
+-->
+<div class="jumbotron overview view map nepal">
+    <div class="container">                      
+        <div class="pull-right col-xs-5 hidden-xs">
+            <div class="row text-center" >
+                <div class="col-xs-2"></div>
+                <div id="curr-sr" class="col-xs-4">Current</div>
+                <div class="col-xs-2">Min</div>
+                <div class="col-xs-2">Max</div>
+                <div class="col-xs-2">Avg</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <img class="col-xs-4" src="assets/images/icons/diamond.png">
+                <img class="col-xs-2" src="assets/images/icons/bronze.png">
+                <img class="col-xs-2" src="assets/images/icons/grandmaster.png">
+                <img class="col-xs-2" src="assets/images/icons/gold.png">
+
+            </div>
+
+        </div>
+        <h1>Overview</h1>
+        <p>Current SR: <span class="num">1242</span></p>
+         <div class="visible-xs">
+        <div class="row">
+            <img class="col-xs-3" src="assets/images/icons/diamond.png">
+            <img class="col-xs-3" src="assets/images/icons/bronze.png">
+            <img class="col-xs-3" src="assets/images/icons/grandmaster.png">
+            <img class="col-xs-3" src="assets/images/icons/gold.png">
+        </div>
+        <div class="row text-center" >
+            <b class="col-xs-3">Current</b>
+            <b class="col-xs-3">Min</b>
+            <b class="col-xs-3">Max</b>
+            <b class="col-xs-3">Avg</b>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="container overview view">
+    <div class="row col-md-12">
+        <h2  class="col-xs-12">Games</h2>
+        <div id="gametable" class="col-xs-12">
+            <table class="table table-striped text-center">
+                <tr>
+                    <th>Game #</th>
+                    <th colspan="2">Win/Loss/Tie</th>
+                    <th>Score</th>
+                    <th>Skill Rating</th>
+                    <th>Time</th>
+                    <th>Map</th>
+                    <th>Heroes</th>
+                </tr>
+                <tr>
+                    <td class="gn">#15</td>
+                    <td class="text-warning text-right num"><b>—</b></td>
+                    <td class="text-warning text-left" style="font-size:35px;">DRAW</td>
+                    <td><span class="num">0</span><span class="unit">m</span>/<span class="num">0</span><span class="unit">m</span></td>
+                    <td class="num sr"><img src="assets/images/icons/bronze.png"/><br/>1242</td>
+                    <td class="time"><div class="num">22</div><div class="unit">min</div></td>
+                    <td class="map eichenwalde"><i>Eichenwalde</i></td>
+                    <td class="hero"><img src="assets/images/heroes/dva.png"/></td>
+                </tr>
+                <tr>
+                    <td class="gn">#14</td>
+                    <td class="text-danger text-right num"><b>-28</b></td>
+                    <td class="text-danger text-left" style="font-size:35px;">LOSS</td>
+                    <td><span class="num">12</span><span class="unit">m</span>/<span class="num">75</span><span class="unit">m</span></td>
+                    <td class="num sr"><img src="assets/images/icons/bronze.png"/><br/>1039</td>
+                    <td class="time"><div class="num">23</div><div class="unit">min</div></td>
+                    <td class="map numbani"><i>Numbani</i></td>
+                    <td class="hero"><img src="assets/images/heroes/dva.png"/><img src="assets/images/heroes/reinhardt.png"/></td>
+                </tr>
+                <tr>
+                    <td class="gn">#13</td>
+                    <td class="text-success text-right num"><b>+33</b></td>
+                    <td class="text-success text-left" style="font-size:35px;">WIN</td>
+                    <td><span class="num">53</span><span class="unit">m</span>/<span class="num">10</span><span class="unit">m</span></td>
+                    <td class="num sr"><img src="assets/images/icons/grandmaster.png"/><br/>1117</td>
+                    <td class="time"><div class="num">15</div><div class="unit">min</div></td>
+                    <td class="map route-66"><i>Route 66</i></td>
+                    <td class="hero"><img src="assets/images/heroes/dva.png"/><img src="assets/images/heroes/Mccree.png"/><img src="assets/images/heroes/s76.png"/></td>
+                </tr>
+                <tr>
+                    <td class="gn">#12</td>
+                    <td class="text-danger text-right num"><b>-19</b></td>
+                    <td class="text-danger text-left" style="font-size:35px;">LOSS</td>
+                    <td><span class="num">1</span>/<span class="num">3</span></td>
+                    <td class="num sr"><img src="assets/images/icons/bronze.png"/><br/>1102</td>
+                    <td class="time"><div class="num">20</div><div class="unit">min</div></td>
+                    <td class="map nepal"><i>Nepal</i></td>
+                    <td class="hero"><img src="assets/images/heroes/dva.png"/></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+    Game view 
+-->
+<div class="jumbotron game view map numbani">
+    <div class="container">
+        <h1>Game #252</h1>
+        <p>Numbani</p>
+    </div>
+</div>
+
+<div class="container game view">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Statistics</h2>
+        </div>
+        <div class="col-md-6">
+            <h2>Kill Feed</h2>
+            <div id="killfeed">
+                <div class="buffer"></div>
+                <table class="table table-striped text-center">
+                    <tr>
+                        <td class="num">17:45</td>
+                        <td><img src="assets/images/heroes/widowmaker.png"/></td>
+                        <td class="text-info text-left"><b>CoolMan23</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/Symmetra.png"/></td>
+                        <td class="text-danger text-left"><b>KutiePie</b></td>
+                    </tr>
+                    <tr>
+                        <td class="num">18:05</td>
+                        <td><img src="assets/images/heroes/Mei.png"/></td>
+                        <td class="text-info text-left"><b>AbsentParent</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/ana.png"/></td>
+                        <td class="text-danger text-left"><b>CallOfTheNIGHT</b></td>
+                    </tr>
+                    <tr>
+                        <td class="num">18:15</td>
+                        <td><img src="assets/images/heroes/s76.png"/></td>
+                        <td class="text-info text-left"><b>SuperScience</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/roadhog.png"/></td>
+                        <td class="text-danger text-left"><b>TomBarns</b> </td>
+                    </tr>
+                    <tr>
+                        <td class="num">18:25</td>
+                        <td><img src="assets/images/heroes/widowmaker.png"/></td>
+                        <td class="text-info text-left"><b>CoolMan23</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/Symmetra.png"/></td>
+                        <td class="text-danger text-left"><b>KutiePie</b> </td>
+                    </tr>
+                    <tr>
+                        <td>18:35</td>
+                        <td><img src="assets/images/heroes/widowmaker.png"/></td>
+                        <td class="text-info text-left"><b>CoolMan23</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/ana.png"/></td>
+                        <td class="text-danger text-left"><b>CallOfTheNIGHT</b> </td>
+                    </tr>
+                    <tr>
+                        <td class="num">18:41</td>
+                        <td><img src="assets/images/heroes/roadhog.png"/></td>
+                        <td class="text-danger text-left"><b>TomBarns</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/widowmaker.png"/></td>
+                        <td class="text-info text-left"><b>CoolMan23</b> </td>
+                    </tr>
+                    <tr>
+                        <td class="num">18:47</td>
+                        <td><img src="assets/images/heroes/s76.png"/></td>
+                        <td class="text-info text-left"><b>SuperScience</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/s76.png"/></td>
+                        <td class="text-danger text-left"><b>Patriot9000</b> </td>
+                    </tr>
+                    <tr>
+                        <td class="num">19:20</td>
+                        <td><img src="assets/images/heroes/hanzo.png"/></td>
+                        <td class="text-info text-left"><b>MyManHan</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/mercy.png"/></td>
+                        <td class="text-danger text-left"><b>CallOfTheNIGHT</b> </td>
+                    </tr>
+                    <tr>
+                        <td class="num">19:21</td>
+                        <td><img src="assets/images/heroes/widowmaker.png"/></td>
+                        <td class="text-info text-left"><b>CoolMan23</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/Symmetra.png"/></td>
+                        <td class="text-danger text-left"><b>KutiePie</b> </td>
+                    </tr>
+                    <tr>
+                        <td class="num">19:30</td>
+                        <td><img src="assets/images/heroes/s76.png"/></td>
+                        <td class="text-info text-left"><b>SuperScience</b></td>
+                        <td>☠</td>
+                        <td><img src="assets/images/heroes/lucio.png"/></td>
+                        <td class="text-danger text-left"><b>BlanketOfDankness</b> </td>
+                    </tr>
+                </table>
+                <div class="buffer"></div>
+            </div>
+        </div>
+    </div>
+</div>
