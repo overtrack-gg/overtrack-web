@@ -1,0 +1,32 @@
+<div class="container overview view">
+    <div class="row col-md-12">
+        <h2  class="col-xs-12">Games</h2>
+        <div id="gametable" class="col-xs-12">
+            <table class="table table-striped text-center">
+                <tr>
+                    <th>Game #</th>
+                    <th colspan="2">Win/Loss/Tie</th>
+                    <th>Score</th>
+                    <th>Skill Rating</th>
+                    <th>Time</th>
+                    <th>Map</th>
+                    <th>Heroes</th>
+                </tr>
+                <tr *ngFor="let game of gamesList">
+                    <td class="gn">#{{game.num}}</td>
+                    <td class="{{wltClass(game)}} text-right num">
+                        <b><!-- TODO: — -->{{game.srChange}}</b>
+                    </td>
+                    <td class="{{wltClass(game)}} text-left" style="font-size:35px;">{{wlt(game)}}</td>
+                    <td><span class="num">{{game.blueScore}}</span><span class="unit">{{unit(game)}}</span>/<span class="num">{{game.redScore}}</span><span class="unit">{{unit(game)}}</span></td>
+                    <td class="num sr"><img src="assets/images/icons/{{rank(game)}}.png"/><br/>{{game.sr}}</td>
+                    <td class="time"><div class="num">{{min(game)}}</div><div class="unit">min</div></td>
+                    <td class="map {{map(game)}}"><i>{{game.map}}</i></td>
+                    <td class="hero">
+                        <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
