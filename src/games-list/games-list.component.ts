@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 import { GamesListService, GamesListEntry } from './games-list.service.js';
 
 @Component({
     selector: 'games-list',
-    templateUrl: 'games/games-list.component.html',
-    providers: [GamesListService]
+    templateUrl: 'games-list/games-list.component.html',
+    providers: [GamesListService, RouterModule]
 })
 export class GamesListComponent implements OnInit {
     gamesList: Array<GamesListEntry>;
 
-    constructor(private gamesListService: GamesListService) { }
+    constructor(private gamesListService: GamesListService, private router: Router) { }
 
     ngOnInit(): void {
         this.gamesListService.getGamesList().subscribe(
@@ -22,6 +23,10 @@ export class GamesListComponent implements OnInit {
                 console.error(err);
             }
         );
+    }
+
+    route(id: string) {
+        this.router.navigate(['/game/' + id]);
     }
 
     wlt(game: GamesListEntry) {

@@ -5,17 +5,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent }  from './app.component';
 import { UserLoginComponent }  from '../login/user-login.component.js';
-import { GamesListComponent }  from '../games/games-list.component.js';
+import { GamesListComponent }  from '../games-list/games-list.component.js';
+import { GameComponent }  from '../games/game.component.js';
 
 const appRoutes: Routes = [
     { path: 'games',  component: GamesListComponent },
-    { path: 'game/:id',  component: UserLoginComponent },
+    { path: 'game/:user/:game',  component: GameComponent },
     { path: '',  redirectTo: '/games', pathMatch: 'full' }
 ];
 
 @NgModule({
   imports:      [ RouterModule.forRoot(appRoutes), BrowserModule, HttpModule ],
-  declarations: [ AppComponent, UserLoginComponent, GamesListComponent ],
+  declarations: [ AppComponent, UserLoginComponent, GamesListComponent, GameComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
