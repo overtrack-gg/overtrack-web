@@ -3,6 +3,25 @@ body {
     padding-top: 50px;
 }
 
+.hero-timeline {
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+    background-color: grey;
+}
+
+#game-timeline img {
+    width: 40px;
+    height: 40px;
+}
+
+#game-timeline b {
+    line-height:40px;
+}
+
+.push-left {
+    float: left;
+}
 .navbar-fixed-top {
     border: 0;
 }

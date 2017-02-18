@@ -33,7 +33,7 @@ export class GameService {
         for (let player in body.heroes_played) {
             if (body.heroes_played.hasOwnProperty(player)) {
                 let heroes: Array<GameHero> = [];
-                for (let hero of body.heroes_played[player]) {
+                for (let hero of body.heroes_played[player][0]) {
                     heroes.push({
                         name: hero[0],
                         timePlayed: hero[1]

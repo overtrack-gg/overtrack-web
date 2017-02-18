@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
-import { GameService, Game, KillFeedEntry } from './game.service.js';
+import { GameService, Game, KillFeedEntry, GameHero } from './game.service.js';
 
 @Component({
     selector: 'game',
@@ -33,6 +33,13 @@ export class GameComponent implements OnInit {
             return '';
         }
         return this.game.map.toLowerCase().replace(' ', '-').replace('\'', '');
+    }
+
+    playedPercentage(hero: GameHero, all: Array<GameHero>) {
+        let sum = 0;
+        all.forEach((h) => sum += h.timePlayed);
+        
+        return Math.floor(75 * hero.timePlayed / sum);
     }
 
     leftColor(kill: KillFeedEntry) {
