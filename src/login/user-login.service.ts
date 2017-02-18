@@ -29,7 +29,7 @@ export class UserLoginService {
     }
 }
 
-// TODO: Move out into own files
+// TODO: Move out into own model file
 export class User {
     plan: string;
     id: number;
