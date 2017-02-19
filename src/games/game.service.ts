@@ -14,11 +14,26 @@ export class GameService {
         return this.http.get(this.gameUrl + id + '/game.json');
     }
 
+    loadTeam(team: Array<any>, heroesPlayed: {[key: string]: Array<GameHero>}): Array<string>{
+        let teamNames: Array<string> = [];
+        for (let player of team){
+            let heroes: Array<GameHero> = [];
+            for (let hero of player.heroes) {
+                heroes.push({
+                    name: hero.hero,
+                    timePlayed: hero.end - hero.start
+                });
+            }
+            heroesPlayed[player.name] = heroes;
+            teamNames.push(player.name);
+        } 
+        return teamNames;
+    }
+
     toGame(res: Response): Game {
         let body = res.json();
 
         let killfeed: Array<KillFeedEntry> = [];
-        let heroesPlayed: {[key: string]: Array<GameHero>} = {};
         for (let kill of body.killfeed) {
             killfeed.push({
                 time: kill[0],
@@ -30,19 +45,9 @@ export class GameService {
             });
         }
 
-        for (let player in body.heroes_played) {
-            if (body.heroes_played.hasOwnProperty(player)) {
-                let heroes: Array<GameHero> = [];
-                for (let hero of body.heroes_played[player][0]) {
-                    heroes.push({
-                        name: hero[0],
-                        timePlayed: hero[1]
-                    });
-                }
-
-                heroesPlayed[player] = heroes;
-            }
-        }
+        let heroesPlayed: {[key: string]: Array<GameHero>} = {};
+        let blueTeam = this.loadTeam(body.teams.blue, heroesPlayed);
+        let redTeam = this.loadTeam(body.teams.red, heroesPlayed);
 
         return {
             map: body.map,
@@ -51,8 +56,8 @@ export class GameService {
             player: body.player,
             key: body.key,
             owner: body.owner,
-            blueTeam: body.teams[0],
-            redTeam: body.teams[1],
+            blueTeam: blueTeam,
+            redTeam: redTeam,
             killfeed: killfeed,
             endTime: body.game_ended,
             heroesPlayed: heroesPlayed,
