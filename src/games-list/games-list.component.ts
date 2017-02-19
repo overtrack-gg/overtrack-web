@@ -29,12 +29,17 @@ export class GamesListComponent implements OnInit {
         this.router.navigate(['/game/' + id]);
     }
 
-    wlt(game: GamesListEntry) {
-        return game.srChange > 0 ? 'WIN' : game.srChange === 0 ? 'DRAW' : 'LOSS';
-    }
-
     wltClass(game: GamesListEntry) {
-        return game.srChange > 0 ? 'text-success' : game.srChange === 0 ? 'text-warning' : 'text-danger';
+        if (game.result == 'UNKN'){
+            return 'text-unknown';
+        } else if (game.result == 'DRAW'){
+            return 'text-warning';
+        } else if (game.result == 'WIN'){
+            return 'text-success';
+        } else if (game.result == 'LOSS'){
+            return 'text-danger';
+        }
+        throw new Error('Unexpected game result: ' + game.result);
     }
 
     min(game: GamesListEntry) {
@@ -59,7 +64,9 @@ export class GamesListComponent implements OnInit {
     }
 
     rank(game: GamesListEntry) {
-        if (game.sr < 1500) {
+        if (game.sr == null){
+            return 'unknown';
+        } else if (game.sr < 1500) {
             return 'bronze';
         } else if (game.sr < 2000) {
             return 'silver';

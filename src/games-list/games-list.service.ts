@@ -18,8 +18,6 @@ export class GamesListService {
         let list: Array<GamesListEntry> = [];
         let body = res.json();
 
-        // TODO: Remove once has real sr is available
-        let sr = Math.round(Math.random() * 3100 + 1000);
         let num = 1;
 
         for (let game of body.games) {
@@ -31,15 +29,22 @@ export class GamesListService {
                 });
             }
 
-            // TODO: Remove once real wlt info available
-            let srChange = Math.round(Math.random() * 100 - 50);
-            sr += srChange;
+            let srString = "?";
+            let srChange = "?";
+            if (game.result != 'UNKNOWN'){
+                srChange = String(game.end_sr - game.start_sr);
+            } 
+            if (game.end_sr != null){
+                srString = String(game.end_sr);
+            }
 
             list.push({
                 num: num++,
                 map: game.map,
+                result: game.result == 'UNKNOWN' ? 'UNKN' : game.result,
                 srChange: srChange,
-                sr: sr,
+                srString: srString,
+                sr: game.end_sr,
                 blueScore: Math.round(Math.random() * 3),
                 redScore: Math.round(Math.random() * 3),
                 duration: game.duration,
@@ -56,7 +61,9 @@ export class GamesListService {
 export class GamesListEntry {
     num: number;
     map: string;
-    srChange: number;
+    result: string;
+    srChange: string;
+    srString: string;
     sr: number;
     blueScore: number;
     redScore: number;

@@ -22,6 +22,11 @@ body {
 .push-left {
     float: left;
 }
+
+.text-unknown {
+    color: #e305f8;
+}
+
 .navbar-fixed-top {
     border: 0;
 }
