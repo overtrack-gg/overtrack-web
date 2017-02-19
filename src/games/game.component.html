@@ -7,25 +7,28 @@
 
 <div *ngIf="game" class="container game view">
     <div class="row">
-        <div class="col-md-6">
-            <h2>Statistics</h2>
-            <div id="game-timeline" class="col-md-12">
-                <div *ngFor="let player of game.blueTeam" class="col-md-12">
-                    <b class="text-info col-md-3 push-left">{{player}}</b>
-                    <div *ngFor="let hero of game.heroesPlayed[player]" class="push-left hero-timeline" 
-                         [style.width]="playedPercentage(hero, game.heroesPlayed[player]) + '%'">
-                        <img src="assets/images/heroes/{{hero.name}}.png"/>
-                    </div>
-                </div>
-                <div *ngFor="let player of game.redTeam" class="col-md-12">
-                    <b class="text-danger col-md-3 push-left">{{player}}</b>
-                    <div *ngFor="let hero of game.heroesPlayed[player]" class="push-left hero-timeline" 
-                         [style.width]="playedPercentage(hero, game.heroesPlayed[player]) + '%'">
-                        <img src="assets/images/heroes/{{hero.name}}.png"/>
-                    </div>
+        <h2>Teams</h2>
+        <div id="game-timeline" class="col-md-12">
+            <div *ngFor="let player of game.blueTeam" class="col-md-12">
+                <b class="text-info col-md-2 push-left text-right">{{player}}</b>
+                <div *ngFor="let hero of game.heroesPlayed[player]" class="push-left hero-timeline" 
+                        [style.width]="playedPercentage(hero, game.heroesPlayed[player]) + '%'">
+                    <img src="assets/images/heroes/{{hero.name}}.png"/>
                 </div>
             </div>
-            
+            <div *ngFor="let player of game.redTeam" class="col-md-12">
+                <b class="text-danger col-md-2 push-left text-right">{{player}}</b>
+                <div *ngFor="let hero of game.heroesPlayed[player]" class="push-left hero-timeline" 
+                        [style.width]="playedPercentage(hero, game.heroesPlayed[player]) + '%'">
+                    <img src="assets/images/heroes/{{hero.name}}.png"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/><br/><br/> <!-- kill me -->
+    <div class="row">
+        <div class="col-md-6">
+            <!-- some other stats -->
         </div>
         <div class="col-md-6">
             <h2>Kill Feed</h2>
@@ -35,7 +38,7 @@
                         <td class="num">{{time(kill)}}</td>
                         <td><img src="assets/images/heroes/{{kill.leftHero}}.png"/></td>
                         <td class="{{leftColor(kill)}} text-left"><b>{{kill.leftPlayer}}</b></td>
-                        <td>☠</td>
+                        <td>&#x2620;</td> <!-- Skull And Crossbones -->
                         <td><img src="assets/images/heroes/{{kill.rightHero}}.png"/></td>
                         <td class="{{rightColor(kill)}} text-left"><b>{{kill.rightPlayer}}</b></td>
                     </tr>
