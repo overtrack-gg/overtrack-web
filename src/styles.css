@@ -4,9 +4,7 @@ body {
 }
 
 .hero-timeline {
-    border-color: white;
-    border-width: 1px;
-    border-style: solid;
+    box-shadow: inset 0px 0px 0px 1px white;
     background-color: grey;
 }
 

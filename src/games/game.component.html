@@ -9,19 +9,26 @@
     <div class="row">
         <h2>Teams</h2>
         <div id="game-timeline" class="col-md-12">
+            <b class="col-md-2 push-left text-right">Player</b>
+            <b class="col-md-9 push-left text-left">Timeline</b>
+            <b class="col-md-1 push-left text-left">K / D</b>
+        </div>
+        <div id="game-timeline" class="col-md-12">
             <div *ngFor="let player of game.blueTeam" class="col-md-12">
-                <b class="text-info col-md-2 push-left text-right">{{player}}</b>
-                <div *ngFor="let hero of game.heroesPlayed[player]" class="push-left hero-timeline" 
-                        [style.width]="playedPercentage(hero, game.heroesPlayed[player]) + '%'">
+                <b class="text-info col-md-2 push-left text-right">{{player.name}}</b>
+                <div *ngFor="let hero of player.heroesPlayed" class="push-left hero-timeline"
+                        [style.width]="playedPercentage(hero, player.heroesPlayed) + '%'">
                     <img src="assets/images/heroes/{{hero.name}}.png"/>
                 </div>
+                <b class="col-md-1 push-left text-center player-kd">{{player.kills}} / {{player.deaths}}</b>
             </div>
             <div *ngFor="let player of game.redTeam" class="col-md-12">
-                <b class="text-danger col-md-2 push-left text-right">{{player}}</b>
-                <div *ngFor="let hero of game.heroesPlayed[player]" class="push-left hero-timeline" 
-                        [style.width]="playedPercentage(hero, game.heroesPlayed[player]) + '%'">
+                <b class="text-danger col-md-2 push-left text-right">{{player.name}}</b>
+                <div *ngFor="let hero of player.heroesPlayed" class="push-left hero-timeline"
+                        [style.width]="playedPercentage(hero, player.heroesPlayed) + '%'">
                     <img src="assets/images/heroes/{{hero.name}}.png"/>
                 </div>
+                <b class="col-md-1 push-left text-center player-kd">{{player.kills}} / {{player.deaths}}</b>
             </div>
         </div>
     </div>

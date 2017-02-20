@@ -29,11 +29,12 @@ export class GamesListService {
                 });
             }
 
-            let srString = "?";
             let srChange = "?";
             if (game.result != 'UNKNOWN'){
                 srChange = String(game.end_sr - game.start_sr);
             } 
+
+            let srString = "?";
             if (game.end_sr != null){
                 srString = String(game.end_sr);
             }

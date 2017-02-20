@@ -39,7 +39,7 @@ export class GameComponent implements OnInit {
         let sum = 0;
         all.forEach((h) => sum += h.timePlayed);
         
-        return Math.floor(75 * hero.timePlayed / sum);
+        return 75 * hero.timePlayed / sum;
     }
 
     leftColor(kill: KillFeedEntry) {
