@@ -20,7 +20,7 @@
                         [style.width]="playedPercentage(hero, player.heroesPlayed) + '%'">
                     <img src="assets/images/heroes/{{hero.name}}.png"/>
                 </div>
-                <b class="col-md-1 push-left text-center player-kd">{{player.kills}} / {{player.deaths}}</b>
+                <b class="col-md-1 push-left text-center num">{{player.kills}} / {{player.deaths}}</b>
             </div>
             <div *ngFor="let player of game.redTeam" class="col-md-12">
                 <b class="text-danger col-md-2 push-left text-right">{{player.name}}</b>
@@ -28,7 +28,7 @@
                         [style.width]="playedPercentage(hero, player.heroesPlayed) + '%'">
                     <img src="assets/images/heroes/{{hero.name}}.png"/>
                 </div>
-                <b class="col-md-1 push-left text-center player-kd">{{player.kills}} / {{player.deaths}}</b>
+                <b class="col-md-1 push-left text-center num">{{player.kills}} / {{player.deaths}}</b>
             </div>
         </div>
     </div>

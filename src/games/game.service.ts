@@ -24,10 +24,20 @@ export class GameService {
                     timePlayed: hero.end - hero.start
                 });
             }
+            let kills = 0;
+            let deaths = 0;
+            for (let kill of killfeed){
+                if (kill.leftPlayer == player.name){
+                    kills += 1;
+                }
+                if (kill.rightPlayer == player.name){
+                    deaths += 1;
+                }
+            }
             retTeam.push({
                 name: player.name,
-                kills: Math.floor(Math.random() * 20) + 1  ,
-                deaths: Math.floor(Math.random() * 20) + 1  ,
+                kills: kills,
+                deaths: deaths,
                 heroesPlayed: heroes
             });
         } 
