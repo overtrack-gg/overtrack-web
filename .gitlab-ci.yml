@@ -3,7 +3,7 @@ pages:
   stage: deploy
   script:
   - npm install
-  - npm build
+  - npm run build
   - mv src/ public/
   - mv node_modules/ public/node_modules
   artifacts:
