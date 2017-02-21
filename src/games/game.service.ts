@@ -14,8 +14,8 @@ export class GameService {
         return this.http.get(this.gameUrl + id + '/game.json');
     }
 
-    loadTeam(team: Array<any>, heroesPlayed: {[key: string]: Array<GameHero>}): Array<string>{
-        let teamNames: Array<string> = [];
+    loadTeam(team: Array<any>, killfeed: Array<KillFeedEntry>): Array<Player>{
+        let retTeam: Array<Player> = [];
         for (let player of team){
             let heroes: Array<GameHero> = [];
             for (let hero of player.heroes) {
@@ -24,10 +24,24 @@ export class GameService {
                     timePlayed: hero.end - hero.start
                 });
             }
-            heroesPlayed[player.name] = heroes;
-            teamNames.push(player.name);
+            let kills = 0;
+            let deaths = 0;
+            for (let kill of killfeed){
+                if (kill.leftPlayer == player.name){
+                    kills += 1;
+                }
+                if (kill.rightPlayer == player.name){
+                    deaths += 1;
+                }
+            }
+            retTeam.push({
+                name: player.name,
+                kills: kills,
+                deaths: deaths,
+                heroesPlayed: heroes
+            });
         } 
-        return teamNames;
+        return retTeam;
     }
 
     toGame(res: Response): Game {
@@ -45,9 +59,8 @@ export class GameService {
             });
         }
 
-        let heroesPlayed: {[key: string]: Array<GameHero>} = {};
-        let blueTeam = this.loadTeam(body.teams.blue, heroesPlayed);
-        let redTeam = this.loadTeam(body.teams.red, heroesPlayed);
+        let blueTeam = this.loadTeam(body.teams.blue, killfeed);
+        let redTeam = this.loadTeam(body.teams.red, killfeed);
 
         return {
             map: body.map,
@@ -60,7 +73,6 @@ export class GameService {
             redTeam: redTeam,
             killfeed: killfeed,
             endTime: body.game_ended,
-            heroesPlayed: heroesPlayed,
             duration: body.game_duration
         };
     }
@@ -73,11 +85,10 @@ export class Game {
     player: string;
     key: string;
     owner: string;
-    blueTeam: Array<string>;
-    redTeam: Array<string>;
+    blueTeam: Array<Player>;
+    redTeam: Array<Player>;
     killfeed: Array<KillFeedEntry>;
     endTime: number;
-    heroesPlayed: {[key: string]: Array<GameHero>};
     duration: number;
 }
 
@@ -88,6 +99,13 @@ export class KillFeedEntry {
     leftPlayer: string;
     rightHero: string;
     rightPlayer: string;
+}
+
+export class Player {
+    name: string;
+    kills: number;
+    deaths: number;
+    heroesPlayed: Array<GameHero>;
 }
 
 export class GameHero {
