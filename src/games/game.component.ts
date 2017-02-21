@@ -60,7 +60,7 @@ export class GameComponent implements OnInit {
         let secs = Math.floor(kill.time / 1000);
         let mins = Math.floor(secs / 60);
         secs = secs - 60 * mins;
-        let secd = secs < 10 ? secs + '0' : secs;
+        let secd = secs < 10 ? '0' + secs : secs;
         return mins + ':' + secd;
     }
 }
