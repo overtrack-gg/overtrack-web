@@ -6,6 +6,7 @@ pages:
   - npm run build
   - mv src/ public/
   - mv node_modules/ public/node_modules
+  - cp public/index.html public/404.html
   artifacts:
     paths:
     - public
