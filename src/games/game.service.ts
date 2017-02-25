@@ -113,11 +113,40 @@ export class GameService {
             let players: Array<Player> = [];
             this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue')
             this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red')
+
+            let objectiveInfo: ObjectiveInfo;
+            if (body.map_type == 'KOTH'){
+                let ownership: Array<KothOwnership> = [];
+                ownership.push({
+                    start: stage.start,
+                    end: stage.end,
+                    team: 'none'
+                })
+                for (let owner of stage.ownership){
+                    ownership[ownership.length - 1].end = owner.start;
+                    ownership.push({
+                        start: owner.start,
+                        end: stage.end,
+                        team: owner.owner
+                    })
+                }
+
+                // TODO: if the winner of this round (no way to get this data currently) was not the last seen owner add a small ownership to the winner at the end
+                // This can occur if a team caps the point on 99% and the recorder does not capture this
+                objectiveInfo = {
+                    ownership: ownership
+                }
+            } else {
+                objectiveInfo = {
+                }
+            }
+
             stages.push({
                 name: stage.stage,
                 start: stage.start,
                 end: stage.end,
-                players: players
+                players: players,
+                objectiveInfo: objectiveInfo
             })
         }
 
@@ -163,6 +192,20 @@ export class Stage {
     start: number;
     end: number;
     players: Array<Player>;
+    objectiveInfo: ObjectiveInfo;
+}
+
+export interface ObjectiveInfo {
+}
+
+export class KOTHObjectiveInfo implements ObjectiveInfo {
+    ownership: Array<KothOwnership>; 
+}
+
+export class KothOwnership {
+    start: number;
+    end: number;
+    team: string;
 }
 
 export class Player {

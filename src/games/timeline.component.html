@@ -1,12 +1,11 @@
-<!--{{ stage.name }}-->
-
-
 <div id="game-timeline" class="col-md-12">
-    <b class="col-md-2 push-left text-right">Player</b>
-    <b class="col-md-9 push-left text-left">Timeline</b>
-    <b class="col-md-1 push-left text-left">K / D</b>
-</div>
-<div id="game-timeline" class="col-md-12">
+    <div *ngIf="isKOTH()" class="col-md-12">
+        <div class="col-md-2"></div>
+        <div *ngFor="let owner of stage.objectiveInfo.ownership" class="push-left hero-timeline-point timeline-owner-{{ owner.team }}"
+                [style.width]="widthPercentage(owner) + '%'">
+        </div>
+        <strong class="col-md-1 push-left text-center num" style="font-size: 15px;">K / D</strong>
+    </div>
     <div *ngFor="let player of stage.players" class="col-md-12">
         <b class="text-{{ player.colour }} col-md-2 push-left text-right">{{ player.name }}</b>
         <div *ngFor="let hero of player.heroesPlayed" class="push-left hero-timeline"

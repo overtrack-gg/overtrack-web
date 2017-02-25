@@ -8,6 +8,35 @@ body {
     background-color: grey;
 }
 
+.hero-timeline-point {
+    height: 10px;
+    margin-bottom: 12px;
+}
+
+.timeline-owner-blue{
+    background-color: #5bc0de;
+}
+
+.timeline-owner-red{
+    background-color: #ee5f5b;
+}
+
+.timeline-owner-none{
+    background-color: #eee;
+}
+
+.text-unknown {
+    color: #e305f8;
+}
+
+.text-blue {
+    color: #5bc0de;
+}
+
+.text-red {
+    color: #ee5f5b;
+}
+
 #game-timeline img {
     width: 40px;
     height: 40px;
@@ -43,18 +72,6 @@ body {
     position: relative;
     display: block;
     padding: 10px 15px;
-}
-
-.text-unknown {
-    color: #e305f8;
-}
-
-.text-blue {
-    color: #5bc0de;
-}
-
-.text-red {
-    color: #ee5f5b;
 }
 
 .navbar-fixed-top {

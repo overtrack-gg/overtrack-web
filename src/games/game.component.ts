@@ -14,6 +14,10 @@ export class TimelineComponent {
     widthPercentage(hero: GameHero) {
         return 75 * (hero.end - hero.start) / (this.stage.end - this.stage.start);
     }
+
+    isKOTH() {
+        return 'ownership' in this.stage.objectiveInfo;
+    }
 }
 
 @Component({
