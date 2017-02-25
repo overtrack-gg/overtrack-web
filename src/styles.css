@@ -21,8 +21,40 @@ body {
     float: left;
 }
 
+.panel.with-nav-tabs .panel-heading{
+    padding: 5px 5px 0 5px;
+}
+.panel.with-nav-tabs .nav-tabs{
+	border-bottom: none;
+}
+.panel.with-nav-tabs .nav-justified{
+	margin-bottom: -1px;
+}
+
+.with-nav-tabs.panel-default .nav-tabs > li.active > a,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
+	/*color: #555;*/
+	background-color: #2e3338;
+	border-bottom-color: transparent;
+}
+
+.nav > li > b {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
 .text-unknown {
     color: #e305f8;
+}
+
+.text-blue {
+    color: #5bc0de;
+}
+
+.text-red {
+    color: #ee5f5b;
 }
 
 .navbar-fixed-top {

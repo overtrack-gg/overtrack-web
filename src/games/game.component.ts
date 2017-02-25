@@ -1,8 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
-import { GameService, Game, KillFeedEntry, GameHero } from './game.service.js';
+import { GameService, Game, KillFeedEntry, GameHero, Stage} from './game.service.js';
+
+@Component({
+    selector: 'timeline',
+    templateUrl: 'games/timeline.component.html'
+})
+export class TimelineComponent {
+    @Input() stage: Stage;
+
+    widthPercentage(hero: GameHero) {
+        return 75 * (hero.end - hero.start) / (this.stage.end - this.stage.start);
+    }
+}
 
 @Component({
     selector: 'game',
@@ -28,32 +40,33 @@ export class GameComponent implements OnInit {
             );
     }
 
+    normaliseString(str: string){
+        return str.toLowerCase().replace(' ', '-').replace('\'', '');
+    }
+
+    stageHref(stage: Stage){
+        return 'stage_' + this.normaliseString(stage.name);
+    }
+
     mapClass() {
         if (this.game === null) {
             return '';
         }
-        return this.game.map.toLowerCase().replace(' ', '-').replace('\'', '');
-    }
-
-    playedPercentage(hero: GameHero, all: Array<GameHero>) {
-        let sum = 0;
-        all.forEach((h) => sum += h.timePlayed);
-        
-        return 75 * hero.timePlayed / sum;
+        return this.normaliseString(this.game.map);
     }
 
     leftColor(kill: KillFeedEntry) {
         if (kill.isLeftRed) {
-            return 'text-danger';
+            return 'text-red';
         }
-        return 'text-info';
+        return 'text-blue';
     }
 
     rightColor(kill: KillFeedEntry) {
         if (kill.isLeftRed) {
-            return 'text-info';
+            return 'text-blue';
         }
-        return 'text-danger';
+        return 'text-red';
     }
 
     time(kill: KillFeedEntry) {

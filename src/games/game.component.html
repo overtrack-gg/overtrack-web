@@ -7,28 +7,23 @@
 
 <div *ngIf="game" class="container game view">
     <div class="row">
-        <h2>Teams</h2>
-        <div id="game-timeline" class="col-md-12">
-            <b class="col-md-2 push-left text-right">Player</b>
-            <b class="col-md-9 push-left text-left">Timeline</b>
-            <b class="col-md-1 push-left text-left">K / D</b>
-        </div>
-        <div id="game-timeline" class="col-md-12">
-            <div *ngFor="let player of game.blueTeam" class="col-md-12">
-                <b class="text-info col-md-2 push-left text-right">{{player.name}}</b>
-                <div *ngFor="let hero of player.heroesPlayed" class="push-left hero-timeline"
-                        [style.width]="playedPercentage(hero, player.heroesPlayed) + '%'">
-                    <img src="assets/images/heroes/{{hero.name}}.png"/>
-                </div>
-                <b class="col-md-1 push-left text-center num">{{player.kills}} / {{player.deaths}}</b>
+        <div class="panel with-nav-tabs panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li><b>Stages:</b></li>
+                    <li class="active"><a href="#{{ stageHref(game.stages[0]) }}" data-toggle="tab">{{ game.stages[0].name }}</a></li>
+                    <li *ngFor="let stage of game.stages.slice(1)"><a href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
+                </ul>
             </div>
-            <div *ngFor="let player of game.redTeam" class="col-md-12">
-                <b class="text-danger col-md-2 push-left text-right">{{player.name}}</b>
-                <div *ngFor="let hero of player.heroesPlayed" class="push-left hero-timeline"
-                        [style.width]="playedPercentage(hero, player.heroesPlayed) + '%'">
-                    <img src="assets/images/heroes/{{hero.name}}.png"/>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <timeline class="tab-pane active" id="{{ stageHref(game.stages[0]) }}"
+                        [stage]="game.stages[0]">
+                    </timeline>
+                    <timeline *ngFor="let stage of game.stages.slice(1)" class="tab-pane" id="{{ stageHref(stage) }}"
+                        [stage]="stage">
+                    </timeline>
                 </div>
-                <b class="col-md-1 push-left text-center num">{{player.kills}} / {{player.deaths}}</b>
             </div>
         </div>
     </div>

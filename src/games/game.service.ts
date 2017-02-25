@@ -7,41 +7,81 @@ import { Observable } from 'rxjs/Observable';
 export class GameService {
     private gameUrl = 'https://s3-us-west-2.amazonaws.com/overtrack-parsed-games/';
 
-
     constructor (private http: Http) {}
 
     getGame(id: string): Observable<Response> {
         return this.http.get(this.gameUrl + id + '/game.json');
     }
 
-    loadTeam(team: Array<any>, killfeed: Array<KillFeedEntry>): Array<Player>{
-        let retTeam: Array<Player> = [];
+    addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string){
         for (let player of team){
             let heroes: Array<GameHero> = [];
-            for (let hero of player.heroes) {
-                heroes.push({
-                    name: hero.hero,
-                    timePlayed: hero.end - hero.start
-                });
-            }
             let kills = 0;
             let deaths = 0;
             for (let kill of killfeed){
+                if (kill.time > stage.end || kill.time < stage.start){
+                    // outside of this stage
+                    continue;
+                }
+
+                // TODO: killicons
+                // TODO: death icons
+
+                // heroes played
+                let hero: string;
                 if (kill.leftPlayer == player.name){
                     kills += 1;
+                    hero = kill.leftHero;
                 }
                 if (kill.rightPlayer == player.name){
-                    deaths += 1;
+                    hero = kill.rightHero;
+                    if (hero){
+                        // name matched but no hero - this means it's a turret/metch/tp/etc.
+                        deaths += 1;
+                    }
+                }
+                if (!hero){
+                    continue;
+                }
+                if (heroes.length == 0){
+                    // no known hero yet, so assume the first hero seen has been played from the start
+                    heroes.push({
+                        name: hero,
+                        start: 0,
+                        end: kill.time - stage.start
+                    });
+                } else if (heroes[heroes.length - 1].name == hero) {
+                    // if the new hero is the same as the last then extend that one on
+                    heroes[heroes.length - 1].end = kill.time - stage.start;
+                } else {
+                    // once we see a new hero add this to the list
+                    heroes.push({
+                        name: hero,
+                        start: heroes[heroes.length - 1].end,
+                        end: kill.time - stage.start
+                    });
                 }
             }
-            retTeam.push({
+
+            // extend all heroes on to the end of the stage
+            if (heroes.length){
+                heroes[heroes.length - 1].end = stage.end - stage.start;
+            } else {
+                heroes.push({
+                    name: 'unknown',
+                    start: stage.start,
+                    end: stage.end
+                });
+            }
+            
+            players.push({
                 name: player.name,
                 kills: kills,
                 deaths: deaths,
-                heroesPlayed: heroes
+                heroesPlayed: heroes,
+                colour: teamColour
             });
-        } 
-        return retTeam;
+        }
     }
 
     toGame(res: Response): Game {
@@ -59,8 +99,27 @@ export class GameService {
             });
         }
 
-        let blueTeam = this.loadTeam(body.teams.blue, killfeed);
-        let redTeam = this.loadTeam(body.teams.red, killfeed);
+        let objective_stages = body.objective_stages;
+        if (!objective_stages){
+            objective_stages = [{
+                stage: 'Combined',
+                start: 0,
+                end: body.game_duration * 1000
+            }];
+        }
+
+        let stages: Array<Stage> = [];
+        for (let stage of objective_stages){
+            let players: Array<Player> = [];
+            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue')
+            this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red')
+            stages.push({
+                name: stage.stage,
+                start: stage.start,
+                end: stage.end,
+                players: players
+            })
+        }
 
         return {
             map: body.map,
@@ -69,8 +128,7 @@ export class GameService {
             player: body.player,
             key: body.key,
             owner: body.owner,
-            blueTeam: blueTeam,
-            redTeam: redTeam,
+            stages: stages,
             killfeed: killfeed,
             endTime: body.game_ended,
             duration: body.game_duration
@@ -85,8 +143,7 @@ export class Game {
     player: string;
     key: string;
     owner: string;
-    blueTeam: Array<Player>;
-    redTeam: Array<Player>;
+    stages: Array<Stage>;
     killfeed: Array<KillFeedEntry>;
     endTime: number;
     duration: number;
@@ -101,8 +158,16 @@ export class KillFeedEntry {
     rightPlayer: string;
 }
 
+export class Stage {
+    name: string;
+    start: number;
+    end: number;
+    players: Array<Player>;
+}
+
 export class Player {
     name: string;
+    colour: string;
     kills: number;
     deaths: number;
     heroesPlayed: Array<GameHero>;
@@ -110,5 +175,6 @@ export class Player {
 
 export class GameHero {
     name: string;
-    timePlayed: number;
+    start: number;
+    end: number;
 }

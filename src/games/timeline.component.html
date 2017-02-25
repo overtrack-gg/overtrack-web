@@ -1,0 +1,18 @@
+<!--{{ stage.name }}-->
+
+
+<div id="game-timeline" class="col-md-12">
+    <b class="col-md-2 push-left text-right">Player</b>
+    <b class="col-md-9 push-left text-left">Timeline</b>
+    <b class="col-md-1 push-left text-left">K / D</b>
+</div>
+<div id="game-timeline" class="col-md-12">
+    <div *ngFor="let player of stage.players" class="col-md-12">
+        <b class="text-{{ player.colour }} col-md-2 push-left text-right">{{ player.name }}</b>
+        <div *ngFor="let hero of player.heroesPlayed" class="push-left hero-timeline"
+                [style.width]="widthPercentage(hero) + '%'">
+            <img src="assets/images/heroes/{{hero.name}}.png"/>
+        </div>
+        <b class="col-md-1 push-left text-center num">{{ player.kills }} / {{ player.deaths }}</b>
+    </div>
+</div>
