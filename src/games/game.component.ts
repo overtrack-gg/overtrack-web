@@ -45,7 +45,7 @@ export class GameComponent implements OnInit {
     }
 
     normaliseString(str: string){
-        return str.toLowerCase().replace(' ', '-').replace('\'', '');
+        return str.toLowerCase().replace(' ', '_').replace(/\W/g, '');
     }
 
     stageHref(stage: Stage){
