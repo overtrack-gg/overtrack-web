@@ -16,6 +16,7 @@ export class GameService {
     addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string){
         for (let player of team){
             let heroes: Array<GameHero> = [];
+            let events: Array<GameEvent> = []
             let kills = 0;
             let deaths = 0;
             for (let kill of killfeed){
@@ -32,12 +33,21 @@ export class GameService {
                 if (kill.leftPlayer == player.name){
                     kills += 1;
                     hero = kill.leftHero;
+                    events.push({
+                        time: kill.time - stage.start,
+                        type: 'kill'
+                    })
                 }
                 if (kill.rightPlayer == player.name){
                     hero = kill.rightHero;
+
+                     // only count as a death if there was a hero - name only means turret/metch/tp/etc.
                     if (hero){
-                        // name matched but no hero - this means it's a turret/metch/tp/etc.
                         deaths += 1;
+                        events.push({
+                            time: kill.time - stage.start,
+                            type: 'death'
+                        })
                     }
                 }
                 if (!hero){
@@ -78,6 +88,7 @@ export class GameService {
                 name: player.name,
                 kills: kills,
                 deaths: deaths,
+                events: events,
                 heroesPlayed: heroes,
                 colour: teamColour
             });
@@ -213,6 +224,7 @@ export class Player {
     colour: string;
     kills: number;
     deaths: number;
+    events: Array<GameEvent>;
     heroesPlayed: Array<GameHero>;
 }
 
@@ -220,4 +232,9 @@ export class GameHero {
     name: string;
     start: number;
     end: number;
+}
+
+export class GameEvent {
+    time: number;
+    type: string;
 }
