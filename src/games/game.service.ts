@@ -97,6 +97,7 @@ export class GameService {
 
     toGame(res: Response): Game {
         let body = res.json();
+        console.log(body);
 
         let killfeed: Array<KillFeedEntry> = [];
         for (let kill of body.killfeed) {
@@ -162,6 +163,8 @@ export class GameService {
                 objectiveInfo: objectiveInfo
             })
         }
+
+        console.log(stages);
 
         return {
             map: body.map,
