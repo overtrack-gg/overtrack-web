@@ -120,6 +120,7 @@ export class GameService {
         }
 
         let stages: Array<Stage> = [];
+        let index: number = 0;
         for (let stage of objective_stages){
             let players: Array<Player> = [];
             this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue')
@@ -154,6 +155,7 @@ export class GameService {
 
             stages.push({
                 name: stage.stage,
+                index: index++,
                 start: stage.start,
                 end: stage.end,
                 players: players,
@@ -200,6 +202,7 @@ export class KillFeedEntry {
 
 export class Stage {
     name: string;
+    index: number;
     start: number;
     end: number;
     players: Array<Player>;

@@ -53,7 +53,7 @@ export class GameComponent implements OnInit {
     }
 
     stageHref(stage: Stage){
-        return 'stage_' + this.normaliseString(stage.name);
+        return 'stage_' + stage.index;
     }
 
     mapClass() {
