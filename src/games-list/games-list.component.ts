@@ -47,7 +47,7 @@ export class GamesListComponent implements OnInit {
     }
 
     map(game: GamesListEntry) {
-        return game.map.toLowerCase().replace(' ', '-').replace('\'', '');
+        return game.map.toLowerCase().replace(' ', '-').replace(' ', '-').replace('\'', '').replace(':', '');
     }
 
     unit(game: GamesListEntry) {

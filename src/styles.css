@@ -224,12 +224,22 @@ body {
 }
 
 .map.eichenwalde {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde.jpg');
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde.png');
 }
+
+.map.watchpoint-gibraltar {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/watchpoint-gibraltar.jpg');
+}
+
 
 .map.numbani {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/numbani.jpg');
 }
+
+.map.oasis {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/oasis.jpg');
+}
+
 
 .map.route-66 {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/route-66.jpg');
@@ -246,10 +256,82 @@ body {
 .map.kings-row {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row.jpg');
 }
-
+.map.lijiang-tower {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/lijiang-tower.jpg');
+}
 .map.volskaya-industries {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/volskaya-industries.jpg');
 }
+
+.map.hanamura {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hanamura.jpg');
+}
+
+.map.ilios {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/ilios.jpg');
+}
+.map.temple-of-anubis {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/temple-of-anubis.jpg');
+}
+
+.banner.nepal {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal-banner.jpg');
+    background-position: center;
+}
+.banner.eichenwalde {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde-banner.jpg');
+    background-position: center;
+}
+.banner.lijiang-tower {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/lijiang-tower-banner.jpg');
+    background-position: center;
+}
+.banner.oasis {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/oasis-banner.jpg');
+    background-position: center;
+}
+.banner.hanamura {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hanamura-banner.jpg');
+    background-position: center;
+}
+.banner.hollywood {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hollywood-banner.jpg');
+    background-position: center;
+}
+.banner.ilios {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/ilios-banner.jpg');
+    background-position: center;
+}
+.banner.kings-row {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row-banner.jpg');
+    background-position: center;
+}
+.banner.dorado {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/dorado-banner.jpg');
+    background-position: center;
+}
+.banner.numbani {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/numbani-banner.jpg');
+    background-position: center;
+}
+.banner.temple-of-anubis {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/temple-of-anubis-banner.jpg');
+    background-position: center;
+}
+.banner.watchpoint-gibraltar {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/watchpoint-gibraltar-banner.jpg');
+    background-position: center;
+}
+.banner.route-66 {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/route-66-banner.jpg');
+    background-position: center;
+}
+.banner.volskaya-industries {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/volskaya-industries-banner.jpg');
+    background-position: center;
+}
+
+
 
 /*
  * Heroes
