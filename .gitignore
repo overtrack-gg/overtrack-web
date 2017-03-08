@@ -6,3 +6,4 @@ src/**/*.js
 !src/systemjs.config.extras.js
 !src/systemjs.config.js
 *.js.map
+*.psd
