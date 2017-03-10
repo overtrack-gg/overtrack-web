@@ -3,9 +3,9 @@ pages:
   stage: deploy
   script:
   - npm install
-  - npm run build
-  - mv src/ public/
-  - mv node_modules/ public/node_modules
+  - npm install -g @angular/cli
+  - ng build -prod
+  - mv dist/ public/
   - cp public/index.html public/404.html
   artifacts:
     paths:
