@@ -20,7 +20,7 @@ export class UserLoginComponent implements OnInit {
                 this.currentUser = this.userLoginService.toUser(res);
             },
             err => {
-                this.loginUrl = this.userLoginService.toAuthUrl(err) + this.document.location.href;
+                this.loginUrl = this.userLoginService.toAuthUrl(err) + '?next=' + this.document.location.href;
                 this.currentUser = null;
             }
         );
