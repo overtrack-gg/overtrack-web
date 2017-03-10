@@ -252,6 +252,9 @@ body {
 .map.dorado {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/dorado.jpg');
 }
+.map.hollywood {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hollywood.jpg');
+}
 
 .map.kings-row {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row.jpg');
