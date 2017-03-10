@@ -51,7 +51,7 @@ export class GamesListComponent implements OnInit {
     }
 
     unit(game: GamesListEntry) {
-        if (game.map === 'Nepal'
+        /* if (game.map === 'Nepal'
            || game.map === 'Volskaya Industries'
            || game.map === 'Hanamura'
            || game.map === 'Temple of Anubis'
@@ -60,7 +60,8 @@ export class GamesListComponent implements OnInit {
            || game.map === 'Oasis') {
             return '';
         }
-        return 'm';
+        return 'm'; */
+        return '';
     }
 
     rank(game: GamesListEntry) {

@@ -20,6 +20,7 @@ export class GamesListService {
 
         let num = 1;
 
+        console.log(body);
         for (let game of body.games) {
             let heroes: Array<GamesListHero> = [];
             for (let hero of game.heroes_played) {
@@ -29,14 +30,21 @@ export class GamesListService {
                 });
             }
 
-            let srChange = "?";
-            if (game.result != 'UNKNOWN'){
+            let srChange = '?';
+            if (game.start_sr && game.end_sr){
                 srChange = String(game.end_sr - game.start_sr);
             } 
 
-            let srString = "?";
+            let srString = '?';
             if (game.end_sr != null){
                 srString = String(game.end_sr);
+            }
+
+            let blueScore: number = null;
+            let redScore: number = null;
+            if (game.score){
+                blueScore = game.score[0];
+                redScore = game.score[1];
             }
 
             list.push({
@@ -46,8 +54,8 @@ export class GamesListService {
                 srChange: srChange,
                 srString: srString,
                 sr: game.end_sr,
-                blueScore: Math.round(Math.random() * 3),
-                redScore: Math.round(Math.random() * 3),
+                blueScore: blueScore,
+                redScore: redScore,
                 duration: game.duration,
                 url: game.url,
                 key: game.key,
