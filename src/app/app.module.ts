@@ -4,9 +4,9 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent }  from './app.component';
-import { UserLoginComponent }  from '../login/user-login.component.js';
-import { GamesListComponent }  from '../games-list/games-list.component.js';
-import { GameComponent, TimelineComponent }  from '../games/game.component.js';
+import { UserLoginComponent }  from '../login/user-login.component';
+import { GamesListComponent }  from '../games-list/games-list.component';
+import { GameComponent, TimelineComponent }  from '../games/game.component';
 
 const appRoutes: Routes = [
     { path: 'games',  component: GamesListComponent },

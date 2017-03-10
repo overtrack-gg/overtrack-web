@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
-import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service.js';
+import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service';
 
 @Component({
     selector: 'timeline',
-    templateUrl: 'games/timeline.component.html'
+    templateUrl: './timeline.component.html'
 })
 export class TimelineComponent {
     @Input() stage: Stage;
@@ -26,7 +26,7 @@ export class TimelineComponent {
 
 @Component({
     selector: 'game',
-    templateUrl: 'games/game.component.html',
+    templateUrl: './game.component.html',
     providers: [GameService]
 })
 export class GameComponent implements OnInit {

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { GamesListService, GamesListEntry } from './games-list.service.js';
+import { GamesListService, GamesListEntry } from './games-list.service';
 
 @Component({
     selector: 'games-list',
-    templateUrl: 'games-list/games-list.component.html',
+    templateUrl: './games-list.component.html',
     providers: [GamesListService, RouterModule]
 })
 export class GamesListComponent implements OnInit {
