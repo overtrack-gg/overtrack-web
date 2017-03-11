@@ -64,7 +64,7 @@ export class GameComponent implements OnInit {
     }
     
     wltClass() {
-        if (this.game.result == 'UNKN'){
+        if (this.game.result == 'UNKN' || !this.game.result){
             return 'text-unknown';
         } else if (this.game.result == 'DRAW'){
             return 'text-warning';

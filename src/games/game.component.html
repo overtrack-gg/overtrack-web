@@ -5,7 +5,7 @@
             <p>{{game.player}} on {{game.map}} ({{game.mapType}})</p>
         </div>
         <div class="pull-right">
-            <h1><span class="{{wltClass()}}">{{game.result}}</span></h1>
+            <h1><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span></h1>
             <p class="text-center">{{game.blueScore}}/{{game.redScore}}</p>
         </div>
     </div>
