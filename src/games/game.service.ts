@@ -168,6 +168,10 @@ export class GameService {
 
         return {
             map: body.map,
+            mapType: body.map_type,
+            blueScore: body.score[0],
+            redScore: body.score[1],
+            result: body.result,
             deaths: body.deaths,
             startTime: body.game_started,
             player: body.player,
@@ -183,8 +187,12 @@ export class GameService {
 
 export class Game {
     map: string;
+    mapType: string;
+    result: string;
     deaths: number;
     startTime: number;
+    redScore: number;
+    blueScore: number;
     player: string;
     key: string;
     owner: string;

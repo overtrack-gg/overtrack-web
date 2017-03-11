@@ -62,6 +62,19 @@ export class GameComponent implements OnInit {
         }
         return this.normaliseString(this.game.map);
     }
+    
+    wltClass() {
+        if (this.game.result == 'UNKN'){
+            return 'text-unknown';
+        } else if (this.game.result == 'DRAW'){
+            return 'text-warning';
+        } else if (this.game.result == 'WIN'){
+            return 'text-success';
+        } else if (this.game.result == 'LOSS'){
+            return 'text-danger';
+        }
+        throw new Error('Unexpected game result: ' + this.game.result);
+    }
 
     leftColor(kill: KillFeedEntry) {
         if (kill.isLeftRed) {

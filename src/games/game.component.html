@@ -1,7 +1,13 @@
 <div *ngIf="game" class="jumbotron game view banner {{mapClass()}}">
     <div class="container">
-        <h1>Game #252</h1>
-        <p>{{game.map}}</p>
+        <div class="pull-left">
+            <h1>Game: {{game.owner}}</h1>
+            <p>{{game.player}} on {{game.map}} ({{game.mapType}})</p>
+        </div>
+        <div class="pull-right">
+            <h1><span class="{{wltClass()}}">{{game.result}}</span></h1>
+            <p>{{game.blueScore}}/{{game.redScore}}</p>
+        </div>
     </div>
 </div>
 
