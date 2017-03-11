@@ -171,7 +171,7 @@ export class GameService {
             mapType: body.map_type,
             blueScore: body.score ? body.score[0] : null,
             redScore: body.score ? body.score[1] : null,
-            result: body.result,
+            result: body.result === 'UNKNOWN' ? 'UNKN' : body.result,
             deaths: body.deaths,
             startTime: body.game_started,
             player: body.player,
