@@ -7,6 +7,9 @@ pages:
   - ng build -prod
   - mv dist/ public/
   - cp public/index.html public/404.html
+  - apt-get update -y && apt-get install python-pip python-yaml -y
+  - pip install awscli
+  - aws s3 sync ./public/ s3://overtrack-web --delete
   artifacts:
     paths:
     - public
