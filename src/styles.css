@@ -121,7 +121,7 @@ body {
 }
 
 #gametable .gn {
-    font-size:20px;
+    font-size:15px;
 }
 
 #gametable .sr {
@@ -345,5 +345,5 @@ body {
 }
 
 #gametable .hero > img {
-    height: 70px;
+    height: 50px;
 }

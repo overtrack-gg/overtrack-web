@@ -48,7 +48,7 @@
         <div id="gametable" class="col-xs-12">
             <table class="table table-striped text-center">
                 <tr>
-                    <th>Game #</th>
+                    <th>Player</th>
                     <th colspan="2">Win/Loss/Tie</th>
                     <th>Score</th>
                     <th>Skill Rating</th>
@@ -57,7 +57,7 @@
                     <th>Heroes</th>
                 </tr>
                 <tr *ngFor="let game of gamesList" (click)="route(game.key)" class="hoverable">
-                    <td class="gn">#{{game.num}}</td>
+                    <td class="gn">{{game.player}}</td>
                     <td class="{{wltClass(game)}} text-right num">
                         <b><!-- TODO: — -->{{game.srChange}}</b>
                     </td>
