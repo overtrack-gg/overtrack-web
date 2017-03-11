@@ -1,28 +1,72 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { GamesListService, GamesListEntry } from './games-list.service';
+import { GamesListService, GamesListEntry, GamesListRankings } from './games-list.service';
+import { UserLoginService, User } from '../login/user-login.service';
 
 @Component({
     selector: 'games-list',
     templateUrl: './games-list.component.html',
-    providers: [GamesListService, RouterModule]
+    providers: [GamesListService, UserLoginService, RouterModule]
 })
 export class GamesListComponent implements OnInit {
     gamesList: Array<GamesListEntry>;
+    rankings: GamesListRankings;
+    user: User;
 
-    constructor(private gamesListService: GamesListService, private router: Router) { }
+    constructor(private gamesListService: GamesListService,
+                private loginService: UserLoginService,
+                private router: Router) { }
 
     ngOnInit(): void {
         this.gamesListService.getGamesList().subscribe(
             res => {
                 this.gamesList = this.gamesListService.toGamesList(res);
+                if (this.user) {
+                    this.rankings = this.gamesListService
+                        .toKnownRankings(this.gamesList, this.user);
+                }
                 console.log(res);
             },
             err => {
                 console.error(err);
             }
         );
+        this.loginService.getUser().subscribe(
+            res => {
+                this.user = this.loginService.toUser(res);
+                if (this.gamesList) {
+                    this.rankings = this.gamesListService
+                        .toKnownRankings(this.gamesList, this.user);
+                }
+                
+            }
+        );
+    }
+    
+    currentSR() {
+        if (this.rankings && this.rankings.current) {
+            return this.rankings.current;
+        }
+        return null;
+    }
+    minSR() {
+        if (this.rankings && this.rankings.current) {
+            return this.rankings.min;
+        }
+        return null;
+    }
+    maxSR() {
+        if (this.rankings && this.rankings.current) {
+            return this.rankings.max;
+        }
+        return null;
+    }
+    avgSR() {
+        if (this.rankings && this.rankings.current) {
+            return this.rankings.avg;
+        }
+        return null;
     }
 
     route(id: string) {
@@ -64,20 +108,20 @@ export class GamesListComponent implements OnInit {
         return '';
     }
 
-    rank(game: GamesListEntry) {
-        if (game.sr == null){
+    rank(sr: number) {
+        if (sr == null){
             return 'unknown';
-        } else if (game.sr < 1500) {
+        } else if (sr < 1500) {
             return 'bronze';
-        } else if (game.sr < 2000) {
+        } else if (sr < 2000) {
             return 'silver';
-        } else if (game.sr < 2500) {
+        } else if (sr < 2500) {
             return 'gold';
-        } else if (game.sr < 3000) {
+        } else if (sr < 3000) {
             return 'platinium';
-        } else if (game.sr < 3500) {
+        } else if (sr < 3500) {
             return 'diamond';
-        } else if (game.sr < 4000) {
+        } else if (sr < 4000) {
             return 'master';
         } else {
             return 'grandmaster';

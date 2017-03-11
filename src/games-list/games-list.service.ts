@@ -4,6 +4,8 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
+import { User } from '../login/user-login.service';
+
 @Injectable()
 export class GamesListService {
     private gamesListUrl = 'https://1hb0qu4vxl.execute-api.us-west-2.amazonaws.com/dev/games';
@@ -12,6 +14,36 @@ export class GamesListService {
 
     getGamesList(): Observable<Response> {
         return this.http.get(this.gamesListUrl, { withCredentials: true});
+    }
+    
+    toKnownRankings(list: Array<GamesListEntry>, user: User) {
+        let rankings: GamesListRankings = {
+            current: null,
+            min: Number.MAX_VALUE,
+            max: Number.MIN_VALUE,
+            avg: 0
+        }
+        let total: number = 0;
+        for (let game of list) {
+            const player: string = game.key.split('/')[0].replace('-', '#');
+            if (user.battletag === player && game.sr !== null) {
+                if (rankings.current === null) {
+                    rankings.current = game.sr;
+                }
+                if (rankings.min > game.sr) {
+                    rankings.min = game.sr;
+                }
+                if (rankings.max < game.sr) {
+                    rankings.max = game.sr;
+                }
+                rankings.avg += game.sr;
+                ++total;
+            }
+        }
+        if (total > 0) {
+            rankings.avg = rankings.avg / total;
+        }
+        return rankings;
     }
 
     toGamesList(res: Response) {
@@ -85,4 +117,11 @@ export class GamesListEntry {
 export class GamesListHero {
     name: string;
     percentagePlayed: number;
+}
+
+export class GamesListRankings {
+    current: number;
+    min: number;
+    max: number;
+    avg: number;
 }
