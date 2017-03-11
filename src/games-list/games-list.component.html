@@ -23,7 +23,7 @@
 
         </div>
         <h1>Overview</h1>
-        <p>Current SR: <span class="num">{{ currentSR() }}</span></p>
+        <p>Current SR: <span class="num">{{ currentSR() ? currentSR() : '?' }}</span></p>
          <div class="visible-xs">
         <div class="row">
             <img class="col-xs-3" src="assets/images/icons/{{rank(currentSR())}}.png">
