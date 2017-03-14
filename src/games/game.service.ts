@@ -144,8 +144,6 @@ export class GameService {
                     })
                 }
 
-                // TODO: if the winner of this round (no way to get this data currently) was not the last seen owner add a small ownership to the winner at the end
-                // This can occur if a team caps the point on 99% and the recorder does not capture this
                 objectiveInfo = {
                     ownership: ownership
                 }

@@ -8,14 +8,14 @@ import { User } from '../login/user-login.service';
 
 @Injectable()
 export class GamesListService {
-    private gamesListUrl = 'https://1hb0qu4vxl.execute-api.us-west-2.amazonaws.com/dev/games';
+    private gamesListUrl = 'https://api.overtrack.uint8.me/dev/games';
 
     constructor (private http: Http) {}
 
     getGamesList(): Observable<Response> {
         return this.http.get(this.gamesListUrl, { withCredentials: true});
     }
-    
+
     toKnownRankings(list: Array<GamesListEntry>, user: User) {
         let rankings: GamesListRankings = {
             current: null,
@@ -65,7 +65,7 @@ export class GamesListService {
             let srChange = '?';
             if (game.start_sr && game.end_sr){
                 srChange = String(game.end_sr - game.start_sr);
-            } 
+            }
 
             let srString = '?';
             if (game.end_sr != null){

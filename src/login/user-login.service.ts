@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserLoginService {
-    private loginUrl = 'https://1hb0qu4vxl.execute-api.us-west-2.amazonaws.com/dev/user';
+    private loginUrl = 'https://api.overtrack.uint8.me/dev/user';
 
     constructor (private http: Http) {}
 
