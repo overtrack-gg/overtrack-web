@@ -10,6 +10,8 @@ pages:
   - apt-get update -y && apt-get install python-pip python-yaml -y
   - pip install awscli
   - aws s3 sync ./public/ s3://overtrack-web --delete
+  - aws configure set preview.cloudfront true
+  - aws cloudfront create-invalidation --distribution-id E3FOZFCQ0RPGAQ --paths /index.html /games
   artifacts:
     paths:
     - public
