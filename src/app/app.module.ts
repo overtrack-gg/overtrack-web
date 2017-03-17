@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent }  from './app.component';
 import { UserLoginComponent }  from '../login/user-login.component';
 import { GamesListComponent }  from '../games-list/games-list.component';
-import { GameComponent, TimelineComponent, MetaGameComponent }  from '../games/game.component';
+import { GameComponent, TimelineComponent, MetaGameComponent }  from '../game/game.component';
 
 const appRoutes: Routes = [
     { path: 'games',  component: GamesListComponent },
