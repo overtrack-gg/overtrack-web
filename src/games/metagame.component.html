@@ -1,0 +1,46 @@
+<br>
+<div id="meta-game" class="panel panel-default">
+         <div (click)="toggleMeta()" class="panel-heading">
+            Meta-data
+        </div>
+        <div [class.hidden]="hide" *ngIf="data" class="panel-body">
+            <h2>Raw Game</h2>
+            <p *ngFor="let key of keys(data.raw_game,['attributes'])">
+                 {{key}}: <span>{{data.raw_game[key] ? data.raw_game[key] : "null"}}</span>
+            </p>
+            <h3>Attributes</h3>
+            <p class="indent-1" *ngFor="let key of keys(data.raw_game.attributes,['metadata'])">
+                {{key}}: <span>{{data.raw_game.attributes[key] ? data.raw_game.attributes[key] : "null"}}</span>
+            </p>
+            
+            <p class="indent-1">metadata: {{'{'}}</p>
+            <p class="indent-2" *ngFor="let key of keys(data.raw_game.attributes.metadata,[])">
+                {{key}}: 
+                <span>
+                    {{data.raw_game.attributes.metadata[key] ? data.raw_game.attributes.metadata[key] : "null"}}
+                </span>
+            </p>
+            <p class="indent-1">{{'}'}}</p>
+            <hr>
+            
+            
+            <h2>Dynamo Game</h2>
+             <p *ngFor="let key of keys(data.dynamo_game,['score','log-id','heroes-played'])">
+                 {{key}}: <span>{{data.dynamo_game[key] ? data.dynamo_game[key] : "null"}}</span>
+            </p>
+            
+            <p>score: [</p>
+            <p class="indent-1" *ngFor="let val of data.dynamo_game.score"><span>{{val}}</span></p>
+            <p>]</p>
+   
+            <h3>Heroes played</h3>
+            <p *ngFor="let val of data.dynamo_game['heroes-played']">
+                {{val[0]}}: <span>{{val[1]}}</span>
+            </p>
+            <hr>
+            
+            
+            <h2>Processing Log</h2>
+            <p *ngFor="let line of data.processing_log">{{line}}</p>
+        </div>
+    </div>

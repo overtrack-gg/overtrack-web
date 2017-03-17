@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class GameService {
     private gameUrl = 'https://s3-us-west-2.amazonaws.com/overtrack-parsed-games/';
+    private metaUrl = 'https://api.overtrack.uint8.me/dev/game_metadata?game_id=';
 
     constructor (private http: Http) {}
 
@@ -13,14 +14,19 @@ export class GameService {
         return this.http.get(this.gameUrl + id + '/game.json');
     }
 
-    addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string){
-        for (let player of team){
-            let heroes: Array<GameHero> = [];
-            let events: Array<GameEvent> = []
+    getMetaGame(id: string): Observable<Response> {
+        return this.http.get(this.metaUrl + id, { withCredentials: true});
+    }
+
+
+    addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string) {
+        for (const player of team) {
+            const heroes: Array<GameHero> = [];
+            const events: Array<GameEvent> = [];
             let kills = 0;
             let deaths = 0;
-            for (let kill of killfeed){
-                if (kill.time > stage.end || kill.time < stage.start){
+            for (const kill of killfeed) {
+                if (kill.time > stage.end || kill.time < stage.start) {
                     // outside of this stage
                     continue;
                 }
@@ -30,37 +36,37 @@ export class GameService {
 
                 // heroes played
                 let hero: string;
-                if (kill.leftPlayer == player.name){
+                if (kill.leftPlayer === player.name) {
                     kills += 1;
                     hero = kill.leftHero;
                     events.push({
                         time: kill.time - stage.start,
                         type: 'kill'
-                    })
+                    });
                 }
-                if (kill.rightPlayer == player.name){
+                if (kill.rightPlayer === player.name) {
                     hero = kill.rightHero;
 
                      // only count as a death if there was a hero - name only means turret/metch/tp/etc.
-                    if (hero){
+                    if (hero) {
                         deaths += 1;
                         events.push({
                             time: kill.time - stage.start,
                             type: 'death'
-                        })
+                        });
                     }
                 }
-                if (!hero){
+                if (!hero) {
                     continue;
                 }
-                if (heroes.length == 0){
+                if (heroes.length === 0) {
                     // no known hero yet, so assume the first hero seen has been played from the start
                     heroes.push({
                         name: hero,
                         start: 0,
                         end: kill.time - stage.start
                     });
-                } else if (heroes[heroes.length - 1].name == hero) {
+                } else if (heroes[heroes.length - 1].name === hero) {
                     // if the new hero is the same as the last then extend that one on
                     heroes[heroes.length - 1].end = kill.time - stage.start;
                 } else {
@@ -74,7 +80,7 @@ export class GameService {
             }
 
             // extend all heroes on to the end of the stage
-            if (heroes.length){
+            if (heroes.length) {
                 heroes[heroes.length - 1].end = stage.end - stage.start;
             } else {
                 heroes.push({
@@ -83,7 +89,7 @@ export class GameService {
                     end: stage.end
                 });
             }
-            
+
             players.push({
                 name: player.name,
                 kills: kills,
@@ -96,11 +102,11 @@ export class GameService {
     }
 
     toGame(res: Response): Game {
-        let body = res.json();
+        const body = res.json();
         console.log(body);
 
-        let killfeed: Array<KillFeedEntry> = [];
-        for (let kill of body.killfeed) {
+        const killfeed: Array<KillFeedEntry> = [];
+        for (const kill of body.killfeed) {
             killfeed.push({
                 time: kill[0],
                 isLeftRed: !kill[1],
@@ -112,7 +118,7 @@ export class GameService {
         }
 
         let objective_stages = body.objective_stages;
-        if (!objective_stages){
+        if (!objective_stages) {
             objective_stages = [{
                 stage: 'Combined',
                 start: 0,
@@ -120,36 +126,35 @@ export class GameService {
             }];
         }
 
-        let stages: Array<Stage> = [];
-        let index: number = 0;
-        for (let stage of objective_stages){
-            let players: Array<Player> = [];
-            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue')
-            this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red')
+        const stages: Array<Stage> = [];
+        let index = 0;
+        for (const stage of objective_stages){
+            const players: Array<Player> = [];
+            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue');
+            this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red');
 
             let objectiveInfo: ObjectiveInfo;
-            if (body.map_type == 'KOTH'){
-                let ownership: Array<KothOwnership> = [];
+            if (body.map_type === 'KOTH') {
+                const ownership: Array<KothOwnership> = [];
                 ownership.push({
                     start: stage.start,
                     end: stage.end,
                     team: 'none'
-                })
-                for (let owner of stage.ownership){
+                });
+                for (const owner of stage.ownership) {
                     ownership[ownership.length - 1].end = owner.start;
                     ownership.push({
                         start: owner.start,
                         end: stage.end,
                         team: owner.owner
-                    })
+                    });
                 }
 
                 objectiveInfo = {
                     ownership: ownership
-                }
+                };
             } else {
-                objectiveInfo = {
-                }
+                objectiveInfo = {};
             }
 
             stages.push({
@@ -159,7 +164,7 @@ export class GameService {
                 end: stage.end,
                 players: players,
                 objectiveInfo: objectiveInfo
-            })
+            });
         }
 
         console.log(stages);
@@ -222,7 +227,7 @@ export interface ObjectiveInfo {
 }
 
 export class KOTHObjectiveInfo implements ObjectiveInfo {
-    ownership: Array<KothOwnership>; 
+    ownership: Array<KothOwnership>;
 }
 
 export class KothOwnership {

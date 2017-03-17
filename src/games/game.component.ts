@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
 import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service';
+import { UserLoginService } from '../login/user-login.service';
 
 @Component({
     selector: 'timeline',
@@ -25,14 +26,52 @@ export class TimelineComponent {
 }
 
 @Component({
+    selector: 'metagame',
+    templateUrl: './metagame.component.html'
+})
+export class MetaGameComponent  implements OnInit {
+    @Input() id: string;
+    data: any;
+    hide: boolean;
+    
+    constructor(private gameService: GameService) {}
+    
+    ngOnInit(): void { 
+        this.hide = true;
+        this.gameService.getMetaGame(this.id).subscribe(
+                res => {
+                    const body = res.json();
+                    this.data = body;
+                    console.log(body);
+                },
+                err => {
+                    console.error(err);
+                }
+            );
+    }
+     
+     toggleMeta() {
+         this.hide = !this.hide;
+     }
+      
+     keys(obj: any, remove: Array<string>) {
+         if (obj) {
+             console.log(obj, Object.keys(obj));
+            return Object.keys(obj).filter((a) => !remove.includes(a));
+         }
+         return [];
+     }
+}
+
+@Component({
     selector: 'game',
     templateUrl: './game.component.html',
-    providers: [GameService]
+    providers: [GameService, UserLoginService]
 })
 export class GameComponent implements OnInit {
     game: Game;
 
-    constructor(private gameService: GameService, private route: ActivatedRoute) { }
+    constructor(private gameService: GameService, private route: ActivatedRoute, private loginService: UserLoginService) { }
 
     ngOnInit(): void {
         this.route.params
@@ -46,6 +85,9 @@ export class GameComponent implements OnInit {
                     console.error(err);
                 }
             );
+        if (!this.loginService.getUser()) {
+            this.loginService.fetchUser(() => {});
+        }
     }
 
     normaliseString(str: string){

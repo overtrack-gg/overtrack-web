@@ -347,3 +347,42 @@ body {
 #gametable .hero > img {
     height: 50px;
 }
+
+/*
+ * Game meta data
+ */
+
+/* Could be added if want the meta data to float above the bottom*/
+/*div#meta-game {
+    position: fixed;
+    bottom: 0px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    max-height: 80%;
+}
+div#meta-game div.panel-body {
+    overflow-y: scroll;
+    max-height: 75vh;
+} */
+
+
+div#meta-game div.panel-heading {
+    cursor: pointer;
+}
+
+div#meta-game p {
+    font-size: 10pt;
+    margin: 0px;
+}
+
+div#meta-game p span {
+    color: #a4cc82;
+}
+
+div#meta-game p.indent-1 {
+    margin-left: 20px;
+}
+
+div#meta-game p.indent-2 {
+    margin-left: 40px;
+}
