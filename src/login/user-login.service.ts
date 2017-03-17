@@ -7,31 +7,43 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserLoginService {
     private loginUrl = 'https://api.overtrack.uint8.me/dev/user';
+    private currentUser: User = null;
+    private authUrl: string;
 
     constructor (private http: Http) {}
 
-    getUser(): Observable<Response> {
-        return this.http.get(this.loginUrl, { withCredentials: true});
+    getUser(): User {
+        return this.currentUser;
     }
 
-    toAuthUrl(res: Response) {
-        let body = res.json();
-        return body.authenticate_url;
+    getAuthUrl(): string {
+        return this.authUrl;
     }
 
-    toUser(res: Response) {
-        let body = res.json();
-        return {
-            plan     : body.plan,
-            id       : body.id,
-            battletag: body.battletag
-        };
+    fetchUser(callback: () => void) {
+         this.http.get(this.loginUrl, { withCredentials: true}).subscribe(
+                res => {
+                    const body = res.json();
+                    this.currentUser = {
+                        superuser: body.superuser,
+                        id       : body["user-id"],
+                        battletag: body.battletag
+                    };
+                    callback();
+                },
+                err => {
+                    const body = err.json();
+                    this.authUrl = body.authenticate_url;
+                    this.currentUser = null;
+                    callback();
+                }
+            );
     }
 }
 
 // TODO: Move out into own model file
 export class User {
-    plan: string;
+    superuser: boolean;
     id: number;
     battletag: string;
 }

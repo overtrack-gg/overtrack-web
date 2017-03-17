@@ -10,19 +10,17 @@ import { UserLoginService, User } from './user-login.service';
 })
 export class UserLoginComponent implements OnInit {
     loginUrl: string;
-    currentUser: User;
 
     constructor(private userLoginService: UserLoginService, @Inject(DOCUMENT) private document: any) { }
 
     ngOnInit(): void {
-        this.userLoginService.getUser().subscribe(
-            res => {
-                this.currentUser = this.userLoginService.toUser(res);
-            },
-            err => {
-                this.loginUrl = this.userLoginService.toAuthUrl(err) + '?next=' + this.document.location.href;
-                this.currentUser = null;
-            }
-        );
+        if (!this.userLoginService.getUser()) {
+            this.userLoginService.fetchUser(() => {
+                const auth = this.userLoginService.getAuthUrl();
+                if (auth) {
+                    this.loginUrl = auth + '?next=' + this.document.location.href;
+                }
+            });
+        } 
     }
 }

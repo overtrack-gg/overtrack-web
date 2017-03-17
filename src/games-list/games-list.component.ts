@@ -12,7 +12,6 @@ import { UserLoginService, User } from '../login/user-login.service';
 export class GamesListComponent implements OnInit {
     gamesList: Array<GamesListEntry>;
     rankings: GamesListRankings;
-    user: User;
 
     constructor(private gamesListService: GamesListService,
                 private loginService: UserLoginService,
@@ -22,9 +21,10 @@ export class GamesListComponent implements OnInit {
         this.gamesListService.getGamesList().subscribe(
             res => {
                 this.gamesList = this.gamesListService.toGamesList(res);
-                if (this.user) {
+                const user = this.loginService.getUser();
+                if (user) {
                     this.rankings = this.gamesListService
-                        .toKnownRankings(this.gamesList, this.user);
+                        .toKnownRankings(this.gamesList, user);
                 }
                 console.log(res);
             },
@@ -32,18 +32,19 @@ export class GamesListComponent implements OnInit {
                 console.error(err);
             }
         );
-        this.loginService.getUser().subscribe(
-            res => {
-                this.user = this.loginService.toUser(res);
+        // Only fetch if user has not been fetched
+        if (!this.loginService.getUser()) {
+            this.loginService.fetchUser(() => {
                 if (this.gamesList) {
+                    console.log(this.loginService.getUser());
                     this.rankings = this.gamesListService
-                        .toKnownRankings(this.gamesList, this.user);
+                        .toKnownRankings(this.gamesList, this.loginService.getUser());
                 }
-                
-            }
-        );
+
+            });
+        }
     }
-    
+
     currentSR() {
         if (this.rankings && this.rankings.current) {
             return this.rankings.current;
@@ -74,13 +75,13 @@ export class GamesListComponent implements OnInit {
     }
 
     wltClass(game: GamesListEntry) {
-        if (game.result == 'UNKN'){
+        if (game.result === 'UNKN') {
             return 'text-unknown';
-        } else if (game.result == 'DRAW'){
+        } else if (game.result === 'DRAW') {
             return 'text-warning';
-        } else if (game.result == 'WIN'){
+        } else if (game.result === 'WIN') {
             return 'text-success';
-        } else if (game.result == 'LOSS'){
+        } else if (game.result === 'LOSS') {
             return 'text-danger';
         }
         throw new Error('Unexpected game result: ' + game.result);
@@ -109,7 +110,7 @@ export class GamesListComponent implements OnInit {
     }
 
     rank(sr: number) {
-        if (sr == null){
+        if (sr === null) {
             return 'unknown';
         } else if (sr < 1500) {
             return 'bronze';
