@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserLoginService {
     private loginUrl = 'https://api.overtrack.uint8.me/user';
+    const logoutUrl = 'https://api.overtrack.uint8.me/logout';
     private currentUser: User = null;
     private authUrl: string;
 
@@ -18,6 +19,18 @@ export class UserLoginService {
 
     getAuthUrl(): string {
         return this.authUrl;
+    }
+
+    logout(callback: (string) => void) {
+        this.http.get(this.logoutUrl, { withCredentials: true}).subscribe(
+                res => {
+                    const token = res.json().token;
+                    callback(token);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
     }
 
     fetchUser(callback: () => void) {

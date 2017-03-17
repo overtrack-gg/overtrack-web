@@ -3,7 +3,7 @@
 </form>
 <div [class.hidden]="userLoginService.getUser() === null" id="logged-in-nav">
     <form id="login-nav" class="navbar-form navbar-right">
-        <a id="signout" href="#" class="btn btn-info">Sign out</a>
+        <a id="signout" (click)="logout()" class="btn btn-info">Sign out</a>
     </form>
     <h4 id="username" class="navbar-text navbar-right">{{ userLoginService.getUser()?.battletag }}</h4>
 </div>

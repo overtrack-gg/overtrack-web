@@ -21,6 +21,13 @@ export class UserLoginComponent implements OnInit {
                     this.loginUrl = auth + '?next=' + this.document.location.href;
                 }
             });
-        } 
+        }
+    }
+
+    logout() {
+        this.userLoginService.logout((token: string) => {
+           this.document.location.href = this.userLoginService.logoutUrl + '?token=' + token + '&next='
+               + this.document.location.href;
+        });
     }
 }
