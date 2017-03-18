@@ -3,12 +3,6 @@ body {
     padding-top: 50px;
 }
 
-.timeline {
-    width: 75%;
-    float: left;
-    position: relative
-}
-
 .hero-timeline {
     box-shadow: inset 0px 0px 0px 1px white;
     background-color: grey;
@@ -32,24 +26,26 @@ body {
 }
 
 .timeline-event {
-    position: absolute;
-    transform: translateY(8%) translateX(-55%);
-    color: #222;
-    text-align: center;
+    text-anchor: middle;
+    dominant-baseline: middle;
 }
 
-.timeline-event-death:before {
-    content: "☠";
+.timeline-event.death {
     /*color: black;*/
     font-size: 24px;
     font-weight: bold;
+    fill: black;
+    stroke: white;
+    fill: #811212;
+    stroke: red;
 }
 
-.timeline-event-kill:before {
-    content: "x";
+.timeline-event.kill {
     /*color: black;*/
     font-size: 24px;
     font-weight: bold;
+    fill: darkgray;
+    stroke: white;
 }
 
 .text-unknown {
@@ -64,8 +60,20 @@ body {
     color: #ee5f5b;
 }
 
-.game-timeline img {
+.game-timeline image {
     width: 40px;
+    height: 40px;
+    opacity: 0.9;
+}
+
+.game-timeline span.kill {
+    color: white;
+}
+.game-timeline span.death {
+    color: red;
+}
+
+.timeline {
     height: 40px;
 }
 
@@ -73,7 +81,15 @@ body {
     line-height:40px;
 }
 
-.timeline-players .col-md-12:nth-child(6){
+.game-timeline {
+    overflow-x: auto;
+}
+
+.game-timeline-content {
+    min-width: 650px;
+}
+
+.timeline-players .col-md-12:nth-of-type(6){
     padding-bottom: 10px;
 }
 

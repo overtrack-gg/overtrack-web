@@ -5,25 +5,6 @@ import 'rxjs/add/operator/switchMap';
 import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service';
 import { UserLoginService } from '../login/user-login.service';
 
-@Component({
-    selector: 'timeline',
-    templateUrl: './timeline.component.html'
-})
-export class TimelineComponent {
-    @Input() stage: Stage;
-
-    widthPercentage(hero: GameHero) {
-        return 100 * (hero.end - hero.start) / (this.stage.end - this.stage.start);
-    }
-
-    eventLeft(event: GameEvent) {
-        return 100 * event.time / (this.stage.end - this.stage.start);
-    }
-
-    isKOTH() {
-        return 'ownership' in this.stage.objectiveInfo;
-    }
-}
 
 @Component({
     selector: 'metagame',
@@ -36,13 +17,12 @@ export class MetaGameComponent  implements OnInit {
     
     constructor(private gameService: GameService) {}
     
-    ngOnInit(): void { 
+    ngOnInit(): void {
         this.hide = true;
         this.gameService.getMetaGame(this.id).subscribe(
                 res => {
                     const body = res.json();
                     this.data = body;
-                    console.log(body);
                 },
                 err => {
                     console.error(err);
@@ -56,7 +36,6 @@ export class MetaGameComponent  implements OnInit {
       
      keys(obj: any, remove: Array<string>) {
          if (obj) {
-             console.log(obj, Object.keys(obj));
             return Object.keys(obj).filter((a) => !remove.includes(a));
          }
          return [];

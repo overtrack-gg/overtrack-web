@@ -1,26 +1,15 @@
-<div class="col-md-12 game-timeline">
-    <div *ngIf="isKOTH()" class="col-md-12">
-        <div class="col-md-2"></div>
-        <div class="timeline">
-            <div *ngFor="let owner of stage.objectiveInfo.ownership" class="push-left hero-timeline-point timeline-owner-{{ owner.team }}"
-                    [style.width]="widthPercentage(owner) + '%'">
+<div #timelineBody class="col-md-12 game-timeline">
+    <div class="game-timeline-content">
+        <div *ngIf="isKOTH()" class="col-xs-12">
+            <div class="col-xs-2"></div>
+            <div class="timeline col-xs-8">
+                <div *ngFor="let owner of stage.objectiveInfo.ownership" class="push-left hero-timeline-point timeline-owner-{{ owner.team }}"
+                        [style.width]="widthPercentage(owner) + '%'">
+                </div>
             </div>
+            <strong class="col-xs-2 push-left text-left num" style="font-size: 15px;">K / D</strong>
         </div>
-        <strong class="col-md-1 push-left text-center num" style="font-size: 15px;">K / D</strong>
-    </div>
-    <div class="timeline-players">
-        <div *ngFor="let player of stage.players" class="col-md-12">
-            <b class="text-{{ player.colour }} col-md-2 push-left text-right">{{ player.name }}</b>
-            <div class="timeline">
-                <div *ngFor="let hero of player.heroesPlayed" class="push-left hero-timeline"
-                        [style.width]="widthPercentage(hero) + '%'">
-                    <img src="assets/images/heroes/{{hero.name}}.png"/>
-                </div>
-                <div *ngFor="let event of player.events" class="timeline-event timeline-event-{{ event.type }}"
-                    [style.left]="eventLeft(event) + '%'">
-                </div>
-            </div>
-            <b class="col-md-1 push-left text-center num">{{ player.kills }} / {{ player.deaths }}</b>
+        <div class="timeline-players">
         </div>
     </div>
 </div>
