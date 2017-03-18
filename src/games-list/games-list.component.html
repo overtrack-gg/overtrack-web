@@ -4,40 +4,17 @@
 -->
 <div class="jumbotron overview view banner eichenwalde">
     <div class="container">                      
-        <div class="pull-right col-xs-5 hidden-xs">
-            <div class="row text-center" >
-                <div class="col-xs-2"></div>
-                <div id="curr-sr" class="col-xs-4">Current</div>
-                <div class="col-xs-2">Min</div>
-                <div class="col-xs-2">Max</div>
-                <div class="col-xs-2">Avg</div>
+        <div class="pull-right col-md-6">
+               <div id="sr-graph"
+                    name="sr-graph"
+                    style="width: 100%; height: 200px;">
             </div>
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <img class="col-xs-4" src="assets/images/icons/{{rank(currentSR())}}.png">
-                <img class="col-xs-2" src="assets/images/icons/{{rank(minSR())}}.png">
-                <img class="col-xs-2" src="assets/images/icons/{{rank(maxSR())}}.png">
-                <img class="col-xs-2" src="assets/images/icons/{{rank(avgSR())}}.png">
-
-            </div>
-
         </div>
         <h1>Overview</h1>
-        <p>Current SR: <span class="num">{{ currentSR() ? currentSR() : '?' }}</span></p>
-         <div class="visible-xs">
         <div class="row">
-            <img class="col-xs-3" src="assets/images/icons/{{rank(currentSR())}}.png">
-            <img class="col-xs-3" src="assets/images/icons/{{rank(minSR())}}.png">
-            <img class="col-xs-3" src="assets/images/icons/{{rank(maxSR())}}.png">
-            <img class="col-xs-3" src="assets/images/icons/{{rank(avgSR())}}.png">
+            <p class="col-md-3">Current SR: <span class="num">{{ currentSR() ? currentSR() : '?' }}</span></p>
+            <!--<img src="assets/images/icons/{{rank(currentSR())}}.png">-->
         </div>
-        <div class="row text-center" >
-            <b class="col-xs-3">Current</b>
-            <b class="col-xs-3">Min</b>
-            <b class="col-xs-3">Max</b>
-            <b class="col-xs-3">Avg</b>
-        </div>
-    </div>
     </div>
 </div>
 

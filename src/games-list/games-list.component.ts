@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { GamesListService, GamesListEntry, GamesListRankings } from './games-list.service';
 import { UserLoginService, User } from '../login/user-login.service';
+
+
+declare var Plotly: any;
 
 @Component({
     selector: 'games-list',
@@ -23,8 +26,8 @@ export class GamesListComponent implements OnInit {
                 this.gamesList = this.gamesListService.toGamesList(res);
                 const user = this.loginService.getUser();
                 if (user) {
-                    this.rankings = this.gamesListService
-                        .toKnownRankings(this.gamesList, user);
+                    this.rankings = this.gamesListService.toKnownRankings(this.gamesList, user);
+                    this.renderGraph(user);
                 }
                 console.log(res);
             },
@@ -36,13 +39,84 @@ export class GamesListComponent implements OnInit {
         if (!this.loginService.getUser()) {
             this.loginService.fetchUser(() => {
                 if (this.gamesList) {
-                    console.log(this.loginService.getUser());
-                    this.rankings = this.gamesListService
-                        .toKnownRankings(this.gamesList, this.loginService.getUser());
+                    const user = this.loginService.getUser();
+                    console.log(user);
+                    this.rankings = this.gamesListService.toKnownRankings(this.gamesList, user);
+                    this.renderGraph(user);
                 }
 
             });
         }
+    }
+
+    renderGraph(user: User) {
+        let sr: Array<number> = [];
+        let last: number = null;
+        let playerName = user.battletag.split('#')[0].split('0').join('O').toUpperCase();
+        for (let game of this.gamesList){
+            // TODO: multiple tabs for multiple players in the same account
+            if (game.player == playerName){
+                if (game.sr == null && last == null){
+                    continue;
+                }
+                sr.push(game.sr)
+                last = game.sr;
+            }
+        }
+        sr = sr.slice(0, 30);
+        sr.reverse();
+        
+        Plotly.newPlot('sr-graph', [
+            {
+                y: sr,
+                mode: 'lines+markers',
+                hoverinfo: 'y',
+                line: {
+                    shape: 'spline',
+                    smoothing: 1
+                },
+                marker: {
+                    color: '#e305f8',
+                    size: 8
+                }
+            }], 
+            {
+                title: '',
+                font: {
+                    color: 'rgb(200, 200, 200)'
+                },
+                xaxis: {
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true
+                },
+                yaxis: {
+                    fixedrange: true
+                },
+                overlaying: false,
+                bargroupgap: 0,
+                margin: {
+                    l: 40,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                showlegend: false,
+                plot_bgcolor: "rgba(0,0,0,0)",
+                paper_bgcolor: "rgba(0.1,0.1,0.14,0.8)",
+            },
+            {
+                displayModeBar: false,
+                staticPlot: false,
+                doubleClick: false,
+                showTips: false,
+                showAxisDragHandles: false,
+                showAxisRangeEntryBoxes: false,
+                displaylogo: false,
+            }
+        );
+
     }
 
     currentSR() {
