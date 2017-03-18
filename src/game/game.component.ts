@@ -23,7 +23,6 @@ export class MetaGameComponent  implements OnInit {
                 res => {
                     const body = res.json();
                     this.data = body;
-                    console.log(body);
                 },
                 err => {
                     console.error(err);
@@ -37,7 +36,6 @@ export class MetaGameComponent  implements OnInit {
       
      keys(obj: any, remove: Array<string>) {
          if (obj) {
-             console.log(obj, Object.keys(obj));
             return Object.keys(obj).filter((a) => !remove.includes(a));
          }
          return [];
