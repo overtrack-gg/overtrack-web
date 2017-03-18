@@ -13,6 +13,9 @@ export class GamesListComponent implements OnInit {
     gamesList: Array<GamesListEntry>;
     rankings: GamesListRankings;
 
+    private linkKey: string;
+    private linkMouse: number;
+
     constructor(private gamesListService: GamesListService,
                 private loginService: UserLoginService,
                 private router: Router) { }
@@ -70,9 +73,27 @@ export class GamesListComponent implements OnInit {
         return null;
     }
 
-    route(id: string) {
-        this.router.navigate(['/game/' + id]);
+    route(id: string, event: any) {
+        console.log(event.button);
+        if (this.linkKey === id && this.linkMouse === event.button) {
+            if (event.button === 0) { // Left mouse button
+                this.router.navigate(['/game/' + id]);
+            } else if (event.button === 1) { // Middle mouse button
+                window.open('./game/' + id);
+            }
+        }
+        this.linkKey = null;
+        this.linkMouse = null;
     }
+
+    prepRoute(id: string, event: any) {
+        this.linkKey = id;
+        this.linkMouse = event.button;
+        if (event.button === 1) { // Middle mouse button
+            event.preventDefault();
+        }
+    }
+
 
     wltClass(game: GamesListEntry) {
         if (game.result === 'UNKN') {

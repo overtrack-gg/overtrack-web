@@ -17,7 +17,7 @@ export class MetaGameComponent  implements OnInit {
     
     constructor(private gameService: GameService) {}
     
-    ngOnInit(): void { 
+    ngOnInit(): void {
         this.hide = true;
         this.gameService.getMetaGame(this.id).subscribe(
                 res => {
