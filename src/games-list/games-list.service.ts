@@ -16,17 +16,24 @@ export class GamesListService {
         return this.http.get(this.gamesListUrl, { withCredentials: true});
     }
 
-    toKnownRankings(list: Array<GamesListEntry>, user: User) {
-        let rankings: GamesListRankings = {
+    toKnownRankings(playerList: Array<PlayerGameList>, user: User) {
+        const rankings: GamesListRankings = {
             current: null,
             min: Number.MAX_VALUE,
             max: Number.MIN_VALUE,
             avg: 0
+        };
+        const playerName = user.battletag.split('#')[0].split('0').join('O').toUpperCase();
+        let list = [];
+        for (const playerGame of playerList) {
+            if (playerGame.player === playerName) {
+                list = playerGame.list;
+            }
         }
-        let total: number = 0;
-        for (let game of list) {
-            const player: string = game.key.split('/')[0].replace('-', '#');
-            if (user.battletag === player && game.sr !== null) {
+
+        let total = 0;
+        for (const game of list) {
+            if (game.sr !== null) {
                 if (rankings.current === null) {
                     rankings.current = game.sr;
                 }
@@ -47,7 +54,9 @@ export class GamesListService {
     }
 
     toGamesList(res: Response) {
-        let list: Array<GamesListEntry> = [];
+        let list: Array<PlayerGameList> = [];
+        let map: { [id: string]: Array<GamesListEntry>} = {};
+        
         let body = res.json();
 
         let num = 1;
@@ -78,14 +87,26 @@ export class GamesListService {
                 blueScore = game.score[0];
                 redScore = game.score[1];
             }
+            
+            let gamelist = [];
+            if (map[game.player_name]) {
+                gamelist = map[game.player_name];
+            } else {
+                map[game.player_name] = gamelist;
+                list.push({
+                    player: game.player_name,
+                    list: gamelist
+                });
+            }
 
-            list.push({
+            gamelist.push({
                 num: num++,
                 map: game.map,
                 result: game.result == 'UNKNOWN' ? 'UNKN' : game.result,
                 srChange: srChange,
                 srString: srString,
                 sr: game.end_sr,
+                time: new Date(game.time * 1000),
                 startSR: game.start_sr,
                 player: game.player_name,
                 blueScore: blueScore,
@@ -100,6 +121,11 @@ export class GamesListService {
     }
 }
 
+export class PlayerGameList {
+    player: string;
+    list: Array<GamesListEntry>;
+}
+
 // TODO: Move out into own files
 export class GamesListEntry {
     num: number;
@@ -108,6 +134,7 @@ export class GamesListEntry {
     srChange: string;
     srString: string;
     startSR: number;
+    time: Date;
     sr: number;
     player: string;
     blueScore: number;

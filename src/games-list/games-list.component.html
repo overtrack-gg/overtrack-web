@@ -21,32 +21,46 @@
 <div class="container overview view">
     <div class="row col-md-12">
         <h2  class="col-xs-12">Games</h2>
-        <div id="gametable" class="col-xs-12">
-            <table class="table table-striped text-center">
-                <tr>
-                    <th>Player</th>
-                    <th colspan="2">Win/Loss/Tie</th>
-                    <th>Score</th>
-                    <th>Skill Rating</th>
-                    <th>Time</th>
-                    <th>Map</th>
-                    <th>Heroes</th>
-                </tr>
-                <tr *ngFor="let game of gamesList" (mousedown)="prepRoute(game.key, $event)" (mouseup)="route(game.key, $event)" class="hoverable" id="game-{{ game.num }}">
-                    <td class="gn">{{game.player}}</td>
-                    <td class="{{wltClass(game)}} text-right num">
-                        <b><!-- TODO: — -->{{game.srChange}}</b>
-                    </td>
-                    <td class="{{wltClass(game)}} text-left" style="font-size:35px;">{{game.result}}</td>
-                    <td><span class="num">{{game.blueScore}}</span><span class="unit">{{unit(game)}}</span>/<span class="num">{{game.redScore}}</span><span class="unit">{{unit(game)}}</span></td>
-                    <td class="num sr"><img src="assets/images/icons/{{rank(game.sr)}}.png"/><br/>{{game.srString}}</td>
-                    <td class="time"><div class="num">{{min(game)}}</div><div class="unit">min</div></td>
-                    <td class="map {{map(game)}}"><i>{{game.map}}</i></td>
-                    <td class="hero">
-                        <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
-                    </td>
-                </tr>
-            </table>
+        <div id="gametable" class="panel with-nav-tabs panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li><b>Players:</b></li>
+                    <li class="{{f ? 'active' : ''}}"*ngFor="let games of gamesLists; let f = first;"><a href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="table-responsive tab-pane {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"  id="{{ playerHref(games) }}">
+                        <table class="table table-striped text-center">
+                            <tr style="width:100%">
+                                <th>Date</th>
+                                <th colspan="2">Win/Loss/Tie</th>
+                                <th>Score</th>
+                                <th>Skill Rating</th>
+                                <th>Time</th>
+                                <th>Map</th>
+                                <th>Heroes</th>
+                            </tr>
+                            <tr *ngFor="let game of games.list" (mousedown)="prepRoute(game.key, $event)" (mouseup)="route(game.key, $event)" class="hoverable" id="game-{{ game.num }}">
+                                <td class="gn">{{formatTime(game.time)}}<br>
+                                    {{formatDate(game.time)}}
+                                </td>
+                                <td class="{{wltClass(game)}} text-right num">
+                                    <b><!-- TODO: — -->{{game.srChange}}</b>
+                                </td>
+                                <td class="{{wltClass(game)}} text-left" style="font-size:35px;">{{game.result}}</td>
+                                <td><span class="num">{{game.blueScore}}</span><span class="unit">{{unit(game)}}</span>/<span class="num">{{game.redScore}}</span><span class="unit">{{unit(game)}}</span></td>
+                                <td class="num sr"><img src="assets/images/icons/{{rank(game.sr)}}.png"/><br/>{{game.srString}}</td>
+                                <td class="time"><div class="num">{{min(game)}}</div><div class="unit">min</div></td>
+                                <td class="map {{map(game)}}"><i>{{game.map}}</i></td>
+                                <td class="hero">
+                                    <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

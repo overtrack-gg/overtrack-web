@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import * as D3 from 'd3';
 
-import { GamesListService, GamesListEntry, GamesListRankings } from './games-list.service';
+import { GamesListService, GamesListEntry, PlayerGameList, GamesListRankings } from './games-list.service';
 import { UserLoginService, User } from '../login/user-login.service';
 
 
@@ -13,7 +14,7 @@ declare var Plotly: any;
     providers: [GamesListService, UserLoginService, RouterModule]
 })
 export class GamesListComponent implements OnInit {
-    gamesList: Array<GamesListEntry>;
+    gamesLists: Array<PlayerGameList>;
     rankings: GamesListRankings;
 
     private linkKey: string;
@@ -26,10 +27,10 @@ export class GamesListComponent implements OnInit {
     ngOnInit(): void {
         this.gamesListService.getGamesList().subscribe(
             res => {
-                this.gamesList = this.gamesListService.toGamesList(res);
+                this.gamesLists = this.gamesListService.toGamesList(res);
                 const user = this.loginService.getUser();
                 if (user) {
-                    this.rankings = this.gamesListService.toKnownRankings(this.gamesList, user);
+                    this.rankings = this.gamesListService.toKnownRankings(this.gamesLists, user);
                     this.renderGraph(user);
                 }
                 console.log(res);
@@ -41,41 +42,51 @@ export class GamesListComponent implements OnInit {
         // Only fetch if user has not been fetched
         if (!this.loginService.getUser()) {
             this.loginService.fetchUser(() => {
-                if (this.gamesList) {
+                if (this.gamesLists) {
                     const user = this.loginService.getUser();
-                    console.log(user);
-                    this.rankings = this.gamesListService.toKnownRankings(this.gamesList, user);
+                    this.rankings = this.gamesListService.toKnownRankings(this.gamesLists, user);
                     this.renderGraph(user);
                 }
 
             });
         }
     }
+    
+    playerHref(playerGames: PlayerGameList){
+        return 'player_' + playerGames.player.replace(/\s/, '_');
+    }
 
     renderGraph(user: User) {
         let sr: Array<number> = [];
         let last: number = null;
         let playerName = user.battletag.split('#')[0].split('0').join('O').toUpperCase();
-        let games = this.gamesList.slice();
+        let games = [];
+        for (let playerGames of this.gamesLists) {
+            if (playerGames.player == playerName) {
+                games = playerGames.list;
+            }
+        }
+        games = games.slice();
         games.reverse();
         let index2id: Map<number, number> = new Map<number, number>();
         for (let game of games){
             // TODO: multiple tabs for multiple players in the same account
-            if (game.player == playerName){
-                if (game.sr != null && game.startSR != null){
-                    if (last != game.startSR){
-                        sr.push(null);
-                    }    
-                    sr.push(game.sr);
-                    index2id.set(sr.length - 1, game.num);
-                }
-                last = game.sr;
+            if (game.sr != null && game.startSR != null){
+                if (last != game.startSR){
+                    sr.push(null);
+                    if (game.startSR) {
+                        sr.push(game.startSR);
+                        index2id.set(sr.length-2, game.num);
+                    }
+                }    
+                sr.push(game.sr);
+                index2id.set(sr.length-2, game.num);
             }
+            last = game.sr;
         }
         if (sr.length > 40){
             sr = sr.slice(sr.length - 40);
         }
-        console.log(index2id);
         
         Plotly.newPlot('sr-graph', [
             {
@@ -140,15 +151,46 @@ export class GamesListComponent implements OnInit {
         let plot = <CustomHTMLElement>document.getElementById('sr-graph');
         let activeElement = null;
         plot.on('plotly_click', function(data){
-            let element = document.getElementById('game-' + index2id.get(data.points[0].pointNumber));
-            window.scrollTo(0, element.offsetTop);
-            if (activeElement){
-                activeElement.classList.remove('active');
+            if (index2id.get(data.points[0].pointNumber)) {
+                const element = document.getElementById('game-' + index2id.get(data.points[0].pointNumber));
+                const player = D3.select('#gametable li.active a').text();
+                if ( player !== playerName) {
+                    D3.select('#gametable li.active').classed('active', false);
+                    for (const elem of (D3.selectAll('#gametable li') as any)._groups[0]) {
+                        const d3elem = D3.select(elem);
+                        if (d3elem.select('a').size() && d3elem.select('a').text() === playerName) {
+                            d3elem.classed('active', true);
+                            const href = d3elem.select('a').attr('href');
+                            D3.select('#gametable div.active').classed('active', false);
+                            D3.select(href).classed('active', true);
+                        } 
+                    }
+                }
+                window.scrollTo(0, element.offsetTop);
+                if (activeElement){
+                    activeElement.classList.remove('active');
+                }
+                element.classList.add('active');
+                activeElement = element;
             }
-            element.classList.add('active');
-            activeElement = element;
         });
 
+    }
+    
+    formatTime(date: Date) {
+        let hour = date.getHours();
+        const pm = hour > 11;
+        hour = hour % 12;
+        hour = hour === 0 ? 12 : hour;
+        let min: number|string = date.getMinutes();
+        if (min < 10){
+            min = '0' + min;
+        }
+        return hour + ':' + min + (pm ? 'pm' : 'am');
+    }
+    
+    formatDate(date: Date) {
+        return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear().toString().slice(2);
     }
 
     currentSR() {

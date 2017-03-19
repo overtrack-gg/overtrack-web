@@ -131,6 +131,10 @@ body {
     border: 0;
 }
 
+#gametable {
+    width: 100%;
+}
+
 #gametable th {
     text-align: center;
 }
@@ -143,7 +147,8 @@ body {
 }
 
 #gametable .gn {
-    font-size:15px;
+    font-size:20px;
+    line-height: 40px;
 }
 
 #gametable .sr {
