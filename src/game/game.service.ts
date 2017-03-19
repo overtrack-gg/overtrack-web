@@ -90,8 +90,8 @@ export class GameService {
             } else {
                 heroes.push({
                     name: 'unknown',
-                    start: stage.start,
-                    end: stage.end
+                    start: 0,
+                    end: stage.end - stage.start
                 });
             }
 
