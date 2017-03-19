@@ -58,6 +58,7 @@ export class GamesListComponent implements OnInit {
 
     renderGraph(user: User) {
         let sr: Array<number> = [];
+        let gamePoints: Array<number> = [];
         let last: number = null;
         let playerName = user.battletag.split('#')[0].split('0').join('O').toUpperCase();
         let games = [];
@@ -68,40 +69,52 @@ export class GamesListComponent implements OnInit {
         }
         games = games.slice();
         games.reverse();
+        if (games.length > 40){
+            games = games.slice(sr.length - 40);
+        }
         let index2id: Map<number, number> = new Map<number, number>();
+        let x = 0;
         for (let game of games){
             // TODO: multiple tabs for multiple players in the same account
             if (game.sr != null && game.startSR != null){
                 if (last != game.startSR){
                     sr.push(null);
+                    gamePoints.push(null)
                     if (game.startSR) {
+                        gamePoints.push(null)
                         sr.push(game.startSR);
-                        index2id.set(sr.length-2, game.num);
                     }
                 }    
                 sr.push(game.sr);
-                index2id.set(sr.length-2, game.num);
+                gamePoints.push(game.sr)
+                index2id.set(sr.length-1, game.num);
             }
             last = game.sr;
         }
-        if (sr.length > 40){
-            sr = sr.slice(sr.length - 40);
-        }
-        
+
         Plotly.newPlot('sr-graph', [
-            {
-                y: sr,
-                mode: 'lines+markers',
-                hoverinfo: 'y',
-                line: {
-                    shape: 'spline',
-                    smoothing: 1
+                {
+                    y: sr,
+                    mode: 'lines',
+                    hoverinfo: 'skip',
+                    line: {
+                        shape: 'spline',
+                        smoothing: 1
+                    },
+                    marker: {
+                        color: '#c19400'
+                    }
                 },
-                marker: {
-                    color: '#c19400',
-                    size: 8
+                {
+                    y: gamePoints,
+                    mode: 'markers',
+                    hoverinfo: 'y',
+                    marker: {
+                        color: '#c19400',
+                        size: 8
+                    }
                 }
-            }], 
+            ], 
             {
                 title: '',
                 font: {
