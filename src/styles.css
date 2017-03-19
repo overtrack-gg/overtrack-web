@@ -302,58 +302,72 @@ body {
 .banner.nepal {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.eichenwalde {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.lijiang-tower {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/lijiang-tower-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.oasis {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/oasis-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.hanamura {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hanamura-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.hollywood {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hollywood-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.ilios {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/ilios-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.kings-row {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.dorado {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/dorado-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.numbani {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/numbani-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.temple-of-anubis {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/temple-of-anubis-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.watchpoint-gibraltar {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/watchpoint-gibraltar-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.route-66 {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/route-66-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 .banner.volskaya-industries {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/volskaya-industries-banner.jpg');
     background-position: center;
+    background-size: cover;
 }
 
 
