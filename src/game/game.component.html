@@ -17,18 +17,14 @@
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <li><b>Stages:</b></li>
-                    <li class="active"><a href="#{{ stageHref(game.stages[0]) }}" data-toggle="tab">{{ game.stages[0].name }}</a></li>
-                    <li *ngFor="let stage of game.stages.slice(1)"><a href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
+                    <li class="{{f ? 'active' : ''}}"*ngFor="let stage of game.stages; let f = first;"><a href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
                     <li class="divider"> <!-- TODO: make this work --> </li>
                     <li><a>Combined <!-- TODO --> </a></li>
                 </ul>
             </div>
             <div class="panel-body">
                 <div class="tab-content">
-                    <timeline class="tab-pane active" id="{{ stageHref(game.stages[0]) }}"
-                        [stage]="game.stages[0]">
-                    </timeline>
-                    <timeline *ngFor="let stage of game.stages.slice(1)" class="tab-pane" id="{{ stageHref(stage) }}"
+                    <timeline *ngFor="let stage of game.stages; let f = first;" class="tab-pane {{f ? 'active' : ''}}" id="{{ stageHref(stage) }}"
                         [stage]="stage">
                     </timeline>
                 </div>
