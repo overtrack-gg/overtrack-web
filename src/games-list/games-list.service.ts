@@ -86,6 +86,7 @@ export class GamesListService {
                 srChange: srChange,
                 srString: srString,
                 sr: game.end_sr,
+                startSR: game.start_sr,
                 player: game.player_name,
                 blueScore: blueScore,
                 redScore: redScore,
@@ -106,6 +107,7 @@ export class GamesListEntry {
     result: string;
     srChange: string;
     srString: string;
+    startSR: number;
     sr: number;
     player: string;
     blueScore: number;

@@ -56,18 +56,26 @@ export class GamesListComponent implements OnInit {
         let sr: Array<number> = [];
         let last: number = null;
         let playerName = user.battletag.split('#')[0].split('0').join('O').toUpperCase();
-        for (let game of this.gamesList){
+        let games = this.gamesList.slice();
+        games.reverse();
+        let index2id: Map<number, number> = new Map<number, number>();
+        for (let game of games){
             // TODO: multiple tabs for multiple players in the same account
             if (game.player == playerName){
-                if (game.sr == null && last == null){
-                    continue;
+                if (game.sr != null && game.startSR != null){
+                    if (last != game.startSR){
+                        sr.push(null);
+                    }    
+                    sr.push(game.sr);
+                    index2id.set(sr.length - 1, game.num);
                 }
-                sr.push(game.sr)
                 last = game.sr;
             }
         }
-        sr = sr.slice(0, 30);
-        sr.reverse();
+        if (sr.length > 40){
+            sr = sr.slice(sr.length - 40);
+        }
+        console.log(index2id);
         
         Plotly.newPlot('sr-graph', [
             {
@@ -119,6 +127,25 @@ export class GamesListComponent implements OnInit {
                 displaylogo: false,
             }
         );
+
+        class CustomHTMLElement extends HTMLElement {
+            constructor() {
+                super();
+            }
+            on(event_type, cb) {}
+        }
+
+        let plot = <CustomHTMLElement>document.getElementById('sr-graph');
+        let activeElement = null;
+        plot.on('plotly_click', function(data){
+            let element = document.getElementById('game-' + index2id.get(data.points[0].pointNumber));
+            window.scrollTo(0, element.offsetTop);
+            if (activeElement){
+                activeElement.classList.remove('active');
+            }
+            element.classList.add('active');
+            activeElement = element;
+        });
 
     }
 
