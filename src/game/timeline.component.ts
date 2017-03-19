@@ -42,15 +42,26 @@ export class TimelineComponent implements OnChanges {
             .attr('xlink:href',
                   (hero: GameHero) => 'assets/images/heroes/' + hero.name + '.png')
             .attr('x', (hero: GameHero) => this.x(hero.start) + '%')
+            .attr('class', 'hero-image')
             // .attr('transform', 'translate(-20)')
             .attr('y', 0);
-        svg.selectAll('text').data((player: Player) => player.events)
+            
+        svg.selectAll('text').data((player: Player) => player.events.filter(event => event.type == 'kill'))
             .enter().append('text')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('y', 20)
             .attr('class', (event: GameEvent) => 'timeline-event ' + event.type)
-            .text((event: GameEvent) =>
-                  event.type === 'kill' ? '●' : '|');
+            .text('●');
+
+        svg.selectAll('image').data((player: Player) => player.events.filter(event => event.type == 'death'))
+            .enter().append('image')
+            .attr('xlink:href','assets/images/timeline/skull.png')
+            .attr('x', (event: GameEvent) => this.x(event.time) + '%')
+            .attr('transform', 'translate(-6)')
+            .attr('y', 12)
+            .attr('width', 15)
+            .attr('height', 15);
+     
 
         // Add the kills and deaths
         const b = div.append('b')

@@ -60,7 +60,7 @@ body {
     color: #ee5f5b;
 }
 
-.game-timeline image {
+.game-timeline .hero-image {
     width: 40px;
     height: 40px;
     opacity: 0.9;
