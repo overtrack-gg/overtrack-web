@@ -31,24 +31,30 @@ export class GameService {
                     continue;
                 }
 
-                // TODO: killicons
-                // TODO: death icons
-
                 // heroes played
                 let hero: string;
                 if (kill.leftPlayer === player.name) {
-                    kills += 1;
-                    hero = kill.leftHero;
-                    events.push({
-                        time: kill.time - stage.start,
-                        type: 'kill'
-                    });
+                    if (kill.leftHero.indexOf('_') == -1){
+                        // kill is by a hero instead of e.g. torb_turret
+                        // this is _not_ who we are playing so ignore
+                        hero = kill.leftHero;
+                    }
+                    if (kill.rightPlayer && kill.leftHero.indexOf('_') == -1){
+                        // kill on a real player instead of a turret/metch/tp/etc.
+                        kills += 1;                    
+                        events.push({
+                            time: kill.time - stage.start,
+                            type: 'kill'
+                        });
+                    } else {
+                        // TODO: show turrets etc. killed
+                    }
                 }
                 if (kill.rightPlayer === player.name) {
-                    hero = kill.rightHero;
-
-                     // only count as a death if there was a hero - name only means turret/metch/tp/etc.
-                    if (hero) {
+                    if (kill.rightHero.indexOf('_') == -1){
+                        // kill is on a hero instead of e.g. torb_turret
+                        hero = kill.rightHero;
+                        
                         deaths += 1;
                         events.push({
                             time: kill.time - stage.start,
@@ -56,26 +62,25 @@ export class GameService {
                         });
                     }
                 }
-                if (!hero) {
-                    continue;
-                }
-                if (heroes.length === 0) {
-                    // no known hero yet, so assume the first hero seen has been played from the start
-                    heroes.push({
-                        name: hero,
-                        start: 0,
-                        end: kill.time - stage.start
-                    });
-                } else if (heroes[heroes.length - 1].name === hero) {
-                    // if the new hero is the same as the last then extend that one on
-                    heroes[heroes.length - 1].end = kill.time - stage.start;
-                } else {
-                    // once we see a new hero add this to the list
-                    heroes.push({
-                        name: hero,
-                        start: heroes[heroes.length - 1].end,
-                        end: kill.time - stage.start
-                    });
+                if (hero) {
+                    if (heroes.length === 0) {
+                        // no known hero yet, so assume the first hero seen has been played from the start
+                        heroes.push({
+                            name: hero,
+                            start: 0,
+                            end: kill.time - stage.start
+                        });
+                    } else if (heroes[heroes.length - 1].name === hero) {
+                        // if the new hero is the same as the last then extend that one on
+                        heroes[heroes.length - 1].end = kill.time - stage.start;
+                    } else {
+                        // once we see a new hero add this to the list
+                        heroes.push({
+                            name: hero,
+                            start: heroes[heroes.length - 1].end,
+                            end: kill.time - stage.start
+                        });
+                    }
                 }
             }
 
