@@ -87,14 +87,14 @@ export class GamesListComponent implements OnInit {
                     smoothing: 1
                 },
                 marker: {
-                    color: '#e305f8',
+                    color: '#c19400',
                     size: 8
                 }
             }], 
             {
                 title: '',
                 font: {
-                    color: 'rgb(200, 200, 200)'
+                    color: 'rgb(150, 150, 150)'
                 },
                 xaxis: {
                     showgrid: false,
@@ -103,15 +103,17 @@ export class GamesListComponent implements OnInit {
                     fixedrange: true
                 },
                 yaxis: {
-                    fixedrange: true
+                    fixedrange: true,
+                    nticks: 3,
+                    side: 'right'
                 },
                 overlaying: false,
                 bargroupgap: 0,
                 margin: {
-                    l: 40,
-                    r: 0,
-                    b: 0,
-                    t: 0
+                    l: 10,
+                    r: 40,
+                    b: 5,
+                    t: 5
                 },
                 showlegend: false,
                 plot_bgcolor: "rgba(0,0,0,0)",

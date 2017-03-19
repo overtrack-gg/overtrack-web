@@ -4,16 +4,15 @@
 -->
 <div class="jumbotron overview view banner eichenwalde">
     <div class="container">                      
-        <div class="pull-right col-md-6">
+        <div class="pull-right col-md-5">
                <div id="sr-graph"
                     name="sr-graph"
-                    style="width: 100%; height: 200px;">
+                    style="width: 100%; height: 150px; border-radius: 3px; overflow: hidden;">
             </div>
         </div>
         <h1>Overview</h1>
         <div class="row">
-            <p class="col-md-3">Current SR: <span class="num">{{ currentSR() ? currentSR() : '?' }}</span></p>
-            <!--<img src="assets/images/icons/{{rank(currentSR())}}.png">-->
+            <p class="col-md-3">Current SR: <span class="num">{{ currentSR() ? currentSR() : '' }}</span><img src="assets/images/icons/{{rank(currentSR())}}.png" height="35" style="vertical-align: bottom"></p>
         </div>
     </div>
 </div>
