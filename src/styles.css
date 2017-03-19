@@ -48,6 +48,12 @@ body {
     stroke: white;
 }
 
+.timeline-event.destruction {
+    font-size: 20px;
+    fill: lightslategray;
+    stroke: whitesmoke;
+}
+
 .text-unknown {
     color: #e305f8;
 }

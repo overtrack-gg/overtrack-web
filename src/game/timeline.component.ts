@@ -37,31 +37,47 @@ export class TimelineComponent implements OnChanges {
             .attr('fill', 'gray')
             .attr('stroke', 'white');
 
-        svg.selectAll('image').data((player: Player) => player.heroesPlayed)
+        svg.selectAll('.timeline-event .destroyed').data((player: Player) => player.events.filter(event => event.type == 'destroyed'))
+            .enter().append('image')
+            .attr('class', (event: GameEvent) => 'timeline-event destroyed')
+            .attr('xlink:href','assets/images/timeline/explosion.png')
+            .attr('x', (event: GameEvent) => this.x(event.time) + '%')
+            .attr('transform', 'translate(-6)')
+            .attr('y', 12)
+            .attr('width', 15)
+            .attr('height', 15);
+
+        svg.selectAll('.timeline-event .destruction').data((player: Player) => player.events.filter(event => event.type == 'destruction'))
+            .enter().append('text')
+            .attr('class', (event: GameEvent) => 'timeline-event destruction')
+            .attr('x', (event: GameEvent) => this.x(event.time) + '%')
+            .attr('y', 26)
+            .text('*');
+
+        svg.selectAll('.hero-image').data((player: Player) => player.heroesPlayed)
             .enter().append('image')
             .attr('xlink:href',
                   (hero: GameHero) => 'assets/images/heroes/' + hero.name + '.png')
             .attr('x', (hero: GameHero) => this.x(hero.start) + '%')
             .attr('class', 'hero-image')
-            // .attr('transform', 'translate(-20)')
             .attr('y', 0);
-            
-        svg.selectAll('text').data((player: Player) => player.events.filter(event => event.type == 'kill'))
+
+        svg.selectAll('.timeline-event .kill').data((player: Player) => player.events.filter(event => event.type == 'kill'))
             .enter().append('text')
+            .attr('class', (event: GameEvent) => 'timeline-event kill')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('y', 20)
-            .attr('class', (event: GameEvent) => 'timeline-event ' + event.type)
             .text('●');
 
-        svg.selectAll('image').data((player: Player) => player.events.filter(event => event.type == 'death'))
+        svg.selectAll('.timeline-event .death').data((player: Player) => player.events.filter(event => event.type == 'death'))
             .enter().append('image')
+            .attr('class', (event: GameEvent) => 'timeline-event death')
             .attr('xlink:href','assets/images/timeline/skull.png')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('transform', 'translate(-6)')
             .attr('y', 12)
             .attr('width', 15)
             .attr('height', 15);
-     
 
         // Add the kills and deaths
         const b = div.append('b')

@@ -39,26 +39,39 @@ export class GameService {
                         // this is _not_ who we are playing so ignore
                         hero = kill.leftHero;
                     }
-                    if (kill.rightPlayer && kill.leftHero.indexOf('_') == -1){
+                    if (kill.rightPlayer && kill.rightHero.indexOf('_') == -1){
                         // kill on a real player instead of a turret/metch/tp/etc.
                         kills += 1;                    
                         events.push({
                             time: kill.time - stage.start,
-                            type: 'kill'
+                            type: 'kill',
+                            otherHero: kill.rightHero
                         });
                     } else {
-                        // TODO: show turrets etc. killed
+                        events.push({
+                            time: kill.time - stage.start,
+                            type: 'destruction',
+                            otherHero: kill.rightHero
+                        });
                     }
                 }
                 if (kill.rightPlayer === player.name) {
                     if (kill.rightHero.indexOf('_') == -1){
-                        // kill is on a hero instead of e.g. torb_turret
+                        // kill is on `player`'s hero instead of e.g. their turret (torb_turret)
                         hero = kill.rightHero;
                         
                         deaths += 1;
                         events.push({
                             time: kill.time - stage.start,
-                            type: 'death'
+                            type: 'death',
+                            otherHero: kill.leftHero
+                        });
+                    } else {
+                        console.log('.');
+                        events.push({
+                            time: kill.time - stage.start,
+                            type: 'destroyed',
+                            otherHero: kill.rightHero
                         });
                     }
                 }
@@ -259,4 +272,5 @@ export class GameHero {
 export class GameEvent {
     time: number;
     type: string;
+    otherHero: string;
 }
