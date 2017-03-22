@@ -76,20 +76,44 @@ export class GamesListComponent implements OnInit {
         let x = 0;
         for (let game of games){
             // TODO: multiple tabs for multiple players in the same account
-            if (game.sr != null && game.startSR != null){
-                if (last != game.startSR){
+
+            console.log(game.startSR, '=>', game.sr);
+
+            if (game.sr == null){
+                if (last != null){
                     sr.push(null);
-                    gamePoints.push(null)
-                    if (game.startSR) {
-                        gamePoints.push(null)
-                        sr.push(game.startSR);
+                    gamePoints.push(null);
+                }
+            } else {
+                if (last != null && last != game.startSR){
+                    if (game.startSR != null){
+                        sr.push(null);
+                        gamePoints.push(null);
                     }
-                }    
+                    sr.push(game.startSR);
+                    gamePoints.push(null);
+                }
+                gamePoints.push(game.sr);
                 sr.push(game.sr);
-                gamePoints.push(game.sr)
                 index2id.set(sr.length-1, game.num);
             }
             last = game.sr;
+        }
+
+        let srDottedX: Array<number> = [];
+        let srDottedY: Array<number> = [];
+        for (let i = 1; i < sr.length-1; ++i){
+            if (sr[i] == null){
+                srDottedX.push(i-2);
+                srDottedX.push(i-1);
+                srDottedX.push(i+1);
+                srDottedX.push(i+2);
+
+                srDottedY.push(null);
+                srDottedY.push(sr[i-1]);
+                srDottedY.push(sr[i+1]);
+                srDottedY.push(null);
+            }
         }
 
         Plotly.newPlot('sr-graph', [
@@ -99,9 +123,7 @@ export class GamesListComponent implements OnInit {
                     hoverinfo: 'skip',
                     line: {
                         shape: 'spline',
-                        smoothing: 1
-                    },
-                    marker: {
+                        smoothing: 1,
                         color: '#c19400'
                     }
                 },
@@ -110,9 +132,19 @@ export class GamesListComponent implements OnInit {
                     mode: 'markers',
                     hoverinfo: 'y',
                     marker: {
+                        size: 8,
                         color: '#c19400',
-                        size: 8
                     }
+                },
+                {
+                    x: srDottedX,
+                    y: srDottedY,
+                    mode: 'lines',
+                    hoverinfo: 'skip',
+                    line: {
+                        dash: 'dot',
+                        color: '#c19400'
+                    } 
                 }
             ], 
             {
