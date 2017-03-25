@@ -53,7 +53,7 @@ export class GamesListComponent implements OnInit {
     }
     
     playerHref(playerGames: PlayerGameList){
-        return 'player_' + playerGames.player.replace(/\s/, '_');
+        return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
 
     renderGraph(user: User) {
