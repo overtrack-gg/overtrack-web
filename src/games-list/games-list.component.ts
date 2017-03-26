@@ -221,6 +221,11 @@ export class GamesListComponent implements OnInit {
         return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear().toString().slice(2);
     }
 
+    formatDay(date: Date) {
+        var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
+        return days[date.getDay()]
+    }
+
     route(id: string, event: any) {
         console.log(event.button);
         if (this.linkKey === id && this.linkMouse === event.button) {

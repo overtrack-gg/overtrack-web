@@ -32,16 +32,16 @@
                     <div class="table-responsive tab-pane {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"  id="{{ playerHref(games) }}">
                         <table class="table table-striped text-center">
                             <tr style="width:100%">
-                                <th>Date</th>
+                                <th>Game Time</th>
                                 <th colspan="2">Win/Loss/Tie</th>
                                 <th>Score</th>
                                 <th>Skill Rating</th>
-                                <th>Time</th>
+                                <th>Length</th>
                                 <th>Map</th>
                                 <th>Heroes</th>
                             </tr>
                             <tr *ngFor="let game of games.list" (mousedown)="prepRoute(game.key, $event)" (mouseup)="route(game.key, $event)" class="hoverable" id="game-{{ game.num }}">
-                                <td class="gn">{{formatTime(game.time)}}<br>
+                                <td class="gn">{{formatTime(game.time)}} {{ formatDay(game.time) }}<br>
                                     {{formatDate(game.time)}}
                                 </td>
                                 <td class="{{wltClass(game)}} text-right num">
