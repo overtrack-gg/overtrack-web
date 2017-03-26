@@ -107,8 +107,6 @@ export class GamesListComponent implements OnInit {
                     mode: 'lines',
                     hoverinfo: 'skip',
                     line: {
-                        shape: 'spline',
-                        smoothing: 1,
                         color: '#c19400'
                     }
                 },
