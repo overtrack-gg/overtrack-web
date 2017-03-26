@@ -2,30 +2,29 @@
 <!--
     Overview
 -->
-<div class="jumbotron overview view banner eichenwalde">
+<div class="jumbotron overview view banner eichenwalde" style="padding-bottom: 10px;">
     <div class="container">                      
         <div class="pull-right col-md-5">
                <div id="sr-graph"
                     name="sr-graph"
-                    style="width: 100%; height: 150px; border-radius: 3px; overflow: hidden;">
+                    style="width: 100%; height: 175px; border-radius: 3px; overflow: hidden; background: rgba(26, 26, 36, 0.8);">
             </div>
         </div>
         <h1>Overview</h1>
-        <div class="row">
-            <p class="col-md-3">Current SR: <span class="num">{{ currentSR() ? currentSR() : '' }}</span><img src="assets/images/icons/{{rank(currentSR())}}.png" height="35" style="vertical-align: bottom"></p>
-        </div>
+        <h2 style="padding-left: 15px;"> {{ player ? player : '?' }} </h2>
+        <p class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
     </div>
 </div>
-
 
 <div class="container overview view">
     <div class="row col-md-12">
         <h2  class="col-xs-12">Games</h2>
+        
         <div id="gametable" class="panel with-nav-tabs panel-default">
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
-                    <li><b>Players:</b></li>
-                    <li class="{{f ? 'active' : ''}}"*ngFor="let games of gamesLists; let f = first;"><a href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Players:</b></li>
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"><a (click)="renderGraph(games.player)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
                 </ul>
             </div>
             <div class="panel-body">

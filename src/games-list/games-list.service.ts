@@ -16,42 +16,6 @@ export class GamesListService {
         return this.http.get(this.gamesListUrl, { withCredentials: true});
     }
 
-    toKnownRankings(playerList: Array<PlayerGameList>, user: User) {
-        const rankings: GamesListRankings = {
-            current: null,
-            min: Number.MAX_VALUE,
-            max: Number.MIN_VALUE,
-            avg: 0
-        };
-        const playerName = user.battletag.split('#')[0].split('0').join('O').toUpperCase();
-        let list = [];
-        for (const playerGame of playerList) {
-            if (playerGame.player === playerName) {
-                list = playerGame.list;
-            }
-        }
-
-        let total = 0;
-        for (const game of list) {
-            if (game.sr !== null) {
-                if (rankings.current === null) {
-                    rankings.current = game.sr;
-                }
-                if (rankings.min > game.sr) {
-                    rankings.min = game.sr;
-                }
-                if (rankings.max < game.sr) {
-                    rankings.max = game.sr;
-                }
-                rankings.avg += game.sr;
-                ++total;
-            }
-        }
-        if (total > 0) {
-            rankings.avg = rankings.avg / total;
-        }
-        return rankings;
-    }
 
     toGamesList(res: Response) {
         let list: Array<PlayerGameList> = [];
@@ -150,9 +114,3 @@ export class GamesListHero {
     percentagePlayed: number;
 }
 
-export class GamesListRankings {
-    current: number;
-    min: number;
-    max: number;
-    avg: number;
-}

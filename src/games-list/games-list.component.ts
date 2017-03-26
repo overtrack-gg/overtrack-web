@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import * as D3 from 'd3';
 
-import { GamesListService, GamesListEntry, PlayerGameList, GamesListRankings } from './games-list.service';
+import { GamesListService, GamesListEntry, PlayerGameList } from './games-list.service';
 import { UserLoginService, User } from '../login/user-login.service';
 
 
@@ -15,7 +15,8 @@ declare var Plotly: any;
 })
 export class GamesListComponent implements OnInit {
     gamesLists: Array<PlayerGameList>;
-    rankings: GamesListRankings;
+    currentSR: number;
+    player: string;
 
     private linkKey: string;
     private linkMouse: number;
@@ -28,11 +29,7 @@ export class GamesListComponent implements OnInit {
         this.gamesListService.getGamesList().subscribe(
             res => {
                 this.gamesLists = this.gamesListService.toGamesList(res);
-                const user = this.loginService.getUser();
-                if (user) {
-                    this.rankings = this.gamesListService.toKnownRankings(this.gamesLists, user);
-                    this.renderGraph(user);
-                }
+                this.renderGraph(this.gamesLists[0].player);
                 console.log(res);
             },
             err => {
@@ -40,27 +37,18 @@ export class GamesListComponent implements OnInit {
             }
         );
         // Only fetch if user has not been fetched
-        if (!this.loginService.getUser()) {
-            this.loginService.fetchUser(() => {
-                if (this.gamesLists) {
-                    const user = this.loginService.getUser();
-                    this.rankings = this.gamesListService.toKnownRankings(this.gamesLists, user);
-                    this.renderGraph(user);
-                }
-
-            });
-        }
     }
     
     playerHref(playerGames: PlayerGameList){
         return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
 
-    renderGraph(user: User) {
+    renderGraph(playerName: string) {
+        this.player = playerName;
+
         let sr: Array<number> = [];
         let gamePoints: Array<number> = [];
         let last: number = null;
-        let playerName = user.battletag.split('#')[0].split('0').join('O').toUpperCase();
         let games = [];
         for (let playerGames of this.gamesLists) {
             if (playerGames.player == playerName) {
@@ -75,10 +63,6 @@ export class GamesListComponent implements OnInit {
         let index2id: Map<number, number> = new Map<number, number>();
         let x = 0;
         for (let game of games){
-            // TODO: multiple tabs for multiple players in the same account
-
-            console.log(game.startSR, '=>', game.sr);
-
             if (game.sr == null){
                 if (last != null){
                     sr.push(null);
@@ -99,6 +83,7 @@ export class GamesListComponent implements OnInit {
             }
             last = game.sr;
         }
+        this.currentSR = last;
 
         let srDottedX: Array<number> = [];
         let srDottedY: Array<number> = [];
@@ -172,8 +157,8 @@ export class GamesListComponent implements OnInit {
                     t: 5
                 },
                 showlegend: false,
-                plot_bgcolor: "rgba(0,0,0,0)",
-                paper_bgcolor: "rgba(0.1,0.1,0.14,0.8)",
+                plot_bgcolor: "rgba(0, 0, 0, 0)",
+                paper_bgcolor: "rgba(0, 0, 0, 0)",
             },
             {
                 displayModeBar: false,
@@ -238,31 +223,6 @@ export class GamesListComponent implements OnInit {
         return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear().toString().slice(2);
     }
 
-    currentSR() {
-        if (this.rankings && this.rankings.current) {
-            return this.rankings.current;
-        }
-        return null;
-    }
-    minSR() {
-        if (this.rankings && this.rankings.current) {
-            return this.rankings.min;
-        }
-        return null;
-    }
-    maxSR() {
-        if (this.rankings && this.rankings.current) {
-            return this.rankings.max;
-        }
-        return null;
-    }
-    avgSR() {
-        if (this.rankings && this.rankings.current) {
-            return this.rankings.avg;
-        }
-        return null;
-    }
-
     route(id: string, event: any) {
         console.log(event.button);
         if (this.linkKey === id && this.linkMouse === event.button) {
@@ -321,7 +281,7 @@ export class GamesListComponent implements OnInit {
     }
 
     rank(sr: number) {
-        if (sr === null) {
+        if (sr === null || sr == undefined) {
             return 'unknown';
         } else if (sr < 1500) {
             return 'bronze';
