@@ -99,7 +99,7 @@ export class TimelineComponent implements OnChanges {
     }
 
     eventLeft(event: GameEvent) {
-        return 100 * event.time / (this.stage.end - this.stage.start);
+        return 100 * Math.min(event.time / (this.stage.end - this.stage.start), 1);
     }
 
     isKOTH() {

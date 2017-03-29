@@ -67,7 +67,6 @@ export class GameService {
                             otherHero: kill.leftHero
                         });
                     } else {
-                        console.log('.');
                         events.push({
                             time: kill.time - stage.start,
                             type: 'destroyed',
@@ -171,6 +170,18 @@ export class GameService {
                 objectiveInfo = {
                     ownership: ownership
                 };
+            } else if (stage.checkpoints) {
+                const checkpoints: Array<PayloadCheckpoint> = [];
+                for (const checkpoint of stage.checkpoints){
+                    checkpoints.push({
+                        time: checkpoint[0] - stage.start,
+                        checkpoint: checkpoint[1],
+                        team: stage.stage == 'Attack' ? 'blue' : 'red'
+                    })
+                }
+                objectiveInfo = {
+                    checkpoints: checkpoints
+                };
             } else {
                 objectiveInfo = {};
             }
@@ -251,6 +262,16 @@ export class KOTHObjectiveInfo implements ObjectiveInfo {
 export class KothOwnership {
     start: number;
     end: number;
+    team: string;
+}
+
+export class PayloadObjectiveInfo implements ObjectiveInfo{
+    checkpoints: Array<PayloadCheckpoint>;
+}
+
+export class PayloadCheckpoint {
+    time: number;
+    checkpoint: number;
     team: string;
 }
 

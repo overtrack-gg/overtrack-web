@@ -30,6 +30,17 @@ body {
     dominant-baseline: middle;
 }
 
+.timeline-checkpoint {
+    position: absolute;
+    border-radius: 13px;
+    width: 25px;
+    height: 25px;
+    color: black;
+    text-align: center;
+    margin-left: -13px;
+    font-size: 19px;
+}
+
 .timeline-event.death {
     /*color: black;*/
     font-size: 24px;
