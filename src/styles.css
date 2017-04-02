@@ -42,7 +42,6 @@ body {
 }
 
 .timeline-event.death {
-    /*color: black;*/
     font-size: 24px;
     font-weight: bold;
     fill: black;
@@ -52,11 +51,16 @@ body {
 }
 
 .timeline-event.kill {
-    /*color: black;*/
     font-size: 24px;
     font-weight: bold;
     fill: darkgray;
     stroke: white;
+}
+
+.timeline-event.assist {
+    font-size: 18px;
+    font-weight: bold;
+    fill: lightblue;
 }
 
 .timeline-event.destruction {

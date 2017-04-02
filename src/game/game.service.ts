@@ -118,6 +118,21 @@ export class GameService {
         }
     }
 
+    addAssists(player: Player, assists: Array<any>, stage: any){
+        if (!assists){
+            return;
+        }
+        for (let assist of assists){
+            if (stage.start < assist[0] && assist[0] < stage.end) {
+                player.events.push({
+                    time: assist[0] - stage.start,
+                    type: 'assist',
+                    otherHero: null // TODO
+                })
+            }
+        }
+    }
+
     toGame(res: Response): Game {
         const body = res.json();
         console.log(body);
@@ -149,6 +164,8 @@ export class GameService {
             const players: Array<Player> = [];
             this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue');
             this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red');
+
+            this.addAssists(players[0], body.assists, stage);
 
             let objectiveInfo: ObjectiveInfo;
             if (body.map_type === 'KOTH') {
