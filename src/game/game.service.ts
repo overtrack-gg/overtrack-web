@@ -229,7 +229,8 @@ export class GameService {
             stages: stages,
             killfeed: killfeed,
             endTime: body.game_ended,
-            duration: body.game_duration
+            duration: body.game_duration,
+            tabStatistics: body.tab_statistics
         };
     }
 }
@@ -249,6 +250,7 @@ export class Game {
     killfeed: Array<KillFeedEntry>;
     endTime: number;
     duration: number;
+    tabStatistics: any;
 }
 
 export class KillFeedEntry {

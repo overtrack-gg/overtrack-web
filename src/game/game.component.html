@@ -33,7 +33,12 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <!-- some other stats -->
+            <h2>Statistics</h2>
+            <tab-stats
+                [tabStatistics]="game.tabStatistics"
+                [stages]="game.stages"
+                >
+            </tab-stats>
         </div>
         <div class="col-md-6">
             <h2>Kill Feed</h2>
