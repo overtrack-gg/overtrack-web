@@ -70,7 +70,7 @@ export class GameComponent implements OnInit {
     }
 
     normaliseString(str: string){
-        return str.toLowerCase().replace(' ', '_').replace(/\W/g, '').replace('_', '-');
+        return str.toLowerCase().replace(/\s/g, '_').replace(/\W/g, '').replace(/_/g, '-');
     }
 
     stageHref(stage: Stage){
