@@ -126,7 +126,7 @@ export class GameService {
             if (stage.start < assist[0] && assist[0] < stage.end) {
                 player.events.push({
                     time: assist[0] - stage.start,
-                    type: 'assist',
+                    type: assist[3] ? 'support-assist' : 'assist',
                     otherHero: null // TODO
                 })
             }

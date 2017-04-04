@@ -44,7 +44,11 @@ export class TabStatisticsComponent {
         let maxy: number = 0;
         let last = -1;
         for (let i in values){
-            if (values[i] != null && values[i] != last){
+            if (values[i] != null){
+                if ((name == "damage" || name == "healing" || name == "objective_time") && values[i] < last){
+                    continue;
+                }
+
                 last = values[i];
                 x.push(time[i]);
                 y.push(values[i]);

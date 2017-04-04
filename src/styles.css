@@ -63,6 +63,12 @@ body {
     fill: lightblue;
 }
 
+.timeline-event.support-assist {
+    font-size: 18px;
+    font-weight: bold;
+    fill: lightgreen;
+}
+
 .timeline-event.destruction {
     font-size: 20px;
     fill: lightslategray;
