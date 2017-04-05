@@ -3,6 +3,17 @@ body {
     padding-top: 50px;
 }
 
+.tab-stats-table > tbody > tr > td,
+.tab-stats-table > tbody > tr > th,
+.tab-stats-table > tfoot > tr > td,
+.tab-stats-table > tfoot > tr > th,
+.tab-stats-table > thead > tr > td,
+.tab-stats-table > thead > tr > th {
+    border: none !important;
+    line-height: 40px !important;
+    font-size: 12pt;
+}
+
 .hero-timeline {
     box-shadow: inset 0px 0px 0px 1px white;
     background-color: grey;
