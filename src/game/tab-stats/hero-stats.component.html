@@ -1,0 +1,8 @@
+<table class="table">
+  <tbody>
+    <tr *ngFor="let stat of stats" >
+      <th scope="row">{{ toTitleCase(stat) }}</th>
+      <td>{{ getLastStat(stat) }}</td>
+    </tr>
+  </tbody>
+</table>

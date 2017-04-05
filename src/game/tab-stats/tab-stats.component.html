@@ -2,8 +2,26 @@
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <!--<li><b>Statistics:</b></li>-->
-            <li class="{{f ? 'active' : ''}}" *ngFor="let graph of graphNames; let f = first;"><a href="#{{ graph }}" data-toggle="tab" (click)="renderGraph(graph)">{{ toTitleCase(graph) }}</a></li>
+            <li class="{{f ? 'active' : ''}}" *ngFor="let graph of graphNames; let f = first;"><a href="#graph" data-toggle="tab" (click)="switchGraph(graph)">{{ toTitleCase(graph) }}</a></li>
+            <li><a href="#overall" data-toggle="tab">Overall</a></li>
+            <li *ngFor="let table of tablePanes"><a href="#{{ toHref(table) }}" data-toggle="tab" >{{ toTitleCase(table) }}</a></li>
+             <!--(click)="renderGraph(graph)"-->
         </ul>
     </div>
-    <div class="statistics-graph" id="graph"></div>
+    <div class="panel-body" style="height: 450px;">
+        <div class="tab-content">
+            <div class="statistics-graph tab-pane active" id="graph"></div>
+            <div class="tab-pane" id="overall">
+                <hero-stats
+                    [tabStatistics]="tabStatistics">
+                </hero-stats>
+            </div>
+            <div class="tab-pane" *ngFor="let hero of tablePanes" id="{{ toHref(hero) }}">
+                <hero-stats
+                    [tabStatistics]="tabStatistics"
+                    [hero]="hero">
+                </hero-stats>
+            </div>
+        </div>
+    </div>
 </div>
