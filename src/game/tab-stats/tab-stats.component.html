@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <!--<li><b>Statistics:</b></li>-->
-            <li class="{{f ? 'active' : ''}}" *ngFor="let graph of graphNames; let f = first;"><a href="#{{ graph }}" data-toggle="tab" (click)="renderGraph(graph, true)">{{ toTitleCase(graph) }}</a></li>
+            <li class="{{f ? 'active' : ''}}" *ngFor="let graph of graphNames; let f = first;"><a href="#{{ graph }}" data-toggle="tab" (click)="renderGraph(graph)">{{ toTitleCase(graph) }}</a></li>
         </ul>
     </div>
     <div class="statistics-graph" id="graph"></div>

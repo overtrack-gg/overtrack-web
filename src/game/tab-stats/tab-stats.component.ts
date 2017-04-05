@@ -23,11 +23,7 @@ export class TabStatisticsComponent {
     }
 
     ngAfterViewInit(): void {
-        this.switchGraph(this.graphNames[0]);
-    }
-
-    switchGraph(name: string) {
-        window.setTimeout(()=> { this.renderGraph(name); }, 0);
+        this.renderGraph(this.graphNames[0]);
     }
 
     toTitleCase(str: string){
