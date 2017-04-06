@@ -40,7 +40,7 @@ export class TimelineComponent implements OnChanges {
         svg.selectAll('.timeline-event .destroyed').data((player: Player) => player.events.filter(event => event.type == 'destroyed'))
             .enter().append('image')
             .attr('class', (event: GameEvent) => 'timeline-event destroyed')
-            .attr('xlink:href','assets/images/timeline/explosion.png')
+            .attr('xlink:href', 'assets/images/timeline/explosion.png')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('transform', 'translate(-6)')
             .attr('y', 12)
@@ -95,6 +95,17 @@ export class TimelineComponent implements OnChanges {
             .text((player: Player) => ' / ');
         b.append('span').attr('class', 'death')
             .text((player: Player) => player.deaths);
+
+        let expand = D3.selectAll('.timeline-expand-key');
+        let collapse = D3.selectAll('.timeline-collapse-key');
+
+        let toggle = function(){
+            expand.classed('hidden', !expand.classed('hidden'));
+            collapse.classed('hidden', !collapse.classed('hidden'));
+        }
+
+        expand.on('click', toggle);
+        collapse.on('click', toggle);
     }
 
     widthPercentage(hero: GameHero) {
