@@ -67,7 +67,17 @@ export class HeroStatisticsComponent {
         let v: number = this.getLastStat(stat);
         let totalTime: number;
         if (this.hero){
-            totalTime = this.tabStatistics.time[this.tabStatistics.time.length - 1];
+            totalTime = 0;
+            let last: string;
+            for (let i in this.tabStatistics.hero){
+                let current: string = this.tabStatistics.hero[i]; 
+                if (last == this.hero && current == this.hero){
+                    totalTime += this.tabStatistics.time[i] - this.tabStatistics.time[Number(i) - 1];
+                }
+                last = current;
+            }
+            console.log(totalTime);
+            //this.tabStatistics.time[this.tabStatistics.time.length - 1];
         } else {
             totalTime = this.tabStatistics.time[this.tabStatistics.time.length - 1];
         }
