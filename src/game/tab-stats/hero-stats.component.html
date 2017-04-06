@@ -2,7 +2,8 @@
   <tbody>
     <tr *ngFor="let stat of stats" >
       <th scope="row">{{ toTitleCase(stat) }}</th>
-      <td>{{ getLastStat(stat) }}</td>
+      <td>{{ formatLastStat(stat) }}</td>
+      <td>{{ formatLastStatPerMinute(stat) }}</td>
     </tr>
   </tbody>
 </table>

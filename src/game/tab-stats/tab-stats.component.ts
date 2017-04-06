@@ -37,11 +37,55 @@ export class HeroStatisticsComponent {
                 v = valAtI;
             }
         }
+        return v;
+    }
 
-        if (stat.indexOf('accuracy') != -1 || stat.indexOf('energy') != -1){
+    formatLastStat(stat: string) {
+        let v: number = this.getLastStat(stat);
+        if (stat.indexOf('accuracy') != -1 || stat.indexOf('average') != -1){
             return v + '%';
+        } else if (stat.indexOf('time') != -1){
+            return Math.floor(v / 60) + ':' + v % 60;
         } else {
             return v + '';
+        }
+    }
+
+    formatLastStatPerMinute(stat: string) {
+        let blacklist = [
+            'best', // best transcendance heal, kill streak - best
+            'accuracy', // weapon, hook, etc. 
+            'average' // average energy
+        ]
+
+        for (let b of blacklist) {
+            if (stat.indexOf(b) != -1){
+                return '';
+            }
+        }
+
+        let v: number = this.getLastStat(stat);
+        let totalTime: number;
+        if (this.hero){
+            totalTime = this.tabStatistics.time[this.tabStatistics.time.length - 1];
+        } else {
+            totalTime = this.tabStatistics.time[this.tabStatistics.time.length - 1];
+        }
+
+        if (stat == 'objective_time'){
+            v = v / (totalTime / 1000);
+            return (v * 100).toFixed(0) + '%';
+        } else {
+            v = (v / (totalTime / (60 * 1000)));
+            if (v > 10){
+                return v.toFixed(0) + ' / min';
+            } else if (v > 0.1){
+                return v.toFixed(2) + ' / min';
+            } else if (v > 0){
+                return v.toFixed(3) + ' / min';
+            } else {
+                return '0 / min';
+            }
         }
     }
 }
