@@ -10,16 +10,19 @@ import { GameComponent, MetaGameComponent } from '../game/game.component';
 import { TimelineComponent } from '../game/timeline.component';
 import { TabGraphsComponent } from '../game/tab-graphs/tab-graphs.component';
 import { HeroStatisticsComponent, TabStatisticsComponent } from '../game/tab-stats/tab-stats.component';
+import { AuthenticateClientComponent } from '../authenticate-client/authenticate-client.component';
 
 const appRoutes: Routes = [
     { path: 'games',  component: GamesListComponent },
     { path: 'game/:user/:game',  component: GameComponent },
-    { path: '',  redirectTo: '/games', pathMatch: 'full' }
+    { path: '',  redirectTo: '/games', pathMatch: 'full' },
+
+    { path: 'authenticate_client', component: AuthenticateClientComponent }
 ];
 
 @NgModule({
   imports:      [ RouterModule.forRoot(appRoutes), BrowserModule, HttpModule ],
-  declarations: [ AppComponent, UserLoginComponent, GamesListComponent, GameComponent, TimelineComponent, MetaGameComponent, TabGraphsComponent, HeroStatisticsComponent, TabStatisticsComponent],
+  declarations: [ AppComponent, UserLoginComponent, GamesListComponent, GameComponent, TimelineComponent, MetaGameComponent, TabGraphsComponent, HeroStatisticsComponent, TabStatisticsComponent, AuthenticateClientComponent],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

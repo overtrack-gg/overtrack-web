@@ -1,0 +1,9 @@
+
+<div class="container overview view">
+    <div style="padding: 50px;">
+        <p> Please click the button below to grant the overtrack client permission to upload to your account. </p>
+        <form id="authenticate-client">
+            <a id="authenticate-client-button" class="btn btn-success {{ token ? '' : 'disabled' }}" href="{{ callback }}?token={{ token }}">Authenticate Client</a>
+        </form>
+    </div>
+</div>
