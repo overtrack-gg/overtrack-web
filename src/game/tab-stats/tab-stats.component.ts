@@ -42,7 +42,7 @@ export class HeroStatisticsComponent {
 
     formatLastStat(stat: string) {
         let v: number = this.getLastStat(stat);
-        if (stat.indexOf('accuracy') != -1 || stat.indexOf('average') != -1){
+        if (stat.indexOf('accuracy') != -1 || stat.indexOf('average') != -1 || stat.indexOf('uptime') != -1){
             return v + '%';
         } else if (stat.indexOf('time') != -1){
             return Math.floor(v / 60) + ':' + v % 60;
@@ -55,7 +55,8 @@ export class HeroStatisticsComponent {
         let blacklist = [
             'best', // best transcendance heal, kill streak - best
             'accuracy', // weapon, hook, etc. 
-            'average' // average energy
+            'average', // average energy
+            'uptime'
         ]
 
         for (let b of blacklist) {
