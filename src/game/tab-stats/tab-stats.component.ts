@@ -77,8 +77,6 @@ export class HeroStatisticsComponent {
                 }
                 last = current;
             }
-            console.log(totalTime);
-            //this.tabStatistics.time[this.tabStatistics.time.length - 1];
         } else {
             totalTime = this.tabStatistics.time[this.tabStatistics.time.length - 1];
         }
@@ -117,12 +115,6 @@ export class TabStatisticsComponent {
         for (let i in this.tabStatistics.hero){
             let hero: string = this.tabStatistics.hero[i];
             let showHero: boolean = false;
-            for (let statName of statNames){
-                if (this.tabStatistics[statName][i]){
-                    showHero = true;
-                    break;
-                }
-            }
             for (let statNum in heroStatNames[hero]){
                 // the stat name is not null and there is a nonzero value for that stat at i
                 let statName = heroStatNames[hero][statNum];
