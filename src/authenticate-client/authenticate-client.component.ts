@@ -16,7 +16,7 @@ export class AuthenticateClientComponent implements OnInit  {
     ngOnInit(): void {
         this.route.queryParams.subscribe((params: Params) => {
             let callback: string = params['callback'];
-            if (callback.startsWith('http://localhost:')){
+            if (callback && callback.startsWith('http://localhost:')){
                 this.callback = callback;
             } else {
                 console.log('Refusing to honor callback ', callback);
