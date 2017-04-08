@@ -1,0 +1,51 @@
+<div class="jumbotron overview view banner eichenwalde" style="padding-bottom: 10px;">
+    <div class="container">                      
+        <h1>Statistics</h1>
+    </div>
+</div>
+
+
+<div class="container overview view">
+   
+    <p> Here are the player statistics </p>
+
+    <p> From statistics.component.ts we have access (in this templated HTML) to gamesLists </p>
+
+    <p> gamesLists is an array of GamesListEntry (see games-list/games-list.service.ts). 
+        Most people will only have one element in the array - more than one means they have multiple accounts. 
+        In order to track stats on multiple accounts we will probably want to use separate tabs (like in the games list).</p>
+
+    <hr/>
+
+    
+    <h3>Example NG2 usage</h3>
+
+    <!-- Only render if the model has loaded and has games -->
+    <!-- Often this is not needed because we are iteration over a list at the top level -->
+    <div *ngIf="gamesLists && gamesLists[0].list.length > 0">
+            
+        <p> The latest game was played on <b>{{ gamesLists[0].list[0].map }}</b> </p>
+
+        <p> The list of all players is </p>
+        <ul>
+            <!--Iterate over each gamesList and display the player name-->
+            <li *ngFor="let games of gamesLists">
+                {{ games.player }}
+            </li>
+        </ul>
+
+        <!-- Sometimes we want to do more than just iterate and display things directly from the model -->
+        <!-- For this we can call functions from statistics.component.ts -->
+        <p> The most played map is <b>{{ getMostPlayedMap() }}</b></p>
+
+        <!-- We can also pass variables in, which is useful for iterating lists and doing a calcualtion for each item -->
+        <p *ngFor="let games of gamesLists">
+            {{ games.player }}s favorite hero is {{ getFavoriteHero(games.list) }} 
+        </p>
+
+
+    </div>
+
+    <hr/>
+
+</div>
