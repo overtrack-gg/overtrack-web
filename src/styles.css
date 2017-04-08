@@ -3,6 +3,12 @@ body {
     padding-top: 50px;
 }
 
+a.navbar-brand > img {
+    display: inline-block;
+    margin-top:-5px;
+    height:30px;
+}
+
 .tab-stats-table > tbody > tr > td,
 .tab-stats-table > tbody > tr > th,
 .tab-stats-table > tfoot > tr > td,
