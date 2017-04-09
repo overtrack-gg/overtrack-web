@@ -145,7 +145,7 @@ export class TabGraphsComponent {
         x.push(this.stages[this.stages.length - 1].end);
         y.push(null);
 
-         this.renderPlotlyGraph([
+        this.renderPlotlyGraph([
                 {
                     x: x,
                     y: y,

@@ -23,7 +23,7 @@
         <div id="gametable" class="panel with-nav-tabs panel-default">
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
-                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Players:</b></li>
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Accounts:</b></li>
                     <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"><a (click)="renderGraph(games.player)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
                 </ul>
             </div>
