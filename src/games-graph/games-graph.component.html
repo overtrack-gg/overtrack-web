@@ -1,0 +1,21 @@
+<div class="jumbotron overview view banner kings-row" style="padding-bottom: 10px;">
+    <div class="container">                      
+        <h1>SR Graph</h1>
+        <!--<h2 style="padding-left: 15px;"> {{ player ? player : '?' }} </h2>
+        <p class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>-->
+    </div>
+</div>
+
+<div class="container overview view">
+    <div class="row col-md-12">
+        <div id="gametable" class="panel with-nav-tabs panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Accounts:</b></li>
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"><a (click)="renderGraph(games.list)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
+                </ul>
+            </div>
+            <div class="tab-graph tab-pane active" id="sr-graph"></div>
+        </div>
+    </div>
+</div>
