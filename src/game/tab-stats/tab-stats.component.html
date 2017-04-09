@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
-            <li *ngFor="let hero of heroes"><a href="#{{ toHref(hero) }}" data-toggle="tab" >{{ toTitleCase(hero) }}</a></li>
+            <li *ngFor="let hero of heroes"><a href="#{{ toHref(hero) }}" data-toggle="tab" >{{ toHeroName(hero) }}</a></li>
         </ul>
     </div>
     <div class="panel-body" style="height: 450px;">

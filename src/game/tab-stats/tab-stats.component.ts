@@ -137,4 +137,13 @@ export class TabStatisticsComponent {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 
+    toHeroName(str: string) {
+        if (str == 's76'){
+            str = 'Soldier: 76';
+        } else if (str == 'torb'){
+            str = 'Torbjörn';
+        }
+        return this.toTitleCase(str);
+    } 
+
 }
