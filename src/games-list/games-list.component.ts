@@ -218,7 +218,7 @@ export class GamesListComponent implements OnInit {
     }
     
     formatDate(date: Date) {
-        return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear().toString().slice(2);
+        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear().toString().slice(2);
     }
 
     formatDay(date: Date) {

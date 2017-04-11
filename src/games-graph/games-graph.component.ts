@@ -35,7 +35,7 @@ export class GamesGraphComponent implements OnInit {
 
     formatDate(date: Date): string {
         var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
-        return days[date.getDay()] + ' ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear().toString().slice(2);
+        return days[date.getDay()] + ' ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear().toString().slice(2);
     }
 
     renderGraph(games: Array<GamesListEntry>): void {
