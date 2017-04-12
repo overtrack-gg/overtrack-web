@@ -9,10 +9,14 @@ declare var Plotly: any;
 @Component({
     selector: 'statistics',
     templateUrl: './statistics.component.html',
+    styleUrls: ['./statistics.component.css'],
     providers: [GamesListService, RouterModule]
 })
+
 export class StatisticsComponent implements OnInit {
     gamesLists: Array<PlayerGameList>;
+	heroWinratesForMap: Map<string, HeroWinrate>;
+	orderedHeronames: Array<string>;
 
     constructor(private gamesListService: GamesListService,
         private router: Router) { }
@@ -21,6 +25,7 @@ export class StatisticsComponent implements OnInit {
         this.gamesListService.getGamesList().subscribe(
             res => {
                 this.gamesLists = this.gamesListService.toGamesList(res);
+                this.renderWinrates(this.gamesLists[0].list);
             },
             err => {
                 console.error(err);
@@ -28,55 +33,87 @@ export class StatisticsComponent implements OnInit {
         );
     }
 
-    getMostPlayedMap(): string {
-        let counts: Map<string, number> = new Map<string, number>();
-        for (let games of this.gamesLists){
-            for (let game of games.list){
-                let c: number = counts.get(game.map);
-                if (!c){
-                    c = 0; 
-                }
-                counts.set(game.map, c + 1);
-            }
-        }
-        console.log(counts);
-
-        let bestC: number = 0;
-        let bestM: string;
-        counts.forEach((c, map) => {
-            if (c > bestC){
-                bestM = map;
-                bestC = c;
-            }
-        })
-        return bestM;
+    playerHref(playerGames: PlayerGameList): string{
+        return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
-
-    getFavoriteHero(games: Array<GamesListEntry>): string {
-        let counts: Map<string, number> = new Map<string, number>();
+	
+    renderWinrates(games: Array<GamesListEntry>): void {
+		let maps: Map<string, Map<string, HeroWinrate>> = new Map<string, Map<string, HeroWinrate>>();
+		maps.set("All Maps", new Map<string, HeroWinrate>());
         for (let game of games){
-            if (!game.heroes || game.heroes.length == 0 || !game.heroes[0]){
-                // ignore bad/incomplete data
-                continue;
-            }
-            let heroName = game.heroes[0].name;
-            let c: number = counts.get(heroName);
-            if (!c){
-                c = 0; 
-            }
-            counts.set(heroName, c + 1);
+			if(game.heroes === null)
+				continue;
+			if(!maps.has(game.map))
+			{
+				maps.set(game.map, new Map<string, HeroWinrate>());
+			}
+			let thisMapHeroWR = maps.get(game.map);
+			for(let singleHero of game.heroes)
+			{
+				//this map
+				if(!thisMapHeroWR.has(singleHero.name))
+				{
+					let blankHeroWR = new HeroWinrate();
+					blankHeroWR.heroname = singleHero.name;
+					blankHeroWR.timeplayed = 0;
+					blankHeroWR.timewon = 0;
+					thisMapHeroWR.set(singleHero.name, blankHeroWR);
+				}
+				let thisHeroWR = thisMapHeroWR.get(singleHero.name);
+				thisHeroWR.timeplayed += singleHero.percentagePlayed * game.duration;
+				if(game.result === "WIN")
+				{
+					thisHeroWR.timewon += singleHero.percentagePlayed * game.duration;
+				}
+				//all maps
+				if(!maps.get("All Maps").has(singleHero.name))
+				{
+					let blankHeroWR = new HeroWinrate();
+					blankHeroWR.heroname = singleHero.name;
+					blankHeroWR.timeplayed = 0;
+					blankHeroWR.timewon = 0;
+					maps.get("All Maps").set(singleHero.name, blankHeroWR);
+				}
+				thisHeroWR = maps.get("All Maps").get(singleHero.name);
+				thisHeroWR.timeplayed += singleHero.percentagePlayed * game.duration;
+				if(game.result === "WIN")
+				{
+					thisHeroWR.timewon += singleHero.percentagePlayed * game.duration;
+				}
+			}
         }
-        console.log(counts);
+		let combinedWR = maps.get("All Maps");
+		let orderedHeronames: Array<string> = [];
+		//console.log(combinedWR.keys());
+		//order by best winrate first
+		while(Array.from(combinedWR.keys()).length > orderedHeronames.length)
+		{
+			let maxWR: number = -1;
+			let maxHero: string = "";
+			for(let keyHeroname of Array.from(combinedWR.keys()))
+			{
+				if(orderedHeronames.includes(keyHeroname))
+					continue;//hero already added
+				let thisHeroWR = combinedWR.get(keyHeroname);
+				if(thisHeroWR.timewon / thisHeroWR.timeplayed > maxWR)
+				{
+					maxWR = thisHeroWR.timewon / thisHeroWR.timeplayed;
+					maxHero = keyHeroname;
+				}
+			}
+			orderedHeronames.push(maxHero);
+		}
+		
+		this.heroWinratesForMap = combinedWR;
+		this.orderedHeronames = orderedHeronames;
+		console.log(this.heroWinratesForMap);
+		console.log(this.orderedHeronames);
+	}
 
-        let bestC: number = 0;
-        let bestH: string;
-        counts.forEach((c, heroName) => {
-            if (c > bestC){
-                bestH = heroName;
-                bestC = c;
-            }
-        })
-        return bestH;
-    }
+}
 
+class HeroWinrate{
+	heroname: string;
+	timeplayed: number;
+	timewon: number;
 }
