@@ -104,6 +104,20 @@ a.navbar-brand > img {
     color: #ee5f5b;
 }
 
+.text-error {
+    color: lightcoral;
+}
+
+.error-message p {
+    line-height: 30px;
+    font-size: 16px !important;
+}
+
+.error-message pre {
+    background-color: rgba(0, 0, 0, 0);
+    color: lightcoral;
+}
+
 .game-timeline .hero-image {
     width: 40px;
     height: 40px;

@@ -226,21 +226,21 @@ export class GamesListComponent implements OnInit {
         return days[date.getDay()]
     }
 
-    route(id: string, event: any) {
+    route(game: GamesListEntry, event: any) {
         console.log(event.button);
-        if (this.linkKey === id && this.linkMouse === event.button) {
+        if (!game.error && this.linkKey === game.key && this.linkMouse === event.button) {
             if (event.button === 0) { // Left mouse button
-                this.router.navigate(['/game/' + id]);
+                this.router.navigate(['/game/' + game.key]);
             } else if (event.button === 1) { // Middle mouse button
-                window.open('./game/' + id);
+                window.open('./game/' + game.key);
             }
         }
         this.linkKey = null;
         this.linkMouse = null;
     }
 
-    prepRoute(id: string, event: any) {
-        this.linkKey = id;
+    prepRoute(game: GamesListEntry, event: any) {
+        this.linkKey = game.key;
         this.linkMouse = event.button;
         if (event.button === 1) { // Middle mouse button
             event.preventDefault();
@@ -257,6 +257,8 @@ export class GamesListComponent implements OnInit {
             return 'text-success';
         } else if (game.result === 'LOSS') {
             return 'text-danger';
+        } else if (game.result == 'ERROR') {
+            return 'text-error';
         }
         throw new Error('Unexpected game result: ' + game.result);
     }

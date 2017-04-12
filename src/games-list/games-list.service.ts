@@ -16,7 +16,6 @@ export class GamesListService {
         return this.http.get(this.gamesListUrl, { withCredentials: true});
     }
 
-
     toGamesList(res: Response) {
         let list: Array<PlayerGameList> = [];
         let map: { [id: string]: Array<GamesListEntry>} = {};
@@ -27,31 +26,6 @@ export class GamesListService {
 
         console.log(body);
         for (let game of body.games) {
-            let heroes: Array<GamesListHero> = [];
-            for (let hero of game.heroes_played) {
-                heroes.push({
-                    name: hero[0],
-                    percentagePlayed: hero[1]
-                });
-            }
-
-            let srChange = '?';
-            if (game.start_sr && game.end_sr){
-                srChange = String(game.end_sr - game.start_sr);
-            }
-
-            let srString = '?';
-            if (game.end_sr != null){
-                srString = String(game.end_sr);
-            }
-
-            let blueScore: number = null;
-            let redScore: number = null;
-            if (game.score){
-                blueScore = game.score[0];
-                redScore = game.score[1];
-            }
-            
             let gamelist = [];
             if (map[game.player_name]) {
                 gamelist = map[game.player_name];
@@ -63,23 +37,70 @@ export class GamesListService {
                 });
             }
 
-            gamelist.push({
-                num: num++,
-                map: game.map,
-                result: game.result == 'UNKNOWN' ? 'UNKN' : game.result,
-                srChange: srChange,
-                srString: srString,
-                sr: game.end_sr,
-                time: new Date(game.time * 1000),
-                startSR: game.start_sr,
-                player: game.player_name,
-                blueScore: blueScore,
-                redScore: redScore,
-                duration: game.duration,
-                url: game.url,
-                key: game.key,
-                heroes: heroes
-            });
+            if (game.duration){
+                let heroes: Array<GamesListHero> = [];
+                for (let hero of game.heroes_played) {
+                    heroes.push({
+                        name: hero[0],
+                        percentagePlayed: hero[1]
+                    });
+                }
+
+                let srChange = '?';
+                if (game.start_sr && game.end_sr){
+                    srChange = String(game.end_sr - game.start_sr);
+                }
+
+                let srString = '?';
+                if (game.end_sr != null){
+                    srString = String(game.end_sr);
+                }
+
+                let blueScore: number = null;
+                let redScore: number = null;
+                if (game.score){
+                    blueScore = game.score[0];
+                    redScore = game.score[1];
+                }
+                
+                gamelist.push({
+                    num: num++,
+                    error: false,
+                    map: game.map,
+                    result: game.result == 'UNKNOWN' ? 'UNKN' : game.result,
+                    srChange: srChange,
+                    srString: srString,
+                    sr: game.end_sr,
+                    time: new Date(game.time * 1000),
+                    startSR: game.start_sr,
+                    player: game.player_name,
+                    blueScore: blueScore,
+                    redScore: redScore,
+                    duration: game.duration,
+                    url: game.url,
+                    key: game.key,
+                    heroes: heroes
+                });
+            } else {
+                gamelist.push({
+                    num: num++,
+                    error: true,
+                    map: null,
+                    result: 'ERROR',
+                    srChange: null,
+                    srString: null,
+                    sr: null,
+                    time: new Date(game.time * 1000),
+                    startSR: null,
+                    player: game.player_name,
+                    blueScore: null,
+                    redScore: null,
+                    duration: null,
+                    url: null,
+                    key: game.key,
+                    heroes: null
+                });
+            }
         }
         return list;
     }
@@ -93,6 +114,7 @@ export class PlayerGameList {
 // TODO: Move out into own files
 export class GamesListEntry {
     num: number;
+    error: boolean;
     map: string;
     result: string;
     srChange: string;
