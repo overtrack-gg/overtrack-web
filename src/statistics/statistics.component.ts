@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { GamesListService, GamesListEntry, PlayerGameList } from '../games-list/games-list.service';
+import { GamesListService, GamesListEntry, PlayerGameList, GamesListHero } from '../games-list/games-list.service';
 
 
 declare var Plotly: any;
@@ -45,6 +45,20 @@ export class StatisticsComponent implements OnInit {
     playerHref(playerGames: PlayerGameList): string{
         return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
+
+	updateHeroWR(winrates: Map<String, HeroWinrate>, game: GamesListEntry, hero: GamesListHero): void {
+		if (!winrates.has(hero.name)) {
+			let blankHeroWR = new HeroWinrate();
+			blankHeroWR.heroname = hero.name;
+			winrates.set(hero.name, blankHeroWR);
+		}
+		let thisHeroWR = winrates.get(hero.name);
+		thisHeroWR.timeplayed += hero.percentagePlayed * game.duration;
+		if(game.result === "WIN")
+		{
+			thisHeroWR.timewon += hero.percentagePlayed * game.duration;
+		}
+	}
 	
     calcWinrates(games: Array<GamesListEntry>): void {
 		let maps: Map<string, MapStats> = new Map<string, MapStats>();
@@ -79,31 +93,10 @@ export class StatisticsComponent implements OnInit {
 			for(let singleHero of game.heroes)
 			{
 				//this map
-				if(!thisMapHeroWR.has(singleHero.name))
-				{
-					let blankHeroWR = new HeroWinrate();
-					blankHeroWR.heroname = singleHero.name;
-					thisMapHeroWR.set(singleHero.name, blankHeroWR);
-				}
-				let thisHeroWR = thisMapHeroWR.get(singleHero.name);
-				thisHeroWR.timeplayed += singleHero.percentagePlayed * game.duration;
-				if(game.result === "WIN")
-				{
-					thisHeroWR.timewon += singleHero.percentagePlayed * game.duration;
-				}
+				this.updateHeroWR(thisMapHeroWR, game, singleHero);
+							
 				//all maps
-				if(!maps.get(ALL_MAPS_NAME).heroWinrates.has(singleHero.name))
-				{
-					let blankHeroWR = new HeroWinrate();
-					blankHeroWR.heroname = singleHero.name;
-					maps.get(ALL_MAPS_NAME).heroWinrates.set(singleHero.name, blankHeroWR);
-				}
-				thisHeroWR = maps.get(ALL_MAPS_NAME).heroWinrates.get(singleHero.name);
-				thisHeroWR.timeplayed += singleHero.percentagePlayed * game.duration;
-				if(game.result === "WIN")
-				{
-					thisHeroWR.timewon += singleHero.percentagePlayed * game.duration;
-				}
+				this.updateHeroWR(maps.get(ALL_MAPS_NAME).heroWinrates, game, singleHero);
 			}
         }
 		this.mapStats = maps;
