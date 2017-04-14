@@ -71,6 +71,8 @@ export class StatisticsComponent implements OnInit {
 				maps.set(game.map, new MapStats());
 			}
 			//general stats
+			maps.get(game.map).totalGames++;
+			maps.get(ALL_MAPS_NAME).totalGames++;
 			if(game.result === "WIN")
 			{
 				maps.get(game.map).gamesWon++;
@@ -191,6 +193,21 @@ export class StatisticsComponent implements OnInit {
 	{
 		this.showAllHeroes = !this.showAllHeroes;
 	}
+
+	getWinrate() {
+		let map = this.mapStats.get(this.activeMap);
+		return ((map.gamesWon / map.totalGames)	* 100).toFixed(2)
+	}
+
+	getHeroWinrate(heroName: string) {
+		let heroWinrates = this.mapStats.get(this.activeMap).heroWinrates;
+		return heroWinrates.get(heroName).timewon / heroWinrates.get(heroName).timeplayed * 100;
+	}
+
+	getHeroPlayrate(heroName: string) {
+		let mapStat = this.mapStats.get(this.activeMap);
+		return mapStat.heroWinrates.get(heroName).timeplayed / mapStat.maxHeroTime * 100;
+	}
 }
 
 class HeroWinrate{
@@ -201,6 +218,7 @@ class HeroWinrate{
 
 class MapStats{
 	heroWinrates: Map<string, HeroWinrate> = new Map<string, HeroWinrate>();
+	totalGames: number = 0;
 	gamesWon: number = 0;
 	gamesTied: number = 0;
 	gamesLost: number = 0;
