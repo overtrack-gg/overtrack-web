@@ -6,46 +6,106 @@
 
 
 <div class="container overview view">
-   
-    <p> Here are the player statistics </p>
 
-    <p> From statistics.component.ts we have access (in this templated HTML) to gamesLists </p>
+    <div class="row col-md-12">
+        <div id="gametable" class="panel with-nav-tabs panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Accounts:</b></li>
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" 
+						*ngFor="let games of gamesLists; let f = first;">
+						<a (click)="calcWinrates(games.list)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a>
+					</li>
+                </ul>
+            </div>
+            <div class="tab-graph tab-pane active winrate-area" *ngIf="mapList">
+				<div class="center">
+					<button class="multi-choice {{singleMap === activeMap ? 'active' : ''}}" *ngFor="let singleMap of mapList;"
+						(click)="renderMapStats(singleMap)">
+						{{singleMap}}
+					</button>
+				</div>
+				<div class="center" *ngIf="mapList2" style="margin-top: -1px;">
+					<button class="multi-choice {{singleMap === activeMap ? 'active' : ''}}" *ngFor="let singleMap of mapList2;"
+						(click)="renderMapStats(singleMap)">
+						{{singleMap}}
+					</button>
+				</div>
+				
+				<h2 class="center">{{activeMap | uppercase}}</h2>
+				<div class="center row" style="font-size: 16px; font-weight: bold;">
+					<div class="col-md-3">
+					</div>
+					<div class="col-xs-4 col-md-2 text-success">
+						WON<br>{{mapStats.get(activeMap).gamesWon}}
+					</div>
+					<div class="col-xs-4 col-md-2 text-warning">
+						TIED<br>{{mapStats.get(activeMap).gamesTied}}
+					</div>
+					<div class="col-xs-4 col-md-2 text-danger">
+						LOST<br>{{mapStats.get(activeMap).gamesLost}}
+					</div>
+					<div class="col-md-3">
+					</div>
+				</div>
+				
+				<div class="center" style="margin-top:15px;">
+					<button class="btn btn-sm btn-primary" (click)="toggleAllHeroes()">
+						{{showAllHeroes ? 'Hide Heroes with low playtime' : 'Show All Heroes'}}
+					</button>
+				</div>
+			
+				<div class="row">
+					<div class="col-md-6">
+						<div class="center no-margin-top">
+							<h3>Winrate: {{ getWinrate() }}%</h3>
+							<label class="checkbox-inline" style="position: absolute; right: 20px; top: 20px; line-height: 12pt;"><input type="checkbox" (click)="toggleNormalise()">Normalise<br> by playtime</label>
+						</div>
+						
+						<div *ngFor="let nextName of heronamesOrderedByWR"
+							class="hero-row" [class.hidden]="hideHero(nextName)">
+							<div class="hero-img">
+							</div>
+							<div class="progress">
+								<div class="progress-bar progress-bar-{{nextName}}" role="progressbar" valuemin="0" valuemax="100"
+									[style.width]="getHeroWinrate(nextName)+'%'">
+									<span class="hero-name">{{ nextName | uppercase }}</span>
+									<span class="percentage">{{ getHeroWinrate(nextName).toFixed(2) }}%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="center no-margin-top">
+							<h3>Time Played: {{formatTime(mapStats.get(activeMap).timeplayed)}}</h3>
+						</div>
+						<div *ngFor="let nextName of heronamesOrderedByTime"
+							class="hero-row" [class.hidden]="hideHero(nextName)">
+							<div class="hero-img">
+							</div>
+							<div class="progress">
+								<div class="progress-bar progress-bar-{{nextName}}" role="progressbar" valuemin="0" valuemax="100"
+									[style.width]="getHeroPlayrate(nextName)+'%'">
+									<span class="hero-name">{{ nextName | uppercase }}</span>
+									<span class="percentage">{{formatTime(mapStats.get(activeMap).heroWinrates.get(nextName).timeplayed)}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-    <p> gamesLists is an array of GamesListEntry (see games-list/games-list.service.ts). 
-        Most people will only have one element in the array - more than one means they have multiple accounts. 
-        In order to track stats on multiple accounts we will probably want to use separate tabs (like in the games list).</p>
+				<br><br>
+				<h4>Reading Winrates</h4>
+				<p>
+					By default winrate only counts in games where the hero was played for more than 20% of the match.<br>
+					When normalising by playtime, winrate is calculated as <i>time playing in games that were won</i> out of <i>total time played</i> for each hero.
+					Because this already allows for low hero playtimes, all games are included even if the hero was played for less than 20% of the game.					
+				</p>
 
-    <hr/>
-
-    
-    <h3>Example NG2 usage</h3>
-
-    <!-- Only render if the model has loaded and has games -->
-    <!-- Often this is not needed because we are iteration over a list at the top level -->
-    <div *ngIf="gamesLists && gamesLists[0].list.length > 0">
-            
-        <p> The latest game was played on <b>{{ gamesLists[0].list[0].map }}</b> </p>
-
-        <p> The list of all players is </p>
-        <ul>
-            <!--Iterate over each gamesList and display the player name-->
-            <li *ngFor="let games of gamesLists">
-                {{ games.player }}
-            </li>
-        </ul>
-
-        <!-- Sometimes we want to do more than just iterate and display things directly from the model -->
-        <!-- For this we can call functions from statistics.component.ts -->
-        <p> The most played map is <b>{{ getMostPlayedMap() }}</b></p>
-
-        <!-- We can also pass variables in, which is useful for iterating lists and doing a calcualtion for each item -->
-        <p *ngFor="let games of gamesLists">
-            {{ games.player }}s favorite hero is {{ getFavoriteHero(games.list) }} 
-        </p>
-
-
+			</div>
+        </div>
     </div>
-
+	
     <hr/>
 
 </div>
