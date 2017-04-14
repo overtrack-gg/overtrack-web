@@ -208,6 +208,15 @@ export class StatisticsComponent implements OnInit {
 		let mapStat = this.mapStats.get(this.activeMap);
 		return mapStat.heroWinrates.get(heroName).timeplayed / mapStat.maxHeroTime * 100;
 	}
+
+	hideHero(heroName: string) {
+		if (this.showAllHeroes){
+			return false;
+		} else {
+			let map = this.mapStats.get(this.activeMap);
+			return map.timeplayed / this.lfhp > map.heroWinrates.get(heroName).timeplayed;
+		}
+	}
 }
 
 class HeroWinrate{
