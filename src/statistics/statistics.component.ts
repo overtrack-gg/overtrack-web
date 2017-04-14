@@ -26,6 +26,7 @@ export class StatisticsComponent implements OnInit {
 	heronamesOrderedByTime: Array<string>;
 	showAllHeroes: boolean = false;//should all heroes be displayed, or only the most played ones
 	lfhp: number = LOW_FREQUENCY_HERO_PERCENTAGE;
+	normalise: boolean = false;
 
     constructor(private gamesListService: GamesListService,
         private router: Router) { }
@@ -54,9 +55,13 @@ export class StatisticsComponent implements OnInit {
 		}
 		let thisHeroWR = winrates.get(hero.name);
 		thisHeroWR.timeplayed += hero.percentagePlayed * game.duration;
+		thisHeroWR.gamesPlayed += 1;
+		thisHeroWR.significantGamesPlayed += hero.percentagePlayed * 100 > this.lfhp ? 1 : 0;
 		if(game.result === "WIN")
 		{
 			thisHeroWR.timewon += hero.percentagePlayed * game.duration;
+			thisHeroWR.gamesWon += 1;
+			thisHeroWR.significantGamesWon += hero.percentagePlayed * 100 > this.lfhp ? 1 : 0;
 		}
 	}
 	
@@ -194,6 +199,10 @@ export class StatisticsComponent implements OnInit {
 		this.showAllHeroes = !this.showAllHeroes;
 	}
 
+	toggleNormalise() {
+		this.normalise = !this.normalise;
+	}
+
 	getWinrate() {
 		let map = this.mapStats.get(this.activeMap);
 		return ((map.gamesWon / map.totalGames)	* 100).toFixed(2)
@@ -201,7 +210,15 @@ export class StatisticsComponent implements OnInit {
 
 	getHeroWinrate(heroName: string) {
 		let heroWinrates = this.mapStats.get(this.activeMap).heroWinrates;
-		return heroWinrates.get(heroName).timewon / heroWinrates.get(heroName).timeplayed * 100;
+		if (this.normalise){
+			return heroWinrates.get(heroName).timewon / heroWinrates.get(heroName).timeplayed * 100;
+		} else {
+			// maybe add an option to include all games?
+			// if (this.showAllHeroes){
+			// 	return heroWinrates.get(heroName).gamesWon / heroWinrates.get(heroName).gamesPlayed * 100;
+			// }
+			return heroWinrates.get(heroName).significantGamesWon / heroWinrates.get(heroName).significantGamesPlayed * 100;
+		}
 	}
 
 	getHeroPlayrate(heroName: string) {
@@ -210,10 +227,13 @@ export class StatisticsComponent implements OnInit {
 	}
 
 	hideHero(heroName: string) {
-		if (this.showAllHeroes){
+		let map = this.mapStats.get(this.activeMap);
+		if (!this.normalise && map.heroWinrates.get(heroName).significantGamesPlayed == 0){
+			// no games played
+			return true 
+		} else if (this.showAllHeroes){
 			return false;
 		} else {
-			let map = this.mapStats.get(this.activeMap);
 			return map.timeplayed / this.lfhp > map.heroWinrates.get(heroName).timeplayed;
 		}
 	}
@@ -223,6 +243,11 @@ class HeroWinrate{
 	heroname: string;
 	timeplayed: number = 0;
 	timewon: number = 0;
+	
+	gamesPlayed: number = 0;
+	significantGamesPlayed: number = 0;
+	gamesWon: number = 0;
+	significantGamesWon: number = 0;
 }
 
 class MapStats{
