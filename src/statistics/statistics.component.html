@@ -69,7 +69,7 @@
 							<div class="progress">
 								<div class="progress-bar progress-bar-{{nextName}}" role="progressbar" valuemin="0" valuemax="100"
 									[style.width]="getHeroWinrate(nextName)+'%'">
-									<span class="hero-name">{{ nextName | uppercase }}</span>
+									<span class="hero-name">{{ toHeroName(nextName) | uppercase }}</span>
 									<span class="percentage">{{ getHeroWinrate(nextName).toFixed(2) }}%</span>
 								</div>
 							</div>
@@ -86,7 +86,7 @@
 							<div class="progress">
 								<div class="progress-bar progress-bar-{{nextName}}" role="progressbar" valuemin="0" valuemax="100"
 									[style.width]="getHeroPlayrate(nextName)+'%'">
-									<span class="hero-name">{{ nextName | uppercase }}</span>
+									<span class="hero-name">{{ toHeroName(nextName) | uppercase }}</span>
 									<span class="percentage">{{formatTime(mapStats.get(activeMap).heroWinrates.get(nextName).timeplayed)}}</span>
 								</div>
 							</div>

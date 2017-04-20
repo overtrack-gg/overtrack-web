@@ -170,7 +170,7 @@ export class TabGraphsComponent {
 
         let heroSwapX: Array<number> = [0];
         let heroSwapY: Array<number> = [0];
-        let heroSwapName: Array<string> = [heroes[0]];
+        let heroSwapName: Array<string> = [this.toHeroName(heroes[0])];
         
         let maxy: number = 0;
         let last = -1;
@@ -185,7 +185,7 @@ export class TabGraphsComponent {
                     heroSwapX.push(time[i] - 1);
                     heroSwapY.push(values[i]);
                     lastHero = heroes[i];
-                    heroSwapName.push(lastHero);
+                    heroSwapName.push(this.toHeroName(lastHero));
                 }
 
                 last = values[i];
@@ -285,5 +285,14 @@ export class TabGraphsComponent {
          );
 
     }
+
+    toHeroName(str: string) {
+        if (str == 's76'){
+            str = 'Soldier: 76';
+        } else if (str == 'torb'){
+            str = 'Torbjörn';
+        }
+        return this.toTitleCase(str);
+    } 
 
 }
