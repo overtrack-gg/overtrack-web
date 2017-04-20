@@ -62,7 +62,7 @@
 							<label class="checkbox-inline" style="position: absolute; right: 20px; top: 20px; line-height: 12pt;"><input type="checkbox" (click)="toggleNormalise()">Normalise<br> by playtime</label>
 						</div>
 						
-						<div *ngFor="let nextName of heronamesOrderedByWR"
+						<div *ngFor="let nextName of sortedByWR(heronamesOrderedByWR)"
 							class="hero-row" [class.hidden]="hideHero(nextName)">
 							<div class="hero-img">
 							</div>

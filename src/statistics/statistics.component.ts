@@ -187,6 +187,12 @@ export class StatisticsComponent implements OnInit {
 		this.heronamesOrderedByTime = orderedHeronames;
 	}
 
+	sortedByWR(heroes: Array<string>) {
+		return heroes.sort((a, b) => {
+			return this.getHeroWinrate(b) - this.getHeroWinrate(a);
+		})
+	}
+
 	formatTime(time: number): string{
 		let seconds = Math.floor( (time) % 60 );
 		let minutes = Math.floor( (time/60) % 60 );
