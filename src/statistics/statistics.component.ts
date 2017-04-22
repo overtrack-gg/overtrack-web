@@ -124,6 +124,7 @@ export class StatisticsComponent implements OnInit {
 			}
 			
 			//store dmg, healing, kills, deaths...
+			// TODO: replace this with an API call when that is implemented (https://trello.com/c/ZRJ8KPlZ/61-add-hero-stats-api)
 			this.gameService.getGame(game.key).subscribe(
                 res => {
                     let singlegame = this.gameService.toGame(res);
