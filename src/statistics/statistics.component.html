@@ -11,23 +11,23 @@
         <div id="gametable" class="panel with-nav-tabs panel-default">
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
-                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Accounts:</b></li>
-                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" 
-						*ngFor="let games of gamesLists; let f = first;">
+                    <li [class.hidden]="!(gamesLists && gamesLists.length > 1)" ><b>Accounts:</b></li>
+                    <li [class.hidden]="!(gamesLists && gamesLists.length > 1)"
+						*ngFor="let games of gamesLists; let f = first;" [class.active]="f">
 						<a (click)="calcWinrates(games.list)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a>
 					</li>
                 </ul>
             </div>
             <div class="tab-graph tab-pane active winrate-area" *ngIf="mapList">
 				<div class="center">
-					<button class="multi-choice {{singleMap === activeMap ? 'active' : ''}}" *ngFor="let singleMap of mapList;"
-						(click)="renderMapStats(singleMap)">
+					<button class="multi-choice" *ngFor="let singleMap of mapList;"
+						(click)="renderMapStats(singleMap)" [class.active]="singleMap === activeMap">
 						{{singleMap}}
 					</button>
 				</div>
 				<div class="center" *ngIf="mapList2" style="margin-top: -1px;">
-					<button class="multi-choice {{singleMap === activeMap ? 'active' : ''}}" *ngFor="let singleMap of mapList2;"
-						(click)="renderMapStats(singleMap)">
+					<button class="multi-choice" *ngFor="let singleMap of mapList2;"
+						(click)="renderMapStats(singleMap)" [class.active]="singleMap === activeMap">
 						{{singleMap}}
 					</button>
 				</div>
@@ -93,6 +93,75 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="center" style="padding-top: 50px;">
+					<h3>Detailed Statistics</h3>
+				</div>
+				<ng-container *ngFor="let nextName of heronamesOrderedByTime">
+					<div class="hero-card" *ngIf="mapStats.get(activeMap).heroWinrates.get(nextName).timeplayed > 10 * 60">
+						<div class="playtime-bar"><span class="playtime-bar-filling progress-bar-{{nextName}}" 
+							[style.width]="getHeroPlayrate(nextName)+'%'"></span></div>
+						<div class="row">
+							<div class="col-sm-6">
+								<img src="assets/images/heroes/{{nextName}}.png">
+								<div class="general-info">
+									<span class="big" style="color: #fff;">{{toHeroName(nextName)}}</span>
+									<br>{{mapStats.get(activeMap).heroWinrates.get(nextName).gamesPlayed}} 
+									GAME{{mapStats.get(activeMap).heroWinrates.get(nextName).gamesPlayed > 1 ? 'S' : ''}}
+									- {{formatTime(mapStats.get(activeMap).heroWinrates.get(nextName).timeplayed)}}
+								</div>
+							</div>
+							<div class="col-sm-6" style="text-align: right;">
+								<div class="info-right">
+									<span class="big" [class.text-success]="getHeroWinrateByTime(nextName)>50"
+									[class.text-danger]="getHeroWinrateByTime(nextName)<50">
+										{{getHeroWinrateByTime(nextName).toFixed(2)}}%
+									</span>
+									<br>NORM WR
+								</div>
+								<div class="info-right">
+									<span class="big" [class.text-success]="getHeroWinrateByGames(nextName)>50"
+									[class.text-danger]="getHeroWinrateByGames(nextName)<50">
+										{{getHeroWinrateByGames(nextName).toFixed(2)}}%
+									</span>
+									<br>WINRATE
+								</div>
+							</div>
+						</div>
+						<div class="row smaller">
+							<div class="col-sm-3">
+								<span class="big">{{getHeroKills(nextName)}}</span> /10min
+								<br>KILLS
+							</div>
+							<div class="col-sm-3">
+								<span class="big">{{getHeroDeaths(nextName)}}</span> /10min
+								<br>DEATHS
+							</div>
+							<div class="col-sm-2">
+							</div>
+							<div class="col-sm-4">
+								<span class="big">{{getHeroDamage(nextName)}}</span> /10min
+								<br>DAMAGE
+							</div>
+						</div>
+						<div class="row smaller">
+							<div class="col-sm-3">
+								<span class="big">{{getHeroAssists(nextName)}}</span> /10min
+								<br>ASSISTS
+							</div>
+							<div class="col-sm-3">
+								<span class="big">{{getHeroKDARatio(nextName)}}</span>
+								<br>KDA-RATIO
+							</div>
+							<div class="col-sm-2">
+							</div>
+							<div class="col-sm-4">
+								<span class="big">{{getHeroHealing(nextName)}}</span> /10min
+								<br>HEALING
+							</div>
+						</div>
+					</div>
+				</ng-container>
 
 				<br><br>
 				<h4>Reading Winrates</h4>

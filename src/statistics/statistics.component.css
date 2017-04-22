@@ -10,6 +10,64 @@
 .no-margin-top{
 	margin-top: 0;
 }
+.hero-card{
+    margin: 25px 10px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border-radius: 2px;
+    background: #363c42;
+}
+.hero-card .playtime-bar{
+    display: block;
+    height: 6px;
+    background: #1f232d;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+}
+.hero-card .playtime-bar-filling{
+    display: block;
+    height: 6px;
+	box-shadow: none;
+}
+.hero-card .row{
+    padding: 10px 10px 0;
+}
+.hero-card .row:last-child{
+	padding-bottom: 10px;
+}
+.hero-card img{
+	display: inline-block;
+	width: 50px;
+    float: left;
+}
+.hero-card .general-info{
+	display: inline-block;
+    float: left;
+    margin: 3px 10px 0;
+}
+.hero-card .info-right{
+	display: inline-block;
+	float: right;
+}
+.hero-card .info-right:first-child{
+	margin-left: 20%;
+}
+.hero-card span.big{
+    font-size: 16px;
+    font-weight: bold;
+}
+.hero-card .smaller{
+	font-size: 11px;
+}
+.hero-card .smaller span.big{
+    font-size: 15px;
+	color: #fff;
+}
+select{
+    color: #000;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 button.multi-choice{
     display: inline-block;
     text-align: center;
