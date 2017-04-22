@@ -21,13 +21,15 @@
             <div class="tab-graph tab-pane active winrate-area" *ngIf="mapList">
 				<div class="center">
 					<button class="multi-choice" *ngFor="let singleMap of mapList;"
-						(click)="renderMapStats(singleMap)" [class.active]="singleMap === activeMap">
+						(click)="switchMap(singleMap)"
+						[class.active]="singleMap === activeMap">
 						{{singleMap}}
 					</button>
 				</div>
 				<div class="center" *ngIf="mapList2" style="margin-top: -1px;">
 					<button class="multi-choice" *ngFor="let singleMap of mapList2;"
-						(click)="renderMapStats(singleMap)" [class.active]="singleMap === activeMap">
+						(click)="switchMap(singleMap)"
+						[class.active]="singleMap === activeMap">
 						{{singleMap}}
 					</button>
 				</div>
@@ -62,7 +64,7 @@
 							<label class="checkbox-inline" style="position: absolute; right: 20px; top: 20px; line-height: 12pt;"><input type="checkbox" (click)="toggleNormalise()">Normalise<br> by playtime</label>
 						</div>
 						
-						<div *ngFor="let nextName of sortedByWR(heronamesOrderedByWR)"
+						<div *ngFor="let nextName of sortedByWR(currentMapHeroes())"
 							class="hero-row" [class.hidden]="hideHero(nextName)">
 							<div class="hero-img">
 							</div>
@@ -79,7 +81,7 @@
 						<div class="center no-margin-top">
 							<h3>Time Played: {{formatTime(mapStats.get(activeMap).timeplayed)}}</h3>
 						</div>
-						<div *ngFor="let nextName of heronamesOrderedByTime"
+						<div *ngFor="let nextName of sortedByPlaytime(currentMapHeroes())"
 							class="hero-row" [class.hidden]="hideHero(nextName)">
 							<div class="hero-img">
 							</div>
@@ -97,10 +99,10 @@
 				<div class="center" style="padding-top: 50px;">
 					<h3>Detailed Statistics</h3>
 				</div>
-				<ng-container *ngFor="let nextName of heronamesOrderedByTime">
+				<ng-container *ngFor="let nextName of sortedByPlaytime(currentMapHeroes())">
 					<div class="hero-card" *ngIf="mapStats.get(activeMap).heroWinrates.get(nextName).timeplayed > 10 * 60">
 						<div class="playtime-bar"><span class="playtime-bar-filling progress-bar-{{nextName}}" 
-							[style.width]="getHeroPlayrate(nextName)+'%'"></span></div>
+							[style.width]="getHeroPlayrate(nextName)+'%'"></span>{{nextName}} {{getHeroPlayrate(nextName)}}</div>
 						<div class="row">
 							<div class="col-sm-6">
 								<img src="assets/images/heroes/{{nextName}}.png">

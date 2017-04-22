@@ -22,7 +22,7 @@ export class StatisticsComponent implements OnInit {
 	mapStats: Map<string, MapStats>; //mapping of map to (hero to winrate)
 	mapList: Array<string>;
 	mapList2: Array<string>;//if player played more than 7 maps, split in two lists
-	activeMap: string; //currently selected map
+	activeMap: string = ALL_MAPS_NAME; //currently selected map
 	activeHero: string = "";//last clicked hero in dropdown menu for detailed stats
 	heronamesOrderedByWR: Array<string>;
 	heronamesOrderedByTime: Array<string>;
@@ -123,7 +123,7 @@ export class StatisticsComponent implements OnInit {
 				this.updateHeroWR(maps.get(ALL_MAPS_NAME).heroWinrates, game, singleHero);
 			}
 			
-			//store dmg, healing, kills, deaths...
+			// store dmg, healing, kills, deaths...
 			// TODO: replace this with an API call when that is implemented (https://trello.com/c/ZRJ8KPlZ/61-add-hero-stats-api)
 			this.gameService.getGame(game.key).subscribe(
                 res => {
@@ -217,85 +217,35 @@ export class StatisticsComponent implements OnInit {
 				this.mapList2.push(minMap);
 			mapcount++;
 		}
-		this.activeHero = "";//delete selected hero - will default to highest WR hero in renderMapStats()
-		this.renderMapStats(ALL_MAPS_NAME);//default active map to all maps
-	}
-	
-	renderMapStats(map: string): void{
-		this.activeMap = map;//adjust active map
-		
-		let combinedWR = this.mapStats.get(map).heroWinrates;
-		let orderedHeronames: Array<string> = [];
-		//console.log(combinedWR.keys());
-		//order by best winrate first
-		while(Array.from(combinedWR.keys()).length > orderedHeronames.length)
-		{
-			let maxWR: number = -1;
-			let maxHero: string = "";
-			for(let keyHeroname of Array.from(combinedWR.keys()))
-			{
-				if(orderedHeronames.includes(keyHeroname))
-					continue;//hero already added
-				let thisHeroWR = combinedWR.get(keyHeroname);
-				if(thisHeroWR.timewon / thisHeroWR.timeplayed > maxWR)
-				{
-					maxWR = thisHeroWR.timewon / thisHeroWR.timeplayed;
-					maxHero = keyHeroname;
+
+		this.mapStats.forEach((mapStat, map) => {
+			mapStat.maxHeroTime = -1;
+			mapStat.heroWinrates.forEach((winrate, hero) => {
+				if (winrate.timeplayed > mapStat.maxHeroTime){
+					mapStat.maxHeroTime = winrate.timeplayed;
 				}
-			}
-			if(maxHero === "")
-				break;
-			orderedHeronames.push(maxHero);
-		}
-		this.heronamesOrderedByWR = orderedHeronames;
-		if(this.activeHero === "")
-			this.activeHero = orderedHeronames[0];//if no hero selected, default to highest winrate hero
-		//order by time
-		orderedHeronames = [];
-		let first = true;
-		while(Array.from(combinedWR.keys()).length > orderedHeronames.length)
-		{
-			let maxTime: number = -1;
-			let maxHero: string = "";
-			for(let keyHeroname of Array.from(combinedWR.keys()))
-			{
-				if(orderedHeronames.includes(keyHeroname))
-					continue;//hero already added
-				let thisHeroWR = combinedWR.get(keyHeroname);
-				if(thisHeroWR.timeplayed > maxTime)
-				{
-					maxTime = thisHeroWR.timeplayed;
-					maxHero = keyHeroname;
-				}
-			}
-			if(maxHero === "" || maxTime == 0)
-				break;
-			if(first)
-			{
-				first = false;
-				this.mapStats.get(this.activeMap).maxHeroTime = maxTime;
-			}
-			orderedHeronames.push(maxHero);
-		}
-		this.heronamesOrderedByTime = orderedHeronames;
-	}
-	
-	//returns the hero for which detailed stats should be displayed. Note: activeHero is the last clicked hero
-	//if activeHero wasnt played on this map, show stats for hero that is first option in dropdown menu
-	getDisplayedHero(): string{
-		if(this.mapStats.get(this.activeMap).heroWinrates.has(this.activeHero))
-			return this.activeHero;
-		else
-			return this.heronamesOrderedByTime[0];
-	}
-	
-	changeActiveHero(str: string){
-		this.activeHero = str;
+			});
+		});
 	}
 
+	switchMap(map: string){
+		this.activeMap = map;
+	}
+
+	currentMapHeroes(){
+		return Array.from(this.mapStats.get(this.activeMap).heroWinrates.keys());
+	}
+	
 	sortedByWR(heroes: Array<string>) {
 		return heroes.sort((a, b) => {
 			return this.getHeroWinrate(b) - this.getHeroWinrate(a);
+		})
+	}
+
+	sortedByPlaytime(heroes: Array<string>) {
+		let mapStat = this.mapStats.get(this.activeMap);
+		return heroes.sort((a, b) => {
+			return mapStat.heroWinrates.get(b).timeplayed - mapStat.heroWinrates.get(a).timeplayed;
 		})
 	}
 
