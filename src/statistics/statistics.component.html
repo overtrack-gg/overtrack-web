@@ -96,35 +96,7 @@
 				
 				<div class="center">
 					<h3>Detailed Statistics</h3>
-					<!--						DROPDOWN MENU INSTEAD OF ALL HEROES
-					<select #detailedStatsHeroSelect (change)="changeActiveHero(detailedStatsHeroSelect.value)">
-						<option *ngFor="let nextName of heronamesOrderedByTime" value="{{nextName}}"
-							[selected]="getDisplayedHero() === nextName">
-							{{toHeroName(nextName)}}
-						</option>
-					</select>-->
 				</div>
-				<!--							DROPDOWN MENU INSTEAD OF ALL HEROES
-				<div class="row">
-					<div class="col-md-3">
-						Kills/10min: {{getDisplayedHeroKills()}}
-					</div>
-					<div class="col-md-3">
-						Deaths/10min: {{getDisplayedHeroDeaths()}}
-					</div>
-					<div class="col-md-3">
-						Assists/10min: {{getDisplayedHeroAssists()}}
-					</div>
-					<div class="col-md-3">
-						KDA-Ratio: {{getDisplayedHeroKDARatio()}}
-					</div>
-					<div class="col-md-3">
-						Damage/10min: {{getDisplayedHeroDamage()}}
-					</div>
-					<div class="col-md-3">
-						Healing/10min: {{getDisplayedHeroHealing()}}
-					</div>
-				</div>-->
 				<div class="hero-card" *ngFor="let nextName of heronamesOrderedByTime">
 					<div class="playtime-bar"><span class="playtime-bar-filling progress-bar-{{nextName}}" 
 						[style.width]="getHeroPlayrate(nextName)+'%'"></span></div>

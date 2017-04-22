@@ -352,27 +352,6 @@ export class StatisticsComponent implements OnInit {
 		return mapStat.heroWinrates.get(heroName).timeplayed / mapStat.maxHeroTime * 100;
 	}
 	
-	// ---------------------------------------------------FOR DROPDOWN MENU---------------------------------
-	getDisplayedHeroKills(){
-		return this.getHeroKills(this.getDisplayedHero());
-	}
-	getDisplayedHeroDeaths(){
-		return this.getHeroDeaths(this.getDisplayedHero());
-	}
-	getDisplayedHeroAssists(){
-		return this.getHeroAssists(this.getDisplayedHero());
-	}
-	getDisplayedHeroKDARatio(){
-		return this.getHeroKDARatio(this.getDisplayedHero());
-	}
-	getDisplayedHeroDamage(){
-		return this.getHeroDamage(this.getDisplayedHero());
-	}
-	getDisplayedHeroHealing(){
-		return this.getHeroHealing(this.getDisplayedHero());
-	}
-	// ---------------------------------------------------FOR DROPDOWN MENU---------------------------------
-	
 	getHeroKills(heroName: string){
 		return this.getStatPerTenMin(this.mapStats.get(this.activeMap).heroWinrates.get(heroName).kills,
 			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(2);
