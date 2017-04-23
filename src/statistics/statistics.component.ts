@@ -184,6 +184,8 @@ export class StatisticsComponent implements OnInit {
 									curHeroWR.deaths++;
 								else if(curEvent.type === "assist")
 									curHeroWR.assists++;
+								// else if (curEvent.type == "support-assist")
+								// 	curHeroWR.assists++;
 							});
 						});
 					});
