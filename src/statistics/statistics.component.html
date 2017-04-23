@@ -139,9 +139,11 @@
 								<span class="big">{{getHeroDeaths(nextName)}}</span> /10min
 								<br>DEATHS
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-3">
+								<span class="big">{{getHeroObjKills(nextName)}}</span> /10min
+								<br>OBJECTIVE KILLS
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<span class="big">{{getHeroDamage(nextName)}}</span> /10min
 								<br>DAMAGE
 							</div>
@@ -155,11 +157,42 @@
 								<span class="big">{{getHeroKDARatio(nextName)}}</span>
 								<br>KDA-RATIO
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-3">
+								<span class="big">{{getHeroObjTime(nextName).toFixed(0)}}</span> %
+								<br>OBJECTIVE TIME
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<span class="big">{{getHeroHealing(nextName)}}</span> /10min
 								<br>HEALING
+							</div>
+						</div>
+						<div class="dashed-line">
+							<span class="hero-spec-stats-text">Hero Specific Stats</span>
+						</div>
+						<div class="row smaller">
+							<div class="col-md-2 col-sm-4">
+								<span class="big">{{getHeroSpecificStat(nextName, 1)}}</span> {{getHeroSpecificStatUnit(nextName, 1)}}
+								<br>{{getHeroSpecificStatName(nextName, 1) | uppercase}}
+							</div>
+							<div class="col-md-2 col-sm-4">
+								<span class="big">{{getHeroSpecificStat(nextName, 2)}}</span> {{getHeroSpecificStatUnit(nextName, 2)}}
+								<br>{{getHeroSpecificStatName(nextName, 2) | uppercase}}
+							</div>
+							<div class="col-md-2 col-sm-4">
+								<span class="big">{{getHeroSpecificStat(nextName, 3)}}</span> {{getHeroSpecificStatUnit(nextName, 3)}}
+								<br>{{getHeroSpecificStatName(nextName, 3) | uppercase}}
+							</div>
+							<div class="col-md-2 col-sm-4">
+								<span class="big">{{getHeroSpecificStat(nextName, 4)}}</span> {{getHeroSpecificStatUnit(nextName, 4)}}
+								<br>{{getHeroSpecificStatName(nextName, 4) | uppercase}}
+							</div>
+							<div class="col-md-2 col-sm-4">
+								<span class="big">{{getHeroSpecificStat(nextName, 5)}}</span> {{getHeroSpecificStatUnit(nextName, 5)}}
+								<br>{{getHeroSpecificStatName(nextName, 5) | uppercase}}
+							</div>
+							<div class="col-md-2 col-sm-4">
+								<span class="big">{{getHeroSpecificStat(nextName, 6)}}</span> {{getHeroSpecificStatUnit(nextName, 6)}}
+								<br>{{getHeroSpecificStatName(nextName, 6) | uppercase}}
 							</div>
 						</div>
 					</div>

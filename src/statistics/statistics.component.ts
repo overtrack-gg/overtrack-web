@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { GamesListService, GamesListEntry, PlayerGameList, GamesListHero } from '../games-list/games-list.service';
 import { GameService, Game, KillFeedEntry, Stage, Player, GameHero, GameEvent, ObjectiveInfo } from '../game/game.service';
+import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
 
 
 declare var Plotly: any;
@@ -57,6 +58,7 @@ export class StatisticsComponent implements OnInit {
 		}
 		let thisHeroWR = winrates.get(hero.name);
 		thisHeroWR.timeplayed += hero.percentagePlayed * game.duration;
+		thisHeroWR.lastGameTimePlayed = hero.percentagePlayed * game.duration;
 		thisHeroWR.gamesPlayed += 1;
 		thisHeroWR.significantGamesPlayed += hero.percentagePlayed * 100 > this.lfhp ? 1 : 0;
 		if(game.result === "WIN")
@@ -79,6 +81,31 @@ export class StatisticsComponent implements OnInit {
 			winrates.get(curHeroWR.heroname).assists += curHeroWR.assists;
 			winrates.get(curHeroWR.heroname).damage += curHeroWR.damage;
 			winrates.get(curHeroWR.heroname).healing += curHeroWR.healing;
+			winrates.get(curHeroWR.heroname).objKills += curHeroWR.objKills;
+			winrates.get(curHeroWR.heroname).objTime += curHeroWR.objTime;
+			for(let hsi = 1; hsi <= 6; hsi++)
+			{
+				if(curHeroWR['heroStat'+hsi])
+				{
+					let statName = heroStatNames[curHeroWR.heroname][hsi-1];
+					if (statName.indexOf('accuracy') != -1 || statName.indexOf('average') != -1 || statName.indexOf('uptime') != -1){
+						//percentage value: use lastGameTimePlayed to calc overall percentage
+						let curPerc = winrates.get(curHeroWR.heroname)['heroStat'+hsi];
+						let timeThusFar = winrates.get(curHeroWR.heroname).timeplayed - winrates.get(curHeroWR.heroname).lastGameTimePlayed;
+						let newPerc = curPerc * timeThusFar;
+						newPerc += curHeroWR['heroStat'+hsi] * winrates.get(curHeroWR.heroname).lastGameTimePlayed;
+						newPerc /= winrates.get(curHeroWR.heroname).timeplayed;
+						winrates.get(curHeroWR.heroname)['heroStat'+hsi] = newPerc;
+					}
+					else if (statName.indexOf('best') != -1){//only the max value is relevant
+						if(curHeroWR['heroStat'+hsi] > winrates.get(curHeroWR.heroname)['heroStat'+hsi])
+							winrates.get(curHeroWR.heroname)['heroStat'+hsi] = curHeroWR['heroStat'+hsi];
+					}
+					else{//everything else can just be summed up normally to create /10min stats later on
+						winrates.get(curHeroWR.heroname)['heroStat'+hsi] += curHeroWR['heroStat'+hsi];
+					}
+				}
+			}
 		});
 	}
 	
@@ -157,6 +184,8 @@ export class StatisticsComponent implements OnInit {
 									curHeroWR.deaths++;
 								else if(curEvent.type === "assist")
 									curHeroWR.assists++;
+								// else if (curEvent.type == "support-assist")
+								// 	curHeroWR.assists++;
 							});
 						});
 					});
@@ -166,6 +195,8 @@ export class StatisticsComponent implements OnInit {
 						let lastHero = singlegame.tabStatistics.hero[0];
 						let lastDamage = 0;//damage/healing for last hero
 						let lastHealing = 0;
+						let lastObjKills = 0;
+						let lastObjTime = 0;
 						let kdaThisGameIndex = 0;//index of next hero is greater or equal this
 						singlegame.tabStatistics.hero.forEach(function(curHero, tabStatsIndex){
 							if(lastHero !== curHero || tabStatsIndex == singlegame.tabStatistics.hero.length-1)
@@ -179,8 +210,19 @@ export class StatisticsComponent implements OnInit {
 								
 								kdaThisGame[kdaThisGameIndex].damage += singlegame.tabStatistics.damage[prevIndex] - lastDamage;
 								kdaThisGame[kdaThisGameIndex].healing += singlegame.tabStatistics.healing[prevIndex] - lastHealing;
+								kdaThisGame[kdaThisGameIndex].objKills += singlegame.tabStatistics.objective_kills[prevIndex] - lastObjKills;
+								kdaThisGame[kdaThisGameIndex].objTime += singlegame.tabStatistics.objective_time[prevIndex] - lastObjTime;
 								lastDamage = singlegame.tabStatistics.damage[prevIndex];
 								lastHealing = singlegame.tabStatistics.healing[prevIndex];
+								lastObjKills = singlegame.tabStatistics.objective_kills[prevIndex];
+								lastObjTime = singlegame.tabStatistics.objective_time[prevIndex];
+								//hero specific stats - dont use += in case a hero was swapped off of and swapped on to again later
+								kdaThisGame[kdaThisGameIndex].heroStat1 = singlegame.tabStatistics.hero_stat_1[prevIndex];
+								kdaThisGame[kdaThisGameIndex].heroStat2 = singlegame.tabStatistics.hero_stat_2[prevIndex];
+								kdaThisGame[kdaThisGameIndex].heroStat3 = singlegame.tabStatistics.hero_stat_3[prevIndex];
+								kdaThisGame[kdaThisGameIndex].heroStat4 = singlegame.tabStatistics.hero_stat_4[prevIndex];
+								kdaThisGame[kdaThisGameIndex].heroStat5 = singlegame.tabStatistics.hero_stat_5[prevIndex];
+								kdaThisGame[kdaThisGameIndex].heroStat6 = singlegame.tabStatistics.hero_stat_6[prevIndex];
 								
 								kdaThisGameIndex++;
 								lastHero = curHero;
@@ -316,17 +358,60 @@ export class StatisticsComponent implements OnInit {
 			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(2);
 	}
 	getHeroKDARatio(heroName: string){
-		return ((this.mapStats.get(this.activeMap).heroWinrates.get(heroName).kills +
-			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).assists)/
+		return (this.mapStats.get(this.activeMap).heroWinrates.get(heroName).assists/
 			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).deaths).toFixed(2);
 	}
 	getHeroDamage(heroName: string){
 		return this.getStatPerTenMin(this.mapStats.get(this.activeMap).heroWinrates.get(heroName).damage,
-			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(2);
+			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(0);
 	}
 	getHeroHealing(heroName: string){
 		return this.getStatPerTenMin(this.mapStats.get(this.activeMap).heroWinrates.get(heroName).healing,
+			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(0);
+	}
+	getHeroObjKills(heroName: string){
+		return this.getStatPerTenMin(this.mapStats.get(this.activeMap).heroWinrates.get(heroName).objKills,
 			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(2);
+	}
+	getHeroObjTime(heroName: string){
+		return this.mapStats.get(this.activeMap).heroWinrates.get(heroName).objTime / 
+			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed * 100;
+	}
+	getHeroSpecificStat(heroName: string, hsi: number){//hsi=heroStatIndex
+		let statName = this.getHeroSpecificStatName(heroName, hsi);
+		if(statName === '')
+			return '';
+		if (statName.indexOf('accuracy') != -1 || statName.indexOf('average') != -1 || statName.indexOf('uptime') != -1 || statName.indexOf('best') != -1){
+			//percentage values and maximum values dont need to be put in relation to anything
+			return this.mapStats.get(this.activeMap).heroWinrates.get(heroName)['heroStat'+hsi].toFixed(0);
+		}
+		else if(statName.indexOf('damage') != -1 || statName.indexOf('healing') != -1 ){
+			return this.getStatPerTenMin(this.mapStats.get(this.activeMap).heroWinrates.get(heroName)['heroStat'+hsi],
+				this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(0);
+		}
+		else{//create /10min stats for everything else - damage and healing need no digits after dot
+			return this.getStatPerTenMin(this.mapStats.get(this.activeMap).heroWinrates.get(heroName)['heroStat'+hsi],
+				this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(2);
+		}
+	}
+	getHeroSpecificStatUnit(heroName: string, hsi: number){//hsi=heroStatIndex
+		let statName = this.getHeroSpecificStatName(heroName, hsi);
+		if(statName === '')
+			return '';
+		if (statName.indexOf('accuracy') != -1 || statName.indexOf('average') != -1 || statName.indexOf('uptime') != -1){//percentage
+			return '%';
+		}
+		else if (statName.indexOf('best') != -1){//maximum - no unit
+			return '';
+		}
+		else{//everything else can just be summed up normally to create /10min stats later on
+			return '/10min'
+		}
+	}
+	getHeroSpecificStatName(heroName: string, hsi: number){//hsi=heroStatIndex
+		if(heroStatNames[heroName][hsi-1])
+			return heroStatNames[heroName][hsi-1];
+		return '';
 	}
 	
 	getStatPerTenMin(stat: number, timeplayed: number){
@@ -365,6 +450,7 @@ class HeroWinrate{
 	heroname: string;
 	timeplayed: number = 0;
 	timewon: number = 0;
+	lastGameTimePlayed: number = 0; //necessary to calc correctly accumulated heroStats
 	
 	gamesPlayed: number = 0;
 	significantGamesPlayed: number = 0;
@@ -377,6 +463,16 @@ class HeroWinrate{
 	
 	damage: number = 0;
 	healing: number = 0;
+	
+	objKills: number = 0;
+	objTime: number = 0;
+	
+	heroStat1: number = 0;
+	heroStat2: number = 0;
+	heroStat3: number = 0;
+	heroStat4: number = 0;
+	heroStat5: number = 0;
+	heroStat6: number = 0;
 }
 
 class MapStats{
