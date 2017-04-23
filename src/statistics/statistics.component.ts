@@ -110,6 +110,7 @@ export class StatisticsComponent implements OnInit {
 	}
 	
     calcWinrates(games: Array<GamesListEntry>): void {
+		this.activeMap = ALL_MAPS_NAME;
 		let maps: Map<string, MapStats> = new Map<string, MapStats>();
 		maps.set(ALL_MAPS_NAME, new MapStats());
         for (let game of games){
@@ -205,7 +206,7 @@ export class StatisticsComponent implements OnInit {
 								if(tabStatsIndex == singlegame.tabStatistics.hero.length-1)
 									prevIndex = tabStatsIndex;
 									
-								if(kdaThisGame[kdaThisGameIndex].heroname !== lastHero)
+								if(kdaThisGameIndex >= kdaThisGame.length || kdaThisGame[kdaThisGameIndex].heroname !== lastHero)
 									return;//a hero was only chosen in spawn, but not actually played -> ignore
 								
 								kdaThisGame[kdaThisGameIndex].damage += singlegame.tabStatistics.damage[prevIndex] - lastDamage;
@@ -275,7 +276,12 @@ export class StatisticsComponent implements OnInit {
 	}
 
 	currentMapHeroes(){
-		return Array.from(this.mapStats.get(this.activeMap).heroWinrates.keys());
+		let arr = Array.from(this.mapStats.get(this.activeMap).heroWinrates.keys());
+		if(arr.indexOf("") != -1)
+			arr.splice(arr.indexOf(""), 1);
+		if(arr.indexOf("unknown") != -1)
+			arr.splice(arr.indexOf("unknown"), 1);
+		return arr;
 	}
 	
 	sortedByWR(heroes: Array<string>) {
@@ -440,7 +446,7 @@ export class StatisticsComponent implements OnInit {
         } else if (str == 'torb'){
             str = 'Torbjörn';
         } else if (str == 'dva'){
-            str = 'D.Va';
+           return 'D.Va';
         }
         return this.toTitleCase(str);
     } 
