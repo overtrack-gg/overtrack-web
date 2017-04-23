@@ -358,8 +358,7 @@ export class StatisticsComponent implements OnInit {
 			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).timeplayed).toFixed(2);
 	}
 	getHeroKDARatio(heroName: string){
-		return ((this.mapStats.get(this.activeMap).heroWinrates.get(heroName).kills +
-			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).assists)/
+		return (this.mapStats.get(this.activeMap).heroWinrates.get(heroName).assists/
 			this.mapStats.get(this.activeMap).heroWinrates.get(heroName).deaths).toFixed(2);
 	}
 	getHeroDamage(heroName: string){
