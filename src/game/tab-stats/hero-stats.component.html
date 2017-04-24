@@ -1,50 +1,50 @@
 <table class="table table-hover tab-stats-table">
   <tbody>
     <tr *ngIf="stat.heroName != 'ALL'" >
-      <th scope="row">TIME PLAYED</th>
-      <td> {{ formatTime(stat.timePlayed / 1000) }} </td>
-      <td> {{ stat.timePlayed / duration * 100 | number:'1.0-0' }}% </td>
+      <th>TIME PLAYED</th>
+      <td><span class="big">{{ formatTime(stat.timePlayed / 1000) }}</span></td>
+      <td><span class="big">{{ stat.timePlayed / duration * 100 | number:'1.0-0' }}</span>%</td>
     </tr>
     <tr *ngIf="stat.heroName != 'ALL'" >
-      <td colspan="3">
+      <td colspan="3" style="padding: 0px;">
         <div class="dashed-line">
         </div>
       </td>
     </tr>
     <tr>
-      <th scope="row">ELIMINATIONS</th>
-      <td> {{ stat.elims }} </td>
-      <td> {{ stat.elims / normTime | number:'1.1-1' }} /10min </td>
+      <th>ELIMINATIONS</th>
+      <td><span class="big">{{ stat.elims }}</span></td>
+      <td><span class="big">{{ stat.elims / normTime | number:'1.1-1' }}</span> /10min</td>
     </tr>
     <tr>
-      <th scope="row">DEATHS</th>
-      <td> {{ stat.deaths }} </td>
-      <td> {{ stat.deaths / normTime | number:'1.1-1' }} /10min </td>
+      <th>DEATHS</th>
+      <td><span class="big">{{ stat.deaths }}</span></td>
+      <td><span class="big">{{ stat.deaths / normTime | number:'1.1-1' }}</span> /10min</td>
     </tr>
     <tr>
-      <th scope="row">OBJECTIVE KILLS</th>
-      <td> {{ stat.objectiveKills }} </td>
-      <td> {{ stat.objectiveKills / normTime | number:'1.1-1' }} /10min </td>
+      <th>OBJECTIVE KILLS</th>
+      <td><span class="big">{{ stat.objectiveKills }}</span></td>
+      <td><span class="big">{{ stat.objectiveKills / normTime | number:'1.1-1' }}</span> /10min</td>
     </tr>
     <tr>
-      <th scope="row">OBJECTIVE TIME</th>
-      <td> {{ formatTime(stat.objectiveTime) }} </td>
-      <td> {{ stat.objectiveTime / (stat.timePlayed / 100000) | number:'1.0-0' }} % </td>
+      <th>OBJECTIVE TIME</th>
+      <td><span class="big">{{ formatTime(stat.objectiveTime) }}</span></td>
+      <td><span class="big">{{ stat.objectiveTime / (stat.timePlayed / 100000) | number:'1.0-0' }}</span>%</td>
     </tr>
     <tr>
-      <th scope="row">DAMAGE</th>
-      <td> {{ stat.damage | number:'1.' }} </td>
-      <td> {{ stat.damage / normTime | number:'1.0-0' }} /10min </td>
+      <th>DAMAGE</th>
+      <td><span class="big">{{ stat.damage | number:'1.' }}</span></td>
+      <td><span class="big">{{ stat.damage / normTime | number:'1.0-0' }}</span> /10min</td>
     </tr>
     <tr>
-      <th scope="row">HEALING</th>
-      <td> {{ stat.healing | number:'1.' }} </td>
-      <td> {{ stat.healing / normTime | number:'1.0-0' }} /10min </td>
+      <th>HEALING</th>
+      <td><span class="big">{{ stat.healing | number:'1.' }}</span></td>
+      <td><span class="big">{{ stat.healing / normTime | number:'1.0-0' }}</span> /10min</td>
     </tr>
 
     <ng-container *ngIf="stat.heroName != 'ALL'">
       <tr>
-        <td colspan="3">
+        <td colspan="3" style="padding: 4px;">
           <div class="dashed-line">
               <span class="hero-spec-stats-text">Hero Specific Stats</span>
           </div>
@@ -56,10 +56,10 @@
               {{ getHeroSpecificStatName(i) | uppercase }}
             </th>
             <td>
-              {{ getHeroSpecificStat(i) }}{{ showPercent(i) ? '%' : '' }}
+              <span class="big">{{ getHeroSpecificStat(i) }}</span>{{ showPercent(i) ? '%' : '' }}
             </td>
             <td *ngIf="showAverageHeroStat(i)">
-              {{ getHeroSpecificStat(i) / normTime | number:'1.1-1' }} /10min
+              <span class="big">{{ getHeroSpecificStat(i) / normTime | number:'1.1-1' }}</span> /10min
             </td>
           </ng-container>
       </tr>
