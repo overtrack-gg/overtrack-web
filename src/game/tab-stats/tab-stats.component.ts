@@ -69,7 +69,6 @@ export class TabStatisticsComponent {
             return;
         }
 
-        console.log(this.heroStatistics);
         this.heroNames = [];
         this.statsByHero = new Map<string, HeroStatistics>();
         for (let stat of this.heroStatistics){

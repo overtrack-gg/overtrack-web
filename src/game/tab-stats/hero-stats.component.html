@@ -29,7 +29,7 @@
     <tr>
       <th>OBJECTIVE TIME</th>
       <td><span class="big">{{ formatTime(stat.objectiveTime) }}</span></td>
-      <td><span class="big">{{ stat.objectiveTime / (stat.timePlayed / 100000) | number:'1.0-0' }}</span>%</td>
+      <td><span class="big">{{ stat.objectiveTime / (stat.timePlayed / 100000) | number:'1.0-0' }}</span> %</td>
     </tr>
     <tr>
       <th>DAMAGE</th>
@@ -56,7 +56,7 @@
               {{ getHeroSpecificStatName(i) | uppercase }}
             </th>
             <td>
-              <span class="big">{{ getHeroSpecificStat(i) }}</span>{{ showPercent(i) ? '%' : '' }}
+              <span class="big">{{ getHeroSpecificStat(i) }}</span> {{ showPercent(i) ? '%' : '' }}
             </td>
             <td *ngIf="showAverageHeroStat(i)">
               <span class="big">{{ getHeroSpecificStat(i) / normTime | number:'1.1-1' }}</span> /10min

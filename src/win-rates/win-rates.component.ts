@@ -28,7 +28,7 @@ export class WinRatesComponent implements OnInit {
 	heronamesOrderedByTime: Array<string>;
 	showAllHeroes: boolean = false;//should all heroes be displayed, or only the most played ones
 	lfhp: number = LOW_FREQUENCY_HERO_PERCENTAGE;
-	normalise: boolean = false;
+	normalise: boolean = true;
 
     constructor(private gamesListService: GamesListService, private router: Router) { }
 
@@ -72,6 +72,10 @@ export class WinRatesComponent implements OnInit {
 		let maps: Map<string, MapStats> = new Map<string, MapStats>();
 		maps.set(ALL_MAPS_NAME, new MapStats());
         for (let game of games){
+			if (game.result == "UNKN"){
+				continue;
+			}
+
 			if(game.heroes === null)
 				continue;
 			if(!maps.has(game.map))
