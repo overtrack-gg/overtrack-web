@@ -1,0 +1,88 @@
+<div class="hero-card">
+    <div class="playtime-bar"><span class="playtime-bar-filling progress-bar-{{ stat.heroName }}" 
+        [style.width]="stat.playRate + '%'"></span>
+        <!--{{getHeroPlayrate()}}-->
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <img src="assets/images/heroes/{{ stat.heroName }}.png">
+            <div class="general-info">
+                <span class="big" style="color: #fff;">{{ getHeroName() }}</span>
+                <br>
+                {{ stat.gamesPlayed }} GAME{{stat.gamesPlayed > 1 ? 'S' : ''}} - {{ formatTime(this.stat.timePlayed / 1000) }}
+            </div>
+        </div>
+        <div class="col-sm-6" style="text-align: right;">
+            <!--<div class="info-right">
+                <span class="big" [class.text-success]="getHeroWinrateByTime()>50"
+                [class.text-danger]="getHeroWinrateByTime()<50">
+                    {{getHeroWinrateByTime().toFixed(2)}}%
+                </span>
+                <br>NORM WR
+            </div>
+            <div class="info-right">
+                <span class="big" [class.text-success]="getHeroWinrateByGames()>50"
+                [class.text-danger]="getHeroWinrateByGames()<50">
+                    {{ (stat.gamesWon / stat.gamesPlayed * 100).toFixed(2)}}%
+                </span>
+                <br>WINRATE
+            </div>-->
+        </div>
+    </div>
+    <div class="row smaller">
+        <div class="col-sm-3">
+            <span class="big">{{ stat.elims / normTime | number:'1.0-2' }}</span> /10min
+            <br>ELIMINATIONS
+        </div>
+        <div class="col-sm-3">
+            <span class="big">{{ stat.deaths / normTime | number:'1.0-2' }}</span> /10min
+            <br>DEATHS
+        </div>
+        <div class="col-sm-3">
+            <span class="big">{{ (stat.elims / normTime) / (stat.deaths / normTime) | number:'1.2-2' }}</span>
+            <br>KDA-RATIO
+        </div>
+        <div class="col-sm-3">
+            <span class="big">{{ stat.damage / normTime | number:'1.0-2' }}</span> /10min
+            <br>DAMAGE
+        </div>
+    </div>
+    <div class="row smaller">
+        <div class="col-sm-3">
+            <span class="big">{{ stat.objectiveKills / normTime | number:'1.0-2' }}</span> /10min
+            <br>OBJECTIVE KILLS
+            <!--<span class="big">{{getHeroAssists()}}</span> /10min
+            <br>ASSISTS-->
+        </div>
+        <div class="col-sm-3">
+           
+        </div>
+        <div class="col-sm-3">
+            <span class="big">{{ getObjTime() | number:'.0-0' }}</span> %
+            <br>OBJECTIVE TIME
+        </div>
+        <div class="col-sm-3">
+            <span class="big">{{ stat.healing / normTime | number:'1.0-2' }}</span> /10min
+            <br>HEALING
+        </div>
+    </div>
+    <ng-container *ngIf="stat.heroName != 'ALL'">
+        <div class="dashed-line">
+            <span class="hero-spec-stats-text">Hero Specific Stats</span>
+        </div>
+        <div class="row smaller">
+            <div class="col-md-2 col-sm-4" *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+                <ng-container *ngIf="getHeroSpecificStatName(i)">
+                    <ng-container *ngIf="averageHeroStatPerGames(i)">
+                        <span class="big">{{ getHeroSpecificStat(i) / stat.gamesPlayed | number:'1.0-2' }}</span> {{ getHeroSpecificStatUnit(i) }}
+                        <br>{{ getHeroSpecificStatName(i) | uppercase }}
+                    </ng-container>
+                    <ng-container *ngIf="!averageHeroStatPerGames(i)">
+                        <span class="big">{{ getHeroSpecificStat(i) / normTime | number:'1.0-2' }}</span> /10min
+                        <br>{{ getHeroSpecificStatName(i) | uppercase }}
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+</div>

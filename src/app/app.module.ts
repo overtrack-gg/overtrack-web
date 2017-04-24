@@ -11,15 +11,17 @@ import { TimelineComponent } from '../game/timeline.component';
 import { TabGraphsComponent } from '../game/tab-graphs/tab-graphs.component';
 import { HeroStatisticsComponent, TabStatisticsComponent } from '../game/tab-stats/tab-stats.component';
 import { AuthenticateClientComponent } from '../authenticate-client/authenticate-client.component';
-import { StatisticsComponent } from '../statistics/statistics.component';
+import { WinRatesComponent } from '../win-rates/win-rates.component';
+import { AllTimeHeroStatisticsComponent, HeroStatisticPaneComponent } from '../hero-statistics/hero-statistics.component';
 import { GamesGraphComponent } from '../games-graph/games-graph.component';
 
 const appRoutes: Routes = [
     { path: '',  redirectTo: '/games', pathMatch: 'full' },
 
     { path: 'games',  component: GamesListComponent },
-    { path: 'statistics', component: StatisticsComponent },
+    { path: 'statistics', component: AllTimeHeroStatisticsComponent },
     { path: 'graph', component: GamesGraphComponent },
+    { path: 'winrates', component: WinRatesComponent },
 
     { path: 'game/:user/:game',  component: GameComponent },
 
@@ -33,14 +35,16 @@ const appRoutes: Routes = [
     UserLoginComponent,
     GamesListComponent,
     GamesGraphComponent,
-    StatisticsComponent,
+    WinRatesComponent,
     GameComponent,
     TimelineComponent,
     MetaGameComponent,
     TabGraphsComponent,
     HeroStatisticsComponent,
     TabStatisticsComponent,
-    AuthenticateClientComponent
+    AllTimeHeroStatisticsComponent,
+    AuthenticateClientComponent,
+    HeroStatisticPaneComponent
   ],
   bootstrap:    [ AppComponent ]
 })

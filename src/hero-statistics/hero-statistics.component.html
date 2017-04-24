@@ -1,0 +1,36 @@
+<div class="jumbotron overview view banner hanamura" style="padding-bottom: 10px;">
+    <div class="container">                      
+        <h1>Statistics</h1>
+    </div>
+</div>
+
+
+<div class="container overview view">
+
+    <div class="row col-md-12">
+        <div id="gametable" class="panel with-nav-tabs panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li [class.hidden]="!(playerList && playerList.length > 1)" ><b>Accounts:</b></li>
+                    <li [class.hidden]="!(playerList && playerList.length > 1)"
+						*ngFor="let player of playerList; let f = first;" [class.active]="f">
+						<a href="#{{ playerHref(player) }}" data-toggle="tab">{{ player }}</a>
+					</li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane {{f ? 'active' : ''}}" *ngFor="let player of playerList; let f = first;"  id="{{ playerHref(player) }}">
+                        <ng-container *ngFor="let heroStat of sorted(heroStatsByPlayer.get(player))">
+                            <hero-statistic *ngIf="heroStat.timePlayed > 10 * 60 * 1000"
+                                [stat]=heroStat
+                            ></hero-statistic>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            

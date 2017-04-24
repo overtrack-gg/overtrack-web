@@ -1,0 +1,237 @@
+.winrate-area{
+	padding: 15px 5px;
+}
+.hero-row{
+	margin: 5px 0;
+}
+.center{
+	text-align: center;
+}
+.no-margin-top{
+	margin-top: 0;
+}
+.hero-card{
+    margin: 25px 10px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border-radius: 2px;
+    background: #363c42;
+}
+.hero-card .playtime-bar{
+    display: block;
+    height: 6px;
+    background: #1f232d;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+}
+.hero-card .playtime-bar-filling{
+    display: block;
+    height: 6px;
+	box-shadow: none;
+}
+.hero-card .row{
+    padding: 10px 10px 0;
+}
+.hero-card .row:last-child{
+	padding-bottom: 10px;
+}
+.hero-card img{
+	display: inline-block;
+	width: 50px;
+    float: left;
+}
+.hero-card .general-info{
+	display: inline-block;
+    float: left;
+    margin: 3px 10px 0;
+}
+.hero-card .info-right{
+	display: inline-block;
+	float: right;
+}
+.hero-card .info-right:first-child{
+	margin-left: 20%;
+}
+.hero-card span.big{
+    font-size: 16px;
+    font-weight: bold;
+}
+.hero-card .smaller{
+	font-size: 11px;
+}
+.hero-card .smaller span.big{
+    font-size: 15px;
+	color: #fff;
+}
+.hero-card .dashed-line{
+    margin: 5px 0 -2px;
+	position: relative;
+    border-top: 1px dashed;
+}
+.hero-card .hero-spec-stats-text{
+    position: absolute;
+    right: 0;
+    font-size: 10px;
+    top: -2px;
+}
+select{
+    color: #000;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+button.multi-choice{
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    vertical-align: middle;
+	border-radius: 0;
+    padding: 7px 9px 6px;
+    outline: none;
+    border: 1px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: .025em;
+    font-family: FuturaNo2D,century gothic,arial,sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    -webkit-transition: all .25s;
+    transition: all .25s;
+    text-shadow: none;
+}
+button.multi-choice:hover, button.multi-choice.active{
+    background-color: #fff;
+    color: #333;
+}
+button.multi-choice:first-child{
+    border-radius: 4px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+button.multi-choice:last-child{
+    border-radius: 4px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.progress{
+	position: relative;
+	border-radius: 4px;
+	padding: 5px;
+	background-color: rgba(24,34,62,.7);
+	margin-bottom: 0;
+	height: 40px;
+}
+.hero-name{
+	position: absolute;
+	left: 15px;
+	font: italic normal normal 10px Big Noodle Too,impact,sans-serif;
+	font-size: 25px;
+}
+.percentage{
+	position: absolute;
+	right: 15px;
+}
+.progress-bar{
+	line-height: 30px;
+	border-radius: 4px;
+	font-size: 18px;
+}
+.progress-bar-ana{
+    background-color: rgb(204, 194, 174);
+    box-shadow: rgb(220, 213, 199) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-bastion{
+    background-color: rgb(110, 153, 77);
+    box-shadow: rgb(130, 175, 95) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-dva{
+    background-color: rgb(255, 127, 209);
+    box-shadow: rgb(255, 168, 224) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-genji{
+    background-color: rgb(132, 254, 1);
+    box-shadow: rgb(152, 254, 42) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-hanzo{
+    background-color: rgb(147, 136, 72);
+    box-shadow: rgb(173, 160, 87) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-junkrat{
+    background-color: rgb(211, 147, 8);
+    box-shadow: rgb(245, 172, 15) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-lucio{
+    background-color: rgb(139, 236, 34);
+    box-shadow: rgb(158, 240, 72) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-mccree{
+    background-color: rgb(141, 57, 57);
+    box-shadow: rgb(170, 69, 69) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-mei{
+    background-color: rgb(154, 219, 244);
+    box-shadow: rgb(191, 232, 248) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-mercy{
+    background-color: rgb(255, 225, 108);
+    box-shadow: rgb(255, 234, 149) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-orisa{
+    background-color: rgb(220, 154, 0);
+    box-shadow: rgb(255, 180, 5) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-pharah{
+    background-color: rgb(27, 101, 198);
+    box-shadow: rgb(39, 120, 226) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-reaper{
+    background-color: rgb(39, 39, 37);
+    box-shadow: rgb(60, 60, 57) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-reinhardt{
+    background-color: rgb(170, 149, 142);
+    box-shadow: rgb(187, 171, 165) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-roadhog{
+    background-color: rgb(193, 148, 119);
+    box-shadow: rgb(206, 170, 147) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-s76{
+    background-color: rgb(88, 112, 182);
+    box-shadow: rgb(117, 136, 195) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-sombra{
+    background-color: rgb(117, 27, 156);
+    box-shadow: rgb(144, 33, 191) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-symmetra{
+    background-color: rgb(92, 236, 255);
+    box-shadow: rgb(133, 241, 255) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-torb{
+    background-color: rgb(255, 98, 0);
+    box-shadow: rgb(255, 123, 40) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-tracer{
+    background-color: rgb(248, 145, 27);
+    box-shadow: rgb(250, 164, 67) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-widowmaker{
+    background-color: rgb(111, 111, 174);
+    box-shadow: rgb(138, 138, 189) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-winston{
+    background-color: rgb(76, 80, 92);
+    box-shadow: rgb(95, 100, 114) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-zarya{
+    background-color: rgb(245, 113, 168);
+    box-shadow: rgb(248, 151, 191) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-zenyatta{
+    background-color: rgb(199, 156, 0);
+    box-shadow: rgb(240, 188, 0) 0px 0.2rem 0px 0px inset;
+}
