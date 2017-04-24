@@ -1,21 +1,15 @@
 <div id="tab-stats" class="panel with-nav-tabs panel-default">
     <div class="panel-heading">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
-            <li *ngFor="let hero of heroes"><a href="#{{ toHref(hero) }}" data-toggle="tab" >{{ toHeroName(hero) }}</a></li>
+            <li [class.active]="f" *ngFor="let hero of heroNames; let f = first;"><a href="#{{ toHref(hero) }}" data-toggle="tab" >{{ toHeroName(hero) }}</a></li>
         </ul>
     </div>
-    <div class="panel-body" style="height: 450px;">
+    <div class="panel-body" style="height: 500px;">
         <div class="tab-content">
-            <div class="tab-pane active" id="overall">
+            <div class="tab-pane" [class.active]="f" *ngFor="let hero of heroNames; let f = first;" id="{{ toHref(hero) }}">
                 <hero-stats
-                    [tabStatistics]="tabStatistics">
-                </hero-stats>
-            </div>
-            <div class="tab-pane" *ngFor="let hero of heroes" id="{{ toHref(hero) }}">
-                <hero-stats
-                    [tabStatistics]="tabStatistics"
-                    [hero]="hero">
+                    [stat]="statsByHero.get(hero)"
+                    [duration]="statsByHero.get('ALL').timePlayed">
                 </hero-stats>
             </div>
         </div>

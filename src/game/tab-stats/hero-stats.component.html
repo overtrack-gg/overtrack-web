@@ -1,9 +1,68 @@
 <table class="table table-hover tab-stats-table">
   <tbody>
-    <tr *ngFor="let stat of stats" >
-      <th scope="row">{{ toTitleCase(stat) }}</th>
-      <td>{{ formatLastStat(stat) }}</td>
-      <td>{{ formatLastStatPerMinute(stat) }}</td>
+    <tr *ngIf="stat.heroName != 'ALL'" >
+      <th scope="row">TIME PLAYED</th>
+      <td> {{ formatTime(stat.timePlayed / 1000) }} </td>
+      <td> {{ stat.timePlayed / duration * 100 | number:'1.0-0' }}% </td>
     </tr>
+    <tr *ngIf="stat.heroName != 'ALL'" >
+      <td colspan="3">
+        <div class="dashed-line">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">ELIMINATIONS</th>
+      <td> {{ stat.elims }} </td>
+      <td> {{ stat.elims / normTime | number:'1.1-1' }} /10min </td>
+    </tr>
+    <tr>
+      <th scope="row">DEATHS</th>
+      <td> {{ stat.deaths }} </td>
+      <td> {{ stat.deaths / normTime | number:'1.1-1' }} /10min </td>
+    </tr>
+    <tr>
+      <th scope="row">OBJECTIVE KILLS</th>
+      <td> {{ stat.objectiveKills }} </td>
+      <td> {{ stat.objectiveKills / normTime | number:'1.1-1' }} /10min </td>
+    </tr>
+    <tr>
+      <th scope="row">OBJECTIVE TIME</th>
+      <td> {{ formatTime(stat.objectiveTime) }} </td>
+      <td> {{ stat.objectiveTime / (stat.timePlayed / 100000) | number:'1.0-0' }} % </td>
+    </tr>
+    <tr>
+      <th scope="row">DAMAGE</th>
+      <td> {{ stat.damage | number:'1.' }} </td>
+      <td> {{ stat.damage / normTime | number:'1.0-0' }} /10min </td>
+    </tr>
+    <tr>
+      <th scope="row">HEALING</th>
+      <td> {{ stat.healing | number:'1.' }} </td>
+      <td> {{ stat.healing / normTime | number:'1.0-0' }} /10min </td>
+    </tr>
+
+    <ng-container *ngIf="stat.heroName != 'ALL'">
+      <tr>
+        <td colspan="3">
+          <div class="dashed-line">
+              <span class="hero-spec-stats-text">Hero Specific Stats</span>
+          </div>
+        </td>
+      </tr>
+      <tr *ngFor="let i of [0, 2, 4, 1, 3, 5]">
+          <ng-container *ngIf="getHeroSpecificStatName(i)">
+            <th>
+              {{ getHeroSpecificStatName(i) | uppercase }}
+            </th>
+            <td>
+              {{ getHeroSpecificStat(i) }}{{ showPercent(i) ? '%' : '' }}
+            </td>
+            <td *ngIf="showAverageHeroStat(i)">
+              {{ getHeroSpecificStat(i) / normTime | number:'1.1-1' }} /10min
+            </td>
+          </ng-container>
+      </tr>
+    </ng-container>
   </tbody>
 </table>

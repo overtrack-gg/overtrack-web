@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Stage } from '../game.service';
 
 import { heroStatNames, heroGraphedStats, statNames } from '../tab-graphs/tab-graphs.component';
+import { HeroStatistics } from '../game.service';
 
 declare var Plotly: any;
 
@@ -10,92 +11,47 @@ declare var Plotly: any;
     templateUrl: './hero-stats.component.html'
 })
 export class HeroStatisticsComponent {
-    @Input() tabStatistics: any;
-    @Input() hero: string;
-
-    stats: Array<string> = [];
+    @Input() stat: HeroStatistics;
+    @Input() duration: number;
+    normTime: number;
 
     ngOnInit(): void {
-        for (let stat of this.hero ? heroStatNames[this.hero] : statNames){
-            if (stat) {
-                this.stats.push(stat);
-            }
-        }
+        this.normTime = this.stat.timePlayed / (10 * 60 * 1000);
     }
 
-    toTitleCase(str: string){
-        return str.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    formatTime(ms: number){
+		let seconds = Math.floor( (ms) % 60 );
+		let minutes = Math.floor( (ms / 60) % 60 );
+		return (minutes < 10 ? "0" : "")+minutes+":"+(seconds < 10 ? "0" : "")+seconds;
     }
 
-    getLastStat(stat: string){
-        let statRealName = this.hero ? 'hero_stat_' + (heroStatNames[this.hero].indexOf(stat) + 1) : stat;
-
-        let v: number = null;
-        for (let i in this.tabStatistics.hero){
-            let valAtI: number = this.tabStatistics[statRealName][i];
-            if ((this.hero == null || this.tabStatistics.hero[i] == this.hero) && valAtI != null){
-                v = valAtI;
-            }
-        }
-        return v;
+    getHeroSpecificStatName(index: number): string{
+        return heroStatNames[this.stat.heroName][index];
     }
 
-    formatLastStat(stat: string) {
-        let v: number = this.getLastStat(stat);
-        if (stat.indexOf('accuracy') != -1 || stat.indexOf('average') != -1 || stat.indexOf('uptime') != -1){
-            return v + '%';
-        } else if (stat.indexOf('time') != -1){
-            return Math.floor(v / 60) + ':' + v % 60;
-        } else {
-            return v + '';
-        }
-    }
-
-    formatLastStatPerMinute(stat: string) {
+    showAverageHeroStat(index: number): boolean {
+        let statName = heroStatNames[this.stat.heroName][index];
         let blacklist = [
             'best', // best transcendance heal, kill streak - best
             'accuracy', // weapon, hook, etc. 
             'average', // average energy
             'uptime'
         ]
-
         for (let b of blacklist) {
-            if (stat.indexOf(b) != -1){
-                return '';
+            if (statName.indexOf(b) != -1){
+                return false;
             }
         }
+        return true;
+    }
 
-        let v: number = this.getLastStat(stat);
-        let totalTime: number;
-        if (this.hero){
-            totalTime = 0;
-            let last: string;
-            for (let i in this.tabStatistics.hero){
-                let current: string = this.tabStatistics.hero[i]; 
-                if (last == this.hero && current == this.hero){
-                    totalTime += this.tabStatistics.time[i] - this.tabStatistics.time[Number(i) - 1];
-                }
-                last = current;
-            }
-        } else {
-            totalTime = this.tabStatistics.time[this.tabStatistics.time.length - 1];
-        }
+    showPercent(index: number): boolean { 
+        let statName = heroStatNames[this.stat.heroName][index];
+        return (statName.indexOf('accuracy') != -1 || statName.indexOf('average') != -1 || statName.indexOf('uptime') != -1);
+    }
 
-        if (stat == 'objective_time'){
-            v = v / (totalTime / 1000);
-            return (v * 100).toFixed(0) + '%';
-        } else {
-            v = (v / (totalTime / (60 * 1000)));
-            if (v > 10){
-                return v.toFixed(0) + ' / min';
-            } else if (v > 0.1){
-                return v.toFixed(2) + ' / min';
-            } else if (v > 0){
-                return v.toFixed(3) + ' / min';
-            } else {
-                return '0 / min';
-            }
-        }
+    getHeroSpecificStat(index: number){
+        return this.stat['heroStat' + (index + 1)];
     }
 }
 
@@ -104,29 +60,28 @@ export class HeroStatisticsComponent {
     templateUrl: './tab-stats.component.html'
 })
 export class TabStatisticsComponent {
-    @Input() tabStatistics: any;
-    heroes: Array<string> = [];
+    @Input() heroStatistics: Array<HeroStatistics>;
+    heroNames: Array<string>;
+    statsByHero: Map<string, HeroStatistics>;
 
     ngOnInit(): void {
-        if (!this.tabStatistics){
+        if (!this.heroStatistics){
             return;
         }
 
-        for (let i in this.tabStatistics.hero){
-            let hero: string = this.tabStatistics.hero[i];
-            let showHero: boolean = false;
-            for (let statNum in heroStatNames[hero]){
-                // the stat name is not null and there is a nonzero value for that stat at i
-                let statName = heroStatNames[hero][statNum];
-                if (statName && this.tabStatistics['hero_stat_' + (Number(statNum) + 1)][i]){
-                    showHero = true;
-                    break;
-                }
+        console.log(this.heroStatistics);
+        this.heroNames = [];
+        this.statsByHero = new Map<string, HeroStatistics>();
+        for (let stat of this.heroStatistics){
+            if (stat.timePlayed < 2 * 60 * 1000){
+                continue;
             }
-            if (this.heroes.indexOf(hero) == -1 && showHero){
-                this.heroes.push(hero);
-            }
+            this.heroNames.push(stat.heroName);
+            this.statsByHero.set(stat.heroName, stat);
         }
+        this.heroNames = this.heroNames.sort((a, b) => {
+            return this.statsByHero.get(b).timePlayed - this.statsByHero.get(a).timePlayed;
+        });
     }
 
     toHref(str: string){
@@ -138,10 +93,14 @@ export class TabStatisticsComponent {
     }
 
     toHeroName(str: string) {
-        if (str == 's76'){
+        if (str == 'ALL'){
+            str = 'All Heroes'
+        } else if (str == 's76'){
             str = 'Soldier: 76';
         } else if (str == 'torb'){
             str = 'Torbjörn';
+        } else if (str == 'dva'){
+           str = 'D.Va';
         }
         return this.toTitleCase(str);
     } 

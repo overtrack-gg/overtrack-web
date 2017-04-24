@@ -213,7 +213,28 @@ export class GameService {
             });
         }
 
-        console.log(stages);
+        let heroStatistics: Array<HeroStatistics> = [];
+        for (let heroName of Object.keys(body.hero_statistics)){
+            let stat = body.hero_statistics[heroName];
+            heroStatistics.push({
+                heroName: heroName,
+                timePlayed: stat.time_played,
+
+                elims: stat.elims,
+                damage: stat.damage,
+                objectiveKills: stat.objective_kills,
+                healing: stat.healing,
+                objectiveTime: stat.objective_time,
+                deaths: stat.deaths,
+                heroStat1: stat.hero_stat_1,
+                heroStat2: stat.hero_stat_2,
+                heroStat3: stat.hero_stat_3,
+                heroStat4: stat.hero_stat_4,
+                heroStat5: stat.hero_stat_5,
+                heroStat6: stat.hero_stat_6,
+            });
+        }
+        console.log(body.hero_statistics);
 
         return {
             map: body.map,
@@ -230,7 +251,8 @@ export class GameService {
             killfeed: killfeed,
             endTime: body.game_ended,
             duration: body.game_duration,
-            tabStatistics: body.tab_statistics
+            tabStatistics: body.tab_statistics,
+            heroStatistics: heroStatistics
         };
     }
 }
@@ -251,6 +273,7 @@ export class Game {
     endTime: number;
     duration: number;
     tabStatistics: any;
+    heroStatistics: Array<HeroStatistics>;
 }
 
 export class KillFeedEntry {
@@ -260,6 +283,24 @@ export class KillFeedEntry {
     leftPlayer: string;
     rightHero: string;
     rightPlayer: string;
+}
+
+export class HeroStatistics {
+    heroName: string;
+    timePlayed: number;
+    
+    elims: number;
+    damage: number;
+    objectiveKills: number;
+    healing: number;
+    objectiveTime: number;
+    deaths: number;
+    heroStat1: number;
+    heroStat2: number;
+    heroStat3: number;
+    heroStat4: number;
+    heroStat5: number;
+    heroStat6: number;
 }
 
 export class Stage {

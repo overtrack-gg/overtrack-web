@@ -287,10 +287,14 @@ export class TabGraphsComponent {
     }
 
     toHeroName(str: string) {
-        if (str == 's76'){
+        if (str == 'ALL'){
+            str = 'All Heroes'
+        } else if (str == 's76'){
             str = 'Soldier: 76';
         } else if (str == 'torb'){
             str = 'Torbjörn';
+        } else if (str == 'dva'){
+           str = 'D.Va';
         }
         return this.toTitleCase(str);
     } 
