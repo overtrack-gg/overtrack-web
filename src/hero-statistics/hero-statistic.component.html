@@ -71,7 +71,7 @@
             <span class="hero-spec-stats-text">Hero Specific Stats</span>
         </div>
         <div class="row smaller">
-            <div class="col-md-2 col-sm-4" *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+            <div class="col-md-2 col-sm-4" *ngFor="let i of [0, 2, 4, 1, 3, 5]">
                 <ng-container *ngIf="getHeroSpecificStatName(i)">
                     <ng-container *ngIf="averageHeroStatPerGames(i)">
                         <span class="big">{{ getHeroSpecificStat(i) / stat.gamesPlayed | number:'1.0-2' }}</span> {{ getHeroSpecificStatUnit(i) }}
