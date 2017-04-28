@@ -81,6 +81,15 @@ export class TabStatisticsComponent {
         this.heroNames = this.heroNames.sort((a, b) => {
             return this.statsByHero.get(b).timePlayed - this.statsByHero.get(a).timePlayed;
         });
+
+        let neverSwitched: boolean = false;
+        for (let hero of this.heroNames){
+            neverSwitched = neverSwitched || (hero != 'ALL' && this.statsByHero.get(hero).timePlayed == this.statsByHero.get('ALL').timePlayed);
+        }
+        if (neverSwitched){
+            // No need to show "All Heroes"
+            this.heroNames.splice(this.heroNames.indexOf('ALL'), 1);
+        }
     }
 
     toHref(str: string){
