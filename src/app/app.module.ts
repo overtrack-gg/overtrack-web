@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import * as Raven from 'raven-js';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -14,6 +15,26 @@ import { AuthenticateClientComponent } from '../authenticate-client/authenticate
 import { WinRatesComponent } from '../win-rates/win-rates.component';
 import { AllTimeHeroStatisticsComponent, HeroStatisticPaneComponent } from '../hero-statistics/hero-statistics.component';
 import { GamesGraphComponent } from '../games-graph/games-graph.component';
+
+import { UserLoginService } from '../login/user-login.service';
+import { GamesListService } from '../games-list/games-list.service';
+
+Raven
+  .config('https://adb4e1d3ae1040fcb434a6c018934bf4@sentry.io/161537')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err:any) : void {
+    if ( console && console.group && console.error ) {
+      console.group('Error Log Service');
+      console.error(err);
+      console.error(err.message);
+      //console.error(err.stack);
+      console.groupEnd();
+    }
+    Raven.captureException(err.originalError || err);
+  }
+}
 
 const appRoutes: Routes = [
     { path: '',  redirectTo: '/games', pathMatch: 'full' },
@@ -46,6 +67,9 @@ const appRoutes: Routes = [
     AuthenticateClientComponent,
     HeroStatisticPaneComponent
   ],
-  bootstrap:    [ AppComponent ]
+  bootstrap:    [ AppComponent ],
+  providers: [
+    { provide: ErrorHandler, useClass: RavenErrorHandler }, 
+  ]
 })
 export class AppModule { }
