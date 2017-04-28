@@ -11,7 +11,7 @@ declare var Plotly: any;
 @Component({
     selector: 'games-list',
     templateUrl: './games-list.component.html',
-    providers: [GamesListService, UserLoginService, RouterModule]
+    providers: [RouterModule]
 })
 export class GamesListComponent implements OnInit {
     gamesLists: Array<PlayerGameList>;
@@ -26,17 +26,15 @@ export class GamesListComponent implements OnInit {
                 private router: Router) { }
 
     ngOnInit(): void {
-        this.gamesListService.getGamesList().subscribe(
+        this.gamesListService.fetchGames(
             res => {
-                this.gamesLists = this.gamesListService.toGamesList(res);
+                this.gamesLists = res;
                 this.renderGraph(this.gamesLists[0].player);
-                console.log(res);
             },
             err => {
                 console.error(err);
             }
-        );
-        // Only fetch if user has not been fetched
+        )
     }
     
     playerHref(playerGames: PlayerGameList){

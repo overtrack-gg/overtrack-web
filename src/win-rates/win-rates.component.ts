@@ -13,7 +13,7 @@ const LOW_FREQUENCY_HERO_PERCENTAGE = 20;
     selector: 'statistics',
     templateUrl: './win-rates.component.html',
     styleUrls: ['./win-rates.component.css'],
-    providers: [GamesListService, RouterModule]
+    providers: [RouterModule]
 })
 	
 
@@ -33,9 +33,9 @@ export class WinRatesComponent implements OnInit {
     constructor(private gamesListService: GamesListService, private router: Router) { }
 
     ngOnInit(): void {
-        this.gamesListService.getGamesList().subscribe(
+        this.gamesListService.fetchGames(
             res => {
-                this.gamesLists = this.gamesListService.toGamesList(res);
+                this.gamesLists = res;
                 this.calcWinrates(this.gamesLists[0].list);
             },
             err => {

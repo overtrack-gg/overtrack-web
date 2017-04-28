@@ -70,6 +70,8 @@ const appRoutes: Routes = [
   bootstrap:    [ AppComponent ],
   providers: [
     { provide: ErrorHandler, useClass: RavenErrorHandler }, 
+    UserLoginService,
+    GamesListService
   ]
 })
 export class AppModule { }

@@ -9,7 +9,7 @@ declare var Plotly: any;
 @Component({
     selector: 'games-graph',
     templateUrl: './games-graph.component.html',
-    providers: [GamesListService, RouterModule]
+    providers: [RouterModule]
 })
 export class GamesGraphComponent implements OnInit {
     gamesLists: Array<PlayerGameList>;
@@ -18,15 +18,15 @@ export class GamesGraphComponent implements OnInit {
         private router: Router) { }
 
     ngOnInit(): void {
-        this.gamesListService.getGamesList().subscribe(
+        this.gamesListService.fetchGames(
             res => {
-                this.gamesLists = this.gamesListService.toGamesList(res);
-                this.renderGraph(this.gamesLists[0].list);
+               this.gamesLists = res;
+               this.renderGraph(this.gamesLists[0].list);
             },
             err => {
                 console.error(err);
             }
-        );
+        )
     }
 
     playerHref(playerGames: PlayerGameList){

@@ -9,6 +9,7 @@ import { User } from '../login/user-login.service';
 @Injectable()
 export class GamesListService {
     private gamesListUrl = 'https://api.overtrack.uint8.me/games';
+    private games:Array<PlayerGameList> = null;
 
     constructor (private http: Http) {}
 
@@ -24,7 +25,6 @@ export class GamesListService {
 
         let num = 1;
 
-        console.log(body);
         for (let game of body.games) {
             let gamelist = [];
             if (map[game.player_name]) {
@@ -103,6 +103,22 @@ export class GamesListService {
             }
         }
         return list;
+    }
+
+    fetchGames(games: (value: Array<PlayerGameList>) => void, error: (error: any) => void){
+        if (this.games != null){
+            games(this.games);
+        } else {
+            this.getGamesList().subscribe(
+                next => {
+                    this.games = this.toGamesList(next);
+                    games(this.games);
+                },
+                err => {
+                    console.error(err);
+                }
+            );
+        }
     }
 }
 

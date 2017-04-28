@@ -45,7 +45,7 @@ export class MetaGameComponent  implements OnInit {
 @Component({
     selector: 'game',
     templateUrl: './game.component.html',
-    providers: [GameService, UserLoginService]
+    providers: [GameService]
 })
 export class GameComponent implements OnInit {
     game: Game;
