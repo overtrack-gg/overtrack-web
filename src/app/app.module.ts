@@ -19,11 +19,9 @@ import { GamesGraphComponent } from '../games-graph/games-graph.component';
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
 
-if (!isDevMode()){
 Raven
   .config('https://adb4e1d3ae1040fcb434a6c018934bf4@sentry.io/161537')
   .install();
-}
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err:any) : void {
