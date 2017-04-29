@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div class="container overview view">
+<div class="container overview view" *ngIf="loaded && (currentUploadRequested || (gamesLists && gamesLists.length))">
     <div class="row col-md-12">
         <h2  class="col-xs-12">Games</h2>
         
@@ -75,3 +75,5 @@
         </div>
     </div>
 </div>
+<install-instructions *ngIf="loaded && !currentUploadRequested && !(gamesLists && gamesLists.length)">
+</install-instructions>

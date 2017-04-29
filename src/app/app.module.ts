@@ -1,8 +1,10 @@
 import * as Raven from 'raven-js';
-import { NgModule, ErrorHandler, isDevMode } from '@angular/core';
+import { NgModule, Injectable, ErrorHandler, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Router, Routes, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 import { AppComponent } from './app.component';
 import { UserLoginComponent } from '../login/user-login.component';
@@ -15,6 +17,8 @@ import { AuthenticateClientComponent } from '../authenticate-client/authenticate
 import { WinRatesComponent } from '../win-rates/win-rates.component';
 import { AllTimeHeroStatisticsComponent, HeroStatisticPaneComponent } from '../hero-statistics/hero-statistics.component';
 import { GamesGraphComponent } from '../games-graph/games-graph.component';
+import { InstallInstructionsComponent } from '../install-instructions/install-instructions.component';
+import { WelcomeComponent } from '../welcome/welcome.component';
 
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
@@ -39,17 +43,38 @@ export class RavenErrorHandler implements ErrorHandler {
   }
 }
 
-const appRoutes: Routes = [
-    { path: '',  redirectTo: '/games', pathMatch: 'full' },
+@Injectable()
+export class LoggedIn implements CanActivate {
 
-    { path: 'games',  component: GamesListComponent },
-    { path: 'statistics', component: AllTimeHeroStatisticsComponent },
-    { path: 'graph', component: GamesGraphComponent },
-    { path: 'winrates', component: WinRatesComponent },
+  constructor(private router: Router, private userLoginService: UserLoginService) { }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+    if (this.userLoginService.getUser()){
+      return true;
+    }
+    return Observable.create((observer) => {
+      this.userLoginService.fetchUser(user => {
+        if (!user){
+          this.router.navigate(['/welcome'], { queryParams: { next: state.url } });
+        }
+        observer.next(!!user);
+      })
+    });
+  }
+}
+
+const appRoutes: Routes = [
+    { path: '',  redirectTo: '/games', pathMatch: 'full', canActivate: [LoggedIn] },
+    { path: 'games',  component: GamesListComponent, canActivate: [LoggedIn] },
+    { path: 'statistics', component: AllTimeHeroStatisticsComponent, canActivate: [LoggedIn] },
+    { path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
+    { path: 'winrates', component: WinRatesComponent, canActivate: [LoggedIn] },
 
     { path: 'game/:user/:game',  component: GameComponent },
 
-    { path: 'authenticate_client', component: AuthenticateClientComponent }
+    { path: 'authenticate_client', component: AuthenticateClientComponent, canActivate: [LoggedIn] },
+
+    { path: 'welcome', component: WelcomeComponent }
 ];
 
 @NgModule({
@@ -68,13 +93,16 @@ const appRoutes: Routes = [
     TabStatisticsComponent,
     AllTimeHeroStatisticsComponent,
     AuthenticateClientComponent,
-    HeroStatisticPaneComponent
+    HeroStatisticPaneComponent,
+    InstallInstructionsComponent,
+    WelcomeComponent
   ],
   bootstrap:    [ AppComponent ],
   providers: [
     { provide: ErrorHandler, useClass: RavenErrorHandler }, 
     UserLoginService,
-    GamesListService
+    GamesListService,
+    LoggedIn
   ]
 })
 export class AppModule { }

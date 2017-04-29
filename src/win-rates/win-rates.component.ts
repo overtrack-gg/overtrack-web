@@ -36,7 +36,9 @@ export class WinRatesComponent implements OnInit {
         this.gamesListService.fetchGames(
             res => {
                 this.gamesLists = res;
-                this.calcWinrates(this.gamesLists[0].list);
+				if (this.gamesLists.length){
+                	this.calcWinrates(this.gamesLists[0].list);
+				}
             },
             err => {
                 console.error(err);

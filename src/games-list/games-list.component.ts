@@ -18,6 +18,7 @@ export class GamesListComponent implements OnInit {
     currentSR: number;
     player: string;
 
+    loaded: boolean = false;
     currentUploadRequested: Date = null;
     currentUserID: number;
 
@@ -32,27 +33,22 @@ export class GamesListComponent implements OnInit {
         this.gamesListService.fetchGames(
             res => {
                 this.gamesLists = res;
-                this.renderGraph(this.gamesLists[0].player);
+                if (this.gamesLists.length){
+                    this.renderGraph(this.gamesLists[0].player);
+                }
+                this.loaded = true;
             },
             err => {
                 console.error(err);
             }
         )
-        if (this.loginService.getUser()){
-            this.updateUploadingGame(this.loginService.getUser());
-        } else {
-            this.loginService.fetchUser(
-                () => {
-                    this.updateUploadingGame(this.loginService.getUser());
-                }
-            )
-        }
+        this.loginService.fetchUser(user => {
+            this.updateUploadingGame(user);
+        })
     }
 
     updateUploadingGame(user: User){
-        console.log(user.currentUploadRequested);
-        console.log(new Date());
-        if (user && (new Date().getTime() - user.currentUploadRequested.getTime()) < 10 * 60 * 1000){
+        if (user && user.currentUploadRequested && (new Date().getTime() - user.currentUploadRequested.getTime()) < 10 * 60 * 1000){
             this.currentUserID = user.id;
             this.currentUploadRequested = user.currentUploadRequested;
         } else {

@@ -20,8 +20,10 @@ export class GamesGraphComponent implements OnInit {
     ngOnInit(): void {
         this.gamesListService.fetchGames(
             res => {
-               this.gamesLists = res;
-               this.renderGraph(this.gamesLists[0].list);
+                this.gamesLists = res;
+                if (this.gamesLists.length){
+                    this.renderGraph(this.gamesLists[0].list);
+                }
             },
             err => {
                 console.error(err);

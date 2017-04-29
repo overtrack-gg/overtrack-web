@@ -64,9 +64,6 @@ export class GameComponent implements OnInit {
                     console.error(err);
                 }
             );
-        if (!this.loginService.getUser()) {
-            this.loginService.fetchUser(() => {});
-        }
     }
 
     normaliseString(str: string){

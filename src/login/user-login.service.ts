@@ -33,8 +33,15 @@ export class UserLoginService {
             );
     }
 
-    fetchUser(callback: () => void) {
-         this.http.get(this.loginUrl, { withCredentials: true}).subscribe(
+    isLoggedIn():Observable<boolean> {
+        return this.http.get(this.loginUrl).map(response => response.ok);
+    }
+
+    fetchUser(user: (value: User) => void){
+        if (this.currentUser){
+            user(this.currentUser);
+        } else {
+            this.http.get(this.loginUrl, { withCredentials: true }).subscribe(
                 res => {
                     const body = res.json();
                     let currentUploadRequested: Date = null;
@@ -47,16 +54,20 @@ export class UserLoginService {
                         battletag: body.battletag,
                         currentUploadRequested: currentUploadRequested,
                     };
-                    callback();
+                    user(this.currentUser);
                 },
                 err => {
                     const body = err.json();
+                    console.log(body);
                     this.authUrl = body.authenticate_url;
                     this.currentUser = null;
-                    callback();
+                    console.log(this.currentUser);
+                    user(this.currentUser);
                 }
             );
+        }
     }
+
 }
 
 // TODO: Move out into own model file

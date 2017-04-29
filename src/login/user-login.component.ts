@@ -8,19 +8,21 @@ import { UserLoginService, User } from './user-login.service';
     templateUrl: './user-login.component.html',
 })
 export class UserLoginComponent implements OnInit {
+    user: User = null;
     loginUrl: string;
 
     constructor(private userLoginService: UserLoginService, @Inject(DOCUMENT) private document: any) { }
 
     ngOnInit(): void {
-        if (!this.userLoginService.getUser()) {
-            this.userLoginService.fetchUser(() => {
+        this.userLoginService.fetchUser(user => {
+            this.user = user;
+            if (!user){
                 const auth = this.userLoginService.getAuthUrl();
                 if (auth) {
                     this.loginUrl = auth + '?next=' + this.document.location.href;
                 }
-            });
-        }
+            }
+        });
     }
 
     logout() {
