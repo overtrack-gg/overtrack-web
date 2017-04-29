@@ -18,6 +18,9 @@ export class GamesListComponent implements OnInit {
     currentSR: number;
     player: string;
 
+    currentUploadRequested: Date = null;
+    currentUserID: number;
+
     private linkKey: string;
     private linkMouse: number;
 
@@ -35,6 +38,26 @@ export class GamesListComponent implements OnInit {
                 console.error(err);
             }
         )
+        if (this.loginService.getUser()){
+            this.updateUploadingGame(this.loginService.getUser());
+        } else {
+            this.loginService.fetchUser(
+                () => {
+                    this.updateUploadingGame(this.loginService.getUser());
+                }
+            )
+        }
+    }
+
+    updateUploadingGame(user: User){
+        console.log(user.currentUploadRequested);
+        console.log(new Date());
+        if (user && (new Date().getTime() - user.currentUploadRequested.getTime()) < 10 * 60 * 1000){
+            this.currentUserID = user.id;
+            this.currentUploadRequested = user.currentUploadRequested;
+        } else {
+            this.currentUploadRequested = null;
+        }
     }
     
     playerHref(playerGames: PlayerGameList){

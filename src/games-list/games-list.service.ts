@@ -33,6 +33,7 @@ export class GamesListService {
                 map[game.player_name] = gamelist;
                 list.push({
                     player: game.player_name,
+                    user_id: game.user_id,
                     list: gamelist
                 });
             }
@@ -124,6 +125,7 @@ export class GamesListService {
 
 export class PlayerGameList {
     player: string;
+    user_id: number;
     list: Array<GamesListEntry>;
 }
 

@@ -40,6 +40,14 @@
                                 <th>Map</th>
                                 <th>Heroes</th>
                             </tr>
+                            <tr *ngIf="currentUploadRequested && currentUserID == games.user_id">
+                                <td class="gn">{{formatTime(currentUploadRequested)}} {{ formatDay(currentUploadRequested) }}<br>
+                                    {{formatDate(currentUploadRequested)}}
+                                </td>
+                                <td colspan="6" style="color:#808080">
+                                    <p>Game uploading...</p>
+                                </td> 
+                            </tr>
                             <tr *ngFor="let game of games.list" (mousedown)="prepRoute(game, $event)" (mouseup)="route(game, $event)" [class.hoverable]="!game.error" id="game-{{ game.num }}">
                                 <td class="gn">{{formatTime(game.time)}} {{ formatDay(game.time) }}<br>
                                     {{formatDate(game.time)}}

@@ -37,10 +37,15 @@ export class UserLoginService {
          this.http.get(this.loginUrl, { withCredentials: true}).subscribe(
                 res => {
                     const body = res.json();
+                    let currentUploadRequested: Date = null;
+                    if (body.current_upload_requested){
+                        currentUploadRequested = new Date(body.current_upload_requested * 1000);
+                    }
                     this.currentUser = {
                         superuser: body.superuser,
                         id       : body["user-id"],
-                        battletag: body.battletag
+                        battletag: body.battletag,
+                        currentUploadRequested: currentUploadRequested,
                     };
                     callback();
                 },
@@ -59,4 +64,5 @@ export class User {
     superuser: boolean;
     id: number;
     battletag: string;
+    currentUploadRequested: Date;
 }
