@@ -105,7 +105,14 @@ export class TabGraphsComponent {
     }
 
     toTitleCase(str: string){
-        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1)});
+    }
+    
+    toGraphName(str: string){
+        if (str.indexOf(': ') != -1){
+            str = this.toHeroName(str.split(': ')[0]) + ': ' + str.split(': ')[1];
+        }
+        return this.toTitleCase(str);
     }
 
     switchGraph(name: string) {
