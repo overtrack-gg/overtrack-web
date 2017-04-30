@@ -1,3 +1,74 @@
+<div *ngIf="router.isActive('/tracker')" class="jumbotron overview view banner lijiang-tower" style="padding-bottom: 10px;">
+    <div class="container">                      
+        <h1>Tracker</h1>
+    </div>
+</div>
+
 <div class="container overview view">
-   <p>It looks like you don't have any games yet...</p><br><br><br>
+    <p *ngIf="!router.isActive('/tracker')">
+        It looks like you don't have any games yet... Here's how to get started with OverTrack:
+    </p>
+
+
+    <h1>Getting Started</h1>
+    <a href="https://s3-us-west-2.amazonaws.com/overtrack-client/overtrack.exe" class="btn btn-success" target="_blank">Download overtrack.exe</a>
+    <br>
+    <p>Once the download has completed, run overtrack.exe</p>
+
+    <p>
+        Depending on your system security you may be warned by Windows SmartScreen, or other such similar security system, that overtrack.exe has
+        been <a href="assets/images/tracker/windows_screen.png" target="_blank">prevented from running</a> - in the case of Windows SmartScreen, click on `More info`,
+        then, `Run anyway` to proceed. This only needs to be done once.
+    </p>
+
+    <p>
+        Upon first launch of the client you will be asked to authenticate/pair the client to your account using the OverTrack site. This should 
+        automatically open a page in your browser, and then simply click the "Authenticate Client" button:
+    </p>
+    <img class="tut-image" src="assets/images/tracker/authenticate.png">
+    <p>If you are not logged in you will instead be presended with the welcome page - simply use the sign-in button and you will be redirected to the authenticate page</p>
+
+    <!--<p>
+        If you are unable to log-in, you may need to ask for access our discord server in <a href="https://discord.gg/47HrN6j" target="_blank">#invite-requests</a>.
+        Note that our authentication system uses Battle.net integration. Please ensure that you register using the Battle.net account that you wish to track the
+        Competitive Overwatch matches of and/or test the OverTrack client with.
+    </p>-->
+    <h2>Using OverTrack</h2>
+
+    <p>
+        OverTrack has a taskbar icon showing the current state and will present toasts (only visbile if Overwatch is not fullscreen):
+    </p>
+    <img class="tut-image" src="assets/images/tracker/taskbar.png" alt="Tray icon"><br>
+    <img class="tut-image" src="assets/images/tracker/toasts.png" alt="sample toasts of the client in action"><br>
+
+    <p>
+        To ensure SR is tracked correctly you must visit the <i>Play Menu</i> (where the <i>Quick Play</i>, <i>Arcade</i>,
+        <i>Compettitive Play</i>, and, <i>Play vs. AI</i> buttons are seen) BEFORE and AFTER each game, as prompted by the toasts. If you are in a group, you must 
+        ensure that you are group leader before continuing, or your SR will be obscured by the "Unavaliable while in a group" text and padlock and will NOT be tracked.
+    </p>
+
+    <p>
+        To close the client, right click the tray icon and select <i>Quit</i>
+    </p>
+    <img class="tut-image" src="assets/images/tracker/menu.png" alt="Quit button" />
+
+    <h3>Notes:</h3>
+    <p>
+        Overwatch must be running on either your <b>Primary Monitor</b> in fullscreen, or, in <b>Borderless Windowed</b> mode (any monitor) for the overtrack.exe client
+        to function. Fullscreen tracking is not yet avaliable in Windows 7.
+    </p>
+        <!-- I feel like this short paragraph either goes first or in the notes section; having trouble finding a spot for it in the wall of text that follows that would be natural to introduce it in -->
+
+    <p>
+        In order to help with bugs and development the client will upload logs and occasionally full screenshots of Overwatch. For normal operation it will only upload small
+        sections of the screen, but, when the client encounters oddities, these testing builds can upload more. This means that, for now, images of your whispers may be uploaded
+        and the uploaded logs may contain your username.
+    </p>
+
+    <h3>Disclaimer:</h3>
+    <p>
+        The OverTrack client watches the Overwatch game screen and does NOT interact with it in any form. However, there is a minute chance that Blizzard Anticheat may
+        confuse OverTrack with a "pixel-bot" (a type of cheat that watches the screen and moves the cursor according to what colours/images are on screen (e.g. health bars)).
+        While this is extremly unlikely, we cannot guarantee your accounts safety and hold no liability for actions Blizzard may take.
+    </p>
 </div>

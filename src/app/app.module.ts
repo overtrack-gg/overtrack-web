@@ -69,6 +69,7 @@ const appRoutes: Routes = [
     { path: 'statistics', component: AllTimeHeroStatisticsComponent, canActivate: [LoggedIn] },
     { path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
     { path: 'winrates', component: WinRatesComponent, canActivate: [LoggedIn] },
+    { path: 'tracker', component: InstallInstructionsComponent, canActivate: [LoggedIn]},
 
     { path: 'game/:user/:game',  component: GameComponent },
 

@@ -224,6 +224,13 @@ a.navbar-brand > img {
     border: 0;
 }
 
+.navbar .divider-vertical {
+    height: 40px;
+    margin: 0 9px;
+    /*border-left: 1px solid #f2f2f2;
+    border-right: 1px solid #ffffff;*/
+}
+
 #gametable {
     width: 100%;
 }
@@ -519,4 +526,8 @@ div#meta-game p.indent-1 {
 
 div#meta-game p.indent-2 {
     margin-left: 40px;
+}
+
+.tut-image {
+    padding: 10px;
 }
