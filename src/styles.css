@@ -529,5 +529,8 @@ div#meta-game p.indent-2 {
 }
 
 .tut-image {
-    padding: 10px;
+    margin: 10px 0;
+    padding: 4px;
+    border: 1px solid #a0a0a0;
+    border-radius: 5px;
 }
