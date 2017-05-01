@@ -61,7 +61,7 @@
 					<div class="col-md-6">
 						<div class="center no-margin-top">
 							<h3>Winrate: {{ getWinrate() }}%</h3>
-							<label class="checkbox-inline" style="position: absolute; right: 20px; top: 20px; line-height: 12pt;"><input type="checkbox" checked (click)="toggleNormalise()">Normalise<br> by playtime</label>
+							<label class="checkbox-inline" style="position: absolute; right: 20px; top: 20px; line-height: 12pt;"><input type="checkbox" [checked]="normalise" (click)="toggleNormalise()">Normalise<br> by playtime</label>
 						</div>
 						
 						<div *ngFor="let nextName of sortedByWR(currentMapHeroes())"

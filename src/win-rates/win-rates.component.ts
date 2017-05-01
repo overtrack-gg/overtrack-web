@@ -44,6 +44,7 @@ export class WinRatesComponent implements OnInit {
                 console.error(err);
             }
         );
+		this.normalise = localStorage.getItem('normalise') != 'false';
     }
 
     playerHref(playerGames: PlayerGameList): string{
@@ -189,6 +190,7 @@ export class WinRatesComponent implements OnInit {
 
 	toggleNormalise() {
 		this.normalise = !this.normalise;
+		localStorage.setItem('normalise', this.normalise ? 'true': 'false');
 	}
 
 	getWinrate() {
