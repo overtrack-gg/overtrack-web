@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
 import { GamesListService, GamesListEntry, PlayerGameList } from '../games-list/games-list.service';
 
@@ -15,9 +15,36 @@ export class GamesGraphComponent implements OnInit {
     gamesLists: Array<PlayerGameList>;
 
     constructor(private gamesListService: GamesListService,
-        private router: Router) { }
+                private router: Router,
+                private activatedRoute: ActivatedRoute) { }
 
-    ngOnInit(): void {
+     ngOnInit(): void {
+        this.activatedRoute.params.subscribe(
+            params => {
+                if (params.hasOwnProperty('share_key')){
+                    this.fetchSharedGames(params['share_key']);
+                } else {
+                    this.fetchOwnGames();
+                }
+            }
+        );
+    }
+
+	fetchSharedGames(share_key: string){
+        this.gamesListService.fetchSharedGames(share_key,
+            res => {
+                this.gamesLists = res;
+                if (this.gamesLists.length){
+                    this.renderGraph(this.gamesLists[0].list);
+                }
+            },
+            err => {
+                console.error(err);
+            }
+        );
+    }
+
+    fetchOwnGames() {
         this.gamesListService.fetchGames(
             res => {
                 this.gamesLists = res;
@@ -28,7 +55,7 @@ export class GamesGraphComponent implements OnInit {
             err => {
                 console.error(err);
             }
-        )
+        );
     }
 
     playerHref(playerGames: PlayerGameList){

@@ -10,11 +10,16 @@ import { User } from '../login/user-login.service';
 export class GamesListService {
     private gamesListUrl = 'https://api.overtrack.uint8.me/games';
     private games:Array<PlayerGameList> = null;
+    private sharedGames: Map<string, Array<PlayerGameList>> = new Map<string, Array<PlayerGameList>>();
 
     constructor (private http: Http) {}
 
     getGamesList(): Observable<Response> {
         return this.http.get(this.gamesListUrl, { withCredentials: true});
+    }
+
+    getSharedGamesList(share_key: string): Observable<Response> {
+        return this.http.get(this.gamesListUrl + '/' + share_key, { withCredentials: true});
     }
 
     toGamesList(res: Response) {
@@ -104,6 +109,23 @@ export class GamesListService {
             }
         }
         return list;
+    }
+
+    fetchSharedGames(share_key: string, games: (value: Array<PlayerGameList>) => void, error: (error: any) => void){
+        if (this.sharedGames.get(share_key) != null){
+            games(this.sharedGames.get(share_key));
+        } else {
+            this.getSharedGamesList(share_key).subscribe(
+                next => {
+                    let fetchedGames = this.toGamesList(next);
+                    this.sharedGames.set(share_key, fetchedGames);
+                    games(fetchedGames);
+                },
+                err => {
+                    error(err);
+                }
+            );
+        }
     }
 
     fetchGames(games: (value: Array<PlayerGameList>) => void, error: (error: any) => void){

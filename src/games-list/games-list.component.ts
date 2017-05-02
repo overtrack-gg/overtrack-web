@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import * as D3 from 'd3';
 
 import { GamesListService, GamesListEntry, PlayerGameList } from './games-list.service';
@@ -19,6 +19,7 @@ export class GamesListComponent implements OnInit {
     player: string;
 
     loaded: boolean = false;
+    showUploadingGames = true;
     currentUploadRequested: Date = null;
     currentUserID: number;
 
@@ -27,9 +28,38 @@ export class GamesListComponent implements OnInit {
 
     constructor(private gamesListService: GamesListService,
                 private loginService: UserLoginService,
+                private activatedRoute: ActivatedRoute,
                 private router: Router) { }
 
     ngOnInit(): void {
+        this.activatedRoute.params.subscribe(
+            params => {
+                if (params.hasOwnProperty('share_key')){
+                    this.fetchSharedGames(params['share_key']);
+                } else {
+                    this.fetchOwnGames();
+                }
+            }
+        );
+    }
+
+    fetchSharedGames(share_key: string){
+        this.gamesListService.fetchSharedGames(share_key,
+            res => {
+                this.gamesLists = res;
+                if (this.gamesLists.length){
+                    this.renderGraph(this.gamesLists[0].player);
+                }
+                this.loaded = true;
+            },
+            err => {
+                console.error(err);
+            }
+        );
+        this.showUploadingGames = false;
+    }
+
+    fetchOwnGames() {
         this.gamesListService.fetchGames(
             res => {
                 this.gamesLists = res;
@@ -41,10 +71,11 @@ export class GamesListComponent implements OnInit {
             err => {
                 console.error(err);
             }
-        )
+        );
+        this.showUploadingGames = true;
         this.loginService.fetchUser(user => {
             this.updateUploadingGame(user);
-        })
+        });
     }
 
     updateUploadingGame(user: User){

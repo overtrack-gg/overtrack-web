@@ -8,15 +8,22 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" routerLink="games"><img src="favicon.png"> OverTrack</a>
+            
             <ul class="nav navbar-nav" routerLinkActive="active">
-                <li class="nav-item" [class.active]="router.isActive('/games')" routerLink="games"><a class="nav-link">Games</a></li>
-                <li class="nav-item" [class.active]="router.isActive('/graph')" routerLink="graph"><a class="nav-link">SR Graph</a></li>
-                <li class="nav-item" [class.active]="router.isActive('/statistics')" routerLink="statistics"><a class="nav-link">Statistics</a></li>
-                <li class="nav-item" [class.active]="router.isActive('/winrates')" routerLink="winrates"><a class="nav-link">Win Rates</a></li>
 
-                <li class="divider-vertical"></li><!-- how to make this not look s**t? -->
-                
-                <li class="nav-item" [class.active]="router.isActive('/tracker')" routerLink="tracker"><a class="nav-link">Download Tracker</a></li>
+                <!-- TODO: make this nice -->
+                <li *ngIf="shareKey"><a class="nav-link"><b>{{ shareKey }}</b></a></li>
+
+                <li class="nav-item" [class.active]="router.isActive('/games')" routerLink="games{{ shareKeyFragment }}"><a class="nav-link">Games</a></li>
+                <li class="nav-item" [class.active]="router.isActive('/graph')" routerLink="graph{{ shareKeyFragment }}"><a class="nav-link">SR Graph</a></li>
+                <li class="nav-item" [class.active]="router.isActive('/statistics')" routerLink="statistics{{ shareKeyFragment }}"><a class="nav-link">Statistics</a></li>
+                <li class="nav-item" [class.active]="router.isActive('/winrates')" routerLink="winrates{{ shareKeyFragment }}"><a class="nav-link">Win Rates</a></li>
+
+                <ng-container *ngIf="!shareKey">
+                    <li class="divider-vertical"></li><!-- how to make this not look s**t? -->
+                    
+                    <li class="nav-item" [class.active]="router.isActive('/tracker')" routerLink="tracker"><a class="nav-link">Download Tracker</a></li>
+                </ng-container>
             </ul>
         </div>
         <div id="navbar" class="navbar-collapse collapse">

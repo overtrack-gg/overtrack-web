@@ -12,8 +12,12 @@ export class HeroStatisticsService {
 
     constructor (private http: Http) {}
 
-    getStats(): Observable<Response> {
-        return this.http.get(this.statsUrl, { withCredentials: true});
+    getStats(share_key? : string): Observable<Response> {
+        if (share_key){
+            return this.http.get(this.statsUrl + '/' + share_key, { withCredentials: true});
+        } else {
+            return this.http.get(this.statsUrl, { withCredentials: true});
+        }
     }
 
     toAllTimeStats(res: Response): Array<HeroStatistics> {

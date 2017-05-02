@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
 import { HeroStatisticsService, HeroStatistics } from './hero-statistics.service';
 import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
@@ -17,40 +17,50 @@ export class AllTimeHeroStatisticsComponent implements OnInit {
     playerList: Array<string>;
     heroStatsByPlayer: Map<string, Array<HeroStatistics>>;
  
-    constructor(private statsService: HeroStatisticsService, private router: Router) { }
+    constructor(private statsService: HeroStatisticsService, 
+                private router: Router,
+                private activatedRoute: ActivatedRoute) { }
  
     ngOnInit(): void {
-        this.statsService.getStats().subscribe(
-            res => {
-                // TODO: this should be done by the service
-                this.allTimeStats = this.statsService.toAllTimeStats(res);
-                this.playerList = [];
-                this.heroStatsByPlayer = new Map<string, Array<HeroStatistics>>();
-                let playerPlayedTime = new Map<string, number>();
-                for (let stat of this.allTimeStats){
-                    if (this.playerList.indexOf(stat.playerName) == -1){
-                        this.playerList.push(stat.playerName);
+        this.activatedRoute.params.subscribe(
+            params => {
+                this.statsService.getStats(params['share_key']).subscribe(
+                    res => {
+                        this.initStatistics(res);
+                    },
+                    err => {
+                        console.error(err);
                     }
-                    if (!this.heroStatsByPlayer.has(stat.playerName)){
-                        this.heroStatsByPlayer.set(stat.playerName, []);
-                    }
-                    this.heroStatsByPlayer.get(stat.playerName).push(stat);
-                    if (stat.heroName == 'ALL'){
-                        playerPlayedTime.set(stat.playerName, stat.timePlayed);
-                    }
-                }
-
-                for (let player of this.playerList){
-                    for (let heroStat of this.heroStatsByPlayer.get(player)){
-                        heroStat.playRate = heroStat.timePlayed / playerPlayedTime.get(player) * 100;
-                    }
-                }
-                console.log(this.heroStatsByPlayer);
-            },
-            err => {
-                console.error(err);
+                );
             }
         );
+    }
+
+    initStatistics(res: any) {
+        // TODO: this should be done by the service
+        this.allTimeStats = this.statsService.toAllTimeStats(res);
+        this.playerList = [];
+        this.heroStatsByPlayer = new Map<string, Array<HeroStatistics>>();
+        let playerPlayedTime = new Map<string, number>();
+        for (let stat of this.allTimeStats){
+            if (this.playerList.indexOf(stat.playerName) == -1){
+                this.playerList.push(stat.playerName);
+            }
+            if (!this.heroStatsByPlayer.has(stat.playerName)){
+                this.heroStatsByPlayer.set(stat.playerName, []);
+            }
+            this.heroStatsByPlayer.get(stat.playerName).push(stat);
+            if (stat.heroName == 'ALL'){
+                playerPlayedTime.set(stat.playerName, stat.timePlayed);
+            }
+        }
+
+        for (let player of this.playerList){
+            for (let heroStat of this.heroStatsByPlayer.get(player)){
+                heroStat.playRate = heroStat.timePlayed / playerPlayedTime.get(player) * 100;
+            }
+        }
+        console.log(this.heroStatsByPlayer);
     }
 
     playerHref(s: string): string{

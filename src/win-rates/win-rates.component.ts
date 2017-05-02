@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
 import { GamesListService, GamesListEntry, PlayerGameList, GamesListHero } from '../games-list/games-list.service';
 import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
@@ -30,21 +30,49 @@ export class WinRatesComponent implements OnInit {
 	lfhp: number = LOW_FREQUENCY_HERO_PERCENTAGE;
 	normalise: boolean = true;
 
-    constructor(private gamesListService: GamesListService, private router: Router) { }
+    constructor(private gamesListService: GamesListService, 
+				private router: Router,
+				private activatedRoute: ActivatedRoute) { }
 
-    ngOnInit(): void {
-        this.gamesListService.fetchGames(
+	 ngOnInit(): void {
+        this.activatedRoute.params.subscribe(
+            params => {
+                if (params.hasOwnProperty('share_key')){
+                    this.fetchSharedGames(params['share_key']);
+                } else {
+                    this.fetchOwnGames();
+                }
+            }
+        );
+		this.normalise = localStorage.getItem('normalise') != 'false';
+    }
+
+	fetchSharedGames(share_key: string){
+        this.gamesListService.fetchSharedGames(share_key,
             res => {
                 this.gamesLists = res;
 				if (this.gamesLists.length){
-                	this.calcWinrates(this.gamesLists[0].list);
-				}
+                 	this.calcWinrates(this.gamesLists[0].list);
+	 			}
             },
             err => {
                 console.error(err);
             }
         );
-		this.normalise = localStorage.getItem('normalise') != 'false';
+    }
+
+    fetchOwnGames() {
+        this.gamesListService.fetchGames(
+            res => {
+                this.gamesLists = res;
+				if (this.gamesLists.length){
+                 	this.calcWinrates(this.gamesLists[0].list);
+	 			}
+            },
+            err => {
+                console.error(err);
+            }
+        );
     }
 
     playerHref(playerGames: PlayerGameList): string{

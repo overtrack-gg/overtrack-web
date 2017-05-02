@@ -71,6 +71,11 @@ const appRoutes: Routes = [
     { path: 'winrates', component: WinRatesComponent, canActivate: [LoggedIn] },
     { path: 'tracker', component: InstallInstructionsComponent, canActivate: [LoggedIn]},
 
+    { path: 'games/:share_key', component: GamesListComponent},
+    { path: 'statistics/:share_key', component: AllTimeHeroStatisticsComponent },
+    { path: 'graph/:share_key', component: GamesGraphComponent },
+    { path: 'winrates/:share_key', component: WinRatesComponent },
+    
     { path: 'game/:user/:game',  component: GameComponent },
 
     { path: 'authenticate_client', component: AuthenticateClientComponent, canActivate: [LoggedIn] },
