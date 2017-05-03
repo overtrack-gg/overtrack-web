@@ -16,10 +16,12 @@ export class AppComponent implements OnInit {
 		this.router.events.subscribe(
 			event => {
 				if (event instanceof RoutesRecognized) {
-					if (event.url.split('/').length > 2){
-						this.shareKey = event.url.split('/')[2];
+					let parts = event.url.split('/');
+					if (parts.length > 2 && parts[1] != 'game'){
+						this.shareKey = parts[2];
 						this.shareKeyFragment = '/' + this.shareKey;
 					} else {
+						this.shareKeyFragment = null;
 						this.shareKey = null;
 					}
 				}
