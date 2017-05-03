@@ -27,6 +27,46 @@
                     <timeline *ngFor="let stage of game.stages; let f = first;" class="tab-pane {{f ? 'active' : ''}}" id="{{ stageHref(stage) }}"
                         [stage]="stage">
                     </timeline>
+                    <div style="clear:both;"></div>
+                    <div class="col-xs-2"></div>
+                    <div class="col-xs-8">
+                    <div class="panel panel-default">
+                        <div (click)="toggleTimelineKey()" id="timeline-key-header" class="panel-heading pull-right" style="cursor:pointer;text-align:right;"><h5>Key ▼</h5></div>
+                        <div [class.hidden]="hideTimelineKey" class="panel-body">
+                            <div class="col-md-3">
+                                <h4>Player <br/><small>Kills</small></h4>
+                                <svg class="timeline-key"><text class="timeline-event kill" x="10" y="10">●</text></svg> Final Blow 
+                                <br/>
+                                <svg class="timeline-key"><image class="timeline-event death" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/timeline/skull.png" x="3" y="2" width="15" height="15"></image></svg> Death
+                            </div>
+                            <div class="col-md-3">
+                                <h4>Non-hero<br/><small>e.g. turret, mech</small></h4>
+                                <svg class="timeline-key"><text class="timeline-event destruction" x="7" y="15">*</text></svg> Enemy non-hero                                 <br/>
+                                <svg class="timeline-key"><image class="timeline-event destroyed" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/timeline/explosion.png" x="0" y="2" width="15" height="15"></image></svg> Our non-hero                             </div>
+                            <div class="col-md-6">
+                                <h4>Assists <br/><small>Contribution to a kill</small></h4>
+                                <svg class="timeline-key"><text class="timeline-event assist" x="10" y="10">●</text></svg> Elimination<small> - Dealt damage toward kill</small>
+                                <br/>
+                                <svg class="timeline-key"><text class="timeline-event support-assist" x="10" y="10">●</text></svg> Support<small> - Support ability e.g. discord, heal beam </small>
+                            </div>
+                            <div class="col-md-12">
+                                <h4>Heroes</h4>
+                                <svg width=100 height=40 style="vertical-align:middle;">
+                                <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/heroes/pharah.png" height=40 x=0 class="hero-image" y="0"></image>
+                                <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/heroes/bastion.png" height=40 x=20 class="hero-image" y="0"></image>
+                                <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/heroes/reinhardt.png" height=40 x=40 class="hero-image" y="0"></image>
+                                <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/heroes/zenyatta.png" height=40 x=60 class="hero-image" y="0"></image>
+                                </svg>
+                                <span style="line-height: 40px;vertical-align:middle;display: inline-block;">Switched to hero</span>
+                                
+                                <svg width=50 height=40 style="vertical-align:middle;">
+                                <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/heroes/unknown.png" height=40 x=10 class="hero-image" y="0"></image>
+                                </svg>
+                                <span style="line-height: 40px;vertical-align:middle;display: inline-block;">Hero not seen</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -534,3 +534,13 @@ div#meta-game p.indent-2 {
     border: 1px solid #a0a0a0;
     border-radius: 5px;
 }
+
+svg.timeline.col-xs-8 {
+    padding: 0px;
+} 
+
+.timeline-key {
+    height:20px;
+    width:20px;
+    vertical-align: middle;
+}

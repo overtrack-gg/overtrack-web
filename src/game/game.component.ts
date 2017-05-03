@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-
+import * as D3 from 'd3';
 import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service';
 import { UserLoginService } from '../login/user-login.service';
 
@@ -49,10 +49,12 @@ export class MetaGameComponent  implements OnInit {
 })
 export class GameComponent implements OnInit {
     game: Game;
+    hideTimelineKey: boolean;
 
     constructor(private gameService: GameService, private route: ActivatedRoute, private loginService: UserLoginService) { }
 
     ngOnInit(): void {
+        this.hideTimelineKey = true;
         this.route.params
             .switchMap((params: Params) =>
                        this.gameService.getGame(params['user'] + '/' + params['game']))
@@ -64,6 +66,11 @@ export class GameComponent implements OnInit {
                     console.error(err);
                 }
             );
+    }
+    
+    toggleTimelineKey() {
+        this.hideTimelineKey = !this.hideTimelineKey;
+        D3.select('#timeline-key-header').classed('pull-right', this.hideTimelineKey);
     }
 
     normaliseString(str: string){
