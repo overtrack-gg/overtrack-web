@@ -8,7 +8,7 @@ import { User } from '../login/user-login.service';
 
 @Injectable()
 export class GamesListService {
-    private gamesListUrl = 'https://api.overtrack.uint8.me/games';
+    private gamesListUrl = 'https://api.overtrack.gg/games';
     private games:Array<PlayerGameList> = null;
     private sharedGames: Map<string, Array<PlayerGameList>> = new Map<string, Array<PlayerGameList>>();
 

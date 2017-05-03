@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserLoginService {
-    private loginUrl = 'https://api.overtrack.uint8.me/user';
-    public logoutUrl = 'https://api.overtrack.uint8.me/logout';
+    private loginUrl = 'https://api.overtrack.gg/user';
+    public logoutUrl = 'https://api.overtrack.gg/logout';
     private currentUser: User = null;
     private authUrl: string;
 

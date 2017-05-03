@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthenticateClientService {
-    private getTokenUrl = 'https://api.overtrack.uint8.me/get_client_token';
+    private getTokenUrl = 'https://api.overtrack.gg/get_client_token';
     private token: string;
 
     constructor (private http: Http) {}

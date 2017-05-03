@@ -8,7 +8,7 @@ import { User } from '../login/user-login.service';
 
 @Injectable()
 export class HeroStatisticsService {
-    private statsUrl = 'https://api.overtrack.uint8.me/hero_stats';
+    private statsUrl = 'https://api.overtrack.gg/hero_stats';
 
     constructor (private http: Http) {}
 

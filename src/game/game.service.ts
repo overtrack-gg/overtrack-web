@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class GameService {
     private gameUrl = 'https://s3-us-west-2.amazonaws.com/overtrack-parsed-games/';
-    private metaUrl = 'https://api.overtrack.uint8.me/game_metadata?game_id=';
+    private metaUrl = 'https://api.overtrack.gg/game_metadata?game_id=';
 
     constructor (private http: Http) {}
 
