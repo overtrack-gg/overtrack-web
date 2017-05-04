@@ -30,7 +30,22 @@ export class TimelineComponent implements OnChanges {
 
         const svg = div.append('svg')
             .attr('class', 'timeline col-xs-8');
-
+        
+        
+        const scale = D3.scaleLinear()
+            .domain([this.stage.start / 1000 ,(this.stage.end) / 1000])
+            .range([0, (svg.node() as any).getBoundingClientRect().width]);
+        console.log((svg.node() as any).getBoundingClientRect());
+        //scale.range()
+        
+        const axis = D3.axisTop(scale);
+        axis.ticks(7);
+        axis.tickFormat((d: number) => {
+            const min = D3.format('d')(Math.floor(d / 60));
+            const sec = D3.format('02')(d - (Math.floor(d / 60) * 60));
+            return min + ':' + sec;
+        });
+        
         svg.append('rect')
             .attr('width', '100%')
             .attr('height', '40px')
@@ -86,6 +101,8 @@ export class TimelineComponent implements OnChanges {
             .attr('width', 15)
             .attr('height', 15);
 
+        svg.append('g').attr('transform','translate(0,30)').call(axis);
+        
         // Add the kills and deaths
         const b = div.append('b')
             .attr('class', 'col-xs-2 text-left num');
