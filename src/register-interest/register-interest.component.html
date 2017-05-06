@@ -1,0 +1,19 @@
+<div class="jumbotron overview view banner temple-of-anubis" style="padding-bottom: 10px;">
+    <div class="container">                      
+        <h1>Register Interest</h1>
+    </div>
+</div>
+
+<div class="container">
+    <p>Thank you for your interest in OverTrack! Right now we invite-only but you can sign up to be notified when we go live!</p>
+
+    <form *ngIf="!registered" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="email-entry" required formControlName="email">
+      <button type="submit" class="btn btn-default" [disabled]="!registerForm.valid">Submit</button>
+    </form>
+
+    <p *ngIf="registered">Success! You are registered to be notified when OverTrack launches.</p>
+
+    <br><br><br>
+</div>

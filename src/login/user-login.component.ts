@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
 import { UserLoginService, User } from './user-login.service';
@@ -11,9 +12,24 @@ export class UserLoginComponent implements OnInit {
     user: User = null;
     loginUrl: string;
 
-    constructor(private userLoginService: UserLoginService, @Inject(DOCUMENT) private document: any) { }
+    constructor(private userLoginService: UserLoginService, 
+                private router: Router,
+                private route: ActivatedRoute,
+                @Inject(DOCUMENT) private document: any) { }
 
     ngOnInit(): void {
+
+        this.route.queryParams.subscribe((params: Params) => {
+            if (params['loggedin'] == 'false'){
+                localStorage.setItem('battletag', params['battletag']);
+                if (params['reason'] == 'notwhitelisted'){
+                    this.router.navigate(['/register']);
+                } else {
+                    throw new Error('Unexpected reason: ' + params['reason']); 
+                }
+            }
+        });
+
         this.userLoginService.fetchUser(user => {
             this.user = user;
             if (!user){
@@ -27,8 +43,7 @@ export class UserLoginComponent implements OnInit {
 
     logout() {
         this.userLoginService.logout((token: string) => {
-           this.document.location.href = this.userLoginService.logoutUrl + '?token=' + token + '&next='
-               + this.document.location.href;
+           this.document.location.href = this.userLoginService.logoutUrl + '?token=' + token + '&next=' + this.document.location.href;
         });
     }
 }

@@ -1,8 +1,9 @@
 import * as Raven from 'raven-js';
 import { NgModule, Injectable, ErrorHandler, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Router, Routes, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { RouterModule, Router, Routes, CanActivate, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
@@ -18,97 +19,102 @@ import { WinRatesComponent } from '../win-rates/win-rates.component';
 import { AllTimeHeroStatisticsComponent, HeroStatisticPaneComponent } from '../hero-statistics/hero-statistics.component';
 import { GamesGraphComponent } from '../games-graph/games-graph.component';
 import { InstallInstructionsComponent } from '../install-instructions/install-instructions.component';
+import { RegisterInterestComponent } from '../register-interest/register-interest.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
 
 Raven
-  .config('https://adb4e1d3ae1040fcb434a6c018934bf4@sentry.io/161537')
-  .install();
+	.config('https://adb4e1d3ae1040fcb434a6c018934bf4@sentry.io/161537')
+	.install();
 
 export class RavenErrorHandler implements ErrorHandler {
-  handleError(err:any) : void {
-    if ( console && console.group && console.error ) {
-      console.group('Error Log Service');
-      console.error(err);
-      console.error(err.message);
-      //console.error(err.stack);
-      console.groupEnd();
-    }
+	handleError(err:any) : void {
+		if ( console && console.group && console.error ) {
+			console.group('Error Log Service');
+			console.error(err);
+			console.error(err.message);
+			//console.error(err.stack);
+			console.groupEnd();
+		}
 
-    if (!isDevMode()){
-      Raven.captureException(err.originalError || err);
-    }
-  }
+		if (!isDevMode()){
+			Raven.captureException(err.originalError || err);
+		}
+	}
 }
 
 @Injectable()
 export class LoggedIn implements CanActivate {
 
-  constructor(private router: Router, private userLoginService: UserLoginService) { }
+	constructor(private router: Router, 
+				private userLoginService: UserLoginService,
+				) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    if (this.userLoginService.getUser()){
-      return true;
-    }
-    return Observable.create((observer) => {
-      this.userLoginService.fetchUser(user => {
-        if (!user){
-          this.router.navigate(['/welcome'], { queryParams: { next: state.url } });
-        }
-        observer.next(!!user);
-      })
-    });
-  }
+	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+		if (this.userLoginService.getUser()){
+			return true;
+		}
+		return Observable.create((observer) => {
+			this.userLoginService.fetchUser(user => {
+				if (!user){
+					this.router.navigate(['/welcome'], { queryParams: { next: state.url } });
+				}
+				observer.next(!!user);
+			})
+		});
+	}
 }
 
 const appRoutes: Routes = [
-    { path: '',  redirectTo: '/games', pathMatch: 'full', canActivate: [LoggedIn] },
-    { path: 'games',  component: GamesListComponent, canActivate: [LoggedIn] },
-    { path: 'statistics', component: AllTimeHeroStatisticsComponent, canActivate: [LoggedIn] },
-    { path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
-    { path: 'winrates', component: WinRatesComponent, canActivate: [LoggedIn] },
-    { path: 'tracker', component: InstallInstructionsComponent, canActivate: [LoggedIn]},
+		{ path: '',  redirectTo: '/games', pathMatch: 'full', canActivate: [LoggedIn] },
+		{ path: 'games',  component: GamesListComponent, canActivate: [LoggedIn] },
+		{ path: 'statistics', component: AllTimeHeroStatisticsComponent, canActivate: [LoggedIn] },
+		{ path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
+		{ path: 'winrates', component: WinRatesComponent, canActivate: [LoggedIn] },
+		{ path: 'tracker', component: InstallInstructionsComponent, canActivate: [LoggedIn]},
 
-    { path: 'games/:share_key', component: GamesListComponent},
-    { path: 'statistics/:share_key', component: AllTimeHeroStatisticsComponent },
-    { path: 'graph/:share_key', component: GamesGraphComponent },
-    { path: 'winrates/:share_key', component: WinRatesComponent },
-    
-    { path: 'game/:user/:game',  component: GameComponent },
+		{ path: 'games/:share_key', component: GamesListComponent},
+		{ path: 'statistics/:share_key', component: AllTimeHeroStatisticsComponent },
+		{ path: 'graph/:share_key', component: GamesGraphComponent },
+		{ path: 'winrates/:share_key', component: WinRatesComponent },
+		
+		{ path: 'game/:user/:game',  component: GameComponent },
 
-    { path: 'authenticate_client', component: AuthenticateClientComponent, canActivate: [LoggedIn] },
+		{ path: 'authenticate_client', component: AuthenticateClientComponent, canActivate: [LoggedIn] },
 
-    { path: 'welcome', component: WelcomeComponent }
+		{ path: 'register', component: RegisterInterestComponent },
+		{ path: 'welcome', component: WelcomeComponent }
 ];
 
 @NgModule({
-  imports:      [ RouterModule.forRoot(appRoutes), BrowserModule, HttpModule ],
-  declarations: [ 
-    AppComponent, 
-    UserLoginComponent,
-    GamesListComponent,
-    GamesGraphComponent,
-    WinRatesComponent,
-    GameComponent,
-    TimelineComponent,
-    MetaGameComponent,
-    TabGraphsComponent,
-    HeroStatisticsComponent,
-    TabStatisticsComponent,
-    AllTimeHeroStatisticsComponent,
-    AuthenticateClientComponent,
-    HeroStatisticPaneComponent,
-    InstallInstructionsComponent,
-    WelcomeComponent
-  ],
-  bootstrap:    [ AppComponent ],
-  providers: [
-    { provide: ErrorHandler, useClass: RavenErrorHandler }, 
-    UserLoginService,
-    GamesListService,
-    LoggedIn
-  ]
+	imports:      [ RouterModule.forRoot(appRoutes), BrowserModule, HttpModule, FormsModule, ReactiveFormsModule ],
+	declarations: [ 
+		AppComponent, 
+		UserLoginComponent,
+		GamesListComponent,
+		GamesGraphComponent,
+		WinRatesComponent,
+		GameComponent,
+		TimelineComponent,
+		MetaGameComponent,
+		TabGraphsComponent,
+		HeroStatisticsComponent,
+		TabStatisticsComponent,
+		AllTimeHeroStatisticsComponent,
+		AuthenticateClientComponent,
+		HeroStatisticPaneComponent,
+		InstallInstructionsComponent,
+		RegisterInterestComponent,
+		WelcomeComponent
+	],
+	bootstrap:    [ AppComponent ],
+	providers: [
+		{ provide: ErrorHandler, useClass: RavenErrorHandler }, 
+		UserLoginService,
+		GamesListService,
+		LoggedIn
+	]
 })
 export class AppModule { }

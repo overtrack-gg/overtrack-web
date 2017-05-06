@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import { Router, ActivatedRoute, Params} from '@angular/router';
 
 import { UserLoginService } from '../login/user-login.service';
 
@@ -7,7 +7,7 @@ import { UserLoginService } from '../login/user-login.service';
     selector: 'welcome',
     templateUrl: './welcome.component.html',
 })
-export class WelcomeComponent{
+export class WelcomeComponent implements OnInit {
     next: string;
     constructor(private router: Router, private route: ActivatedRoute, private userLoginService: UserLoginService) {}
 

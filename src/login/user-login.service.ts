@@ -58,10 +58,8 @@ export class UserLoginService {
                 },
                 err => {
                     const body = err.json();
-                    console.log(body);
                     this.authUrl = body.authenticate_url;
                     this.currentUser = null;
-                    console.log(this.currentUser);
                     user(this.currentUser);
                 }
             );
