@@ -38,7 +38,7 @@ export class UserLoginService {
     }
 
     fetchUser(user: (value: User) => void){
-        if (this.currentUser){
+        if (this.currentUser || this.authUrl){
             user(this.currentUser);
         } else {
             this.http.get(this.loginUrl, { withCredentials: true }).subscribe(
