@@ -33,7 +33,7 @@ export class GameService {
 
                 // heroes played
                 let hero: string;
-                if (kill.leftPlayer === player.name) {
+                if (!kill.isRes && kill.leftPlayer === player.name) {
                     if (kill.leftHero.indexOf('_') == -1){
                         // kill is by a hero instead of e.g. torb_turret
                         // this is _not_ who we are playing so ignore
@@ -56,7 +56,16 @@ export class GameService {
                     }
                 }
                 if (kill.rightPlayer === player.name) {
-                    if (kill.rightHero.indexOf('_') == -1){
+                    if (kill.isRes){
+                        hero = kill.rightHero;
+
+                        events.push({
+                            time: kill.time - stage.start,
+                            type: 'resurrect',
+                            otherHero: kill.leftHero
+                        });
+
+                    } else if (kill.rightHero.indexOf('_') == -1){
                         // kill is on `player`'s hero instead of e.g. their turret (torb_turret)
                         hero = kill.rightHero;
                         
@@ -141,7 +150,8 @@ export class GameService {
         for (const kill of body.killfeed) {
             killfeed.push({
                 time: kill[0],
-                isLeftRed: !kill[1],
+                isLeftRed: !(kill[1] & 1),
+                isRes: (kill[1] & 2) != 0,
                 leftHero: kill[2],
                 leftPlayer: kill[3],
                 rightHero: kill[4],
@@ -279,6 +289,7 @@ export class Game {
 export class KillFeedEntry {
     time: number;
     isLeftRed: boolean;
+    isRes: boolean;
     leftHero: string;
     leftPlayer: string;
     rightHero: string;
