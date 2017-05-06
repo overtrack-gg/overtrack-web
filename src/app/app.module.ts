@@ -1,8 +1,8 @@
 import * as Raven from 'raven-js';
-import { NgModule, Injectable, ErrorHandler, isDevMode } from '@angular/core';
+import { NgModule, Injectable, ErrorHandler, isDevMode, Component, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, URLSearchParams } from '@angular/http';
 import { RouterModule, Router, Routes, CanActivate, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -58,8 +58,22 @@ export class LoggedIn implements CanActivate {
 		}
 		return Observable.create((observer) => {
 			this.userLoginService.fetchUser(user => {
+				// console.log(this.router.url);
 				if (!user){
-					this.router.navigate(['/welcome'], { queryParams: { next: state.url } });
+					let params_str = window.location.href.split('?');
+					let params = {};
+					if (params_str.length > 1){
+						let url_params = new URLSearchParams(params_str[1]).paramsMap;
+						url_params.forEach((v, k) => {
+							params[k] = v[0];
+						})
+					}
+					if (state.url && state.url != '/'){
+						params['next'] = state.url.split('?')[0];
+					}
+		
+					console.log('Redirecting not-logged-in user to /welcome', params);
+					this.router.navigate(['/welcome'], { queryParams: params });
 				}
 				observer.next(!!user);
 			})
@@ -67,8 +81,22 @@ export class LoggedIn implements CanActivate {
 	}
 }
 
+@Component({
+	selector: 'redirect-games',
+	template: ``
+})
+export class RedirectToGamesComponent implements OnInit {
+
+    constructor(private router: Router) {}
+
+	ngOnInit(): void {
+		console.log('Redirecting to /games');
+		this.router.navigate(['/games']);
+	}
+}
+
 const appRoutes: Routes = [
-		{ path: '',  redirectTo: '/games', pathMatch: 'full', canActivate: [LoggedIn] },
+		{ path: '', pathMatch: 'full', component: RedirectToGamesComponent, canActivate: [LoggedIn] },
 		{ path: 'games',  component: GamesListComponent, canActivate: [LoggedIn] },
 		{ path: 'statistics', component: AllTimeHeroStatisticsComponent, canActivate: [LoggedIn] },
 		{ path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
@@ -93,6 +121,7 @@ const appRoutes: Routes = [
 	declarations: [ 
 		AppComponent, 
 		UserLoginComponent,
+		RedirectToGamesComponent,
 		GamesListComponent,
 		GamesGraphComponent,
 		WinRatesComponent,
