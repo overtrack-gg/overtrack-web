@@ -75,6 +75,8 @@ export class TimelineComponent implements OnChanges {
                   (hero: GameHero) => 'assets/images/heroes/' + hero.name + '.png')
             .attr('x', (hero: GameHero) => this.x(hero.start) + '%')
             .attr('class', 'hero-image')
+            .attr('width', 40)
+            .attr('height', 40)
             .attr('y', 0);
 
         svg.selectAll('.timeline-event .assist, .timeline-event .support-assist').data((player: Player) => player.events.filter(event => event.type == 'assist' || event.type == 'support-assist'))
