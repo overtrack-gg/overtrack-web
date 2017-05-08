@@ -21,6 +21,7 @@ export class UserLoginComponent implements OnInit {
 
         this.route.queryParams.subscribe((params: Params) => {
             if (params['loggedin'] == 'false'){
+                sessionStorage.setItem('battletag', params['battletag']);
                 localStorage.setItem('battletag', params['battletag']);
                 if (params['reason'] == 'notwhitelisted'){
                     this.router.navigate(['/register']);

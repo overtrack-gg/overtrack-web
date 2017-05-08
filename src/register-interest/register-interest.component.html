@@ -5,6 +5,12 @@
 </div>
 
 <div class="container">
+
+    <p *ngIf="battletag">
+        Sorry but {{ battletag }} is not whitelisted.<br>
+        If you have a different account that you believe is whitelisted you will need to sign out of {{ battletag }} on <a href="https://battle.net">battle.net</a> and try to log in again.
+    </p>
+
     <p>Thank you for your interest in OverTrack! Right now we invite-only but you can sign up to be notified when we go live!</p>
 
     <form *ngIf="!registered" [formGroup]="registerForm" (ngSubmit)="onSubmit()">

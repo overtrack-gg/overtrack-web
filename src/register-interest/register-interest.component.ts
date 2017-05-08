@@ -11,6 +11,8 @@ export class RegisterInterestComponent implements OnInit {
 
     registerURL = 'https://api.overtrack.gg/register';
 
+    battletag: string;
+
     registered: boolean = false;
     email: string;
     registerForm: FormGroup;
@@ -20,6 +22,8 @@ export class RegisterInterestComponent implements OnInit {
 
     ngOnInit(): void {
         // this.registered = localStorage.getItem('registered') == 'true';
+
+        this.battletag = sessionStorage.getItem('battletag');
 
         this.registerForm = this.fb.group({
             'email': [this.email, []]
