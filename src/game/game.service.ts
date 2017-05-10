@@ -34,25 +34,27 @@ export class GameService {
                 // heroes played
                 let hero: string;
                 if (!kill.isRes && kill.leftPlayer === player.name) {
-                    if (kill.leftHero.indexOf('_') == -1){
+                    if (kill.leftHero && kill.leftHero.indexOf('_') == -1){
                         // kill is by a hero instead of e.g. torb_turret
                         // this is _not_ who we are playing so ignore
                         hero = kill.leftHero;
                     }
-                    if (kill.rightPlayer && kill.rightHero.indexOf('_') == -1){
-                        // kill on a real player instead of a turret/metch/tp/etc.
-                        kills += 1;                    
-                        events.push({
-                            time: kill.time - stage.start,
-                            type: 'kill',
-                            otherHero: kill.rightHero
-                        });
-                    } else {
-                        events.push({
-                            time: kill.time - stage.start,
-                            type: 'destruction',
-                            otherHero: kill.rightHero
-                        });
+                    if (kill.rightHero) {
+                        if (kill.rightHero && kill.rightHero.indexOf('_') == -1){
+                            // kill on a real player instead of a turret/metch/tp/etc.
+                            kills += 1;                    
+                            events.push({
+                                time: kill.time - stage.start,
+                                type: 'kill',
+                                otherHero: kill.rightHero
+                            });
+                        } else {
+                            events.push({
+                                time: kill.time - stage.start,
+                                type: 'destruction',
+                                otherHero: kill.rightHero
+                            });
+                        }
                     }
                 }
                 if (kill.rightPlayer === player.name) {
@@ -64,23 +66,26 @@ export class GameService {
                             type: 'resurrect',
                             otherHero: kill.leftHero
                         });
-
-                    } else if (kill.rightHero.indexOf('_') == -1){
-                        // kill is on `player`'s hero instead of e.g. their turret (torb_turret)
-                        hero = kill.rightHero;
-                        
-                        deaths += 1;
-                        events.push({
-                            time: kill.time - stage.start,
-                            type: 'death',
-                            otherHero: kill.leftHero
-                        });
-                    } else {
-                        events.push({
-                            time: kill.time - stage.start,
-                            type: 'destroyed',
-                            otherHero: kill.rightHero
-                        });
+                    } else { 
+                        if (kill.rightHero) {
+                            if (kill.rightHero.indexOf('_') == -1){
+                                // kill is on `player`'s hero instead of e.g. their turret (torb_turret)
+                                hero = kill.rightHero;
+                                
+                                deaths += 1;
+                                events.push({
+                                    time: kill.time - stage.start,
+                                    type: 'death',
+                                    otherHero: kill.leftHero
+                                });
+                            } else {
+                                events.push({
+                                    time: kill.time - stage.start,
+                                    type: 'destroyed',
+                                    otherHero: kill.rightHero
+                                });
+                            }
+                        }
                     }
                 }
                 if (hero) {
