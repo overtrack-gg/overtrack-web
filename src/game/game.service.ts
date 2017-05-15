@@ -183,7 +183,7 @@ export class GameService {
             this.addAssists(players[0], body.assists, stage);
 
             let objectiveInfo: ObjectiveInfo;
-            if (body.map_type === 'KOTH') {
+            if (body.map_type === 'KOTH' || body.map_type == 'Control') {
                 const ownership: Array<KothOwnership> = [];
                 ownership.push({
                     start: stage.start,

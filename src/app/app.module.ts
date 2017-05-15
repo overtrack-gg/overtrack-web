@@ -77,7 +77,7 @@ export class LoggedIn implements CanActivate {
 					console.log('Redirecting not-logged-in user to /welcome', params);
 					this.router.navigate(['/welcome'], { queryParams: params });
 				} else {
-					ga('set', 'userId', user.id); 
+					ga('set', 'userId', user.battletag); 
 				}
 				observer.next(!!user);
 			})
