@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { Router, ActivatedRoute, RoutesRecognized, NavigationEnd } from '@angular/router';
+
+declare var ga:Function;
 
 @Component({
 	selector: 'overtrack',
@@ -25,8 +27,13 @@ export class AppComponent implements OnInit {
 						this.shareKey = null;
 					}
 				}
-			}
-		)
-	}
 
+				if (event instanceof NavigationEnd) {
+					ga('set', 'page', event.urlAfterRedirects);
+       				ga('send', 'pageview');
+				}
+
+			}
+		);
+	}
 }

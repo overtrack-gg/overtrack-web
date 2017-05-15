@@ -25,6 +25,8 @@ import { WelcomeComponent } from '../welcome/welcome.component';
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
 
+declare var ga:Function;
+
 Raven
 	.config('https://adb4e1d3ae1040fcb434a6c018934bf4@sentry.io/161537')
 	.install();
@@ -74,6 +76,8 @@ export class LoggedIn implements CanActivate {
 		
 					console.log('Redirecting not-logged-in user to /welcome', params);
 					this.router.navigate(['/welcome'], { queryParams: params });
+				} else {
+					ga('set', 'userId', user.id); 
 				}
 				observer.next(!!user);
 			})
