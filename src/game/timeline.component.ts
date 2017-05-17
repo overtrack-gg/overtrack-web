@@ -16,7 +16,7 @@ export class TimelineComponent implements OnChanges {
 
     ngOnChanges() {
         this.host = D3.select(this.element.nativeElement);
-
+        
         const players = this.host.select('.timeline-players').selectAll('div')
             .data(this.stage.players).enter();
         const div = players.append('div').attr('class', 'col-xs-12');
@@ -30,21 +30,6 @@ export class TimelineComponent implements OnChanges {
 
         const svg = div.append('svg')
             .attr('class', 'timeline col-xs-8');
-        
-        
-        const scale = D3.scaleLinear()
-            .domain([this.stage.start / 1000 ,(this.stage.end) / 1000])
-            .range([0, (svg.node() as any).getBoundingClientRect().width]);
-        console.log((svg.node() as any).getBoundingClientRect());
-        //scale.range()
-        
-        const axis = D3.axisTop(scale);
-        axis.ticks(7);
-        axis.tickFormat((d: number) => {
-            const min = D3.format('d')(Math.floor(d / 60));
-            const sec = D3.format('02')(d - (Math.floor(d / 60) * 60));
-            return min + ':' + sec;
-        });
         
         svg.append('rect')
             .attr('width', '100%')
@@ -102,8 +87,6 @@ export class TimelineComponent implements OnChanges {
             .attr('y', 12)
             .attr('width', 15)
             .attr('height', 15);
-
-        svg.append('g').attr('transform','translate(0,30)').call(axis);
         
         // Add the kills and deaths
         const b = div.append('b')
@@ -114,6 +97,34 @@ export class TimelineComponent implements OnChanges {
             .text((player: Player) => ' / ');
         b.append('span').attr('class', 'death')
             .text((player: Player) => player.deaths);
+        
+        const time = this.host.select('.timeline-players')
+            .insert('div',':first-child').attr('class', 'col-xs-12');
+        time.append('div').attr('class', 'col-xs-2');
+        const timelineTickSvg = time.append('svg').attr('height',20).attr('class', 'col-xs-8')
+            .style('padding',0);
+        
+        const scale = D3.scaleLinear()
+            .domain([this.stage.start / 1000 ,(this.stage.end) / 1000])
+            .range([0, (svg.node() as any).getBoundingClientRect().width-1]);
+
+        const axis = D3.axisTop(scale);
+        axis.ticks(7);
+        axis.tickFormat((d: number) => {
+            const min = D3.format('d')(Math.floor(d / 60));
+            const sec = D3.format('02')(d - (Math.floor(d / 60) * 60));
+            return min + ':' + sec;
+        });
+        
+        const timelineAxis = timelineTickSvg.append('g').attr('transform','translate(0,19)').call(axis);
+        timelineAxis.selectAll('text').attr('fill','white');
+        timelineAxis.selectAll('path').attr('stroke','white');
+        timelineAxis.selectAll('line').attr('stroke','white');
+        
+        const playerTicks = svg.append('g').attr('transform','translate(0,39)').call(axis);
+        playerTicks.selectAll('text').remove();
+        playerTicks.selectAll('path').attr('stroke','white');
+        playerTicks.selectAll('line').attr('stroke','white');
     }
 
     widthPercentage(hero: GameHero) {
