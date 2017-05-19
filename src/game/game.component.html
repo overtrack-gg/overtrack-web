@@ -3,10 +3,12 @@
         <div class="pull-left">
             <h1>Game: {{game.owner}}</h1>
             <p>{{game.player}} on {{game.map}} ({{game.mapType}})</p>
+            <p>Played for {{displayGameTime()}} minutes</p>
         </div>
         <div class="pull-right">
-            <h1><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span></h1>
-            <p class="text-center">{{game.blueScore}}/{{game.redScore}}</p>
+            <h1 class="text-right"><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span></h1>
+            <p class="text-right">Score: {{game.blueScore}}/{{game.redScore}}</p>
+            <p>SR: {{displaySR(game.startSR)}} → {{displaySR(game.endSR)}}<img src="assets/images/icons/{{rank(game.endSR)}}.png" height="35" style="vertical-align: bottom">({{displaySRChange()}})</p>
         </div>
     </div>
 </div>
