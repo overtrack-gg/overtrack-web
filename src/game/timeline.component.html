@@ -17,13 +17,9 @@
                             [style.left]="eventLeft(checkpoint) + '%'">
                             {{ checkpoint.checkpoint }}
                     </div>
-                    <div class="timeline-checkpoint-time" style="text-align:left;">0:00</div>
                     <div *ngFor="let checkpoint of stage.objectiveInfo.checkpoints" class="timeline-checkpoint-time timeline-checkpoint-ptime" 
                             [style.left]="eventLeft(checkpoint) + '%'">
                             {{ stageTime(checkpoint) }}
-                    </div>
-                    <div *ngIf="stage.objectiveInfo.checkpoints.length < 3" class="timeline-checkpoint-time" style="right:0px;">
-                            {{ endTime() }}
                     </div>
                 </div>
             </div>

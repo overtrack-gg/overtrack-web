@@ -101,30 +101,40 @@ export class TimelineComponent implements OnChanges {
         const time = this.host.select('.timeline-players')
             .insert('div',':first-child').attr('class', 'col-xs-12');
         time.append('div').attr('class', 'col-xs-2');
-        const timelineTickSvg = time.append('svg').attr('height',20).attr('class', 'col-xs-8')
-            .style('padding',0);
+        const timelineTickSvg = time.append('svg')
+            .attr('height', 20)
+            .attr('class', 'col-xs-8')
+            .style('padding', 0)
+            .attr('overflow', 'visible');
         
         const scale = D3.scaleLinear()
-            .domain([this.stage.start / 1000 ,(this.stage.end) / 1000])
+            .domain([0, (this.stage.end - this.stage.start) / 1000])
             .range([0, (svg.node() as any).getBoundingClientRect().width-1]);
 
         const axis = D3.axisTop(scale);
         axis.ticks(7);
         axis.tickFormat((d: number) => {
             const min = D3.format('d')(Math.floor(d / 60));
-            const sec = D3.format('02')(d - (Math.floor(d / 60) * 60));
+            const sec = D3.format('02d')(d - (Math.floor(d / 60) * 60));
             return min + ':' + sec;
         });
+
+        // Only add a tick for the end value if the previous tick is far enough away
+        let ticks = scale.ticks(7);
+        if (ticks[ticks.length - 1] < scale.domain()[1] * 0.95){
+            axis.tickValues(scale.ticks(7).concat(scale.domain()[1]));
+        }
         
         const timelineAxis = timelineTickSvg.append('g').attr('transform','translate(0,19)').call(axis);
         timelineAxis.selectAll('text').attr('fill','white');
         timelineAxis.selectAll('path').attr('stroke','white');
         timelineAxis.selectAll('line').attr('stroke','white');
+
+        const timelineAxis2 = timelineTickSvg.append('g').attr('transform','translate(0,19)').call(axis);
+        timelineAxis2.selectAll('text').attr('fill','white');
+        timelineAxis2.selectAll('path').attr('stroke','white');
+        timelineAxis2.selectAll('line').attr('stroke','white');
         
-        const playerTicks = svg.append('g').attr('transform','translate(0,39)').call(axis);
-        playerTicks.selectAll('text').remove();
-        playerTicks.selectAll('path').attr('stroke','white');
-        playerTicks.selectAll('line').attr('stroke','white');
     }
 
     widthPercentage(hero: GameHero) {
