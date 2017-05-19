@@ -243,7 +243,6 @@ export class TabGraphsComponent {
                 }
             });
         }
-        vlines.pop();
 
         Plotly.newPlot('graph', data,
             {
