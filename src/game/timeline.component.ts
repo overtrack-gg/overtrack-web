@@ -138,6 +138,20 @@ export class TimelineComponent implements OnChanges {
     eventLeft(event: GameEvent) {
         return 100 * Math.min(event.time / (this.stage.end - this.stage.start), 1);
     }
+     
+    stageTime(event: GameEvent) {
+        const time = Math.floor(event.time / 1000);
+        const min = D3.format('d')(Math.floor(time / 60));
+        const sec = D3.format('02')(time - (Math.floor(time / 60) * 60));
+        return min + ':' + sec;
+    }
+     
+    endTime() {
+        const time = Math.floor((this.stage.end - this.stage.start) / 1000);
+        const min = D3.format('d')(Math.floor(time / 60));
+        const sec = D3.format('02')(time - (Math.floor(time / 60) * 60));
+        return min + ':' + sec;
+    }
 
     isKOTH() {
         return 'ownership' in this.stage.objectiveInfo;
