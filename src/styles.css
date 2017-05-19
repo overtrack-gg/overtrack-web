@@ -338,6 +338,10 @@ a.navbar-brand > img {
     font-size:20px;
 }
 
+.jumbotron.view.game {
+    padding-bottom: 10px;
+}
+
 /*
  * Maps
  */

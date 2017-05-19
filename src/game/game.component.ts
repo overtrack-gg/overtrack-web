@@ -122,4 +122,47 @@ export class GameComponent implements OnInit {
         let secd = secs < 10 ? '0' + secs : secs;
         return mins + ':' + secd;
     }
+    
+    displaySR(sr: number) {
+        if (sr === null || sr == undefined) {
+            return '?';
+        }
+        return '' + sr;
+    }
+    
+    displayGameTime() {
+        const time = this.game.duration;
+        const min = D3.format('d')(Math.floor(time / 60));
+        const sec = D3.format('02')(time - (Math.floor(time / 60) * 60));
+        return min + ':' + sec;
+    }
+    
+    displaySRChange() {
+        if (this.game.startSR === null || this.game.startSR == undefined 
+           || this.game.endSR === null || this.game.endSR == undefined) {
+            return '?';
+        }
+        const diff = this.game.endSR - this.game.startSR;
+        return diff > 0 ? '+' + diff : '' + diff;
+    }
+    
+    rank(sr: number) {
+        if (sr === null || sr == undefined) {
+            return 'unknown';
+        } else if (sr < 1500) {
+            return 'bronze';
+        } else if (sr < 2000) {
+            return 'silver';
+        } else if (sr < 2500) {
+            return 'gold';
+        } else if (sr < 3000) {
+            return 'platinium';
+        } else if (sr < 3500) {
+            return 'diamond';
+        } else if (sr < 4000) {
+            return 'master';
+        } else {
+            return 'grandmaster';
+        }
+    }
 }

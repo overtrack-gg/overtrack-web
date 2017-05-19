@@ -252,7 +252,9 @@ export class GameService {
             endTime: body.game_ended,
             duration: body.game_duration,
             tabStatistics: body.tab_statistics,
-            heroStatistics: heroStatistics
+            heroStatistics: heroStatistics,
+            startSR: body.start_sr,
+            endSR: body.end_sr
         };
     }
 }
@@ -274,6 +276,8 @@ export class Game {
     duration: number;
     tabStatistics: any;
     heroStatistics: Array<HeroStatistics>;
+    startSR: number;
+    endSR: number;
 }
 
 export class KillFeedEntry {
