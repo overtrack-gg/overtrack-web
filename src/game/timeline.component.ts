@@ -87,6 +87,16 @@ export class TimelineComponent implements OnChanges {
             .attr('y', 12)
             .attr('width', 15)
             .attr('height', 15);
+
+        svg.selectAll('.timeline-event .death').data((player: Player) => player.events.filter(event => event.type == 'resurrect'))
+            .enter().append('image')
+            .attr('class', (event: GameEvent) => 'timeline-event resurrect')
+            .attr('xlink:href','assets/images/timeline/res.png')
+            .attr('x', (event: GameEvent) => this.x(event.time) + '%')
+            .attr('transform', 'translate(-6)')
+            .attr('y', 9)
+            .attr('width', 20)
+            .attr('height', 20);
         
         // Add the kills and deaths
         const b = div.append('b')

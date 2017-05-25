@@ -124,6 +124,12 @@ a.navbar-brand > img {
     stroke: red;
 }
 
+.timeline-event.resurrect {
+    font-size: 24px;
+    font-weight: bold;
+    fill: lightblue;
+}
+
 .timeline-event.kill {
     font-size: 24px;
     font-weight: bold;
