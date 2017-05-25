@@ -35,17 +35,20 @@
                     <div class="panel panel-default">
                         <div (click)="toggleTimelineKey()" id="timeline-key-header" class="panel-heading pull-right" style="cursor:pointer;text-align:right;"><h5>Key ▼</h5></div>
                         <div [class.hidden]="hideTimelineKey" class="panel-body">
-                            <div class="col-md-3">
+                            <div class="col-md-3" style="padding-left: 10px; padding-right: 0px;">
                                 <h4>Player <br/><small>Kills</small></h4>
-                                <svg class="timeline-key"><text class="timeline-event kill" x="10" y="10">●</text></svg> Final Blow 
+                                <svg class="timeline-key"><text class="timeline-event kill" x="10" y="10">●</text></svg>Final Blow 
                                 <br/>
-                                <svg class="timeline-key"><image class="timeline-event death" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/timeline/skull.png" x="3" y="2" width="15" height="15"></image></svg> Death
+                                <svg class="timeline-key"><image class="timeline-event death" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/timeline/skull.png" x="3" y="2" width="15" height="15"></image></svg>Death
+                                <br/>
+                                <svg class="timeline-key"><image class="timeline-event ressurect" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/timeline/res.png" x="3" y="2" width="15" height="15"></image></svg>Ressurected
                             </div>
-                            <div class="col-md-3">
-                                <h4>Non-hero<br/><small>e.g. turret, mech</small></h4>
-                                <svg class="timeline-key"><text class="timeline-event destruction" x="7" y="15">*</text></svg> Enemy non-hero                                 <br/>
-                                <svg class="timeline-key"><image class="timeline-event destroyed" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/timeline/explosion.png" x="0" y="2" width="15" height="15"></image></svg> Our non-hero                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3" style="padding-left: 0px; padding-right: 10px;">
+                                <h4>Non-hero<br/><small>e.g. Turret, D.Va Mech</small></h4>
+                                <svg class="timeline-key"><text class="timeline-event destruction" x="7" y="15">*</text></svg>Destroyed a non-hero<br/>
+                                <svg class="timeline-key"><image class="timeline-event destroyed" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/timeline/explosion.png" x="0" y="2" width="15" height="15"></image></svg>Non-hero destroyed
+                            </div>
+                            <div class="col-md-6" style="padding-left: 10px; padding-right: 10px;">
                                 <h4>Assists <br/><small>Contribution to a kill</small></h4>
                                 <svg class="timeline-key"><text class="timeline-event assist" x="10" y="10">●</text></svg> Elimination<small> - Dealt damage toward kill</small>
                                 <br/>
