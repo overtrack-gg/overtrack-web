@@ -99,6 +99,12 @@ export class GameService {
                     } else if (heroes[heroes.length - 1].name === hero) {
                         // if the new hero is the same as the last then extend that one on
                         heroes[heroes.length - 1].end = kill.time - stage.start;
+                        if (kill.rightPlayer != player || kill.isRes){
+                            // If the event is a kill or being ressed then the player continued playing this hero for a bit longer
+                            // Using this event as the end of playing this hero can make it look like a player ressurected as a different hero
+                            // To solve this extend out the time a bit
+                            heroes[heroes.length - 1].end += 15 * 1000 + Math.random() * 10 * 1000;
+                        }
                     } else {
                         // once we see a new hero add this to the list
                         heroes.push({
@@ -146,6 +152,52 @@ export class GameService {
             }
         }
     }
+    
+    addKillfeedAssists(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>){
+         for (const kill of killfeed) {
+            if (kill.time > stage.end || kill.time < stage.start) {
+                // outside of this stage
+                continue;
+            }
+            let time = kill.time - stage.start;
+
+            let teamToCheck: string;
+            if (kill.isLeftRed){
+                // look for red assisters
+                teamToCheck = 'red';
+            } else {
+                teamToCheck = 'blue';
+            }
+            for (let assist of kill.assists){
+                let assister: Player;
+                let bestAssisterDistance: number = Infinity;
+                for (let player of players){
+                    if (player.colour == teamToCheck){
+                        for (let hero of player.heroesPlayed){
+                            if (hero.name == assist && hero.start < time && time < hero.end){
+                                let assisterDistance = time - hero.start;
+                                // choose the player which most recently switched to the hero we see in the assist
+                                if (assisterDistance < bestAssisterDistance){
+                                    bestAssisterDistance = assisterDistance;
+                                    assister = player;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (assister){
+                    assister.events.push({
+                        time: time,
+                        type: 'ability-assist',
+                        otherHero: kill.rightHero
+                    })
+                } else {
+                    console.warn('Could not find player assisting as', assist, 'for kill at', kill.time);
+                }
+            }
+
+         }
+    }
 
     toGame(res: Response): Game {
         const body = res.json();
@@ -160,7 +212,8 @@ export class GameService {
                 leftHero: kill[2],
                 leftPlayer: kill[3],
                 rightHero: kill[4],
-                rightPlayer: kill[5]
+                rightPlayer: kill[5],
+                assists: kill[6]
             });
         }
 
@@ -181,6 +234,7 @@ export class GameService {
             this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red');
 
             this.addAssists(players[0], body.assists, stage);
+            this.addKillfeedAssists(players, stage, killfeed);
 
             let objectiveInfo: ObjectiveInfo;
             if (body.map_type === 'KOTH' || body.map_type == 'Control') {
@@ -303,6 +357,7 @@ export class KillFeedEntry {
     leftPlayer: string;
     rightHero: string;
     rightPlayer: string;
+    assists: string[];
 }
 
 export class HeroStatistics {

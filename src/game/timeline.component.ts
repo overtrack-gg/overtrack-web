@@ -64,7 +64,16 @@ export class TimelineComponent implements OnChanges {
             .attr('height', 40)
             .attr('y', 0);
 
-        svg.selectAll('.timeline-event .assist, .timeline-event .support-assist').data((player: Player) => player.events.filter(event => event.type == 'assist' || event.type == 'support-assist'))
+        svg.selectAll('.timeline-event .ability-assist')
+            .data((player: Player) => player.events.filter(event => event.type == 'ability-assist'))
+            .enter().append('text')
+            .attr('class', (event: GameEvent) => 'timeline-event ' + event.type)
+            .attr('x', (event: GameEvent) => this.x(event.time) + '%')
+            .attr('y', 20)
+            .text('●');
+
+        svg.selectAll('.timeline-event .assist, .timeline-event .support-assist')
+            .data((player: Player) => player.events.filter(event => event.type == 'assist' || event.type == 'support-assist'))
             .enter().append('text')
             .attr('class', (event: GameEvent) => 'timeline-event ' + event.type)
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')

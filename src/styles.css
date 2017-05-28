@@ -149,6 +149,12 @@ a.navbar-brand > img {
     fill: lightgreen;
 }
 
+.timeline-event.ability-assist {
+    font-size: 18px;
+    font-weight: bold;
+    fill: lightgoldenrodyellow;
+}
+
 .timeline-event.destruction {
     font-size: 20px;
     fill: lightslategray;
