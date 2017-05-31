@@ -101,7 +101,7 @@ export class GameService {
                         heroes[heroes.length - 1].end = kill.time - stage.start;
                         if (kill.rightPlayer != player || kill.isRes){
                             // If the event is a kill or being ressed then the player continued playing this hero for a bit longer
-                            // Using this event as the end of playing this hero can make it look like a player ressurected as a different hero
+                            // Using this event as the end of playing this hero can make it look like a player resurrected as a different hero
                             // To solve this extend out the time a bit
                             heroes[heroes.length - 1].end += 15 * 1000 + Math.random() * 10 * 1000;
                         }
