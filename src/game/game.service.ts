@@ -33,27 +33,32 @@ export class GameService {
 
                 // heroes played
                 let hero: string;
-                if (!kill.isRes && kill.leftPlayer === player.name) {
-                    if (kill.leftHero && kill.leftHero.indexOf('_') == -1){
-                        // kill is by a hero instead of e.g. torb_turret
-                        // this is _not_ who we are playing so ignore
+                if (kill.leftPlayer === player.name) {
+                    if (kill.isRes){
+                        // we don't display anything on the Mercy's timeline, but this can be used to check their player
                         hero = kill.leftHero;
-                    }
-                    if (kill.rightHero) {
-                        if (kill.rightHero && kill.rightHero.indexOf('_') == -1){
-                            // kill on a real player instead of a turret/metch/tp/etc.
-                            kills += 1;                    
-                            events.push({
-                                time: kill.time - stage.start,
-                                type: 'kill',
-                                otherHero: kill.rightHero
-                            });
-                        } else {
-                            events.push({
-                                time: kill.time - stage.start,
-                                type: 'destruction',
-                                otherHero: kill.rightHero
-                            });
+                    } else {
+                        if (kill.leftHero && kill.leftHero.indexOf('_') == -1){
+                            // kill is by a hero instead of e.g. torb_turret
+                            // this is _not_ who we are playing so ignore
+                            hero = kill.leftHero;
+                        }
+                        if (kill.rightHero) {
+                            if (kill.rightHero && kill.rightHero.indexOf('_') == -1){
+                                // kill on a real player instead of a turret/metch/tp/etc.
+                                kills += 1;                    
+                                events.push({
+                                    time: kill.time - stage.start,
+                                    type: 'kill',
+                                    otherHero: kill.rightHero
+                                });
+                            } else {
+                                events.push({
+                                    time: kill.time - stage.start,
+                                    type: 'destruction',
+                                    otherHero: kill.rightHero
+                                });
+                            }
                         }
                     }
                 }
