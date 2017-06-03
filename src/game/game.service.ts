@@ -19,76 +19,101 @@ export class GameService {
     }
 
 
-    addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string) {
+    addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string, tab?: any) {
+        let isPlayer = !!tab;
         for (const player of team) {
             const heroes: Array<GameHero> = [];
             const events: Array<GameEvent> = [];
             let kills = 0;
             let deaths = 0;
-            for (const kill of killfeed) {
-                if (kill.time > stage.end || kill.time < stage.start) {
+
+            class TabPress {
+                time: number;
+                hero: string;
+            }
+            let killfeedAndTab: Array<KillFeedEntry | TabPress> = [];
+            killfeedAndTab = killfeedAndTab.concat(killfeed);
+            if (isPlayer){
+                for (let i in tab.time){
+                    killfeedAndTab.push({
+                        time: tab.time[i],
+                        hero: tab.hero[i]
+                    })
+                }
+                killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
+                isPlayer = false;
+            }
+
+            for (const event of killfeedAndTab) {
+                if (event.time > stage.end || event.time < stage.start) {
                     // outside of this stage
                     continue;
                 }
 
                 // heroes played
                 let hero: string;
-                if (kill.leftPlayer === player.name) {
-                    if (kill.isRes){
-                        // we don't display anything on the Mercy's timeline, but this can be used to check their player
-                        hero = kill.leftHero;
-                    } else {
-                        if (kill.leftHero && kill.leftHero.indexOf('_') == -1){
-                            // kill is by a hero instead of e.g. torb_turret
-                            // this is _not_ who we are playing so ignore
+                if ('hero' in event){
+                    let tabPress = <TabPress> event;
+                    hero = tabPress.hero;
+                } else {
+                    let kill = <KillFeedEntry> event;
+                    if (kill.leftPlayer === player.name) {
+                        if (kill.isRes){
+                            // we don't display anything on the Mercy's timeline, but this can be used to check their player
                             hero = kill.leftHero;
-                        }
-                        if (kill.rightHero) {
-                            if (kill.rightHero && kill.rightHero.indexOf('_') == -1){
-                                // kill on a real player instead of a turret/metch/tp/etc.
-                                kills += 1;                    
-                                events.push({
-                                    time: kill.time - stage.start,
-                                    type: 'kill',
-                                    otherHero: kill.rightHero
-                                });
-                            } else {
-                                events.push({
-                                    time: kill.time - stage.start,
-                                    type: 'destruction',
-                                    otherHero: kill.rightHero
-                                });
+                        } else {
+                            if (kill.leftHero && kill.leftHero.indexOf('_') == -1){
+                                // kill is by a hero instead of e.g. torb_turret
+                                // this is _not_ who we are playing so ignore
+                                hero = kill.leftHero;
+                            }
+                            if (kill.rightHero) {
+                                if (kill.rightHero && kill.rightHero.indexOf('_') == -1){
+                                    // kill on a real player instead of a turret/metch/tp/etc.
+                                    kills += 1;                    
+                                    events.push({
+                                        time: kill.time - stage.start,
+                                        type: 'kill',
+                                        otherHero: kill.rightHero
+                                    });
+                                } else {
+                                    events.push({
+                                        time: kill.time - stage.start,
+                                        type: 'destruction',
+                                        otherHero: kill.rightHero
+                                    });
+                                }
                             }
                         }
                     }
-                }
-                if (kill.rightPlayer === player.name) {
-                    if (kill.isRes){
-                        hero = kill.rightHero;
+                    if (kill.rightPlayer === player.name) {
+                        if (kill.isRes){
+                            hero = kill.rightHero;
 
-                        events.push({
-                            time: kill.time - stage.start,
-                            type: 'resurrect',
-                            otherHero: kill.leftHero
-                        });
-                    } else { 
-                        if (kill.rightHero) {
-                            if (kill.rightHero.indexOf('_') == -1){
-                                // kill is on `player`'s hero instead of e.g. their turret (torb_turret)
-                                hero = kill.rightHero;
-                                
-                                deaths += 1;
-                                events.push({
-                                    time: kill.time - stage.start,
-                                    type: 'death',
-                                    otherHero: kill.leftHero
-                                });
-                            } else {
-                                events.push({
-                                    time: kill.time - stage.start,
-                                    type: 'destroyed',
-                                    otherHero: kill.rightHero
-                                });
+                            events.push({
+                                time: kill.time - stage.start,
+                                type: 'resurrect',
+                                otherHero: kill.leftHero
+                            });
+                        } else { 
+                            if (kill.rightHero) {
+                                if (kill.rightHero.indexOf('_') == -1){
+                                    // kill is on `player`'s hero instead of e.g. their turret (torb_turret)
+                                    hero = kill.rightHero;
+                                    
+                                    deaths += 1;
+                                    events.push({
+                                        time: kill.time - stage.start,
+                                        type: 'death',
+                                        otherHero: kill.leftHero
+                                    });
+                                } else {
+                                    events.push({
+                                        time: kill.time - stage.start,
+                                        type: 'destroyed',
+                                        otherHero: kill.rightHero
+                                    });
+                                }
                             }
                         }
                     }
@@ -99,23 +124,26 @@ export class GameService {
                         heroes.push({
                             name: hero,
                             start: 0,
-                            end: kill.time - stage.start
+                            end: event.time - stage.start
                         });
                     } else if (heroes[heroes.length - 1].name === hero) {
                         // if the new hero is the same as the last then extend that one on
-                        heroes[heroes.length - 1].end = kill.time - stage.start;
-                        if (kill.rightPlayer != player || kill.isRes){
-                            // If the event is a kill or being ressed then the player continued playing this hero for a bit longer
-                            // Using this event as the end of playing this hero can make it look like a player resurrected as a different hero
-                            // To solve this extend out the time a bit
-                            heroes[heroes.length - 1].end += 15 * 1000 + Math.random() * 10 * 1000;
+                        heroes[heroes.length - 1].end = event.time - stage.start;
+                        if ('isRes' in event){
+                            let kill = <KillFeedEntry> event;
+                            if (kill.rightPlayer != player || kill.isRes){
+                                // If the event is a kill or being ressed then the player continued playing this hero for a bit longer
+                                // Using this event as the end of playing this hero can make it look like a player resurrected as a different hero
+                                // To solve this extend out the time a bit
+                                heroes[heroes.length - 1].end += 15 * 1000 + Math.random() * 10 * 1000;
+                            }
                         }
                     } else {
                         // once we see a new hero add this to the list
                         heroes.push({
                             name: hero,
                             start: heroes[heroes.length - 1].end,
-                            end: kill.time - stage.start
+                            end: event.time - stage.start
                         });
                     }
                 }
@@ -140,6 +168,7 @@ export class GameService {
                 heroesPlayed: heroes,
                 colour: teamColour
             });
+
         }
     }
 
@@ -235,7 +264,7 @@ export class GameService {
         let index = 0;
         for (const stage of objective_stages){
             const players: Array<Player> = [];
-            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue');
+            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue', body.tab_statistics);
             this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red');
 
             this.addAssists(players[0], body.assists, stage);
