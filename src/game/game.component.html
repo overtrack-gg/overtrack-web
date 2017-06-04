@@ -1,8 +1,8 @@
 <div *ngIf="game" class="jumbotron game view banner {{mapClass()}}">
     <div class="container">
         <div class="pull-left">
-            <h1>Game: {{game.owner}}</h1>
-            <p>{{game.player}} on {{game.map}} ({{game.mapType}})</p>
+            <h1>{{game.player}} on {{game.map}}</h1>
+            <p>{{game.mapType}}</p>
             <p>{{displayGameTime()}} minutes</p>
         </div>
         <div class="pull-right">
