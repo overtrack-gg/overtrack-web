@@ -566,6 +566,7 @@ div#meta-game p.indent-2 {
     padding: 4px;
     border: 1px solid #a0a0a0;
     border-radius: 5px;
+    max-width: 100%;
 }
 
 svg.timeline.col-xs-8 {
