@@ -269,26 +269,30 @@ a.navbar-brand > img {
 }
 
 #gametable td {
-    height:80px;
-    line-height:80px;
+    height:60px;
+    line-height:60px;
     font-size:40px;
     
 }
 
 #gametable .gn {
     font-size:20px;
-    line-height: 40px;
+    line-height: 30px;
 }
 
 #gametable .sr {
     font-size:25px;
-    line-height:40px;
+    line-height:25px;
     padding-top:0px;
     padding-bottom:0px;
 }
 
 #gametable .sr > img {
     height:55px;
+}
+
+#gametable .sr > span {
+    line-height: 25px;
 }
 
 #gametable .time {
