@@ -36,4 +36,10 @@ export class AppComponent implements OnInit {
 			}
 		);
 	}
+    
+    prevent(event: any) {
+        if (!event.ctrlKey) {
+            event.preventDefault();
+        }
+    }
 }
