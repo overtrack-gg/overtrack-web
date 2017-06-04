@@ -57,7 +57,7 @@ export class GamesListService {
                     srChange = String(game.end_sr - game.start_sr);
                 }
 
-                let srString = '?';
+                let srString = '    ';
                 if (game.end_sr != null){
                     srString = String(game.end_sr);
                 }

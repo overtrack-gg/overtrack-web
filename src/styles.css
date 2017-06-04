@@ -256,8 +256,6 @@ a.navbar-brand > img {
     height: 7px;
     margin: 0 9px;
     border-top: 1px solid #697075;
-    /*border-left: 1px solid #f2f2f2;
-    border-right: 1px solid #ffffff;*/
 }
 
 #gametable {
@@ -269,26 +267,25 @@ a.navbar-brand > img {
 }
 
 #gametable td {
-    height:60px;
-    line-height:60px;
-    font-size:40px;
-    
+    font-size:35px;
+    vertical-align: middle;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 #gametable .gn {
-    font-size:20px;
-    line-height: 30px;
+    font-size:18px;
 }
 
 #gametable .sr {
     font-size:25px;
-    line-height:25px;
-    padding-top:0px;
+    line-height:30px;
+    padding-top:5px;
     padding-bottom:0px;
 }
 
 #gametable .sr > img {
-    height:55px;
+    height:45px;
 }
 
 #gametable .sr > span {
@@ -301,15 +298,13 @@ a.navbar-brand > img {
 }
 
 #gametable .time > .num {
-    font-size:40px;
-    line-height:40px;
-    height:40px;
-    margin-top:20px;
+    font-size:25px;
+    line-height: 18px;
+    padding-top: 8px;
 }
 
 #gametable .time > .unit{
-    line-height:20px;
-    height:20px;
+    font-size: 18px;
 }
 
 .num {
