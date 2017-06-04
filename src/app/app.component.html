@@ -19,7 +19,8 @@
                     background-color:rgba(150, 100, 100, 1);">
                     CLOSED BETA
                 </span></a>
-            
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav" routerLinkActive="active">
 
                 <!-- TODO: make this nice -->
@@ -36,8 +37,6 @@
                     <li class="nav-item" [class.active]="router.isActive('/tracker')" routerLink="tracker"><a class="nav-link">Download Tracker</a></li>
                 </ng-container>
             </ul>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
             <user-login></user-login>
         </div>
     </div>
