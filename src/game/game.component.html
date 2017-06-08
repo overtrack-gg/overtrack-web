@@ -21,7 +21,6 @@
                     <li><b>Stages:</b></li>
                     <li class="{{f ? 'active' : ''}}"*ngFor="let stage of game.stages; let f = first;"><a href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
                     <li class="divider"> <!-- TODO: make this work --> </li>
-                    <li><a>Combined <!-- TODO --> </a></li>
                 </ul>
             </div>
             <div class="panel-body">
