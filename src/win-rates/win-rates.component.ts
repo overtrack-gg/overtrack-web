@@ -28,7 +28,7 @@ export class WinRatesComponent implements OnInit {
 	heronamesOrderedByTime: Array<string>;
 	showAllHeroes: boolean = false;//should all heroes be displayed, or only the most played ones
 	lfhp: number = LOW_FREQUENCY_HERO_PERCENTAGE;
-	normalise: boolean = true;
+	normalise: boolean = false;
 
     constructor(private gamesListService: GamesListService, 
 				private router: Router,
@@ -44,7 +44,7 @@ export class WinRatesComponent implements OnInit {
                 }
             }
         );
-		this.normalise = localStorage.getItem('normalise') != 'false';
+		this.normalise = localStorage.getItem('normalise') == 'true';
     }
 
 	fetchSharedGames(share_key: string){
