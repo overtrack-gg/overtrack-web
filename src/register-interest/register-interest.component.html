@@ -7,12 +7,11 @@
 <div class="container">
 
     <p *ngIf="battletag">
-        Sorry but {{ battletag }} is not whitelisted.<br>
+        Sorry but OverTrack is currently in beta testing and {{ battletag }} is not whitelisted.<br>
         If you have a different account that you believe is whitelisted you will need to sign out of {{ battletag }} on <a href="https://battle.net">battle.net</a> and try to log in again.
     </p>
 
-    <p>Thank you for your interest in OverTrack! Right now we invite-only but accepting testers. To sign up for testing please use <a href="https://goo.gl/forms/GBU4LQNKpNkqDZhP2">this google form</a>.<br/><br/>
-    You can also sign up below to be notified when we go live!</p>
+    <p>You can sign up below to be notified when we go live!</p>
 
     <form *ngIf="!registered" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <label for="email">Email</label>
