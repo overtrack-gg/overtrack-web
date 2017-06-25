@@ -37,7 +37,7 @@ export class RavenErrorHandler implements ErrorHandler {
 			console.group('Error Log Service');
 			console.error(err);
 			console.error(err.message);
-			//console.error(err.stack);
+			console.error(err.stack);
 			console.groupEnd();
 		}
 
