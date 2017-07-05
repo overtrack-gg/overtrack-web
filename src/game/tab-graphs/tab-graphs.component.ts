@@ -28,7 +28,7 @@ export let heroStatNames = {
 	'lucio': ['weapon accuracy', 'offensive assists', 'kill streak - best', 'defensive assists', 'sound barriers provided'],
 	'mercy': ['offensive assists', 'blaster kills', 'defensive assists', 'damage amplified', 'players resurrected'],
 	'symmetra': ['sentry turret kills', 'players teleported', 'kill streak - best', 'teleporter uptime', 'damage blocked'],
-	'zenyatta': ['weapon accuracy', 'defensive assists', 'kill streak - best', 'best transcendance heal', 'offensive assists'],
+	'zenyatta': ['weapon accuracy', 'defensive assists', 'kill streak - best', 'transcendence healing', 'offensive assists'],
 }
 
 export let heroGraphedStats = [
