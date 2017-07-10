@@ -32,12 +32,18 @@ export class GamesListService {
 
         for (let game of body.games) {
             let gamelist = [];
-            if (map[game.player_name]) {
-                gamelist = map[game.player_name];
+
+            let playerName = game.player_name;
+            if (game.custom_game || playerName.indexOf('(Custom Games)') != -1){
+                playerName = 'Custom Games';
+            }
+            
+            if (map[playerName]) {
+                gamelist = map[playerName];
             } else {
-                map[game.player_name] = gamelist;
+                map[playerName] = gamelist;
                 list.push({
-                    player: game.player_name,
+                    player: playerName,
                     user_id: game.user_id,
                     list: gamelist
                 });
@@ -85,7 +91,9 @@ export class GamesListService {
                     duration: game.duration,
                     url: game.url,
                     key: game.key,
-                    heroes: heroes
+                    heroes: heroes,
+                    rank: game.rank,
+                    customGame: game.custom_game
                 });
             } else {
                 gamelist.push({
@@ -104,7 +112,9 @@ export class GamesListService {
                     duration: null,
                     url: null,
                     key: game.key,
-                    heroes: null
+                    heroes: null,
+                    rank: null,
+                    custom_game: false
                 });
             }
         }
@@ -169,6 +179,8 @@ export class GamesListEntry {
     heroes: Array<GamesListHero>;
     url: string;
     key: string;
+    rank: string;
+    customGame: boolean;
 }
 
 export class GamesListHero {
