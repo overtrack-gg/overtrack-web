@@ -29,6 +29,7 @@ export let heroStatNames = {
 	'mercy': ['offensive assists', 'blaster kills', 'defensive assists', 'damage amplified', 'players resurrected'],
 	'symmetra': ['sentry turret kills', 'players teleported', 'kill streak - best', 'teleporter uptime', 'damage blocked'],
 	'zenyatta': ['weapon accuracy', 'defensive assists', 'kill streak - best', 'transcendence healing', 'offensive assists'],
+    'doomfist': ['weapon accuracy', 'ability damage done', 'kill streak - best', 'meteor strike kills', 'final blows', 'shields created'],
 }
 
 export let heroGraphedStats = [
