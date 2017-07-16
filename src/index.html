@@ -1,45 +1,168 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <base href="/">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" href="favicon.png">
-        <title>OverTrack</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    </head>
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <title>OverTrack</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <body>
-        <overtrack></overtrack>
-        
-        <!-- 
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="styles.bundle.css" rel="stylesheet">-->
+    <link href="prerender.css" rel="stylesheet">
+</head>
+
+<body>
+    <overtrack ng-version="2.4.10">
+        <nav class="navbar navbar-inverse navbar-fixed-top" style="font-family: 'Roboto', sans-serif;">
+            <div class="container">
+                <div class="navbar-header">
+                    <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" routerlink="games" style="padding-right: 0" href="/games">
+                        <img src="favicon.png"> OverTrack<span style="
+                    display:inline-block;
+                    color:#F16639;
+                    transform: rotate(-25deg) translate(0, -7px);
+                    border:1px #F16639 solid;
+                    font-size:9px;
+                    width:62px;
+                    margin-left:6px;
+                    background-color:rgba(150, 100, 100, 1);">
+                    CLOSED BETA
+                </span></a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar">
+                    <ul class="nav navbar-nav" routerlinkactive="active">
+
+                        <!--template bindings={}-->
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/games">Games</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/graph">SR Graph</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/statistics">Statistics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/winrates">Win Rates</a>
+                        </li>
+
+                        <!--template bindings={}-->
+                        <!--template bindings={}-->
+                        <li class="divider-vertical"></li>
+
+                        <li class="nav-item" routerlink="tracker">
+                            <a class="nav-link" href="/tracker">Download Tracker</a>
+                        </li>
+
+                    </ul>
+                    <user-login>
+                        <form class="navbar-form navbar-right ng-untouched ng-pristine ng-valid" id="login-nav">
+                            <a class="btn btn-success" id="login" href="https://api.overtrack.gg/authenticate?next=https://overtrack.gg/">Sign in</a>
+                        </form>
+                        <div id="logged-in-nav" class="hidden">
+                            <form class="navbar-form navbar-right ng-untouched ng-pristine ng-valid" id="login-nav">
+                                <a class="btn btn-info" id="signout">Sign out</a>
+                            </form>
+                            <h4 class="navbar-text navbar-right" id="username"></h4>
+                        </div>
+                    </user-login>
+                </div>
+            </div>
+        </nav>
+
+        <router-outlet></router-outlet>
+        <welcome>
+            <div class="jumbotron overview view banner watchpoint-gibraltar" style="padding-bottom: 10px;">
+                <div class="container">
+                    <h1>OverTrack</h1>
+                </div>
+            </div>
+
+            <div class="container">
+                <h2>Automated Competitive Match Tracking</h2>
+                <p>
+                    OverTrack keeps records of your competitive matches - Skill Rating, Win/Loss/Draw, Eliminations, Healing, Damage, Objective Time, and more.
+                    <br> No longer is there a need to manually enter match data into a form or spreadsheet; OverTrack does all this automatically!
+                </p>
+
+                <img class="tut-image" src="assets/images/welcome/games.png">
+                <p>
+                    OverTrack records the map, result, heroes played and SR changes of all your matches.
+                    <br> All this is done by passively recording the screen of Overwatch, which, for the purposes of this program Blizzard has confirmed they do not consider a cheat.
+                </p>
+
+                <h2>Per Game Tracking</h2>
+
+                <img class="tut-image" src="assets/images/welcome/game.png">
+
+                <p>OverTrack also records details from each game that would otherwise be impossible to remember in the heat of play including:</p>
+                <ul>
+                    <li>Hero swaps</li>
+                    <li>Your team comp and opponents team comp</li>
+                    <li>The Kill Feed</li>
+                    <li>Kill Assists (Eliminations you added damage to but did not get the final blow on)</li>
+                    <li>Support Assists (Eliminations you aided your team by way of support abilities e.g. Orb of Discord)</li>
+                    <li>Objective information (checkpoints/point control)</li>
+                    <li>and more!</li>
+
+                </ul>
+
+                <h2>Statistics and Win Rates</h2>
+
+                <p>OverTrack will record statistics whenever you press tab. This allows tracking on both a per-game and overall level.</p>
+                <h4>Per Game</h4>
+                <img class="tut-image" src="assets/images/welcome/game_stats.png">
+                <h4>Overall</h4>
+                <img class="tut-image" src="assets/images/welcome/hero_stats.png">
+                <h4>Win Rates</h4>
+                <img class="tut-image" src="assets/images/welcome/winrates.png">
+
+            </div>
+        </welcome>
+    </overtrack>
+
+    <!-- 
             Footer
         -->
-        <div class="container">
-            <footer>
-                <p>&copy; 2017 Simon Pinfold</p>
-            </footer>
-        </div>
+    <div class="container">
+        <footer>
+            <p>© 2017 Simon Pinfold</p>
+        </footer>
+    </div>
 
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Overpass+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Overpass+Mono" rel="stylesheet">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="assets/js/plotly-latest.min.js"></script>
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="assets/js/plotly-latest.min.js"></script>
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-            ga('create', 'UA-99105415-1', 'auto');
-        </script>
-
-    </body>
+        ga('create', 'UA-99105415-1', 'auto');
+    </script>
+</body>
 </html>
