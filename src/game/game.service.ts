@@ -306,13 +306,23 @@ export class GameService {
                 objectiveInfo = {};
             }
 
+            let progress: number = null;
+            let formatProgress: string = null;
+            if (stage.format_progress){
+                progress = stage.progress;
+                formatProgress = stage.format_progress;
+            }
+
             stages.push({
                 name: stage.stage,
                 index: index++,
                 start: stage.start,
                 end: stage.end,
                 players: players,
-                objectiveInfo: objectiveInfo
+                objectiveInfo: objectiveInfo,
+
+                progress: progress,
+                formatProgress: formatProgress
             });
         }
 
@@ -419,6 +429,9 @@ export class Stage {
     end: number;
     players: Array<Player>;
     objectiveInfo: ObjectiveInfo;
+
+    progress: number;
+    formatProgress: string;
 }
 
 export interface ObjectiveInfo {
