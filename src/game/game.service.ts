@@ -349,6 +349,35 @@ export class GameService {
         }
         console.log(body.hero_statistics);
 
+        let validRanks = 0;
+        let teams: Teams = {
+            blue: [],
+            blueAvgSR: body.avg_sr[0],
+            red: [],
+            redAvgSR: body.avg_sr[1],
+        }
+        for (let player of body.teams.blue){
+            teams.blue.push({
+                name: player.name,
+                rank: player.rank || "unknown"
+            })
+            if (player.rank){
+                validRanks += 1;
+            }
+        }
+        for (let player of body.teams.red){
+            teams.red.push({
+                name: player.name,
+                rank: player.rank || "unknown"
+            })
+            if (player.rank){
+                validRanks += 1;
+            }
+        }
+        if (validRanks < 9){
+            teams = null;
+        }
+
         return {
             map: body.map,
             mapType: body.map_type,
@@ -367,7 +396,8 @@ export class GameService {
             tabStatistics: body.tab_statistics,
             heroStatistics: heroStatistics,
             startSR: body.start_sr,
-            endSR: body.end_sr
+            endSR: body.end_sr,
+            teams: teams,
         };
     }
 }
@@ -391,6 +421,20 @@ export class Game {
     heroStatistics: Array<HeroStatistics>;
     startSR: number;
     endSR: number;
+    teams: Teams;
+}
+
+export class Teams {
+    blue: Array<TeamPlayer>;
+    blueAvgSR: number;
+
+    red: Array<TeamPlayer>;
+    redAvgSR: number;
+}
+
+export class TeamPlayer{
+    name: string;
+    rank: string;
 }
 
 export class KillFeedEntry {

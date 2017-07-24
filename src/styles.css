@@ -19,6 +19,15 @@ a.navbar-brand > img {
     /*line-height: 21px !important;*/
 }
 
+.team-table > tbody > tr > td,
+.team-table > tbody > tr > th,
+.team-table > tfoot > tr > td,
+.team-table > tfoot > tr > th,
+.team-table > thead > tr > td,
+.team-table > thead > tr > th {
+    border: none !important;
+}
+
 /*.table {
 	margin: 0 auto;
 	text-align: left;
