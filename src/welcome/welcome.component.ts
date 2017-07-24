@@ -9,7 +9,7 @@ import { UserLoginService } from '../login/user-login.service';
 })
 export class WelcomeComponent implements OnInit {
     next: string;
-    constructor(private router: Router, private route: ActivatedRoute, private userLoginService: UserLoginService) {}
+    constructor(public router: Router, public route: ActivatedRoute, public userLoginService: UserLoginService) {}
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params: Params) => {

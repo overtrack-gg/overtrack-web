@@ -23,13 +23,13 @@ export class GamesListComponent implements OnInit {
     currentUploadRequested: Date = null;
     currentUserID: number;
 
-    private linkKey: string;
-    private linkMouse: number;
+    public linkKey: string;
+    public linkMouse: number;
 
-    constructor(private gamesListService: GamesListService,
-                private loginService: UserLoginService,
-                private activatedRoute: ActivatedRoute,
-                private router: Router) { }
+    constructor(public gamesListService: GamesListService,
+                public loginService: UserLoginService,
+                public activatedRoute: ActivatedRoute,
+                public router: Router) { }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe(

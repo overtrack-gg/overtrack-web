@@ -6,5 +6,5 @@ import { Router } from '@angular/router';
     templateUrl: './install-instructions.component.html',
 })
 export class InstallInstructionsComponent{
-    constructor(private router: Router) {}
+    constructor(public router: Router) {}
 }

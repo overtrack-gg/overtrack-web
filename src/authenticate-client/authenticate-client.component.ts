@@ -9,9 +9,9 @@ import { AuthenticateClientService } from './authenticate-client.service';
     providers: [AuthenticateClientService]
 })
 export class AuthenticateClientComponent implements OnInit  {
-    private callback: string;
-    private token: string;
-    constructor(private route: ActivatedRoute, private authenticateClientService: AuthenticateClientService) {}
+    public callback: string;
+    public token: string;
+    constructor(public route: ActivatedRoute, public authenticateClientService: AuthenticateClientService) {}
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params: Params) => {

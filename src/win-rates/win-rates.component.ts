@@ -30,9 +30,9 @@ export class WinRatesComponent implements OnInit {
 	lfhp: number = LOW_FREQUENCY_HERO_PERCENTAGE;
 	normalise: boolean = false;
 
-    constructor(private gamesListService: GamesListService, 
-				private router: Router,
-				private activatedRoute: ActivatedRoute) { }
+    constructor(public gamesListService: GamesListService, 
+				public router: Router,
+				public activatedRoute: ActivatedRoute) { }
 
 	 ngOnInit(): void {
         this.activatedRoute.params.subscribe(

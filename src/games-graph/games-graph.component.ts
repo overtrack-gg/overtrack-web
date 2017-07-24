@@ -14,9 +14,9 @@ declare var Plotly: any;
 export class GamesGraphComponent implements OnInit {
     gamesLists: Array<PlayerGameList>;
 
-    constructor(private gamesListService: GamesListService,
-                private router: Router,
-                private activatedRoute: ActivatedRoute) { }
+    constructor(public gamesListService: GamesListService,
+                public router: Router,
+                public activatedRoute: ActivatedRoute) { }
 
      ngOnInit(): void {
         this.activatedRoute.params.subscribe(
