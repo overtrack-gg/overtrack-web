@@ -50,8 +50,8 @@ export class RavenErrorHandler implements ErrorHandler {
 @Injectable()
 export class LoggedIn implements CanActivate {
 
-	constructor(private router: Router, 
-				private userLoginService: UserLoginService,
+	constructor(public router: Router, 
+				public userLoginService: UserLoginService,
 				) { }
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
@@ -91,7 +91,7 @@ export class LoggedIn implements CanActivate {
 })
 export class RedirectToGamesComponent implements OnInit {
 
-    constructor(private router: Router) {}
+    constructor(public router: Router) {}
 
 	ngOnInit(): void {
 		console.log('Redirecting to /games');

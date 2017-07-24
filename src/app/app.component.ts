@@ -9,10 +9,10 @@ declare var ga:Function;
 })
 export class AppComponent implements OnInit {
 
-	private shareKey: string = null;
-	private shareKeyFragment: string = null;
+	shareKey: string = null;
+	shareKeyFragment: string = null;
 
-	constructor(private router: Router) {}
+	constructor(public router: Router) {}
 
 	ngOnInit(): void {
 		this.router.events.subscribe(

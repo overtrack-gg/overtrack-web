@@ -26,23 +26,23 @@
                 <!-- TODO: make this nice -->
                 <li *ngIf="shareKey"><a class="nav-link"><b>{{ shareKey }}</b></a></li>
 
-                <li class="nav-item" [class.active]="router.isActive('/games')" routerLink="games{{ shareKeyFragment }}">
+                <li class="nav-item" [class.active]="router.isActive('/games', false)" routerLink="games{{ shareKeyFragment }}">
                     <a class="nav-link" (click)="prevent($event)" href="/games">Games</a>
                 </li>
-                <li class="nav-item" [class.active]="router.isActive('/graph')" routerLink="graph{{ shareKeyFragment }}">
+                <li class="nav-item" [class.active]="router.isActive('/graph', false)" routerLink="graph{{ shareKeyFragment }}">
                     <a class="nav-link" (click)="prevent($event)" href="/graph">SR Graph</a>
                 </li>
-                <li class="nav-item" [class.active]="router.isActive('/statistics')" routerLink="statistics{{ shareKeyFragment }}">
+                <li class="nav-item" [class.active]="router.isActive('/statistics', false)" routerLink="statistics{{ shareKeyFragment }}">
                     <a class="nav-link" (click)="prevent($event)" href="/statistics">Statistics</a>
                 </li>
-                <li class="nav-item" [class.active]="router.isActive('/winrates')" routerLink="winrates{{ shareKeyFragment }}">
+                <li class="nav-item" [class.active]="router.isActive('/winrates', false)" routerLink="winrates{{ shareKeyFragment }}">
                     <a class="nav-link" (click)="prevent($event)" href="/winrates">Win Rates</a>
                 </li>
 
                 <ng-container *ngIf="!shareKey">
                     <li class="divider-vertical"></li><!-- how to make this not look s**t? -->
                     
-                    <li class="nav-item" [class.active]="router.isActive('/tracker')" routerLink="tracker">
+                    <li class="nav-item" [class.active]="router.isActive('/tracker', false)" routerLink="tracker">
                         <a class="nav-link" (click)="prevent($event)" href="/tracker">Download Tracker</a>
                     </li>
                 </ng-container>

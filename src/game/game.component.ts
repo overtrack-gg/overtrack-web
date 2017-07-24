@@ -51,7 +51,7 @@ export class GameComponent implements OnInit {
     game: Game;
     hideTimelineKey: boolean;
 
-    constructor(private gameService: GameService, private route: ActivatedRoute, private loginService: UserLoginService) { }
+    constructor(public gameService: GameService, public route: ActivatedRoute, public loginService: UserLoginService) { }
 
     ngOnInit(): void {
         this.hideTimelineKey = true;

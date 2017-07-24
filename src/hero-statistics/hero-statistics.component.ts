@@ -17,9 +17,9 @@ export class AllTimeHeroStatisticsComponent implements OnInit {
     playerList: Array<string>;
     heroStatsByPlayer: Map<string, Array<HeroStatistics>>;
  
-    constructor(private statsService: HeroStatisticsService, 
-                private router: Router,
-                private activatedRoute: ActivatedRoute) { }
+    constructor(public statsService: HeroStatisticsService, 
+                public router: Router,
+                public activatedRoute: ActivatedRoute) { }
  
     ngOnInit(): void {
         this.activatedRoute.params.subscribe(

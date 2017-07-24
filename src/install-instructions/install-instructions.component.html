@@ -1,11 +1,11 @@
-<div *ngIf="router.isActive('/tracker')" class="jumbotron overview view banner lijiang-tower" style="padding-bottom: 10px;">
+<div *ngIf="router.isActive('/tracker', false)" class="jumbotron overview view banner lijiang-tower" style="padding-bottom: 10px;">
     <div class="container">                      
         <h1>Tracker</h1>
     </div>
 </div>
 
 <div class="container overview view">
-    <p *ngIf="!router.isActive('/tracker')">
+    <p *ngIf="!router.isActive('/tracker', false)">
         It looks like you don't have any games yet... Here's how to get started with OverTrack:
     </p>
 

@@ -12,10 +12,10 @@ export class UserLoginComponent implements OnInit {
     user: User = null;
     loginUrl: string;
 
-    constructor(private userLoginService: UserLoginService, 
-                private router: Router,
-                private route: ActivatedRoute,
-                @Inject(DOCUMENT) private document: any) { }
+    constructor(public userLoginService: UserLoginService, 
+                public router: Router,
+                public route: ActivatedRoute,
+                @Inject(DOCUMENT) public document: any) { }
 
     ngOnInit(): void {
 
