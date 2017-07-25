@@ -350,13 +350,15 @@ export class GameService {
         console.log(body.hero_statistics);
 
         let validRanks = 0;
-        let teams: Teams = {
-            blue: [],
-            blueAvgSR: body.avg_sr[0],
-            red: [],
-            redAvgSR: body.avg_sr[1],
-        }
-        for (let player of body.teams.blue){
+        let teams: Teams;
+        if (body.avg_sr){
+            teams = {
+                blue: [],
+                blueAvgSR: body.avg_sr[0],
+                red: [],
+                redAvgSR: body.avg_sr[1],
+            }
+            for (let player of body.teams.blue){
             teams.blue.push({
                 name: player.name,
                 rank: player.rank || "unknown"
@@ -364,20 +366,23 @@ export class GameService {
             if (player.rank){
                 validRanks += 1;
             }
-        }
-        for (let player of body.teams.red){
-            teams.red.push({
-                name: player.name,
-                rank: player.rank || "unknown"
-            })
-            if (player.rank){
-                validRanks += 1;
             }
-        }
-        if (validRanks < 9){
+            for (let player of body.teams.red){
+                teams.red.push({
+                    name: player.name,
+                    rank: player.rank || "unknown"
+                })
+                if (player.rank){
+                    validRanks += 1;
+                }
+            }
+            if (validRanks < 9){
+                teams = null;
+            }
+        } else {
             teams = null;
         }
-
+        
         return {
             map: body.map,
             mapType: body.map_type,
@@ -398,6 +403,7 @@ export class GameService {
             startSR: body.start_sr,
             endSR: body.end_sr,
             teams: teams,
+            customGame: body.custom_game
         };
     }
 }
@@ -422,6 +428,7 @@ export class Game {
     startSR: number;
     endSR: number;
     teams: Teams;
+    customGame: boolean;
 }
 
 export class Teams {

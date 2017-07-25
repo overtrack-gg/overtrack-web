@@ -8,7 +8,16 @@
         <div class="pull-right">
             <h1 class="text-right"><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span></h1>
             <p class="text-right">Score: {{game.blueScore}}/{{game.redScore}}</p>
-            <p>SR: {{displaySR(game.startSR)}} → {{displaySR(game.endSR)}}<img src="assets/images/icons/{{rank(game.endSR)}}.png" height="35" style="vertical-align: bottom">({{displaySRChange()}})</p>
+
+            <p *ngIf="game.customGame" style="text-align: right">
+                Custom Game
+            </p>
+            <p *ngIf="!game.customGame && game.teams.blue[0].rank == 'placement' && !game.endSR" style="text-align: right">
+                Placement
+            </p>
+            <p *ngIf="!game.customGame && (game.teams.blue[0].rank != 'placement' || game.endSR)">
+                SR: {{ game.teams.blue[0].rank == 'placement' ? "-" : displaySR(game.startSR) }} → {{displaySR(game.endSR)}}<img src="assets/images/icons/{{rank(game.endSR)}}.png" height="35" style="vertical-align: bottom">({{displaySRChange()}})
+            </p>
         </div>
     </div>
 </div>
@@ -103,7 +112,7 @@
                         <table class="table team-table text-blue">
                             <tr>
                                 <th></th>
-                                <th class="text-blue">{{ game.teams.blueAvgSR }}</th>
+                                <th>{{ game.teams.blueAvgSR || " " }}</th>
                             </tr>
                             <tr *ngFor="let i of [0, 1, 2, 3, 4, 5]">
                                 <td style="vertical-align: middle;"><b>{{ game.teams.blue[i].name }}</b></td>
@@ -117,7 +126,7 @@
                         <table class="table team-table text-red">
                             <tr>
                                 <th></th>
-                                <th>{{ game.teams.redAvgSR }}</th>
+                                <th>{{ game.teams.redAvgSR || " " }}</th>
                             </tr>
                             <tr *ngFor="let i of [0, 1, 2, 3, 4, 5]">
                                 <td style="vertical-align: middle;"><b>{{ game.teams.red[i].name }}</b></td>
