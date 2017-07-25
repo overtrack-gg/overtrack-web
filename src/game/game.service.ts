@@ -351,6 +351,7 @@ export class GameService {
 
         let validRanks = 0;
         let teams: Teams;
+        let placement: boolean = false;
         if (body.avg_sr){
             teams = {
                 blue: [],
@@ -359,13 +360,13 @@ export class GameService {
                 redAvgSR: body.avg_sr[1],
             }
             for (let player of body.teams.blue){
-            teams.blue.push({
-                name: player.name,
-                rank: player.rank || "unknown"
-            })
-            if (player.rank){
-                validRanks += 1;
-            }
+                teams.blue.push({
+                    name: player.name,
+                    rank: player.rank || "unknown"
+                })
+                if (player.rank){
+                    validRanks += 1;
+                }
             }
             for (let player of body.teams.red){
                 teams.red.push({
@@ -375,6 +376,10 @@ export class GameService {
                 if (player.rank){
                     validRanks += 1;
                 }
+            }
+            console.log(teams.blue[0].rank);
+            if (teams.blue[0].rank == 'placement'){
+                placement = true;
             }
             if (validRanks < 9){
                 teams = null;
@@ -403,7 +408,8 @@ export class GameService {
             startSR: body.start_sr,
             endSR: body.end_sr,
             teams: teams,
-            customGame: body.custom_game
+            customGame: body.custom_game,
+            placement: placement
         };
     }
 }
@@ -429,6 +435,7 @@ export class Game {
     endSR: number;
     teams: Teams;
     customGame: boolean;
+    placement: boolean;
 }
 
 export class Teams {

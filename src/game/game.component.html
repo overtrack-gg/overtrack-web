@@ -12,11 +12,11 @@
             <p *ngIf="game.customGame" style="text-align: right">
                 Custom Game
             </p>
-            <p *ngIf="!game.customGame && game.teams.blue[0].rank == 'placement' && !game.endSR" style="text-align: right">
+            <p *ngIf="!game.customGame && game.placement && !game.endSR" style="text-align: right">
                 Placement
             </p>
-            <p *ngIf="!game.customGame && (game.teams.blue[0].rank != 'placement' || game.endSR)">
-                SR: {{ game.teams.blue[0].rank == 'placement' ? "-" : displaySR(game.startSR) }} → {{displaySR(game.endSR)}}<img src="assets/images/icons/{{rank(game.endSR)}}.png" height="35" style="vertical-align: bottom">({{displaySRChange()}})
+            <p *ngIf="!game.customGame && (!game.placement || game.endSR)">
+                SR: {{ game.placement ? "-" : displaySR(game.startSR) }} → {{displaySR(game.endSR)}}<img src="assets/images/icons/{{rank(game.endSR)}}.png" height="35" style="vertical-align: bottom">({{ game.placement ? "Placement" : displaySRChange() }})
             </p>
         </div>
     </div>
