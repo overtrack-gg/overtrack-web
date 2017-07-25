@@ -57,7 +57,9 @@
                                 </td>
                                 <td *ngIf="!game.error" class="{{wltClass(game)}} text-left" >{{game.result}}</td>
                                 <td *ngIf="!game.error"><span class="num">{{game.blueScore}}</span><span class="unit">{{unit(game)}}</span>/<span class="num">{{game.redScore}}</span><span class="unit">{{unit(game)}}</span></td>
-                                <td *ngIf="!game.error" class="num sr"><img src="assets/images/icons/{{rank(game.sr)}}.png"/><span>{{game.srString}}</span></td>
+                                <td *ngIf="!game.error && game.rank == 'placement' && !game.sr" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                <td *ngIf="!game.error && (game.rank != 'placement' || game.sr)" class="num sr"><img src="assets/images/icons/{{rank(game.sr)}}.png"/><span>{{game.srString}}</span></td>
+                                
                                 <td *ngIf="!game.error" class="time"><div class="num">{{min(game)}}</div><div class="unit">min</div></td>
                                 <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{game.map}}</i></td>
                                 <td *ngIf="!game.error" class="hero">
