@@ -156,7 +156,7 @@ export class GameComponent implements OnInit {
         } else if (sr < 2500) {
             return 'gold';
         } else if (sr < 3000) {
-            return 'platinium';
+            return 'platinum';
         } else if (sr < 3500) {
             return 'diamond';
         } else if (sr < 4000) {
