@@ -58,7 +58,7 @@ export class GamesListService {
                     });
                 }
 
-                let srChange = '?';
+                let srChange = game.rank == "placement" ? '-' : '?';
                 if (game.start_sr && game.end_sr){
                     srChange = String(game.end_sr - game.start_sr);
                 }

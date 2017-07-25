@@ -103,7 +103,7 @@
                         <table class="table team-table text-blue">
                             <tr>
                                 <th></th>
-                                <th class="text-blue">{{ game.teams.blueAvgSR }}</th>
+                                <th>{{ game.teams.blueAvgSR || " " }}</th>
                             </tr>
                             <tr *ngFor="let i of [0, 1, 2, 3, 4, 5]">
                                 <td style="vertical-align: middle;"><b>{{ game.teams.blue[i].name }}</b></td>
@@ -117,7 +117,7 @@
                         <table class="table team-table text-red">
                             <tr>
                                 <th></th>
-                                <th>{{ game.teams.redAvgSR }}</th>
+                                <th>{{ game.teams.redAvgSR || " " }}</th>
                             </tr>
                             <tr *ngFor="let i of [0, 1, 2, 3, 4, 5]">
                                 <td style="vertical-align: middle;"><b>{{ game.teams.red[i].name }}</b></td>
