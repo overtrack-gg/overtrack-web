@@ -4,7 +4,7 @@ pages:
   script:
   - npm install
   - npm install -g @angular/cli
-  - ng build --prod --aot=false
+  - ng build --prod --aot
   - cp -t dist/ prerender.css
   - mv dist/ public/
   - cp public/index.html public/404.html
