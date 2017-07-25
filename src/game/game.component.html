@@ -8,7 +8,16 @@
         <div class="pull-right">
             <h1 class="text-right"><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span></h1>
             <p class="text-right">Score: {{game.blueScore}}/{{game.redScore}}</p>
-            <p>SR: {{displaySR(game.startSR)}} → {{displaySR(game.endSR)}}<img src="assets/images/icons/{{rank(game.endSR)}}.png" height="35" style="vertical-align: bottom">({{displaySRChange()}})</p>
+
+            <p *ngIf="game.customGame" style="text-align: right">
+                Custom Game
+            </p>
+            <p *ngIf="!game.customGame && game.teams.blue[0].rank == 'placement' && !game.endSR" style="text-align: right">
+                Placement
+            </p>
+            <p *ngIf="!game.customGame && (game.teams.blue[0].rank != 'placement' || game.endSR)">
+                SR: {{ game.teams.blue[0].rank == 'placement' ? "-" : displaySR(game.startSR) }} → {{displaySR(game.endSR)}}<img src="assets/images/icons/{{rank(game.endSR)}}.png" height="35" style="vertical-align: bottom">({{displaySRChange()}})
+            </p>
         </div>
     </div>
 </div>
