@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, ElementRef, ViewChild } from '@angular/core';
 import * as D3 from 'd3';
 
-import { Stage, GameHero, GameEvent, Player } from './game.service';
+import { Stage, GameHero, GameEvent, Player, KillFeedEntry } from './game.service';
 
 
 @Component({
@@ -173,6 +173,29 @@ export class TimelineComponent implements OnChanges {
         const min = D3.format('d')(Math.floor(time / 60));
         const sec = D3.format('02')(time - (Math.floor(time / 60) * 60));
         return min + ':' + sec;
+    }   
+     
+    leftColor(kill: KillFeedEntry) {
+        if (kill.isLeftRed) {
+            return 'text-red';
+        }
+        return 'text-blue';
+    }
+
+    rightColor(kill: KillFeedEntry) {
+        if (kill.isLeftRed) {
+            return 'text-blue';
+        }
+        return 'text-red';
+    }
+
+    time(kill: KillFeedEntry) {
+        let time = kill.time - this.stage.start;
+        let secs = Math.floor(time / 1000);
+        let mins = Math.floor(secs / 60);
+        secs = secs - 60 * mins;
+        let secd = secs < 10 ? '0' + secs : secs;
+        return mins + ':' + secd;
     }
      
     endTime() {

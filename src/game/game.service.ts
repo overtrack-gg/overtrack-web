@@ -232,6 +232,18 @@ export class GameService {
 
          }
     }
+            
+    filterKillfeed(stage: any, killfeed: Array<KillFeedEntry>): Array<KillFeedEntry> {
+        let kf: Array<KillFeedEntry> = [];
+        for (const event of killfeed) {
+            if (event.time > stage.end || event.time < stage.start) {
+                // outside of this stage
+                continue;
+            }
+            kf.push(event);
+        }   
+        return kf;
+    }
 
     toGame(res: Response): Game {
         const body = res.json();
@@ -317,6 +329,7 @@ export class GameService {
                 name: stage.stage,
                 index: index++,
                 start: stage.start,
+                killfeed: this.filterKillfeed(stage, killfeed),
                 end: stage.end,
                 players: players,
                 objectiveInfo: objectiveInfo,
@@ -482,6 +495,7 @@ export class HeroStatistics {
 
 export class Stage {
     name: string;
+    killfeed: Array<KillFeedEntry>;
     index: number;
     start: number;
     end: number;

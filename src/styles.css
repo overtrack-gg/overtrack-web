@@ -233,7 +233,6 @@ a.navbar-brand > img {
     padding: 0px;
 }
 
-
 .game-timeline b {
     line-height:40px;
 }
@@ -376,8 +375,12 @@ a.navbar-brand > img {
 }
 
 #killfeed {
-    height: 550px;
+    height: 475px;
     overflow-y: scroll;
+}
+
+.game-timeline #killfeed b {
+    line-height:26px;
 }
 
 #killfeed img {

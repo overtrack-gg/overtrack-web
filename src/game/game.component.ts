@@ -70,7 +70,6 @@ export class GameComponent implements OnInit {
     
     toggleTimelineKey() {
         this.hideTimelineKey = !this.hideTimelineKey;
-        D3.select('#timeline-key-header').classed('pull-right', this.hideTimelineKey);
     }
 
     normaliseString(str: string){
@@ -99,28 +98,6 @@ export class GameComponent implements OnInit {
             return 'text-danger';
         }
         throw new Error('Unexpected game result: ' + this.game.result);
-    }
-
-    leftColor(kill: KillFeedEntry) {
-        if (kill.isLeftRed) {
-            return 'text-red';
-        }
-        return 'text-blue';
-    }
-
-    rightColor(kill: KillFeedEntry) {
-        if (kill.isLeftRed) {
-            return 'text-blue';
-        }
-        return 'text-red';
-    }
-
-    time(kill: KillFeedEntry) {
-        let secs = Math.floor(kill.time / 1000);
-        let mins = Math.floor(secs / 60);
-        secs = secs - 60 * mins;
-        let secd = secs < 10 ? '0' + secs : secs;
-        return mins + ':' + secd;
     }
     
     displaySR(sr: number) {
