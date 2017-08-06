@@ -37,7 +37,7 @@
         <h2>Kill Feed</h2>
         <div id="killfeed">
             <table class="table table-striped text-center">
-                <tr *ngFor="let kill of stage.killfeed">
+                <tr *ngFor="let kill of stage.killfeed" class="timeline-event {{kill.id}}">
                     <td class="num">{{time(kill)}}</td>
                     <td><img *ngIf="kill.leftHero" src="assets/images/heroes/{{kill.leftHero}}.png"/></td>
                     <td class="{{leftColor(kill)}} text-left {{tooLong(kill.leftPlayer)}}"><b>{{kill.leftPlayer}}</b></td>

@@ -362,6 +362,13 @@ a.navbar-brand > img {
     font-size: 20px; 
 }
 
+.timeline-event.faded {
+    opacity: 0.2;
+}
+.timeline-event.slight-faded {
+    opacity: 0.8;
+}
+
 #killfeed td {
     padding: 2px;
     line-height: 26px;
@@ -634,6 +641,10 @@ div#meta-game p.indent-2 {
 svg.timeline.col-xs-8 {
     padding: 0px;
 } 
+
+svg .timeline-event:hover {
+    cursor: pointer;
+}
 
 .timeline-key {
     height:20px;
