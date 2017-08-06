@@ -389,6 +389,10 @@ a.navbar-brand > img {
     text-shadow: 1px 1px 2px black; 
 }
 
+.jumbotron.view h1 {
+    font-size: 50px;
+}
+
 .jumbotron.view {
     color:white;
     text-shadow: 1px 1px 2px black;
@@ -410,6 +414,12 @@ a.navbar-brand > img {
     background-size: cover;
     background-position: 0 0, center;
 }
+
+.jumbotron.view.banner {
+    background-size: cover;
+    background-position: 0 0, center;
+}
+
 
 #gametable .map {
     text-align: left;
@@ -433,36 +443,27 @@ a.navbar-brand > img {
 .map.eichenwalde {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde.jpg');
 }
-
 .map.watchpoint-gibraltar {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/watchpoint-gibraltar.jpg');
 }
-
-
 .map.numbani {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/numbani.jpg');
 }
-
 .map.oasis {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/oasis.jpg');
 }
-
-
 .map.route-66 {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/route-66.jpg');
 }
-
 .map.nepal {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal.jpg');
 }
-
 .map.dorado {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/dorado.jpg');
 }
 .map.hollywood {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hollywood.jpg');
 }
-
 .map.kings-row {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row.jpg');
 }
@@ -472,11 +473,12 @@ a.navbar-brand > img {
 .map.volskaya-industries {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/volskaya-industries.jpg');
 }
-
 .map.hanamura {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hanamura.jpg');
 }
-
+.map.horizon-lunar-colony {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony.jpg');
+}
 .map.ilios {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/ilios.jpg');
 }
@@ -554,7 +556,9 @@ a.navbar-brand > img {
     background-position: center;
     background-size: cover;
 }
-
+.banner.horizon-lunar-colony {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony-banner.jpg');
+}
 
 
 /*
