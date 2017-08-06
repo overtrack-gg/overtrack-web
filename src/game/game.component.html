@@ -24,7 +24,7 @@
 
 <div *ngIf="game" class="container game view">
     <div class="row">
-        <div class="panel with-nav-tabs panel-default">
+        <div class="panel with-nav-tabs panel-default col-md-8">
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <li><b>Stages:</b></li>
@@ -39,7 +39,7 @@
                     </timeline>
                     <div style="clear:both;"></div>
                     <div class="col-xs-2"></div>
-                    <div class="col-xs-8">
+                    <div class="col-xs-9">
                     <div class="panel panel-default">
                         <div (click)="toggleTimelineKey()" id="timeline-key-header" class="panel-heading pull-right" style="cursor:pointer;text-align:right;"><h5>Key ▼</h5></div>
                         <div [class.hidden]="hideTimelineKey" class="panel-body">
@@ -82,6 +82,23 @@
                         </div>
                     </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h2>Kill Feed</h2>
+            <div class="panel panel-default">
+                <div id="killfeed">
+                    <table class="table table-striped text-center">
+                        <tr *ngFor="let kill of game.killfeed">
+                            <td class="num">{{time(kill)}}</td>
+                            <td><img *ngIf="kill.leftHero" src="assets/images/heroes/{{kill.leftHero}}.png"/></td>
+                            <td class="{{leftColor(kill)}} text-left"><b>{{kill.leftPlayer}}</b></td>
+                            <td>&#x2620;</td> <!-- Skull And Crossbones -->
+                            <td><img src="assets/images/heroes/{{kill.rightHero}}.png"/></td>
+                            <td class="{{rightColor(kill)}} text-left"><b>{{kill.rightPlayer}}</b></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -140,23 +157,6 @@
                     <!---->
                 </div>
             </ng-container>
-        </div>
-        <div class="col-md-6">
-            <h2>Kill Feed</h2>
-            <div class="panel panel-default">
-                <div id="killfeed">
-                    <table class="table table-striped text-center">
-                        <tr *ngFor="let kill of game.killfeed">
-                            <td class="num">{{time(kill)}}</td>
-                            <td><img *ngIf="kill.leftHero" src="assets/images/heroes/{{kill.leftHero}}.png"/></td>
-                            <td class="{{leftColor(kill)}} text-left"><b>{{kill.leftPlayer}}</b></td>
-                            <td>&#x2620;</td> <!-- Skull And Crossbones -->
-                            <td><img src="assets/images/heroes/{{kill.rightHero}}.png"/></td>
-                            <td class="{{rightColor(kill)}} text-left"><b>{{kill.rightPlayer}}</b></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
     <metagame *ngIf="loginService.getUser()?.superuser" [id]="game.key"></metagame>

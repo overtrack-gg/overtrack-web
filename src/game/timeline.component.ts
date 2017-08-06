@@ -29,7 +29,7 @@ export class TimelineComponent implements OnChanges {
             }).text((player: Player) => player.name);
 
         const svg = div.append('svg')
-            .attr('class', 'timeline col-xs-8');
+            .attr('class', 'timeline col-xs-9');
         
         svg.append('rect')
             .attr('width', '100%')
@@ -109,7 +109,7 @@ export class TimelineComponent implements OnChanges {
         
         // Add the kills and deaths
         const b = div.append('b')
-            .attr('class', 'col-xs-2 text-left num');
+            .attr('class', 'col-xs-1 text-left num');
         b.append('span').attr('class', 'kill')
             .text((player: Player) => player.kills);
         b.append('span')
@@ -122,7 +122,7 @@ export class TimelineComponent implements OnChanges {
         time.append('div').attr('class', 'col-xs-2');
         const timelineTickSvg = time.append('svg')
             .attr('height', 20)
-            .attr('class', 'col-xs-8')
+            .attr('class', 'col-xs-10')
             .style('padding', 0)
             .attr('overflow', 'visible');
         

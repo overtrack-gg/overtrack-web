@@ -131,7 +131,7 @@ a.navbar-brand > img {
     font-size: 12pt;
     vertical-align: middle;
     line-height: 25px;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .timeline-event.death {
@@ -206,6 +206,12 @@ a.navbar-brand > img {
     color: lightcoral;
 }
 
+.game-timeline .num {
+    padding-left: 10px;
+    padding-right: 0px;
+    font-size: 13px;
+}
+
 .game-timeline .hero-image {
     width: 40px;
     height: 40px;
@@ -223,16 +229,39 @@ a.navbar-brand > img {
     height: 40px;
 }
 
+.timeline.col-xs-9 {
+    padding: 0px;
+}
+
+
 .game-timeline b {
     line-height:40px;
 }
 
-.game-timeline {
+.game-timeline.col-md-12 {
     overflow-x: auto;
+    padding:0px;
+}
+
+.game-timeline .col-xs-12 {
+    padding:0px;
 }
 
 .game-timeline-content {
     min-width: 650px;
+}
+
+.game.view .panel-body {
+    padding: 0px;
+}
+
+.timeline-players .text-right {
+    font-size: 12px;
+}
+
+.timeline-players b {
+    padding: 0px;
+    padding-right: 5px;
 }
 
 .timeline-players .col-md-12:nth-of-type(6){
@@ -335,10 +364,10 @@ a.navbar-brand > img {
 }
 
 #killfeed td {
-    padding-top: 2px;
-    padding-bottom: 2px;
-    line-height: 36px;
-    height:40px;
+    padding: 2px;
+    line-height: 26px;
+    font-size: 12px;
+    height:30px;
 }
 
 #killfeed .buffer{
@@ -347,12 +376,12 @@ a.navbar-brand > img {
 }
 
 #killfeed {
-    height: 500px;
+    height: 550px;
     overflow-y: scroll;
 }
 
 #killfeed img {
-    height:36px;;
+    height:26px;
 }
 
 .jumbotron h1 {
