@@ -158,7 +158,11 @@ export class TimelineComponent implements OnChanges {
         D3.selectAll(".timeline-event")
             .on("mouseover", this.mouseOverTimelineEvent)
             .on("mouseout", this.mouseOutTimelineEvent);
+        
+         D3.selectAll("svg .timeline-event")
+            .on("click", this.scrollKillfeed);
     }
+    
     scrollKillfeed() {
         //Find the id of the event by searching through the classes of the current element
         let classes: Array<String> = D3.select(this as any).attr('class').split(" ");
@@ -169,9 +173,16 @@ export class TimelineComponent implements OnChanges {
                 break;
             }
         }
+        //Get the killfeed for the stage. TODO: Add class or something to identify killfeeds by stage
+        let parent = D3.select((this as any).parentNode.parentNode.parentNode.parentNode.parentNode);
+        let killfeed = parent.select('#killfeed');
         
-        let killfeed = D3.select('#killfeed');
-        console.log(killfeed);
+        let target = killfeed.select('.' + eventId);
+        let toffset = (target.node() as any).getBoundingClientRect().top - 431;
+        console.log(toffset,  (killfeed.node() as any).scrollTop);
+        if (toffset < 0 || toffset > 475) {        
+            (killfeed.node() as any).scrollTop += toffset - 100;
+        }
     }
      
     mouseOverTimelineEvent() {
