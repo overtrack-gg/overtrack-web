@@ -40,10 +40,11 @@
                 <tr *ngFor="let kill of stage.killfeed">
                     <td class="num">{{time(kill)}}</td>
                     <td><img *ngIf="kill.leftHero" src="assets/images/heroes/{{kill.leftHero}}.png"/></td>
-                    <td class="{{leftColor(kill)}} text-left"><b>{{kill.leftPlayer}}</b></td>
-                    <td>&#x2620;</td> <!-- Skull And Crossbones -->
+                    <td class="{{leftColor(kill)}} text-left {{tooLong(kill.leftPlayer)}}"><b>{{kill.leftPlayer}}</b></td>
+                    <td *ngIf="!kill.isRes">&#x2620;</td> <!-- Skull And Crossbones -->
+                    <td *ngIf="kill.isRes"><img class="res" src="assets/images/timeline/res.png" width="18" height="18"/></td> <!-- Skull And Crossbones -->
                     <td><img src="assets/images/heroes/{{kill.rightHero}}.png"/></td>
-                    <td class="{{rightColor(kill)}} text-left"><b>{{kill.rightPlayer}}</b></td>
+                    <td class="{{rightColor(kill)}} text-left {{tooLong(kill.rightPlayer)}}"><b>{{kill.rightPlayer}}</b></td>
                 </tr>
             </table>
         </div>

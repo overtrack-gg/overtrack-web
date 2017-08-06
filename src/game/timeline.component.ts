@@ -183,11 +183,19 @@ export class TimelineComponent implements OnChanges {
     }
 
     rightColor(kill: KillFeedEntry) {
-        if (kill.isLeftRed) {
+        let isBlue = kill.isLeftRed && !kill.isRes || !kill.isLeftRed && kill.isRes; 
+        if (isBlue) {
             return 'text-blue';
         }
         return 'text-red';
     }
+     
+     tooLong(name: String): String {
+         if (name && name.length > 12) {
+             return "too-long"
+         }
+         return "";
+     }
 
     time(kill: KillFeedEntry) {
         let time = kill.time - this.stage.start;

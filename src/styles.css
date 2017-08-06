@@ -369,6 +369,10 @@ a.navbar-brand > img {
     height:30px;
 }
 
+#killfeed td.too-long {
+    font-size: 10px;
+}
+
 #killfeed .buffer{
     height: 1000px;
     width:10px;
@@ -383,10 +387,14 @@ a.navbar-brand > img {
     line-height:26px;
 }
 
-#killfeed img {
+#killfeed img:not(.res) {
     height:26px;
 }
 
+
+#killfeed img.res {
+    margin-top: 4px;
+}
 .jumbotron h1 {
     color:orange;
     text-shadow: 1px 1px 2px black; 
