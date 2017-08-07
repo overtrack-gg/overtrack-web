@@ -248,6 +248,7 @@ a.navbar-brand > img {
 
 .game-timeline-content {
     min-width: 650px;
+    white-space: nowrap;
 }
 
 .game.view .panel-body {
