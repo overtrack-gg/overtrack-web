@@ -210,32 +210,34 @@ export class GameService {
             } else {
                 teamToCheck = 'blue';
             }
-            for (let assist of kill.assists){
-                let assister: Player;
-                let bestAssisterDistance: number = Infinity;
-                for (let player of players){
-                    if (player.colour == teamToCheck){
-                        for (let hero of player.heroesPlayed){
-                            if (hero.name == assist && hero.start < time && time < hero.end){
-                                let assisterDistance = time - hero.start;
-                                // choose the player which most recently switched to the hero we see in the assist
-                                if (assisterDistance < bestAssisterDistance){
-                                    bestAssisterDistance = assisterDistance;
-                                    assister = player;
+            if (kill.assists){
+                for (let assist of kill.assists){
+                    let assister: Player;
+                    let bestAssisterDistance: number = Infinity;
+                    for (let player of players){
+                        if (player.colour == teamToCheck){
+                            for (let hero of player.heroesPlayed){
+                                if (hero.name == assist && hero.start < time && time < hero.end){
+                                    let assisterDistance = time - hero.start;
+                                    // choose the player which most recently switched to the hero we see in the assist
+                                    if (assisterDistance < bestAssisterDistance){
+                                        bestAssisterDistance = assisterDistance;
+                                        assister = player;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                if (assister){
-                    assister.events.push({
-                        id: kill.id,
-                        time: time,
-                        type: 'ability-assist',
-                        otherHero: kill.rightHero
-                    })
-                } else {
-                    console.warn('Could not find player assisting as', assist, 'for kill at', kill.time);
+                    if (assister){
+                        assister.events.push({
+                            id: kill.id,
+                            time: time,
+                            type: 'ability-assist',
+                            otherHero: kill.rightHero
+                        })
+                    } else {
+                        console.warn('Could not find player assisting as', assist, 'for kill at', kill.time);
+                    }
                 }
             }
 
