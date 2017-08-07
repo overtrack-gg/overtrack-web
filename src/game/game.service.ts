@@ -72,12 +72,14 @@ export class GameService {
                                     // kill on a real player instead of a turret/metch/tp/etc.
                                     kills += 1;                    
                                     events.push({
+                                        id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'kill',
                                         otherHero: kill.rightHero
                                     });
                                 } else {
                                     events.push({
+                                        id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'destruction',
                                         otherHero: kill.rightHero
@@ -91,6 +93,7 @@ export class GameService {
                             hero = kill.rightHero;
 
                             events.push({
+                                id: kill.id,
                                 time: kill.time - stage.start,
                                 type: 'resurrect',
                                 otherHero: kill.leftHero
@@ -103,12 +106,14 @@ export class GameService {
                                     
                                     deaths += 1;
                                     events.push({
+                                        id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'death',
                                         otherHero: kill.leftHero
                                     });
                                 } else {
                                     events.push({
+                                        id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'destroyed',
                                         otherHero: kill.rightHero
@@ -176,14 +181,17 @@ export class GameService {
         if (!assists){
             return;
         }
+        let count = 0; //Make id for these events not overlap
         for (let assist of assists){
             if (stage.start < assist[0] && assist[0] < stage.end) {
                 player.events.push({
+                    id: "event-assist" + count, //TODO: Pair up with killfeed event somehow
                     time: assist[0] - stage.start,
                     type: assist[3] ? 'support-assist' : 'assist',
                     otherHero: null // TODO
                 })
             }
+            ++count;
         }
     }
     
@@ -221,6 +229,7 @@ export class GameService {
                 }
                 if (assister){
                     assister.events.push({
+                        id: kill.id,
                         time: time,
                         type: 'ability-assist',
                         otherHero: kill.rightHero
@@ -232,23 +241,50 @@ export class GameService {
 
          }
     }
+            
+    filterKillfeed(stage: any, killfeed: Array<KillFeedEntry>): Array<KillFeedEntry> {
+        let kf: Array<KillFeedEntry> = [];
+        for (const event of killfeed) {
+            if (event.time > stage.end || event.time < stage.start) {
+                // outside of this stage
+                continue;
+            }
+            kf.push(event);
+        }   
+        return kf;
+    }
 
     toGame(res: Response): Game {
         const body = res.json();
         console.log(body);
 
+        let count = 1;
         const killfeed: Array<KillFeedEntry> = [];
+        let resMap: Map<number, string> = new Map();
         for (const kill of body.killfeed) {
+            //Make reses use the same id if same time. TODO: Ensure res for same team!
+            const isRes = (kill[1] & 2) != 0;
+            let id = "event" + count;
+            if (isRes) {
+                if (resMap.has(kill[0])) {
+                    id = resMap.get(kill[0]);
+                } else{
+                    resMap.set(kill[0], id);
+                }
+            }
+            
             killfeed.push({
-                time: kill[0],
-                isLeftRed: !(kill[1] & 1),
-                isRes: (kill[1] & 2) != 0,
-                leftHero: kill[2],
-                leftPlayer: kill[3],
-                rightHero: kill[4],
+                id         : id, 
+                time       : kill[0],
+                isLeftRed  : !(kill[1] & 1),
+                isRes      : isRes,
+                leftHero   : kill[2],
+                leftPlayer : kill[3],
+                rightHero  : kill[4],
                 rightPlayer: kill[5],
-                assists: kill[6]
+                assists    : kill[6]
             });
+            ++count;
         }
 
         let objective_stages = body.objective_stages;
@@ -317,6 +353,7 @@ export class GameService {
                 name: stage.stage,
                 index: index++,
                 start: stage.start,
+                killfeed: this.filterKillfeed(stage, killfeed),
                 end: stage.end,
                 players: players,
                 objectiveInfo: objectiveInfo,
@@ -452,6 +489,7 @@ export class TeamPlayer{
 }
 
 export class KillFeedEntry {
+    id: string;
     time: number;
     isLeftRed: boolean;
     isRes: boolean;
@@ -482,6 +520,7 @@ export class HeroStatistics {
 
 export class Stage {
     name: string;
+    killfeed: Array<KillFeedEntry>;
     index: number;
     start: number;
     end: number;
@@ -531,6 +570,7 @@ export class GameHero {
 }
 
 export class GameEvent {
+    id: string;
     time: number;
     type: string;
     otherHero: string;

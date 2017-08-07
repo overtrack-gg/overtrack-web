@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, ElementRef, ViewChild } from '@angular/core';
 import * as D3 from 'd3';
 
-import { Stage, GameHero, GameEvent, Player } from './game.service';
+import { Stage, GameHero, GameEvent, Player, KillFeedEntry } from './game.service';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class TimelineComponent implements OnChanges {
             }).text((player: Player) => player.name);
 
         const svg = div.append('svg')
-            .attr('class', 'timeline col-xs-8');
+            .attr('class', 'timeline col-xs-9');
         
         svg.append('rect')
             .attr('width', '100%')
@@ -39,7 +39,7 @@ export class TimelineComponent implements OnChanges {
 
         svg.selectAll('.timeline-event .destroyed').data((player: Player) => player.events.filter(event => event.type == 'destroyed'))
             .enter().append('image')
-            .attr('class', (event: GameEvent) => 'timeline-event destroyed')
+            .attr('class', (event: GameEvent) => 'timeline-event destroyed ' + event.id)
             .attr('xlink:href','assets/images/timeline/explosion.png')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('transform', 'translate(-6)')
@@ -49,7 +49,7 @@ export class TimelineComponent implements OnChanges {
 
         svg.selectAll('.timeline-event .destruction').data((player: Player) => player.events.filter(event => event.type == 'destruction'))
             .enter().append('text')
-            .attr('class', (event: GameEvent) => 'timeline-event destruction')
+            .attr('class', (event: GameEvent) => 'timeline-event destruction ' + event.id)
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('y', 26)
             .text('*');
@@ -67,7 +67,7 @@ export class TimelineComponent implements OnChanges {
         svg.selectAll('.timeline-event .ability-assist')
             .data((player: Player) => player.events.filter(event => event.type == 'ability-assist'))
             .enter().append('text')
-            .attr('class', (event: GameEvent) => 'timeline-event ' + event.type)
+            .attr('class', (event: GameEvent) => 'timeline-event ' + event.type + ' ' + event.id)
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('y', 20)
             .text('●');
@@ -75,21 +75,21 @@ export class TimelineComponent implements OnChanges {
         svg.selectAll('.timeline-event .assist, .timeline-event .support-assist')
             .data((player: Player) => player.events.filter(event => event.type == 'assist' || event.type == 'support-assist'))
             .enter().append('text')
-            .attr('class', (event: GameEvent) => 'timeline-event ' + event.type)
+            .attr('class', (event: GameEvent) => 'timeline-event ' + event.type + ' ' + event.id)
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('y', 20)
             .text('●');
 
         svg.selectAll('.timeline-event .kill').data((player: Player) => player.events.filter(event => event.type == 'kill'))
             .enter().append('text')
-            .attr('class', (event: GameEvent) => 'timeline-event kill')
+            .attr('class', (event: GameEvent) => 'timeline-event kill ' + event.id)
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('y', 20)
             .text('●');
 
         svg.selectAll('.timeline-event .death').data((player: Player) => player.events.filter(event => event.type == 'death'))
             .enter().append('image')
-            .attr('class', (event: GameEvent) => 'timeline-event death')
+            .attr('class', (event: GameEvent) => 'timeline-event death ' + event.id)
             .attr('xlink:href','assets/images/timeline/skull.png')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('transform', 'translate(-6)')
@@ -99,7 +99,7 @@ export class TimelineComponent implements OnChanges {
 
         svg.selectAll('.timeline-event .death').data((player: Player) => player.events.filter(event => event.type == 'resurrect'))
             .enter().append('image')
-            .attr('class', (event: GameEvent) => 'timeline-event resurrect')
+            .attr('class', (event: GameEvent) => 'timeline-event resurrect ' + event.id)
             .attr('xlink:href','assets/images/timeline/res.png')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('transform', 'translate(-6)')
@@ -109,7 +109,7 @@ export class TimelineComponent implements OnChanges {
         
         // Add the kills and deaths
         const b = div.append('b')
-            .attr('class', 'col-xs-2 text-left num');
+            .attr('class', 'col-xs-1 text-left num');
         b.append('span').attr('class', 'kill')
             .text((player: Player) => player.kills);
         b.append('span')
@@ -122,7 +122,7 @@ export class TimelineComponent implements OnChanges {
         time.append('div').attr('class', 'col-xs-2');
         const timelineTickSvg = time.append('svg')
             .attr('height', 20)
-            .attr('class', 'col-xs-8')
+            .attr('class', 'col-xs-10')
             .style('padding', 0)
             .attr('overflow', 'visible');
         
@@ -154,7 +154,64 @@ export class TimelineComponent implements OnChanges {
         timelineAxis2.selectAll('path').attr('stroke','white');
         timelineAxis2.selectAll('line').attr('stroke','white');
         
+        
+        D3.selectAll(".timeline-event")
+            .on("mouseover", this.mouseOverTimelineEvent)
+            .on("mouseout", this.mouseOutTimelineEvent);
+        
+         D3.selectAll("svg .timeline-event")
+            .on("click", this.scrollKillfeed);
     }
+    
+    scrollKillfeed() {
+        //Find the id of the event by searching through the classes of the current element
+        let classes: Array<String> = D3.select(this as any).attr('class').split(" ");
+        let eventId = null;
+        for (const cls of classes) {
+            if (cls.startsWith("event")) {
+                eventId = cls;
+                break;
+            }
+        }
+        //Get the killfeed for the stage. TODO: Add class or something to identify killfeeds by stage
+        let parent = D3.select((this as any).parentNode.parentNode.parentNode.parentNode.parentNode);
+        let killfeed = parent.select('#killfeed');
+        
+        let target = killfeed.select('.' + eventId);
+        if (target.node()){
+            let toffset = (target.node() as any).getBoundingClientRect().top - 431;
+            console.log(toffset,  (killfeed.node() as any).scrollTop);
+            if (toffset < 0 || toffset > 475) {        
+                (killfeed.node() as any).scrollTop += toffset - 100;
+            }
+        }
+    }
+     
+    mouseOverTimelineEvent() {
+        //Find the id of the event by searching through the classes of the current element
+        let classes: Array<String> = D3.select(this as any).attr('class').split(" ");
+        let eventId = null;
+        for (const cls of classes) {
+            if (cls.startsWith("event")) {
+                eventId = cls;
+                break;
+            }
+        }
+        let isKillFeed = (this as any).tagName.toLowerCase() === "tr";
+        
+        if (isKillFeed) {
+            D3.selectAll("svg .timeline-event:not(." + eventId + ")").classed('faded', true);
+            D3.selectAll("tr.timeline-event:not(." + eventId + ")").classed('slight-faded', true);
+        } else {
+            D3.selectAll(".timeline-event:not(." + eventId + ")").classed('faded', true);
+        }
+    }
+     
+    mouseOutTimelineEvent() {
+        D3.selectAll(".timeline-event").classed('faded', false);
+        D3.selectAll(".timeline-event").classed('slight-faded', false);
+    }
+     
 
     widthPercentage(hero: GameHero) {
         return 100 * (hero.end - hero.start) / (this.stage.end - this.stage.start);
@@ -173,6 +230,37 @@ export class TimelineComponent implements OnChanges {
         const min = D3.format('d')(Math.floor(time / 60));
         const sec = D3.format('02')(time - (Math.floor(time / 60) * 60));
         return min + ':' + sec;
+    }   
+     
+    leftColor(kill: KillFeedEntry) {
+        if (kill.isLeftRed) {
+            return 'text-red';
+        }
+        return 'text-blue';
+    }
+
+    rightColor(kill: KillFeedEntry) {
+        let isBlue = kill.isLeftRed && !kill.isRes || !kill.isLeftRed && kill.isRes; 
+        if (isBlue) {
+            return 'text-blue';
+        }
+        return 'text-red';
+    }
+     
+     tooLong(name: String): String {
+         if (name && name.length > 12) {
+             return "too-long"
+         }
+         return "";
+     }
+
+    time(kill: KillFeedEntry) {
+        let time = kill.time - this.stage.start;
+        let secs = Math.floor(time / 1000);
+        let mins = Math.floor(secs / 60);
+        secs = secs - 60 * mins;
+        let secd = secs < 10 ? '0' + secs : secs;
+        return mins + ':' + secd;
     }
      
     endTime() {

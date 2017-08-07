@@ -131,7 +131,7 @@ a.navbar-brand > img {
     font-size: 12pt;
     vertical-align: middle;
     line-height: 25px;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .timeline-event.death {
@@ -206,6 +206,12 @@ a.navbar-brand > img {
     color: lightcoral;
 }
 
+.game-timeline .num {
+    padding-left: 10px;
+    padding-right: 0px;
+    font-size: 13px;
+}
+
 .game-timeline .hero-image {
     width: 40px;
     height: 40px;
@@ -223,16 +229,38 @@ a.navbar-brand > img {
     height: 40px;
 }
 
+.timeline.col-xs-9 {
+    padding: 0px;
+}
+
 .game-timeline b {
     line-height:40px;
 }
 
-.game-timeline {
+.game-timeline.col-md-12 {
     overflow-x: auto;
+    padding:0px;
+}
+
+.game-timeline .col-xs-12 {
+    padding:0px;
 }
 
 .game-timeline-content {
     min-width: 650px;
+}
+
+.game.view .panel-body {
+    padding: 0px;
+}
+
+.timeline-players .text-right {
+    font-size: 12px;
+}
+
+.timeline-players b {
+    padding: 0px;
+    padding-right: 5px;
 }
 
 .timeline-players .col-md-12:nth-of-type(6){
@@ -334,11 +362,22 @@ a.navbar-brand > img {
     font-size: 20px; 
 }
 
+.timeline-event.faded {
+    opacity: 0.2;
+}
+.timeline-event.slight-faded {
+    opacity: 0.8;
+}
+
 #killfeed td {
-    padding-top: 2px;
-    padding-bottom: 2px;
-    line-height: 36px;
-    height:40px;
+    padding: 2px;
+    line-height: 26px;
+    font-size: 12px;
+    height:30px;
+}
+
+#killfeed td.too-long {
+    font-size: 10px;
 }
 
 #killfeed .buffer{
@@ -347,17 +386,29 @@ a.navbar-brand > img {
 }
 
 #killfeed {
-    height: 500px;
+    height: 475px;
     overflow-y: scroll;
 }
 
-#killfeed img {
-    height:36px;;
+.game-timeline #killfeed b {
+    line-height:26px;
 }
 
+#killfeed img:not(.res) {
+    height:26px;
+}
+
+
+#killfeed img.res {
+    margin-top: 4px;
+}
 .jumbotron h1 {
     color:orange;
     text-shadow: 1px 1px 2px black; 
+}
+
+.jumbotron.view h1 {
+    font-size: 50px;
 }
 
 .jumbotron.view {
@@ -382,6 +433,12 @@ a.navbar-brand > img {
     background-position: 0 0, center;
 }
 
+.jumbotron.view.banner {
+    background-size: cover;
+    background-position: 0 0, center;
+}
+
+
 #gametable .map {
     text-align: left;
     font-size:26px;
@@ -404,36 +461,27 @@ a.navbar-brand > img {
 .map.eichenwalde {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde.jpg');
 }
-
 .map.watchpoint-gibraltar {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/watchpoint-gibraltar.jpg');
 }
-
-
 .map.numbani {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/numbani.jpg');
 }
-
 .map.oasis {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/oasis.jpg');
 }
-
-
 .map.route-66 {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/route-66.jpg');
 }
-
 .map.nepal {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal.jpg');
 }
-
 .map.dorado {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/dorado.jpg');
 }
 .map.hollywood {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hollywood.jpg');
 }
-
 .map.kings-row {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row.jpg');
 }
@@ -443,11 +491,12 @@ a.navbar-brand > img {
 .map.volskaya-industries {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/volskaya-industries.jpg');
 }
-
 .map.hanamura {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hanamura.jpg');
 }
-
+.map.horizon-lunar-colony {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony.jpg');
+}
 .map.ilios {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/ilios.jpg');
 }
@@ -525,7 +574,9 @@ a.navbar-brand > img {
     background-position: center;
     background-size: cover;
 }
-
+.banner.horizon-lunar-colony {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony-banner.jpg');
+}
 
 
 /*
@@ -590,6 +641,10 @@ div#meta-game p.indent-2 {
 svg.timeline.col-xs-8 {
     padding: 0px;
 } 
+
+svg .timeline-event:hover {
+    cursor: pointer;
+}
 
 .timeline-key {
     height:20px;

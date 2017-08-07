@@ -38,10 +38,8 @@
                         [stage]="stage">
                     </timeline>
                     <div style="clear:both;"></div>
-                    <div class="col-xs-2"></div>
-                    <div class="col-xs-8">
                     <div class="panel panel-default">
-                        <div (click)="toggleTimelineKey()" id="timeline-key-header" class="panel-heading pull-right" style="cursor:pointer;text-align:right;"><h5>Key ▼</h5></div>
+                        <div (click)="toggleTimelineKey()" id="timeline-key-header" class="panel-heading" style="cursor:pointer;text-align:center;"><h5>Key ▼</h5></div>
                         <div [class.hidden]="hideTimelineKey" class="panel-body">
                             <div class="col-md-3" style="padding-left: 10px; padding-right: 0px;">
                                 <h4>Player <br/><small>Kills</small></h4>
@@ -80,7 +78,6 @@
                                 <span style="line-height: 40px;vertical-align:middle;display: inline-block;">Hero not seen</span>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -140,23 +137,6 @@
                     <!---->
                 </div>
             </ng-container>
-        </div>
-        <div class="col-md-6">
-            <h2>Kill Feed</h2>
-            <div class="panel panel-default">
-                <div id="killfeed">
-                    <table class="table table-striped text-center">
-                        <tr *ngFor="let kill of game.killfeed">
-                            <td class="num">{{time(kill)}}</td>
-                            <td><img *ngIf="kill.leftHero" src="assets/images/heroes/{{kill.leftHero}}.png"/></td>
-                            <td class="{{leftColor(kill)}} text-left"><b>{{kill.leftPlayer}}</b></td>
-                            <td>&#x2620;</td> <!-- Skull And Crossbones -->
-                            <td><img src="assets/images/heroes/{{kill.rightHero}}.png"/></td>
-                            <td class="{{rightColor(kill)}} text-left"><b>{{kill.rightPlayer}}</b></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
     <metagame *ngIf="loginService.getUser()?.superuser" [id]="game.key"></metagame>
