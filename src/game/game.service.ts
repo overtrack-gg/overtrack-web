@@ -282,7 +282,8 @@ export class GameService {
                 leftPlayer : kill[3],
                 rightHero  : kill[4],
                 rightPlayer: kill[5],
-                assists    : kill[6]
+                assists    : kill[6],
+                ability    : kill[7]
             });
             ++count;
         }
@@ -498,6 +499,7 @@ export class KillFeedEntry {
     rightHero: string;
     rightPlayer: string;
     assists: string[];
+    ability: string[];
 }
 
 export class HeroStatistics {

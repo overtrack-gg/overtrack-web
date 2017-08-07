@@ -39,11 +39,16 @@
             <table class="table table-striped text-center">
                 <tr *ngFor="let kill of stage.killfeed" class="timeline-event {{kill.id}}">
                     <td class="num">{{time(kill)}}</td>
-                    <td><img *ngIf="kill.leftHero" src="assets/images/heroes/{{kill.leftHero}}.png"/></td>
+                    <td>
+                        <img *ngIf="kill.leftHero" class="heroicon" src="assets/images/heroes/{{kill.leftHero}}.png"/>
+                        <!-- <div *ngIf="kill.assists.length" class="assists">
+                            <img *ngFor="let assist of kill.assists" class="heroicon" src="assets/images/heroes/{{assist}}.png"/>
+                        </div> -->
+                    </td>
                     <td class="{{leftColor(kill)}} text-left {{tooLong(kill.leftPlayer)}}"><b>{{kill.leftPlayer}}</b></td>
-                    <td *ngIf="!kill.isRes">&#x2620;</td> <!-- Skull And Crossbones -->
-                    <td *ngIf="kill.isRes"><img class="res" src="assets/images/timeline/res.png" width="18" height="18"/></td> <!-- Skull And Crossbones -->
-                    <td><img src="assets/images/heroes/{{kill.rightHero}}.png"/></td>
+                    <td class="nofade" *ngIf="!kill.ability"><img class="killicon" *ngIf="kill.leftHero" src="assets/images/killicons/kill.png"/></td>
+                    <td class="nofade" *ngIf="kill.ability"><img class="killicon" *ngIf="kill.leftHero" src="assets/images/killicons/{{ kill.ability[0] }}.{{ kill.ability[1] }}.png"/></td>
+                    <td><img class="heroicon" src="assets/images/heroes/{{kill.rightHero}}.png"/></td>
                     <td class="{{rightColor(kill)}} text-left {{tooLong(kill.rightPlayer)}}"><b>{{kill.rightPlayer}}</b></td>
                 </tr>
             </table>

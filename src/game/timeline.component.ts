@@ -64,16 +64,16 @@ export class TimelineComponent implements OnChanges {
             .attr('height', 40)
             .attr('y', 0);
 
-        svg.selectAll('.timeline-event .ability-assist')
-            .data((player: Player) => player.events.filter(event => event.type == 'ability-assist'))
+        svg.selectAll('.timeline-event .assist, .timeline-event .support-assist')
+            .data((player: Player) => player.events.filter(event => event.type == 'assist' || event.type == 'support-assist'))
             .enter().append('text')
             .attr('class', (event: GameEvent) => 'timeline-event ' + event.type + ' ' + event.id)
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
             .attr('y', 20)
             .text('●');
 
-        svg.selectAll('.timeline-event .assist, .timeline-event .support-assist')
-            .data((player: Player) => player.events.filter(event => event.type == 'assist' || event.type == 'support-assist'))
+        svg.selectAll('.timeline-event .ability-assist')
+            .data((player: Player) => player.events.filter(event => event.type == 'ability-assist'))
             .enter().append('text')
             .attr('class', (event: GameEvent) => 'timeline-event ' + event.type + ' ' + event.id)
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
@@ -198,18 +198,21 @@ export class TimelineComponent implements OnChanges {
             }
         }
         let isKillFeed = (this as any).tagName.toLowerCase() === "tr";
-        
+
         if (isKillFeed) {
             D3.selectAll("svg .timeline-event:not(." + eventId + ")").classed('faded', true);
             D3.selectAll("tr.timeline-event:not(." + eventId + ")").classed('slight-faded', true);
         } else {
             D3.selectAll(".timeline-event:not(." + eventId + ")").classed('faded', true);
         }
+
+        D3.selectAll(".timeline-event." + eventId).classed('highlighted', true);
     }
      
     mouseOutTimelineEvent() {
         D3.selectAll(".timeline-event").classed('faded', false);
         D3.selectAll(".timeline-event").classed('slight-faded', false);
+        D3.selectAll(".timeline-event").classed('highlighted', false);
     }
      
 

@@ -363,11 +363,20 @@ a.navbar-brand > img {
     font-size: 20px; 
 }
 
-.timeline-event.faded {
+.timeline-event.faded > * {
     opacity: 0.2;
 }
-.timeline-event.slight-faded {
-    opacity: 0.8;
+.timeline-event.slight-faded > * {
+    opacity: 0.6;
+}
+.timeline > .timeline-event.faded {
+    opacity: 0.2;
+}
+.timeline > .timeline-event.slight-faded {
+    opacity: 0.6;
+}
+.timeline-event > .nofade {
+    opacity: 1 !important;
 }
 
 #killfeed td {
@@ -403,6 +412,11 @@ a.navbar-brand > img {
 #killfeed img.res {
     margin-top: 4px;
 }
+
+#killfeed img.killicon {
+    mix-blend-mode: lighten;
+}
+
 .jumbotron h1 {
     color:orange;
     text-shadow: 1px 1px 2px black; 
