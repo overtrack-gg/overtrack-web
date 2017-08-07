@@ -178,10 +178,12 @@ export class TimelineComponent implements OnChanges {
         let killfeed = parent.select('#killfeed');
         
         let target = killfeed.select('.' + eventId);
-        let toffset = (target.node() as any).getBoundingClientRect().top - 431;
-        console.log(toffset,  (killfeed.node() as any).scrollTop);
-        if (toffset < 0 || toffset > 475) {        
-            (killfeed.node() as any).scrollTop += toffset - 100;
+        if (target.node()){
+            let toffset = (target.node() as any).getBoundingClientRect().top - 431;
+            console.log(toffset,  (killfeed.node() as any).scrollTop);
+            if (toffset < 0 || toffset > 475) {        
+                (killfeed.node() as any).scrollTop += toffset - 100;
+            }
         }
     }
      
