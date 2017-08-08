@@ -154,14 +154,18 @@ export class TimelineComponent implements OnChanges {
         timelineAxis2.selectAll('path').attr('stroke','white');
         timelineAxis2.selectAll('line').attr('stroke','white');
         
-        
-        D3.selectAll(".timeline-event")
-            .on("mouseover", this.mouseOverTimelineEvent)
-            .on("mouseout", this.mouseOutTimelineEvent);
-        
-         D3.selectAll("svg .timeline-event")
-            .on("click", this.scrollKillfeed);
+        // hack hack hack
+        window.setTimeout(e =>{
+            D3.selectAll(".timeline-event")
+                .on("mouseover", this.mouseOverTimelineEvent)
+                .on("mouseout", this.mouseOutTimelineEvent);
+            
+            D3.selectAll("svg .timeline-event")
+                .on("click", this.scrollKillfeed);
+        }, 0);
     }
+
+
     
     scrollKillfeed() {
         //Find the id of the event by searching through the classes of the current element
