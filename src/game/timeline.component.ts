@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, ElementRef, ViewChild } from '@angular/core';
 import * as D3 from 'd3';
 
-import { Stage, GameHero, GameEvent, Player, KillFeedEntry } from './game.service';
+import { Stage, GameHero, GameEvent, Player, KillFeedEntry, PayloadObjectiveInfo } from './game.service';
 
 
 @Component({
@@ -275,5 +275,46 @@ export class TimelineComponent implements OnChanges {
 
     isKOTH() {
         return 'ownership' in this.stage.objectiveInfo;
+    }
+
+    pushingEvents(events: any) {
+        if (!events){
+            return [];
+        }
+        return events.filter(e => e.type == 'pushing' && e.end - e.start > 3 * 1000);
+    }
+
+    tickEvents(events: any){
+        if (!events){
+            return [];
+        }
+        let filteredEvents: Array<any> = [];
+        for (let e of events){
+            if (e.type != 'tick'){
+                continue;
+            }
+            if (e.time - this.stage.start < 25 * 1000 || this.stage.end - e.time < 25 * 1000){
+                // too close to start or end
+                continue;
+            }
+            let objectiveInfo = <PayloadObjectiveInfo>this.stage.objectiveInfo;
+            let valid = true;
+            for (let checkpoint of objectiveInfo.checkpoints){
+                if (Math.abs((checkpoint.time + this.stage.start ) - e.time) < 25 * 1000){
+                    valid = false;
+                    break;
+                }
+            }
+            if (!valid){
+                continue;
+            }
+
+            filteredEvents.push(e);
+        }
+        return filteredEvents;
+    }
+
+    pushingWidthPercentage(event){
+        return 100 * (event.end - event.start) / (this.stage.end - this.stage.start);
     }
 }

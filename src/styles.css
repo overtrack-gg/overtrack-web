@@ -80,6 +80,17 @@ a.navbar-brand > img {
     margin-bottom: 12px;
 }
 
+.timeline-pushing {
+    position: absolute;
+    /* background-color: #eee; */
+    height: 10px;
+
+    background-image: repeating-linear-gradient(45deg, transparent 0px, transparent 5px, #666 5px, #666 10px), repeating-linear-gradient(135deg, transparent 0px, transparent 5px, #666 5px, #666 10px);
+    background-size: 100% 50%;
+    background-position: top left, bottom left;
+    background-repeat: no-repeat;
+}
+
 .timeline-owner-blue{
     background-color: #5bc0de;
 }
@@ -106,6 +117,24 @@ a.navbar-brand > img {
     text-align: center;
     margin-left: -13px;
     font-size: 19px;
+}
+
+.timeline-tick {
+    position: absolute;
+    left: 100%;
+    color: white;
+    font-size: 9pt;
+    vertical-align: middle;
+    line-height: 25px;
+    padding-left: 10px;
+}
+
+.timeline-tick-1::before {
+    content: "●";
+}
+
+.timeline-tick-2::before {
+    content: "●●";
 }
 
 .timeline-checkpoint-time.timeline-checkpoint-ptime {
@@ -247,6 +276,7 @@ a.navbar-brand > img {
 }
 
 .game-timeline-content {
+    padding-top: 10px;
     min-width: 650px;
     white-space: nowrap;
 }
@@ -378,6 +408,13 @@ a.navbar-brand > img {
 .timeline-event > .nofade {
     opacity: 1 !important;
 }
+/* .timeline-event .assists {
+    display: none;
+}
+.timeline-event.highlighted .assists {
+    display: block;
+    padding: 0px;
+} */
 
 #killfeed td {
     padding: 2px;
@@ -398,6 +435,22 @@ a.navbar-brand > img {
 #killfeed {
     height: 475px;
     overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#killfeed::-webkit-scrollbar {
+    width: 8px;
+    background-color: #333;
+}
+
+#killfeed::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    background-color: #555;
+}
+
+#killfeed::-webkit-scrollbar-track {
+    border-radius: 7px;
+    background-color: #333;
 }
 
 .game-timeline #killfeed b {

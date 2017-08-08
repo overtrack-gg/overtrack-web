@@ -366,7 +366,8 @@ export class GameService {
                 objectiveInfo: objectiveInfo,
 
                 progress: progress,
-                formatProgress: formatProgress
+                formatProgress: formatProgress,
+                events: stage.events
             });
         }
 
@@ -537,6 +538,7 @@ export class Stage {
 
     progress: number;
     formatProgress: string;
+    events: any; // FIXME
 }
 
 export interface ObjectiveInfo {
