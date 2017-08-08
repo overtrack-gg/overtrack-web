@@ -85,23 +85,12 @@
         </div>
     </div>
     <div class="row" *ngIf="game.tabStatistics">
-         <div class="col-md-6">
+        <div class="col-md-6">
             <h2>Statistics</h2>
             <tab-stats
                 [heroStatistics]="game.heroStatistics">
             </tab-stats>
-         </div>
-
-         <div class="col-md-6">
-            <h2>Graphs</h2>
-            <tab-graphs
-                [tabStatistics]="game.tabStatistics"
-                [stages]="game.stages">
-            </tab-graphs>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-6">
             <ng-container *ngIf="game.teams">
                 <h2>Teams</h2>
@@ -134,11 +123,10 @@
                             </tr>
                         </table>
                     </div>
-
-                    <!---->
                 </div>
             </ng-container>
         </div>
     </div>
+
     <metagame *ngIf="loginService.getUser()?.superuser" [id]="game.key"></metagame>
 </div>
