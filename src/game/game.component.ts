@@ -142,4 +142,25 @@ export class GameComponent implements OnInit {
             return 'grandmaster';
         }
     }
+
+    formatTime(date: Date) {
+        let hour = date.getHours();
+        const pm = hour > 11;
+        hour = hour % 12;
+        hour = hour === 0 ? 12 : hour;
+        let min: number|string = date.getMinutes();
+        if (min < 10){
+            min = '0' + min;
+        }
+        return hour + ':' + min + (pm ? 'pm' : 'am');
+    }
+
+    formatDate(date: Date) {
+        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear().toString().slice(2);
+    }
+
+    formatDay(date: Date) {
+        var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
+        return days[date.getDay()]
+    }
 }

@@ -440,13 +440,13 @@ export class GameService {
             redScore: body.score ? body.score[1] : null,
             result: body.result === 'UNKNOWN' ? 'UNKN' : body.result,
             deaths: body.deaths,
-            startTime: body.game_started,
+            startTime: new Date(body.game_started * 1000),
             player: body.player,
             key: body.key,
             owner: body.owner,
             stages: stages,
             killfeed: killfeed,
-            endTime: body.game_ended,
+            endTime: new Date(body.game_ended),
             duration: body.game_duration,
             tabStatistics: body.tab_statistics,
             heroStatistics: heroStatistics,
@@ -464,7 +464,7 @@ export class Game {
     mapType: string;
     result: string;
     deaths: number;
-    startTime: number;
+    startTime: Date;
     redScore: number;
     blueScore: number;
     player: string;
@@ -472,7 +472,7 @@ export class Game {
     owner: string;
     stages: Array<Stage>;
     killfeed: Array<KillFeedEntry>;
-    endTime: number;
+    endTime: Date;
     duration: number;
     tabStatistics: any;
     heroStatistics: Array<HeroStatistics>;

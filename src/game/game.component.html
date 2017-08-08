@@ -1,11 +1,12 @@
-<div *ngIf="game" class="jumbotron game view banner {{mapClass()}}">
+<div *ngIf="game" class="jumbotron game view banner {{mapClass()}}" style="padding-top: 10px;">
     <div class="container">
-        <div class="pull-left">
-            <h1>{{game.player}} on {{game.map}}</h1>
+        <div class="pull-left col-lg-9">
+            <h1>{{game.map}}</h1>
             <p>{{game.mapType}}</p>
             <p>{{displayGameTime()}} minutes</p>
+            <p>{{ formatTime(game.startTime) }} {{ formatDay(game.startTime) }} {{formatDate(game.startTime) }}</p>
         </div>
-        <div class="pull-right">
+        <div class="pull-right col-lg-3">
             <h1 class="text-right"><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span></h1>
             <p class="text-right">Score: {{game.blueScore}}/{{game.redScore}}</p>
 
