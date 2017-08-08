@@ -351,6 +351,10 @@ export class GameService {
                 progress = stage.progress;
                 formatProgress = stage.format_progress;
             }
+            if (stage.checkpoints && stage.checkpoints.length && stage.end - stage.checkpoints[stage.checkpoints.length - 1][0] < 10 * 1000) { // && progress == 0){
+                // final progress is within 10s of a checkpoint and the progress here was 0 - this means the previous team was beaten and the progress is set back to 0
+                formatProgress = "";
+            }
 
             stages.push({
                 name: stage.stage,
