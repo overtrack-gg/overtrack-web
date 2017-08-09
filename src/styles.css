@@ -225,6 +225,10 @@ a.navbar-brand > img {
     color: lightcoral;
 }
 
+.text-green {
+    color: #62c462;
+}
+
 .error-message p {
     line-height: 30px;
     font-size: 16px !important;

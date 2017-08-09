@@ -102,7 +102,7 @@
                                 <th>{{ game.teams.blueAvgSR || " " }}</th>
                             </tr>
                             <tr *ngFor="let i of [0, 1, 2, 3, 4, 5]">
-                                <td style="vertical-align: middle;"><b>{{ game.teams.blue[i].name }}</b></td>
+                                <td class="text-{{ i < game.groupSize ? 'green' : 'blue' }}" style="vertical-align: middle;"><b>{{ game.teams.blue[i].name }}</b></td>
                                 <td>
                                     <img src="assets/images/icons/{{ game.teams.blue[i].rank }}.png" height="35" style="vertical-align: bottom">
                                 </td>

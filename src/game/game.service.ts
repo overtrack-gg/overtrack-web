@@ -454,7 +454,8 @@ export class GameService {
             endSR: body.end_sr,
             teams: teams,
             customGame: body.custom_game,
-            placement: placement
+            placement: placement,
+            groupSize: body.group_size
         };
     }
 }
@@ -481,6 +482,7 @@ export class Game {
     teams: Teams;
     customGame: boolean;
     placement: boolean;
+    groupSize: number;
 }
 
 export class Teams {
