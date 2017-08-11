@@ -61,11 +61,23 @@ export class TabGraphsComponent {
             return;
         }
 
-        // if we ever healed then add the healing graph
-        for (let h of this.tabStatistics.healing){
-            if (h){
-                this.graphNames.push('healing');
-                break;
+        let mercysSeen = 0;
+        for (let h of this.tabStatistics.hero){
+            if (h == 'mercy'){
+                mercysSeen += 1;
+            }
+        }
+        if (mercysSeen > this.tabStatistics.hero.length * 0.95){
+            this.graphNames = ['healing'];
+        } else if (mercysSeen > this.tabStatistics.hero.length / 2){
+            this.graphNames.unshift('healing');
+        } else {
+            // if we ever healed then add the healing graph
+            for (let h of this.tabStatistics.healing){
+                if (h){
+                    this.graphNames.push('healing');
+                    break;
+                }
             }
         }
 
@@ -139,8 +151,15 @@ export class TabGraphsComponent {
         let y: Array<number> = [null];
 
         let maxy: number = 0;
+        let lastT = 0;
         for (let i in values){
             if (values[i] != null) {
+
+                if (time[i] - lastT < 15 * 1000){
+                    continue;
+                }
+                lastT = time[i];
+
                 x.push(time[i]);
                 if (heroes[i] == hero){
                     y.push(values[i]);
@@ -183,11 +202,17 @@ export class TabGraphsComponent {
         let maxy: number = 0;
         let last = -1;
         let lastHero = heroes[0];
+        let lastT = 0;
         for (let i in values){
             if (values[i] != null){
                 if ((stat == "damage" || stat == "healing" || stat == "objective_time") && values[i] < last){
                     continue;
                 }
+
+                if (time[i] - lastT < 15 * 1000){
+                    continue;
+                }
+                lastT = time[i];
 
                 if (heroes[i] != lastHero){
                     heroSwapX.push(time[i] - 1);

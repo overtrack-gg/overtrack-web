@@ -281,6 +281,7 @@ a.navbar-brand > img {
 
 .game-timeline-content {
     padding-top: 10px;
+    padding-bottom: 10px;
     min-width: 650px;
     white-space: nowrap;
 }

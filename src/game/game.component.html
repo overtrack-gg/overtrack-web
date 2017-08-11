@@ -128,5 +128,16 @@
         </div>
     </div>
 
+    <div class="row" *ngIf="game.tabStatistics">
+         <div class="col-md-12">
+            <h2>Graphs</h2>
+            <tab-graphs
+                [tabStatistics]="game.tabStatistics"
+                [stages]="game.stages">
+            </tab-graphs>
+        </div>
+    </div>
+
+
     <metagame *ngIf="loginService.getUser()?.superuser" [id]="game.key"></metagame>
 </div>
