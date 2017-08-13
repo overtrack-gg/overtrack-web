@@ -18,6 +18,8 @@ export class GamesListComponent implements OnInit {
     currentSR: number;
     player: string;
 
+    displayShareKey = false;
+
     loaded: boolean = false;
     showUploadingGames = true;
     currentUploadRequested: Date = null;
@@ -35,8 +37,10 @@ export class GamesListComponent implements OnInit {
         this.activatedRoute.params.subscribe(
             params => {
                 if (params.hasOwnProperty('share_key')){
+                    this.displayShareKey = false;
                     this.fetchSharedGames(params['share_key']);
                 } else {
+                    this.displayShareKey = true;
                     this.fetchOwnGames();
                 }
             }

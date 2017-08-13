@@ -18,7 +18,12 @@
 
 <div class="container overview view" *ngIf="loaded && (currentUploadRequested || (gamesLists && gamesLists.length))">
     <div class="row col-md-12">
-        <h2  class="col-xs-12">Games</h2>
+        <div>
+            <h2 class="col-xs-12">Games</h2>
+            <div *ngIf="displayShareKey" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
+                <share-link class="pull-right"></share-link>
+            </div>
+        </div>
         
         <div id="gametable" class="panel with-nav-tabs panel-default">
             <div class="panel-heading">

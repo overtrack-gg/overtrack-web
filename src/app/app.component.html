@@ -24,7 +24,7 @@
             <ul class="nav navbar-nav" routerLinkActive="active">
 
                 <!-- TODO: make this nice -->
-                <li *ngIf="shareKey"><a class="nav-link"><b>{{ shareKey }}</b></a></li>
+                <li *ngIf="shareKey"><a class="nav-link"><b>{{ shareKey.split('-')[0] }}</b></a></li>
 
                 <li class="nav-item" [class.active]="router.isActive('/games', false)" routerLink="games{{ shareKeyFragment }}">
                     <a class="nav-link" (click)="prevent($event)" href="/games">Games</a>

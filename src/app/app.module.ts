@@ -10,6 +10,7 @@ import 'rxjs/add/observable/of';
 import { AppComponent } from './app.component';
 import { UserLoginComponent } from '../login/user-login.component';
 import { GamesListComponent } from '../games-list/games-list.component';
+import { ShareLinkComponent } from '../games-list/share-link.component';
 import { GameComponent, MetaGameComponent } from '../game/game.component';
 import { TimelineComponent } from '../game/timeline.component';
 import { TabGraphsComponent } from '../game/tab-graphs/tab-graphs.component';
@@ -140,7 +141,8 @@ const appRoutes: Routes = [
 		HeroStatisticPaneComponent,
 		InstallInstructionsComponent,
 		RegisterInterestComponent,
-		WelcomeComponent
+		WelcomeComponent,
+		ShareLinkComponent
 	],
 	bootstrap:    [ AppComponent ],
 	providers: [
