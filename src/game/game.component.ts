@@ -1,10 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { DOCUMENT } from '@angular/platform-browser';
+import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/switchMap';
 import * as D3 from 'd3';
 import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service';
-import { UserLoginService } from '../login/user-login.service';
+import { UserLoginService, User } from '../login/user-login.service';
 
+declare var $: any;
 
 @Component({
     selector: 'metagame',
@@ -15,7 +18,9 @@ export class MetaGameComponent  implements OnInit {
     data: any;
     hide: boolean;
     
-    constructor(private gameService: GameService) {}
+    constructor(
+        private gameService: GameService
+    ) {}
     
     ngOnInit(): void {
         this.hide = true;
@@ -51,7 +56,17 @@ export class GameComponent implements OnInit {
     game: Game;
     hideTimelineKey: boolean;
 
-    constructor(public gameService: GameService, public route: ActivatedRoute, public loginService: UserLoginService) { }
+    private editURL = 'https://api.overtrack.gg/edit_game';
+
+    user: User;
+
+    constructor(
+        public gameService: GameService, 
+        public route: ActivatedRoute, 
+        public loginService: UserLoginService,
+        private http: Http,
+        @Inject(DOCUMENT) public document: any
+    ) { }
 
     ngOnInit(): void {
         this.hideTimelineKey = true;
@@ -66,6 +81,9 @@ export class GameComponent implements OnInit {
                     console.error(err);
                 }
             );
+        this.loginService.fetchUser(user => {
+            this.user = user;
+        })
     }
     
     toggleTimelineKey() {
@@ -162,5 +180,83 @@ export class GameComponent implements OnInit {
     formatDay(date: Date) {
         var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
         return days[date.getDay()]
+    }
+
+    edit() {
+        // this should not be jquery...
+        let playername = $('#playername-input').val();
+        let startSR = Number($('#start-sr-input').val());
+        let endSR = Number($('#end-sr-input').val());
+
+        if (playername != this.game.player){
+            if (!confirm('Changing the player name will change the tab this game belongs to in the games list. Are you sure?')){
+                console.log('Edit canceled');
+                $('#edit').modal('hide');
+                return;
+            }
+        }
+
+        this.game.player = playername;
+        if (this.game.teams){
+            this.game.teams.blue[0].name = playername;
+        }
+
+        if (this.game.startSR != startSR){
+            this.game.startSREditable = true;
+        }
+        this.game.startSR = startSR;
+
+        if (this.game.endSR != endSR){
+            this.game.endSREditable = true;
+        }
+        this.game.endSR = endSR;
+
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers, withCredentials: true });
+        this.http.post(
+            this.editURL, 
+            {
+                'game': this.game.key,
+                'player_name': playername,
+                'start_sr': startSR,
+                'end_sr': endSR
+            },
+            options
+        ).subscribe(
+            succ => {
+                $('#edit').modal('hide');
+            },
+            err => {
+                $('#edit').modal('hide');
+                throw err;
+            }
+        );
+    }
+
+    delete() {
+        if (!confirm('Deleting a game cannot be undone. Are you sure?')){
+            console.log('Delete canceled');
+            $('#edit').modal('hide');
+            return;
+        }
+
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers, withCredentials: true });
+        this.http.post(
+            this.editURL, 
+            {
+                'game': this.game.key,
+                'delete': true
+            },
+            options
+        ).subscribe(
+            succ => {
+                this.document.location.href = '/';
+            },
+            err => {
+                $('#edit').modal('hide');
+                throw err;
+            }
+        );
     }
 }

@@ -434,6 +434,7 @@ export class GameService {
         }
         
         return {
+            userID: body.user_id,
             map: body.map,
             mapType: body.map_type,
             blueScore: body.score ? body.score[0] : null,
@@ -451,7 +452,9 @@ export class GameService {
             tabStatistics: body.tab_statistics,
             heroStatistics: heroStatistics,
             startSR: body.start_sr,
+            startSREditable: !body.start_sr || body.start_sr_editable,
             endSR: body.end_sr,
+            endSREditable: !body.end_sr || body.end_sr_editable,
             teams: teams,
             customGame: body.custom_game,
             placement: placement,
@@ -461,6 +464,7 @@ export class GameService {
 }
 
 export class Game {
+    userID: number;
     map: string;
     mapType: string;
     result: string;
@@ -478,7 +482,9 @@ export class Game {
     tabStatistics: any;
     heroStatistics: Array<HeroStatistics>;
     startSR: number;
+    startSREditable: boolean;
     endSR: number;
+    endSREditable: boolean;
     teams: Teams;
     customGame: boolean;
     placement: boolean;
