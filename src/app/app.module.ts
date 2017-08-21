@@ -23,6 +23,7 @@ import { InstallInstructionsComponent } from '../install-instructions/install-in
 import { RegisterComponent } from '../register/register.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { FAQComponent } from '../faq/faq.component';
+import { NotFoundComponent } from '../404/404.component';
 
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
@@ -122,7 +123,7 @@ const appRoutes: Routes = [
 		{ path: 'welcome', component: WelcomeComponent },
 		{ path: 'faq', component: FAQComponent },
 
-		{ path: '**', component: FAQComponent }, // FIXME: 404
+		{ path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
@@ -147,7 +148,8 @@ const appRoutes: Routes = [
 		RegisterComponent,
 		WelcomeComponent,
 		ShareLinkComponent, 
-		FAQComponent
+		FAQComponent,
+		NotFoundComponent
 	],
 	bootstrap:    [ AppComponent ],
 	providers: [
