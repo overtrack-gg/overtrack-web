@@ -16,7 +16,9 @@
 </head>
 
 <body>
-    <overtrack ng-version="2.4.10">
+    <overtrack ng-version="4.3.1">
+
+        <!-- Prerendered content for link previews -->
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-family: 'Roboto', sans-serif;">
             <div class="container">
                 <div class="navbar-header">
@@ -26,57 +28,45 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" routerlink="games" style="padding-right: 0" href="/games">
+                    <a class="navbar-brand" routerLink="games" style="padding-right: 0">
                         <img src="favicon.png"> OverTrack<span style="
-                    display:inline-block;
-                    color:#F16639;
-                    transform: rotate(-25deg) translate(0, -7px);
-                    border:1px #F16639 solid;
-                    font-size:9px;
-                    width:62px;
-                    margin-left:6px;
-                    background-color:rgba(150, 100, 100, 1);">
-                    CLOSED BETA
-                </span></a>
+                            display:inline-block;
+                            color:#F16639;
+                            transform: rotate(-25deg) translate(0, -7px);
+                            border:1px #F16639 solid;
+                            font-size:9px;
+                            width:35px;
+                            margin-left:6px;
+                            background-color:rgba(150, 100, 100, 1);
+                            padding-left: 5px;
+                            ">
+                            BETA
+                        </span>
+                    </a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
-                    <ul class="nav navbar-nav" routerlinkactive="active">
-
-                        <!--template bindings={}-->
-
-                        <li class="nav-item">
+                    <ul class="nav navbar-nav" routerlinkactive="active" ng-reflect-router-link-active="active">
+                        <li class="nav-item" tabindex="0" ng-reflect-router-link="games">
                             <a class="nav-link" href="/games">Games</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" tabindex="0" ng-reflect-router-link="graph">
                             <a class="nav-link" href="/graph">SR Graph</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" tabindex="0" ng-reflect-router-link="statistics">
                             <a class="nav-link" href="/statistics">Statistics</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" tabindex="0" ng-reflect-router-link="winrates">
                             <a class="nav-link" href="/winrates">Win Rates</a>
                         </li>
-
-                        <!--template bindings={}-->
-                        <!--template bindings={}-->
                         <li class="divider-vertical"></li>
-
-                        <li class="nav-item" routerlink="tracker">
+                        
+                        <li class="nav-item" routerlink="tracker" tabindex="0" ng-reflect-router-link="tracker">
                             <a class="nav-link" href="/tracker">Download Tracker</a>
                         </li>
-
+                        <li class="nav-item" routerlink="faq" tabindex="0" ng-reflect-router-link="tracker">
+                            <a class="nav-link" href="/faq">FAQ / Troubleshooting</a>
+                        </li>
                     </ul>
-                    <user-login>
-                        <form class="navbar-form navbar-right ng-untouched ng-pristine ng-valid" id="login-nav">
-                            <a class="btn btn-success" id="login" href="https://api.overtrack.gg/authenticate?next=https://overtrack.gg/">Sign in</a>
-                        </form>
-                        <div id="logged-in-nav" class="hidden">
-                            <form class="navbar-form navbar-right ng-untouched ng-pristine ng-valid" id="login-nav">
-                                <a class="btn btn-info" id="signout">Sign out</a>
-                            </form>
-                            <h4 class="navbar-text navbar-right" id="username"></h4>
-                        </div>
-                    </user-login>
                 </div>
             </div>
         </nav>
@@ -84,7 +74,7 @@
         <router-outlet></router-outlet>
         <welcome>
             <div class="jumbotron overview view banner watchpoint-gibraltar" style="padding-bottom: 10px;">
-                <div class="container">
+                <div class="container">                      
                     <h1>OverTrack</h1>
                 </div>
             </div>
@@ -92,14 +82,14 @@
             <div class="container">
                 <h2>Automated Competitive Match Tracking</h2>
                 <p>
-                    OverTrack keeps records of your competitive matches - Skill Rating, Win/Loss/Draw, Eliminations, Healing, Damage, Objective Time, and more.
-                    <br> No longer is there a need to manually enter match data into a form or spreadsheet; OverTrack does all this automatically!
+                    OverTrack keeps records of your competitive matches - Skill Rating, Win/Loss/Draw, Eliminations, Healing, Damage, Objective Time, and more.<br>
+                    No longer is there a need to manually enter match data into a form or spreadsheet; OverTrack does all this automatically!
                 </p>
 
                 <img class="tut-image" src="assets/images/welcome/games.png">
                 <p>
-                    OverTrack records the map, result, heroes played and SR changes of all your matches.
-                    <br> All this is done by passively recording the screen of Overwatch, which, for the purposes of this program Blizzard has confirmed they do not consider a cheat.
+                    OverTrack records the map, result, heroes played and SR changes of all your matches.<br>
+                    All this is done by passively recording the screen of Overwatch, which, for the purposes of this program Blizzard has confirmed they do not consider a cheat. 
                 </p>
 
                 <h2>Per Game Tracking</h2>
@@ -115,15 +105,11 @@
                     <li>Support Assists (Eliminations you aided your team by way of support abilities e.g. Orb of Discord)</li>
                     <li>Objective information (checkpoints/point control)</li>
                     <li>and more!</li>
-
                 </ul>
 
                 <h2>Statistics and Win Rates</h2>
-
-                <p>OverTrack will record statistics whenever you press tab. This allows tracking on both a per-game and overall level.</p>
-                <h4>Per Game</h4>
-                <img class="tut-image" src="assets/images/welcome/game_stats.png">
-                <h4>Overall</h4>
+                <h4>Statistics</h4>
+                <p>OverTrack will record statistics whenever you press tab. This allows tracking on both a per-game (shown above) and overall level.</p>
                 <img class="tut-image" src="assets/images/welcome/hero_stats.png">
                 <h4>Win Rates</h4>
                 <img class="tut-image" src="assets/images/welcome/winrates.png">
@@ -150,6 +136,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="assets/js/plotly-latest.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
     <script>
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;

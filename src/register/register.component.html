@@ -1,0 +1,78 @@
+<div class="jumbotron overview view banner temple-of-anubis" style="padding-bottom: 10px;">
+    <div class="container">                      
+        <h1>Register</h1>
+    </div>
+</div>
+
+<div *ngIf="!battletag" class="container">
+
+
+</div>
+<div *ngIf="!battletag" class="container">
+    <p>
+        Welcome to OverTrack!
+    </p>
+    <p>
+        To get started hit the 'Sign in' button in the top right. There's no need for username or password, just sign in through your battle.net account.
+    </p>
+
+</div>
+<div *ngIf="battletag" class="container">
+
+    <h2>Welcome {{ battletag }}</h2>
+    <br/>
+    <p>
+        Welcome to OverTrack beta!<br/>
+    </p>
+
+    <p>
+        If {{ battletag }} is not your main account sign out of {{ battletag }} at <a href="https://battle.net">battle.net</a> and try to log in here again.
+    </p>
+
+    <h3>Public beta</h3>
+    <p>
+        OverTrack is beta software. This means there will be bugs. <br/>
+        If you encounter any oddities, bugs or have queries/suggestions please join the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> and report them in #testing-and-feedback.
+    </p>
+
+    <h3>Caveats</h3>
+    <p>
+        To track games OverTrack records your screen and uses computer vision to detect kills, scores, SRs and mode. <br/>
+        This means OverTrack uses a small amount of CPU usage in the background - for mid-high end PCs this is not an issue but for low end PCs OverTrack can significantly decrease FPS or even fail to record entirely. <br/>
+        Generally, the performance impact of OverTrack is less than that of OBS, but this may vary. 
+    </p>
+
+    <p>
+        Note that on Windows 7 OverTrack is unable to track Overwatch when it is running in fullscreen mode.
+        Overwatch must also be run at in-game 16:9 resolution (for now).
+    </p>
+
+    <h3>Post beta</h3>
+    <p>
+        Once OverTrack is out of public beta it will transition to a subscription based service (currently planned at $4.99 per month). <br/>
+        There will also be a trial period to ensure that OverTrack is compatible before purchasing a subscription. 
+    </p>
+
+    <h3>Using OverTrack</h3>
+    <p>
+        In order to correctly track everything correctly, OverTrack needs to see specific screens in Overwatch. <br/>
+        To track games, try to ensure that OverTrack sees the teams list at the start of each competitive game. 
+        If Overwatch is minimized while you are queued then OverTrack may be unable to see the player list - prefer using Alt-Enter to toggle fullscreen mode between games than Alt-Tabbing away from the game when in fullscreen mode.
+        To track SR you need to visit the 'Play Menu' (where the SR is visible below 'Competitive') between each game, and allow OverTrack a second to record the SR.
+    </p>
+    <p>
+        To check OverTrack is picking up Overwatch hover over the taskbar icon to see OverTrack's status.
+    </p>
+
+    <p>
+        There is no need to sign in with multiple accounts, once you have authenticated different accounts will show under separate tabs.
+    </p>
+    
+    <h3>Let's get started</h3>
+    <p>
+        Click the button below once you are ready to enter the beta!
+    </p>
+
+    <button (click)="register()" class="btn btn-primary">Register</button>
+    <br><br><br>
+</div>

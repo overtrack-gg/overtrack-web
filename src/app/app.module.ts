@@ -20,8 +20,9 @@ import { WinRatesComponent } from '../win-rates/win-rates.component';
 import { AllTimeHeroStatisticsComponent, HeroStatisticPaneComponent } from '../hero-statistics/hero-statistics.component';
 import { GamesGraphComponent } from '../games-graph/games-graph.component';
 import { InstallInstructionsComponent } from '../install-instructions/install-instructions.component';
-import { RegisterInterestComponent } from '../register-interest/register-interest.component';
+import { RegisterComponent } from '../register/register.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
+import { FAQComponent } from '../faq/faq.component';
 
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
@@ -101,7 +102,7 @@ export class RedirectToGamesComponent implements OnInit {
 }
 
 const appRoutes: Routes = [
-		{ path: '', pathMatch: 'full', component: RedirectToGamesComponent, canActivate: [LoggedIn] },
+		{ path: '', component: RedirectToGamesComponent, canActivate: [LoggedIn] },
 		{ path: 'games',  component: GamesListComponent, canActivate: [LoggedIn] },
 		{ path: 'statistics', component: AllTimeHeroStatisticsComponent, canActivate: [LoggedIn] },
 		{ path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
@@ -117,8 +118,11 @@ const appRoutes: Routes = [
 
 		{ path: 'authenticate_client', component: AuthenticateClientComponent, canActivate: [LoggedIn] },
 
-		{ path: 'register', component: RegisterInterestComponent },
-		{ path: 'welcome', component: WelcomeComponent }
+		{ path: 'register', component: RegisterComponent },
+		{ path: 'welcome', component: WelcomeComponent },
+		{ path: 'faq', component: FAQComponent },
+
+		{ path: '**', component: FAQComponent }, // FIXME: 404
 ];
 
 @NgModule({
@@ -140,9 +144,10 @@ const appRoutes: Routes = [
 		AuthenticateClientComponent,
 		HeroStatisticPaneComponent,
 		InstallInstructionsComponent,
-		RegisterInterestComponent,
+		RegisterComponent,
 		WelcomeComponent,
-		ShareLinkComponent
+		ShareLinkComponent, 
+		FAQComponent
 	],
 	bootstrap:    [ AppComponent ],
 	providers: [

@@ -21,13 +21,10 @@ export class UserLoginComponent implements OnInit {
 
         this.route.queryParams.subscribe((params: Params) => {
             if (params['loggedin'] == 'false'){
-                sessionStorage.setItem('battletag', params['battletag']);
-                localStorage.setItem('battletag', params['battletag']);
-                if (params['reason'] == 'notwhitelisted'){
-                    this.router.navigate(['/register']);
-                } else {
-                    throw new Error('Unexpected reason: ' + params['reason']); 
-                }
+                let battletag = params['battletag'].replace('%23', '#');
+                sessionStorage.setItem('battletag', battletag);
+                localStorage.setItem('battletag', battletag);
+                this.router.navigate(['/register']);
             }
         });
 
