@@ -294,6 +294,10 @@ a.navbar-brand > img {
     font-size: 12px;
 }
 
+.timeline-players .too-long {
+    font-size: 11px;
+}
+
 .timeline-players b {
     padding: 0px;
     padding-right: 5px;

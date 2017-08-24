@@ -25,7 +25,7 @@ export class TimelineComponent implements OnChanges {
         // Add name
         div.append('b')
             .attr('class', (player: Player) => {
-                return 'col-xs-2 text-right text-' + player.colour;
+                return 'col-xs-2 text-right text-' + player.colour + (player.name.indexOf('@') != -1 ? ' too-long' : '');
             }).text((player: Player) => player.name);
 
         const svg = div.append('svg')
@@ -164,8 +164,6 @@ export class TimelineComponent implements OnChanges {
                 .on("click", this.scrollKillfeed);
         }, 0);
     }
-
-
     
     scrollKillfeed() {
         //Find the id of the event by searching through the classes of the current element
