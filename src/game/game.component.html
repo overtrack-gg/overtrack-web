@@ -72,6 +72,12 @@
                                     <input [disabled]="!game.endSREditable && !user?.superuser" class="form-control" type="number" value="{{ game.endSR }}" id="end-sr-input">
                                 </div>
                             </div>
+                            <div class="form-group row" *ngIf="game.rankEditable">
+                                <label for="is-placement-input" class="col-2 col-form-label">Placement</label>
+                                <div class="col-10">
+                                    <input class="form-control" type="checkbox" [checked]="game.placement" id="is-placement-input">
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-6" style="padding: 2px;">
                                     <button class="btn btn-danger" (click)="delete()">

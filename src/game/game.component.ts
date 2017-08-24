@@ -187,6 +187,7 @@ export class GameComponent implements OnInit {
         let playername = $('#playername-input').val();
         let startSR = Number($('#start-sr-input').val());
         let endSR = Number($('#end-sr-input').val());
+        let placement = $('#is-placement-input').get(0).checked;
 
         if (playername != this.game.player){
             if (!confirm('Changing the player name will change the tab this game belongs to in the games list. Are you sure?')){
@@ -204,12 +205,14 @@ export class GameComponent implements OnInit {
         if (this.game.startSR != startSR){
             this.game.startSREditable = true;
         }
-        this.game.startSR = startSR;
+        this.game.startSR = startSR || null;
 
         if (this.game.endSR != endSR){
             this.game.endSREditable = true;
         }
-        this.game.endSR = endSR;
+        this.game.endSR = endSR || null;
+
+        this.game.placement = placement;
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers, withCredentials: true });
@@ -219,7 +222,8 @@ export class GameComponent implements OnInit {
                 'game': this.game.key,
                 'player_name': playername,
                 'start_sr': startSR,
-                'end_sr': endSR
+                'end_sr': endSR,
+                'placement': placement
             },
             options
         ).subscribe(

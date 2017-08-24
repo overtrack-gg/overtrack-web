@@ -458,6 +458,7 @@ export class GameService {
             teams: teams,
             customGame: body.custom_game,
             placement: placement,
+            rankEditable: teams == null || body.rank_ediable,
             groupSize: body.group_size
         };
     }
@@ -488,6 +489,7 @@ export class Game {
     teams: Teams;
     customGame: boolean;
     placement: boolean;
+    rankEditable: boolean;
     groupSize: number;
 }
 
