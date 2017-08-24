@@ -5,23 +5,28 @@
         </div>
         <div [class.hidden]="hide" *ngIf="data" class="panel-body">
             <h2>Raw Game</h2>
-            <p *ngFor="let key of keys(data.raw_game,['attributes'])">
-                 {{key}}: <span>{{data.raw_game[key] ? data.raw_game[key] : "null"}}</span>
+            <ng-container *ngIf="data.raw_game">
+                <p *ngFor="let key of keys(data.raw_game,['attributes'])">
+                    {{key}}: <span>{{data.raw_game[key] ? data.raw_game[key] : "null"}}</span>
+                </p>
+                <h3>Attributes</h3>
+                <p class="indent-1" *ngFor="let key of keys(data.raw_game.attributes,['metadata'])">
+                    {{key}}: <span>{{data.raw_game.attributes[key] ? data.raw_game.attributes[key] : "null"}}</span>
+                </p>
+                
+                <p class="indent-1">metadata: {{'{'}}</p>
+                <p class="indent-2" *ngFor="let key of keys(data.raw_game.attributes.metadata,[])">
+                    {{key}}: 
+                    <span>
+                        {{data.raw_game.attributes.metadata[key] ? data.raw_game.attributes.metadata[key] : "null"}}
+                    </span>
+                </p>
+                <p class="indent-1">{{'}'}}</p>
+                <hr>
+            </ng-container>
+            <p *ngIf="!data.raw_game">
+                Deleted
             </p>
-            <h3>Attributes</h3>
-            <p class="indent-1" *ngFor="let key of keys(data.raw_game.attributes,['metadata'])">
-                {{key}}: <span>{{data.raw_game.attributes[key] ? data.raw_game.attributes[key] : "null"}}</span>
-            </p>
-            
-            <p class="indent-1">metadata: {{'{'}}</p>
-            <p class="indent-2" *ngFor="let key of keys(data.raw_game.attributes.metadata,[])">
-                {{key}}: 
-                <span>
-                    {{data.raw_game.attributes.metadata[key] ? data.raw_game.attributes.metadata[key] : "null"}}
-                </span>
-            </p>
-            <p class="indent-1">{{'}'}}</p>
-            <hr>
             
             
             <h2>Dynamo Game</h2>
