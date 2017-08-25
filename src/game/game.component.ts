@@ -187,7 +187,10 @@ export class GameComponent implements OnInit {
         let playername = $('#playername-input').val();
         let startSR = Number($('#start-sr-input').val());
         let endSR = Number($('#end-sr-input').val());
-        let placement = $('#is-placement-input').get(0).checked;
+        let placement = false;
+        if ($('#is-placement-input').get(0)){
+            placement = $('#is-placement-input').get(0).checked;
+        }
 
         if (playername != this.game.player){
             if (!confirm('Changing the player name will change the tab this game belongs to in the games list. Are you sure?')){
