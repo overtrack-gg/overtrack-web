@@ -62,10 +62,12 @@ export class GameService {
                             // we don't display anything on the Mercy's timeline, but this can be used to check their player
                             hero = kill.leftHero;
                         } else {
-                            if (kill.leftHero && kill.leftHero.indexOf('_') == -1){
-                                // kill is by a hero instead of e.g. torb_turret
-                                // this is _not_ who we are playing so ignore
-                                hero = kill.leftHero;
+                            if (kill.leftHero){
+                                if (kill.leftHero.indexOf('_') == -1){
+                                    hero = kill.leftHero;
+                                } else {
+                                    hero = kill.leftHero.split('_')[0];
+                                }
                             }
                             if (kill.rightHero) {
                                 if (kill.rightHero && kill.rightHero.indexOf('_') == -1){
@@ -112,6 +114,7 @@ export class GameService {
                                         otherHero: kill.leftHero
                                     });
                                 } else {
+                                    hero = kill.rightHero.split('_')[0];
                                     events.push({
                                         id: kill.id,
                                         time: kill.time - stage.start,
@@ -133,16 +136,7 @@ export class GameService {
                         });
                     } else if (heroes[heroes.length - 1].name === hero) {
                         // if the new hero is the same as the last then extend that one on
-                        heroes[heroes.length - 1].end = event.time - stage.start;
-                        if ('isRes' in event){
-                            let kill = <KillFeedEntry> event;
-                            if (kill.rightPlayer != player || kill.isRes){
-                                // If the event is a kill or being ressed then the player continued playing this hero for a bit longer
-                                // Using this event as the end of playing this hero can make it look like a player resurrected as a different hero
-                                // To solve this extend out the time a bit
-                                heroes[heroes.length - 1].end += 15 * 1000 + Math.random() * 10 * 1000;
-                            }
-                        }
+                        heroes[heroes.length - 1].end = (event.time - stage.start) + 2 * 1000;
                     } else {
                         // once we see a new hero add this to the list
                         heroes.push({
