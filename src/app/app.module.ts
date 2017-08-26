@@ -108,8 +108,7 @@ const appRoutes: Routes = [
 		{ path: 'statistics', component: AllTimeHeroStatisticsComponent, canActivate: [LoggedIn] },
 		{ path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
 		{ path: 'winrates', component: WinRatesComponent, canActivate: [LoggedIn] },
-		{ path: 'tracker', component: InstallInstructionsComponent, canActivate: [LoggedIn]},
-
+		
 		{ path: 'games/:share_key', component: GamesListComponent},
 		{ path: 'statistics/:share_key', component: AllTimeHeroStatisticsComponent },
 		{ path: 'graph/:share_key', component: GamesGraphComponent },
@@ -121,6 +120,7 @@ const appRoutes: Routes = [
 
 		{ path: 'register', component: RegisterComponent },
 		{ path: 'welcome', component: WelcomeComponent },
+		{ path: 'tracker', component: InstallInstructionsComponent},
 		{ path: 'faq', component: FAQComponent },
 
 		{ path: '**', component: NotFoundComponent },
