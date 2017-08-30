@@ -28,6 +28,11 @@ export class HeroStatisticsService {
         for (let stat of body.stats){
             let key: string = stat.player_name + '-' + stat.hero_name;
 
+            if (!stat.player_name){
+                // ignore bad data
+                continue;
+            }
+
             if (!allTimeStats.has(key)){
                 allTimeStats.set(key, {
                     playerName: stat.player_name,
