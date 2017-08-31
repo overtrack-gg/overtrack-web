@@ -7,6 +7,8 @@ import { RouterModule, Router, Routes, CanActivate, ActivatedRoute, ActivatedRou
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+
 import { AppComponent } from './app.component';
 import { UserLoginComponent } from '../login/user-login.component';
 import { GamesListComponent } from '../games-list/games-list.component';
@@ -127,7 +129,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-	imports:      [ RouterModule.forRoot(appRoutes), BrowserModule, HttpModule, FormsModule, ReactiveFormsModule ],
+	imports:      [ RouterModule.forRoot(appRoutes), BrowserModule, HttpModule, FormsModule, ReactiveFormsModule, MultiselectDropdownModule ],
 	declarations: [ 
 		AppComponent, 
 		UserLoginComponent,

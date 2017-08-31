@@ -19,7 +19,14 @@
 <div class="container overview view" *ngIf="loaded && (currentUploadRequested || (gamesLists && gamesLists.length))">
     <div class="row col-md-12">
         <div>
-            <h2 class="col-xs-12">Games</h2>
+            <div class="col-xs-12">
+                <h2>Games</h2>
+                <ss-multiselect-dropdown 
+                    style=" position: absolute;
+                            left: 130px;
+                            top: 15px;" 
+                    [options]="seasonSelectDropdown" [(ngModel)]="visibleSeasons" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+            </div>
             <div *ngIf="displayShareKey" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
                 <share-link class="pull-right"></share-link>
             </div>
@@ -29,7 +36,7 @@
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Accounts:</b></li>
-                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"><a (click)="renderGraph(games.player)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"><a (click)="updateGamesList(games.player)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
                 </ul>
             </div>
             <div class="panel-body">
@@ -53,7 +60,7 @@
                                     <p>Game uploading...</p>
                                 </td> 
                             </tr>
-                            <tr *ngFor="let game of games.list" (mousedown)="prepRoute(game, $event)" (mouseup)="route(game, $event)" [class.hoverable]="!game.error" id="game-{{ game.num }}">
+                            <tr *ngFor="let game of visibleGames(games.list)" (mousedown)="prepRoute(game, $event)" (mouseup)="route(game, $event)" [class.hoverable]="!game.error" id="game-{{ game.num }}">
                                 <td class="gn">{{formatTime(game.time)}} {{ formatDay(game.time) }}<br>
                                     {{formatDate(game.time)}}
                                 </td>

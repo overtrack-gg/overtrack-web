@@ -93,7 +93,8 @@ export class GamesListService {
                     key: game.key,
                     heroes: heroes,
                     rank: game.rank,
-                    customGame: game.custom_game
+                    customGame: game.custom_game,
+                    season: this.getSeason(game.time)
                 });
             } else {
                 gamelist.push({
@@ -114,7 +115,8 @@ export class GamesListService {
                     key: game.key,
                     heroes: null,
                     rank: null,
-                    custom_game: false
+                    custom_game: false,
+                    season: this.getSeason(game.time)
                 });
             }
         }
@@ -153,6 +155,23 @@ export class GamesListService {
             );
         }
     }
+
+    getSeason(time: number){
+        if (time < 1488193200){ // 28 Feb 2017
+            return 'Season 3-4 Off Season';
+        } else if (time < 1496059200){ // 28 May 
+            return 'Season 4';
+        } else if (time < 1496275199){ // 1 June 2017
+            return 'Season 4-5 Off Season';
+        } else if (time < 1503964799){ // 29 August 2017
+            return 'Season 5';
+        } else if (time < 1504224000){
+            return 'Season 5-6 Off Season';
+        } else {
+            return 'Season 6'
+        }
+    }
+
 }
 
 export class PlayerGameList {
@@ -181,6 +200,7 @@ export class GamesListEntry {
     key: string;
     rank: string;
     customGame: boolean;
+    season: string;
 }
 
 export class GamesListHero {

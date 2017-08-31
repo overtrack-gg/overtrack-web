@@ -2,8 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import * as D3 from 'd3';
 
+import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
+
 import { GamesListService, GamesListEntry, PlayerGameList } from './games-list.service';
 import { UserLoginService, User } from '../login/user-login.service';
+
 
 
 declare var Plotly: any;
@@ -28,6 +31,9 @@ export class GamesListComponent implements OnInit {
     public linkKey: string;
     public linkMouse: number;
 
+    public visibleSeasons: string[];
+    public seasonSelectDropdown: IMultiSelectOption[];
+
     constructor(public gamesListService: GamesListService,
                 public loginService: UserLoginService,
                 public activatedRoute: ActivatedRoute,
@@ -42,9 +48,42 @@ export class GamesListComponent implements OnInit {
                 } else {
                     this.displayShareKey = true;
                     this.fetchOwnGames();
-                }
+                }             
             }
         );
+    }
+
+    updateGamesDropdown(){
+        let seasons: Array<string> = [];
+        for (let gl of this.gamesLists){
+            if (gl.player == this.player){
+                for (let g of gl.list){
+                    let season = g.season;
+                    if (seasons.indexOf(season) == -1){
+                        seasons.push(season);
+                    }
+                }
+            }
+        }
+        this.seasonSelectDropdown = [];
+        for (let season of seasons){
+            this.seasonSelectDropdown.push({
+                id: season,
+                name: season
+            })
+            // this.visibleSeasons.push(season);
+        }
+        this.visibleSeasons = [ seasons[0] ];
+    }
+
+    onChange() {
+        console.log(this.visibleSeasons);
+    }
+
+    visibleGames(games: Array<GamesListEntry>) {
+        return games.filter(
+            g => this.visibleSeasons.indexOf(g.season) != -1
+        )
     }
 
     fetchSharedGames(share_key: string){
@@ -52,7 +91,7 @@ export class GamesListComponent implements OnInit {
             res => {
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.renderGraph(this.gamesLists[0].player);
+                    this.updateGamesList(this.gamesLists[0].player);
                 }
                 this.loaded = true;
             },
@@ -68,7 +107,7 @@ export class GamesListComponent implements OnInit {
             res => {
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.renderGraph(this.gamesLists[0].player);
+                    this.updateGamesList(this.gamesLists[0].player);
                 }
                 this.loaded = true;
             },
@@ -95,8 +134,10 @@ export class GamesListComponent implements OnInit {
         return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
 
-    renderGraph(playerName: string) {
+    updateGamesList(playerName: string) {
         this.player = playerName;
+
+        this.updateGamesDropdown();
 
         let sr: Array<number> = [];
         let gamePoints: Array<number> = [];
