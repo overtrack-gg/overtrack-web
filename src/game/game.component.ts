@@ -187,6 +187,7 @@ export class GameComponent implements OnInit {
         let playername = $('#playername-input').val();
         let startSR = Number($('#start-sr-input').val());
         let endSR = Number($('#end-sr-input').val());
+        let result = $('#result-input').get(0).value.toUpperCase();
         let placement = false;
         if ($('#is-placement-input').get(0)){
             placement = $('#is-placement-input').get(0).checked;
@@ -216,6 +217,7 @@ export class GameComponent implements OnInit {
         this.game.endSR = endSR || null;
 
         this.game.placement = placement;
+        this.game.result = result.replace('UNKNOWN', 'UNKN');
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers, withCredentials: true });
@@ -226,7 +228,8 @@ export class GameComponent implements OnInit {
                 'player_name': playername,
                 'start_sr': startSR,
                 'end_sr': endSR,
-                'placement': placement
+                'placement': placement,
+                'result': result,
             },
             options
         ).subscribe(
