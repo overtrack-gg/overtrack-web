@@ -52,10 +52,12 @@ export class GamesListService {
             if (game.duration){
                 let heroes: Array<GamesListHero> = [];
                 for (let hero of game.heroes_played) {
-                    heroes.push({
-                        name: hero[0],
-                        percentagePlayed: hero[1]
-                    });
+                    if (hero[1] > 0.15){
+                        heroes.push({
+                            name: hero[0],
+                            percentagePlayed: hero[1]
+                        });
+                    }
                 }
 
                 let srChange = game.rank == "placement" ? '-' : '?';
