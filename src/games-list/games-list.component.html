@@ -25,7 +25,7 @@
                     style=" position: absolute;
                             left: 130px;
                             top: 15px;" 
-                    [options]="seasonSelectDropdown" [(ngModel)]="visibleSeasons" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+                    [options]="seasonSelectDropdown" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)"></ss-multiselect-dropdown>
             </div>
             <div *ngIf="displayShareKey" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
                 <share-link class="pull-right"></share-link>

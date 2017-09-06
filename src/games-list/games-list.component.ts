@@ -76,8 +76,8 @@ export class GamesListComponent implements OnInit {
         this.visibleSeasons = [ seasons[0] ];
     }
 
-    onChange() {
-        console.log(this.visibleSeasons);
+    changeSeasonSelection() {
+        this.updateGamesList();
     }
 
     visibleGames(games: Array<GamesListEntry>) {
@@ -91,7 +91,9 @@ export class GamesListComponent implements OnInit {
             res => {
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.updateGamesList(this.gamesLists[0].player);
+                    this.player = this.gamesLists[0].player;
+                    this.updateGamesDropdown();
+                    this.updateGamesList();
                 }
                 this.loaded = true;
             },
@@ -107,7 +109,9 @@ export class GamesListComponent implements OnInit {
             res => {
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.updateGamesList(this.gamesLists[0].player);
+                    this.player = this.gamesLists[0].player;
+                    this.updateGamesDropdown();
+                    this.updateGamesList();
                 }
                 this.loaded = true;
             },
@@ -134,18 +138,20 @@ export class GamesListComponent implements OnInit {
         return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
 
-    updateGamesList(playerName: string) {
+    setSelectedPlayer(playerName: string){
         this.player = playerName;
-
         this.updateGamesDropdown();
+        this.updateGamesList()
+    }
 
+    updateGamesList() {
         let sr: Array<number> = [];
         let gamePoints: Array<number> = [];
         let last: number = null;
         let games = [];
         for (let playerGames of this.gamesLists) {
-            if (playerGames.player == playerName) {
-                games = playerGames.list;
+            if (playerGames.player == this.player) {
+                games = this.visibleGames(playerGames.list);
             }
         }
         games = games.slice();
@@ -275,11 +281,11 @@ export class GamesListComponent implements OnInit {
             if (index2id.get(data.points[0].pointNumber)) {
                 const element = document.getElementById('game-' + index2id.get(data.points[0].pointNumber));
                 const player = D3.select('#gametable li.active a').text();
-                if ( player !== playerName) {
+                if ( player !== this.player) {
                     D3.select('#gametable li.active').classed('active', false);
                     for (const elem of (D3.selectAll('#gametable li') as any)._groups[0]) {
                         const d3elem = D3.select(elem);
-                        if (d3elem.select('a').size() && d3elem.select('a').text() === playerName) {
+                        if (d3elem.select('a').size() && d3elem.select('a').text() === this.player) {
                             d3elem.classed('active', true);
                             const href = d3elem.select('a').attr('href');
                             D3.select('#gametable div.active').classed('active', false);
@@ -320,14 +326,18 @@ export class GamesListComponent implements OnInit {
     }
 
     route(game: GamesListEntry, event: any) {
-        console.log(event.button);
         if (!game.error && this.linkKey === game.key && this.linkMouse === event.button) {
             if (event.button === 0) { // Left mouse button
-                this.router.navigate(['/game/' + game.key]);
+                if (event.ctrlKey){
+                    window.open('./game/' + game.key);
+                } else {
+                    this.router.navigate(['/game/' + game.key]);
+                }
             } else if (event.button === 1) { // Middle mouse button
                 window.open('./game/' + game.key);
             }
         }
+       
         this.linkKey = null;
         this.linkMouse = null;
     }
