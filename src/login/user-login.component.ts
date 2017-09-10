@@ -21,7 +21,10 @@ export class UserLoginComponent implements OnInit {
 
         this.route.queryParams.subscribe((params: Params) => {
             if (params['loggedin'] == 'false'){
-                let battletag = params['battletag'].replace('%23', '#');
+                let battletag: string = params['battletag'];
+                if (battletag.indexOf('%') != -1){
+                    battletag = decodeURIComponent(battletag);
+                }
                 sessionStorage.setItem('battletag', battletag);
                 localStorage.setItem('battletag', battletag);
                 this.router.navigate(['/register']);
