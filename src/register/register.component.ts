@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.userLoginService.fetchUser(user => {
+        this.userLoginService.getUser().subscribe(user => {
             if (user){
                 this.router.navigate(['/']);
             }

@@ -1,9 +1,9 @@
-<form [class.hidden]="user" id="login-nav" class="navbar-form navbar-right">
+<form *ngIf="!user" id="login-nav" class="navbar-form navbar-right">
     <a id="login" class="btn btn-success" href="{{loginUrl}}">Sign in</a>
 </form>
-<div [class.hidden]="!user" id="logged-in-nav">
+<div *ngIf="user" id="logged-in-nav">
     <form id="login-nav" class="navbar-form navbar-right">
         <a id="signout" (click)="logout()" class="btn btn-info">Sign out</a>
     </form>
-    <h4 id="username" class="navbar-text navbar-right">{{ user?.battletag }}</h4>
+    <h4 id="username" class="navbar-text navbar-right" style="margin-left: 0; margin-right: 0" >{{ user?.battletag }}</h4>
 </div>

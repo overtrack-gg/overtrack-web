@@ -15,7 +15,7 @@ export class WelcomeComponent implements OnInit {
         this.route.queryParams.subscribe((params: Params) => {
             this.next = params['next'];
             if (this.next){
-                this.userLoginService.fetchUser(user => {
+                this.userLoginService.getUser().subscribe(user => {
                     if (user){
                         console.log('Navigating to ', this.next);
                         this.router.navigate([this.next]);

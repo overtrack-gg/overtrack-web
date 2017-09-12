@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, RoutesRecognized, NavigationEnd } from '@angular/router';
 
+import { UserLoginService, User } from '../login/user-login.service';
+
 declare var ga:Function;
 
 @Component({
@@ -11,8 +13,10 @@ export class AppComponent implements OnInit {
 
 	shareKey: string = null;
 	shareKeyFragment: string = null;
+	user: User = null;
 
-	constructor(public router: Router) {}
+	constructor(public router: Router,
+				public userLoginService: UserLoginService) {}
 
 	ngOnInit(): void {
 		this.router.events.subscribe(
@@ -35,6 +39,9 @@ export class AppComponent implements OnInit {
 
 			}
 		);
+		this.userLoginService.getUser().subscribe(u => {
+			this.user = u;
+		})
 	}
     
     prevent(event: any) {

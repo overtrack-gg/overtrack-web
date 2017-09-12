@@ -31,7 +31,7 @@ export class UserLoginComponent implements OnInit {
             }
         });
 
-        this.userLoginService.fetchUser(user => {
+        this.userLoginService.getUser().subscribe(user => {
             this.user = user;
             if (!user){
                 const auth = this.userLoginService.getAuthUrl();

@@ -1,0 +1,124 @@
+<div class="jumbotron overview view banner watchpoint-gibraltar" style="padding-bottom: 10px;">
+    <div class="container">                      
+        <h1>Subscription</h1>
+    </div>
+</div>
+
+<div class="container">
+    <p>
+        OverTrack has been something that I have worked full time on for many months. It is also a project that I wish to continue to support and add features to.<br/>
+        To cover development costs, I ask for a subscription of $4.99 / month. 
+        <br/><br/>
+        I see OverTrack as a project for the Overwatch community, and to me subscriptions are akin to a Patreon or Twitch subscription; they are a way to support me in running this service.<br/>
+        I will also be using the community to steer the direction for new features through the OverTrack discord, subreddit and public Trello (Trello coming soon).
+    </p>
+    <br/><br/>
+
+    <ng-container *ngIf="subscription?.free">
+        <h4>Complimentary</h4>
+        <p>
+            Your account has been marked for complimentary OverTrack. This means you can use OverTrack completely free.<br/>
+            If you wish to support OverTrack you can still subscribe below, but doing so is optional.
+        </p>
+        <br/><br/>
+    </ng-container>
+
+    <ng-container *ngIf="subscriptionState == 1"> <!-- NoGames --> 
+        <h4>Subscription Status: Play some games first!</h4>
+        <p>
+            To ensure that no one is paying for something that doesn't, we require that you play at least 3 games using OverTrack via the trial period.<br/>
+            Your trial period will start when you first play a game with OverTrack running and will allow you 1 week of access or 10 games, whichever happens second.<br/>
+            Once you have played these games and confirmed that you are happy with how OverTrack is functioning you will be able to purchase your subscription to OverTrack.
+        </p>
+        <br/>
+        <p>
+            If you are playing games, but none are showing up please check the following common issues:
+        </p>
+        <ul>
+            <li>Overwatch is being run as admin, but OverTrack is not</li>
+            <li>Overwatch is being run in fullscreen mode on Windows 7</li>
+            <li>You are using a laptop with switchable graphics and running Overwatch on the dedicated GPU</li>
+            <li>Overwatch is not set to English</li>
+            <li>The killfeed is disabled</li>
+        </ul>
+        <br/>
+        <p>
+            If none of these apply to you please get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a>.
+        </p>
+    </ng-container>
+
+    <ng-container *ngIf="subscriptionState == 2"> <!-- NeedMoreGames -->
+        <h4>Subscription Status: More games required!</h4>
+        <p>
+            To ensure that no one is paying for something that doesn't work for them, we require that you play at least 3 games using OverTrack through the trial period.<br/>
+            Once you have played these games and confirmed that you are happy with how OverTrack is functioning you will be able to purchase your subscription to OverTrack.
+        </p>
+        <p>
+            Currently you have {{ subscription.gamesParsed }} games, and still need to play {{ 3 - subscription.gamesParsed }} more.
+        </p>
+    </ng-container>
+
+    <ng-container *ngIf="subscriptionState == 3"> <!-- TrialActive -->
+        <h4>Trial Active</h4>
+        <p>
+            Thanks for trying OverTrack.<br/>
+            <ng-container *ngIf="remainingDays > 0 && subscription.trialGamesRemaining > 0">
+                Your trial will end in {{ remainingDays }} days or after {{ subscription.trialGamesRemaining }} more game{{ subscription.trialGamesRemaining != 1 ? 's' : '' }}, whichever happens <em>second</em>.
+            </ng-container>
+            <ng-container *ngIf="remainingDays > 0 && subscription.trialGamesRemaining <= 0">
+                Your trial will end in {{ remainingDays }} days.
+            </ng-container>
+            <ng-container *ngIf="remainingDays <= 0 && subscription.trialGamesRemaining > 0">
+                Your trial will end after {{ subscription.trialGamesRemaining }} more game{{ subscription.trialGamesRemaining != 1 ? 's' : '' }}.
+            </ng-container>
+            <ng-container *ngIf="remainingDays <= 0 && subscription.trialGamesRemaining <= 0">
+                Your trial will end today.
+            </ng-container>
+        </p>
+        <br/>
+        <p>
+            If you are enjoying OverTrack and want to subscribe to track games beyond your trial period, please click the button below.<br/>
+            All payment handling is completed through <a href="https://stripe.com">Stripe</a> - OverTrack never receives or stores your credit card details.
+        </p>
+
+        <button [disabled]="!buttonActive" class="btn btn-success" (click)="doSubscribe()">Subscribe</button>
+    </ng-container>
+
+    <ng-container *ngIf="subscriptionState == 4"> <!-- TrialOver -->
+        <h4>Subscription Status: Trial Ended</h4>
+        <p>
+            Thanks for trying OverTrack.<br/>
+            If you don't feel the trial period gave you enough time or you encountered issues please get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:simon@uint8.me">simon@uint8.me</a>.
+        </p>
+        <br/>
+        <p>
+            If you enjoyed OverTrack and want to subscribe please click the button below. <br/>
+            All payment handling is completed through <a href="https://stripe.com">Stripe</a> - OverTrack never receives or stores your credit card details.
+        </p>
+
+        <button [disabled]="!buttonActive" class="btn btn-success" (click)="doSubscribe()">Subscribe</button>
+    </ng-container>
+
+    <ng-container *ngIf="subscriptionState == 5"> <!-- CanCancel -->
+        <h4>Subscription Status: Subscription Active</h4>
+        <p>
+            Your OverTrack subscription is currently active and will renew on {{ subscription.currentPeriodEnd }}.<br/><br/>
+            If you would like to cancel your subscription click the button below. Note that you will still be able to track games until the subscription period ends.<br/>
+            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:simon@uint8.me">simon@uint8.me</a>.
+        </p>
+
+        <button [disabled]="!buttonActive" class="btn btn-danger" (click)="cancelSubscription()">Cancel Subscription</button>
+    </ng-container>
+
+    <ng-container *ngIf="subscriptionState == 6"> <!-- WillNotRenew -->
+        <h4>Subscription Status: Subscription Will Not Renew</h4>
+        <p>
+            Your OverTrack subscription has been canceled and will not renew.<br/>
+            You will still be able to track games with OverTrack until {{ subscription.currentPeriodEnd }}, at which point you will be able to resubscribe.<br/><br/>
+            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:simon@uint8.me">simon@uint8.me</a>.
+        </p>
+    </ng-container>
+
+    <br/><br/>
+
+</div>

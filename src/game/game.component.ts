@@ -81,7 +81,7 @@ export class GameComponent implements OnInit {
                     console.error(err);
                 }
             );
-        this.loginService.fetchUser(user => {
+        this.loginService.getUser().subscribe(user => {
             this.user = user;
         })
     }

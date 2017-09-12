@@ -24,6 +24,7 @@ import { GamesGraphComponent } from '../games-graph/games-graph.component';
 import { InstallInstructionsComponent } from '../install-instructions/install-instructions.component';
 import { RegisterComponent } from '../register/register.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
+import { SubscribeComponent } from '../subscribe/subscribe.component';
 import { FAQComponent } from '../faq/faq.component';
 import { NotFoundComponent } from '../404/404.component';
 
@@ -60,11 +61,9 @@ export class LoggedIn implements CanActivate {
 				) { }
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-		if (this.userLoginService.getUser()){
-			return true;
-		}
 		return Observable.create((observer) => {
-			this.userLoginService.fetchUser(user => {
+			this.userLoginService.getUser().subscribe(user => {
+				console.log('>', user);
 				// console.log(this.router.url);
 				if (!user){
 					let params_str = window.location.href.split('?');
@@ -119,6 +118,7 @@ const appRoutes: Routes = [
 		{ path: 'game/:user/:game',  component: GameComponent },
 
 		{ path: 'authenticate_client', component: AuthenticateClientComponent, canActivate: [LoggedIn] },
+		{ path: 'subscribe', component: SubscribeComponent, canActivate: [LoggedIn]  },
 
 		{ path: 'register', component: RegisterComponent },
 		{ path: 'welcome', component: WelcomeComponent },
@@ -149,9 +149,10 @@ const appRoutes: Routes = [
 		InstallInstructionsComponent,
 		RegisterComponent,
 		WelcomeComponent,
+		SubscribeComponent,
 		ShareLinkComponent, 
 		FAQComponent,
-		NotFoundComponent
+		NotFoundComponent,
 	],
 	bootstrap:    [ AppComponent ],
 	providers: [

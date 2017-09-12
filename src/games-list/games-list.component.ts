@@ -120,7 +120,7 @@ export class GamesListComponent implements OnInit {
             }
         );
         this.showUploadingGames = true;
-        this.loginService.fetchUser(user => {
+        this.loginService.getUser().subscribe(user => {
             this.updateUploadingGame(user);
         });
     }
