@@ -152,12 +152,20 @@ export class TabGraphsComponent {
 
         let maxy: number = 0;
         let lastT = 0;
+        let end: number = null;
         for (let i in values){
             if (values[i] != null) {
 
                 if (time[i] - lastT < 15 * 1000){
                     continue;
                 }
+                if (time[i] > this.stages[this.stages.length - 1].end){
+                    if (heroes[i] == hero){
+                        end = values[i];
+                    }
+                    continue;
+                }
+
                 lastT = time[i];
 
                 x.push(time[i]);
@@ -169,8 +177,11 @@ export class TabGraphsComponent {
                 }
             }
         }
-        x.push(this.stages[this.stages.length - 1].end);
-        y.push(null);
+        if (end != null){
+            x.push(this.stages[this.stages.length - 1].end);
+            y.push(end);
+            maxy = Math.max(maxy, end);
+        }
 
         this.renderPlotlyGraph([
                 {
@@ -203,6 +214,7 @@ export class TabGraphsComponent {
         let last = -1;
         let lastHero = heroes[0];
         let lastT = 0;
+        let end: number = null;
         for (let i in values){
             if (values[i] != null){
                 if ((stat == "damage" || stat == "healing" || stat == "objective_time") && values[i] < last){
@@ -212,6 +224,11 @@ export class TabGraphsComponent {
                 if (time[i] - lastT < 15 * 1000){
                     continue;
                 }
+                if (time[i] > this.stages[this.stages.length - 1].end){
+                    end = values[i];
+                    continue;
+                }
+
                 lastT = time[i];
 
                 if (heroes[i] != lastHero){
@@ -227,8 +244,11 @@ export class TabGraphsComponent {
                 maxy = Math.max(maxy, values[i])
             }
         }
-        x.push(this.stages[this.stages.length - 1].end);
-        y.push(y[y.length - 1]);
+        if (end != null){
+            x.push(this.stages[this.stages.length - 1].end);
+            y.push(end);
+            maxy = Math.max(maxy, end);
+        }
 
         this.renderPlotlyGraph([
                 {
