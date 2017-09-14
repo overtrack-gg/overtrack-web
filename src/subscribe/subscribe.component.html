@@ -27,7 +27,7 @@
     <ng-container *ngIf="subscriptionState == 1"> <!-- NoGames --> 
         <h4>Subscription Status: Play some games first!</h4>
         <p>
-            To ensure that no one is paying for something that doesn't work, we require that you play at least 3 games using OverTrack via the trial period.<br/>
+            To ensure that no one is paying for something that doesn't work, we require that you play at least 3 games using OverTrack through the trial period.<br/>
             Your trial period will start when you first play a game with OverTrack running and last for 1 week or 10 games, whichever happens second.<br/>
             Once you have played these games and confirmed that you are happy with how OverTrack is functioning you will be able to purchase your subscription to OverTrack.
         </p>
@@ -55,7 +55,7 @@
             Once you have played these games and confirmed that you are happy with how OverTrack is functioning you will be able to purchase your subscription to OverTrack.
         </p>
         <p>
-            Currently you have {{ subscription.gamesParsed }} games, and still need to play {{ 3 - subscription.gamesParsed }} more.
+            Currently you have played {{ subscription.gamesParsed || 0 }} games, and still need to play {{ 3 - subscription.gamesParsed }} more.
         </p>
     </ng-container>
 
@@ -78,10 +78,17 @@
         </p>
         <br/>
         <p>
-            If you are enjoying OverTrack and want to subscribe to track games beyond your trial period, please click the button below.<br/>
+            If you are enjoying OverTrack and want to subscribe to track games beyond your trial period, please click the button below.
+        </p>
+        <p>
+            Please confirm that OverTrack is functioning correctly, and tracking your games to your satisfaction before you decide to subscribe.<br/>
+            Because OverTrack operates through parsing screen recordings may have difficulties on some setups.<br/>
+            If you are noticing issues, please don't hesitate to get in touch through the  <a href="https://discord.gg/JywstAB">Discord</a>. 
+        </p>
+        <p>
             All payment handling is completed through <a href="https://stripe.com">Stripe</a> - OverTrack never receives or stores your credit card details.
         </p>
-
+        <br/>
         <button [disabled]="!buttonActive" class="btn btn-success" (click)="doSubscribe()">Subscribe</button>
     </ng-container>
 

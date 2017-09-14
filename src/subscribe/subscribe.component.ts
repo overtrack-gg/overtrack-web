@@ -84,7 +84,7 @@ export class SubscribeComponent implements OnInit {
                         this.subscriptionState = SubscriptionState.CanCancel;
                     }
                 } else {
-                    if (this.subscription.gamesParsed == 0 || !this.subscription.trialUsed){
+                    if (this.subscription.gamesParsed == 0){
                         this.subscriptionState = SubscriptionState.NoGames;
                     } else if (this.subscription.gamesParsed < 3){
                         this.subscriptionState = SubscriptionState.NeedMoreGames;

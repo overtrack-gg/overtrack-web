@@ -16,9 +16,9 @@
 </head>
 
 <body>
-    <overtrack ng-version="4.3.1">
 
-        <!-- Prerendered content for link previews -->
+    <!-- Prerendered content for bots/link previews -->
+    <overtrack ng-version="4.3.1">
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-family: 'Roboto', sans-serif;">
             <div class="container">
                 <div class="navbar-header">
@@ -28,20 +28,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" routerLink="games" style="padding-right: 0">
-                        <img src="favicon.png"> OverTrack<span style="
-                            display:inline-block;
-                            color:#F16639;
-                            transform: rotate(-25deg) translate(0, -7px);
-                            border:1px #F16639 solid;
-                            font-size:9px;
-                            width:35px;
-                            margin-left:6px;
-                            background-color:rgba(150, 100, 100, 1);
-                            padding-left: 5px;
-                            ">
-                            BETA
-                        </span>
+                    <a class="navbar-brand" routerlink="games" ng-reflect-router-link="games" href="/games">
+                        <img src="favicon.png"> OverTrack
                     </a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
@@ -63,14 +51,16 @@
                         <li class="nav-item" routerlink="tracker" tabindex="0" ng-reflect-router-link="tracker">
                             <a class="nav-link" href="/tracker">Download Tracker</a>
                         </li>
-                        <li class="nav-item" routerlink="faq" tabindex="0" ng-reflect-router-link="tracker">
+                        <li class="nav-item" routerlink="faq" tabindex="0" ng-reflect-router-link="faq">
                             <a class="nav-link" href="/faq">FAQ / Troubleshooting</a>
+                        </li>
+                        <li class="nav-item" routerlink="subscribe" tabindex="0" ng-reflect-router-link="subscribe">
+                            <a class="nav-link" href="/subscribe">Subscription</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
         <router-outlet></router-outlet>
         <welcome>
             <div class="jumbotron overview view banner watchpoint-gibraltar" style="padding-bottom: 10px;">
@@ -78,24 +68,23 @@
                     <h1>OverTrack</h1>
                 </div>
             </div>
-
             <div class="container">
                 <h2>Automated Competitive Match Tracking</h2>
                 <p>
                     OverTrack keeps records of your competitive matches - Skill Rating, Win/Loss/Draw, Eliminations, Healing, Damage, Objective Time, and more.<br>
                     No longer is there a need to manually enter match data into a form or spreadsheet; OverTrack does all this automatically!
                 </p>
-
+            
                 <img class="tut-image" src="assets/images/welcome/games.png">
                 <p>
                     OverTrack records the map, result, heroes played and SR changes of all your matches.<br>
-                    All this is done by passively recording the screen of Overwatch, which, for the purposes of this program Blizzard has confirmed they do not consider a cheat. 
+                    All this is done by the OverTrack client passively recording and reading the screen of Overwatch, which, for the purposes of this program Blizzard has confirmed they do not consider a cheat. 
                 </p>
-
+            
                 <h2>Per Game Tracking</h2>
-
+            
                 <img class="tut-image" src="assets/images/welcome/game.png">
-
+            
                 <p>OverTrack also records details from each game that would otherwise be impossible to remember in the heat of play including:</p>
                 <ul>
                     <li>Hero swaps</li>
@@ -106,21 +95,18 @@
                     <li>Objective information (checkpoints/point control)</li>
                     <li>and more!</li>
                 </ul>
-
+            
                 <h2>Statistics and Win Rates</h2>
                 <h4>Statistics</h4>
                 <p>OverTrack will record statistics whenever you press tab. This allows tracking on both a per-game (shown above) and overall level.</p>
                 <img class="tut-image" src="assets/images/welcome/hero_stats.png">
                 <h4>Win Rates</h4>
                 <img class="tut-image" src="assets/images/welcome/winrates.png">
-
+            
             </div>
         </welcome>
     </overtrack>
 
-    <!-- 
-            Footer
-        -->
     <div class="container">
         <footer>
             <hr>

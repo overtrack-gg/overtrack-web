@@ -335,6 +335,11 @@ a.navbar-brand > img {
     padding: 10px 15px;
 }
 
+.nav > li > a {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
 .navbar-fixed-top {
     border: 0;
 }

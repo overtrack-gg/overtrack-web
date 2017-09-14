@@ -12,7 +12,7 @@ import { UserLoginService } from '../login/user-login.service';
 })
 export class RegisterComponent implements OnInit {
 
-    private registerURL = 'https://api.overtrack.gg/register_beta';
+    private registerURL = 'https://api.overtrack.gg/register';
     battletag: string;
 
     constructor(
