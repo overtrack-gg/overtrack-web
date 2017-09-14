@@ -77,14 +77,16 @@ export class GameService {
                                         id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'kill',
-                                        otherHero: kill.rightHero
+                                        otherHero: kill.rightHero,
+                                        other: kill.rightPlayer
                                     });
                                 } else {
                                     events.push({
                                         id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'destruction',
-                                        otherHero: kill.rightHero
+                                        otherHero: kill.rightHero,
+                                        other: kill.rightPlayer
                                     });
                                 }
                             }
@@ -98,7 +100,8 @@ export class GameService {
                                 id: kill.id,
                                 time: kill.time - stage.start,
                                 type: 'resurrect',
-                                otherHero: kill.leftHero
+                                otherHero: kill.leftHero,
+                                other: kill.rightPlayer
                             });
                         } else { 
                             if (kill.rightHero) {
@@ -111,7 +114,8 @@ export class GameService {
                                         id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'death',
-                                        otherHero: kill.leftHero
+                                        otherHero: kill.leftHero,
+                                        other: kill.rightPlayer
                                     });
                                 } else {
                                     hero = kill.rightHero.split('_')[0];
@@ -119,7 +123,8 @@ export class GameService {
                                         id: kill.id,
                                         time: kill.time - stage.start,
                                         type: 'destroyed',
-                                        otherHero: kill.rightHero
+                                        otherHero: kill.rightHero,
+                                        other: kill.rightPlayer
                                     });
                                 }
                             }
@@ -182,7 +187,8 @@ export class GameService {
                     id: "event-assist" + count, //TODO: Pair up with killfeed event somehow
                     time: assist[0] - stage.start,
                     type: assist[3] ? 'support-assist' : 'assist',
-                    otherHero: null // TODO
+                    otherHero: null, // TODO
+                    other: assist[1]
                 })
             }
             ++count;
@@ -227,7 +233,8 @@ export class GameService {
                             id: kill.id,
                             time: time,
                             type: 'ability-assist',
-                            otherHero: kill.rightHero
+                            otherHero: kill.rightHero,
+                            other: kill.rightPlayer
                         })
                     } else {
                         console.warn('Could not find player assisting as', assist, 'for kill at', kill.time);
@@ -588,4 +595,5 @@ export class GameEvent {
     time: number;
     type: string;
     otherHero: string;
+    other: string;
 }
