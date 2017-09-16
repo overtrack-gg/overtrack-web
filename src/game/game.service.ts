@@ -75,6 +75,7 @@ export class GameService {
                                     kills += 1;                    
                                     events.push({
                                         id: kill.id,
+                                        absoluteTime: kill.time,
                                         time: kill.time - stage.start,
                                         type: 'kill',
                                         otherHero: kill.rightHero,
@@ -83,6 +84,7 @@ export class GameService {
                                 } else {
                                     events.push({
                                         id: kill.id,
+                                        absoluteTime: kill.time,
                                         time: kill.time - stage.start,
                                         type: 'destruction',
                                         otherHero: kill.rightHero,
@@ -98,6 +100,7 @@ export class GameService {
 
                             events.push({
                                 id: kill.id,
+                                absoluteTime: kill.time,
                                 time: kill.time - stage.start,
                                 type: 'resurrect',
                                 otherHero: kill.leftHero,
@@ -112,6 +115,7 @@ export class GameService {
                                     deaths += 1;
                                     events.push({
                                         id: kill.id,
+                                        absoluteTime: kill.time,
                                         time: kill.time - stage.start,
                                         type: 'death',
                                         otherHero: kill.leftHero,
@@ -121,6 +125,7 @@ export class GameService {
                                     hero = kill.rightHero.split('_')[0];
                                     events.push({
                                         id: kill.id,
+                                        absoluteTime: kill.time,
                                         time: kill.time - stage.start,
                                         type: 'destroyed',
                                         otherHero: kill.rightHero,
@@ -185,6 +190,7 @@ export class GameService {
             if (stage.start < assist[0] && assist[0] < stage.end) {
                 player.events.push({
                     id: "event-assist" + count, //TODO: Pair up with killfeed event somehow
+                    absoluteTime: assist[0],
                     time: assist[0] - stage.start,
                     type: assist[3] ? 'support-assist' : 'assist',
                     otherHero: null, // TODO
@@ -231,6 +237,7 @@ export class GameService {
                     if (assister){
                         assister.events.push({
                             id: kill.id,
+                            absoluteTime: kill.time,
                             time: time,
                             type: 'ability-assist',
                             otherHero: kill.rightHero,
@@ -604,6 +611,7 @@ export class GameHero {
 export class GameEvent {
     id: string;
     time: number;
+    absoluteTime: number;
     type: string;
     otherHero: string;
     other: string;

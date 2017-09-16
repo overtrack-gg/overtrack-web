@@ -48,7 +48,7 @@ export class TimelineComponent implements OnChanges {
             .attr('height', 15)
             .attr('data-other', (event: GameEvent) => event.other)
             .attr('data-type', (event: GameEvent) => event.type)
-            .attr('data-timestamp', (event: GameEvent) => event.time);
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime);
 
         svg.selectAll('.timeline-event .destruction').data((player: Player) => player.events.filter(event => event.type == 'destruction'))
             .enter().append('text')
@@ -57,7 +57,7 @@ export class TimelineComponent implements OnChanges {
             .attr('y', 26)
             .attr('data-other', (event: GameEvent) => event.other)
             .attr('data-type', (event: GameEvent) => event.type)
-            .attr('data-timestamp', (event: GameEvent) => event.time)
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime)
             .text('*');
 
         svg.selectAll('.hero-image').data((player: Player) => player.heroesPlayed)
@@ -79,7 +79,7 @@ export class TimelineComponent implements OnChanges {
             .attr('y', 20)
             .attr('data-other', (event: GameEvent) => event.other)
             .attr('data-type', (event: GameEvent) => event.type)
-            .attr('data-timestamp', (event: GameEvent) => event.time)
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime)
             .text('●');
 
         svg.selectAll('.timeline-event .ability-assist')
@@ -90,7 +90,7 @@ export class TimelineComponent implements OnChanges {
             .attr('y', 20)
             .attr('data-other', (event: GameEvent) => event.other)
             .attr('data-type', (event: GameEvent) => event.type)
-            .attr('data-timestamp', (event: GameEvent) => event.time)
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime)
             .text('●');
 
         svg.selectAll('.timeline-event .kill').data((player: Player) => player.events.filter(event => event.type == 'kill'))
@@ -100,7 +100,7 @@ export class TimelineComponent implements OnChanges {
             .attr('y', 20)
             .attr('data-other', (event: GameEvent) => event.other)
             .attr('data-type', (event: GameEvent) => event.type)
-            .attr('data-timestamp', (event: GameEvent) => event.time)
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime)
             .text('●');
 
         svg.selectAll('.timeline-event .death').data((player: Player) => player.events.filter(event => event.type == 'death'))
@@ -114,7 +114,7 @@ export class TimelineComponent implements OnChanges {
             .attr('height', 15)
             .attr('data-other', (event: GameEvent) => event.other)
             .attr('data-type', (event: GameEvent) => event.type)
-            .attr('data-timestamp', (event: GameEvent) => event.time);
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime);
 
         svg.selectAll('.timeline-event .death').data((player: Player) => player.events.filter(event => event.type == 'resurrect'))
             .enter().append('image')
@@ -127,7 +127,7 @@ export class TimelineComponent implements OnChanges {
             .attr('height', 20)
             .attr('data-other', (event: GameEvent) => event.other)
             .attr('data-type', (event: GameEvent) => event.type)
-            .attr('data-timestamp', (event: GameEvent) => event.time);
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime);
         
         // Add the kills and deaths
         const b = div.append('b')
