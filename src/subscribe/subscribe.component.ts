@@ -10,7 +10,8 @@ export enum SubscriptionState {
     TrialActive,
     TrialOver,
     CanCancel,
-    WillNotRenew
+    WillNotRenew,
+    TrialNotStarted
 }
 
 
@@ -90,6 +91,8 @@ export class SubscribeComponent implements OnInit {
                         this.subscriptionState = SubscriptionState.NeedMoreGames;
                     } else if (this.subscription.trialValid){
                         this.subscriptionState = SubscriptionState.TrialActive;
+                    } else if (!this.subscription.trialUsed){
+                        this.subscriptionState = SubscriptionState.TrialNotStarted;
                     } else {
                         this.subscriptionState = SubscriptionState.TrialOver;
                     }

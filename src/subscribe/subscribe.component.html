@@ -59,21 +59,26 @@
         </p>
     </ng-container>
 
-    <ng-container *ngIf="subscriptionState == 3"> <!-- TrialActive -->
+    <ng-container *ngIf="subscriptionState == 3 || subscriptionState == 7"> <!-- TrialActive || TrialNotStarted-->
         <h4>Subscription Status: Trialing</h4>
         <p>
             Thanks for trying OverTrack.<br/>
-            <ng-container *ngIf="remainingDays > 0 && subscription.trialGamesRemaining > 0">
-                Your trial will end in {{ remainingDays }} days or after {{ subscription.trialGamesRemaining }} more game{{ subscription.trialGamesRemaining != 1 ? 's' : '' }}, whichever happens <em>second</em>.
+            <ng-container *ngIf="subscriptionState == 3">
+                <ng-container *ngIf="remainingDays > 0 && subscription.trialGamesRemaining > 0">
+                    Your trial will end in {{ remainingDays }} days or after {{ subscription.trialGamesRemaining }} more game{{ subscription.trialGamesRemaining != 1 ? 's' : '' }}, whichever happens <em>second</em>.
+                </ng-container>
+                <ng-container *ngIf="remainingDays > 0 && subscription.trialGamesRemaining <= 0">
+                    Your trial will end in {{ remainingDays }} days.
+                </ng-container>
+                <ng-container *ngIf="remainingDays <= 0 && subscription.trialGamesRemaining > 0">
+                    Your trial will end after {{ subscription.trialGamesRemaining }} more game{{ subscription.trialGamesRemaining != 1 ? 's' : '' }}.
+                </ng-container>
+                <ng-container *ngIf="remainingDays <= 0 && subscription.trialGamesRemaining <= 0">
+                    Your trial will end today.
+                </ng-container>
             </ng-container>
-            <ng-container *ngIf="remainingDays > 0 && subscription.trialGamesRemaining <= 0">
-                Your trial will end in {{ remainingDays }} days.
-            </ng-container>
-            <ng-container *ngIf="remainingDays <= 0 && subscription.trialGamesRemaining > 0">
-                Your trial will end after {{ subscription.trialGamesRemaining }} more game{{ subscription.trialGamesRemaining != 1 ? 's' : '' }}.
-            </ng-container>
-            <ng-container *ngIf="remainingDays <= 0 && subscription.trialGamesRemaining <= 0">
-                Your trial will end today.
+            <ng-container *ngIf="subscriptionState == 7">
+                Your trial will begin when you next play a game and will end after 1 week or 10 games, whichever happens second.
             </ng-container>
         </p>
         <br/>
@@ -82,7 +87,7 @@
         </p>
         <p>
             Please confirm that OverTrack is functioning correctly, and tracking your games to your satisfaction before you decide to subscribe.<br/>
-            Because OverTrack operates through parsing screen recordings may have difficulties on some setups.<br/>
+            Because OverTrack operates by parsing screen recordings may have difficulties on some computers.<br/>
             If you are noticing issues, please don't hesitate to get in touch through the  <a href="https://discord.gg/JywstAB">Discord</a>. 
         </p>
         <p>
