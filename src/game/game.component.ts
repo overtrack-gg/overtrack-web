@@ -199,12 +199,26 @@ export class GameComponent implements OnInit {
                 $('#edit').modal('hide');
                 return;
             }
+            for(let e of this.game.killfeed){
+                if (e.leftPlayer == this.game.player){
+                    e.leftPlayer = playername;
+                }
+                if (e.rightPlayer == this.game.player){
+                    e.rightPlayer = playername;
+                }
+            }
+            this.game.player = playername;
+            if (this.game.teams){
+                this.game.teams.blue[0].name = playername;
+            }
+            for (let s of this.game.stages){
+                s.players[0].name = playername;
+            }
+            // hack hack hack
+            $('.timeline-players > .col-xs-12 > .text-blue').get(0).textContent = playername;
         }
 
         this.game.player = playername;
-        if (this.game.teams){
-            this.game.teams.blue[0].name = playername;
-        }
 
         if (this.game.startSR != startSR){
             this.game.startSREditable = true;

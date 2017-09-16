@@ -275,6 +275,17 @@ export class GameService {
                     resMap.set(kill[0], id);
                 }
             }
+
+            if (body.rename){
+                let originalName: string = body.rename[0];
+                let newName: string = body.rename[1];
+                if (kill[3] == originalName){
+                    kill[3] = newName;
+                }
+                if (kill[5] == originalName){
+                    kill[5] = newName;
+                }
+            }
             
             killfeed.push({
                 id         : id, 
