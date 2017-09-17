@@ -106,7 +106,7 @@
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="{{ paypalHostedButtonID }}">
             <input type="hidden" name="custom" value="{{ userID }}">
-            <button disabled title="Check back in an hour or two ;)" type="submit" class="btn btn-success" style="width: 200px;">Subscribe with PayPal</button>
+            <button type="submit" class="btn btn-success" style="width: 200px;">Subscribe with PayPal</button>
         </form>
 
     </ng-container>
@@ -115,7 +115,7 @@
         <h4>Subscription Status: Trial Ended</h4>
         <p>
             Thanks for trying OverTrack.<br/>
-            If you don't feel the trial period gave you enough time or you encountered issues please get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:payments@overtrack.gg">payments@overtrack.gg</a>.
+            If you don't feel the trial period gave you enough time or you encountered issues please get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:help@overtrack.gg">help@overtrack.gg</a>.
         </p>
         <br/>
         <p>
@@ -134,7 +134,7 @@
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="{{ paypalHostedButtonID }}">
             <input type="hidden" name="custom" value="{{ userID }}">
-            <button disabled title="Check back in an hour or two ;)" type="submit" class="btn btn-success" style="width: 200px;">Subscribe with PayPal</button>
+            <button type="submit" class="btn btn-success" style="width: 200px;">Subscribe with PayPal</button>
         </form>
 
     </ng-container>
@@ -149,7 +149,7 @@
         </p>
         <p>
             If you would like to cancel your subscription click the button below. Note that you will still be able to track games until the subscription period ends.<br/>
-            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:payments@overtrack.gg">payments@overtrack.gg</a>.
+            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:help@overtrack.gg">help@overtrack.gg</a>.
         </p>
 
         <button *ngIf="subscription.subscriptionType == 'stripe'" [disabled]="!buttonActive" class="btn btn-danger" (click)="cancelSubscription()">Cancel Subscription</button>
@@ -162,7 +162,7 @@
         <p>
             Your OverTrack subscription has been canceled and will not renew.<br/>
             You will still be able to track games with OverTrack until {{ subscription.currentPeriodEnd || 'your current subscription runs out' }}, at which point you will be able to resubscribe.<br/><br/>
-            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:payments@overtrack.gg">payments@overtrack.gg</a>.
+            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:help@overtrack.gg">help@overtrack.gg</a>.
         </p>
     </ng-container>
 
