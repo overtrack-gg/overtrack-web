@@ -24,9 +24,9 @@ export class SubscribeComponent implements OnInit {
     private subscribeURL = 'https://api.overtrack.gg/subscribe';
     private cancelSubscriptionURL = 'https://api.overtrack.gg/cancel_subscription';
 
-    // private subscriptionURL = 'http://dev.localhost:5000/get_subscription';
-    // private subscribeURL = 'http://dev.localhost:5000/subscribe';
-    // private cancelSubscriptionURL = 'http://dev.localhost:5000/cancel_subscription';
+    paypalSubscribeURL = 'https://www.paypal.com/cgi-bin/webscr';
+    paypalHostedButtonID = 'M4B2GQMPY5N78';
+    paypalUnsubscribeURL = 'https://www.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=M6LFV3XCTA2X6';
 
     subscription: Subscription;
     subscriptionState: SubscriptionState;
@@ -34,6 +34,8 @@ export class SubscribeComponent implements OnInit {
 
     buttonActive: boolean = false;
     loading: boolean = false;
+
+    userID: number = null;
 
     constructor(public router: Router, public route: ActivatedRoute, private http: Http) {}
 
@@ -48,6 +50,9 @@ export class SubscribeComponent implements OnInit {
         ).subscribe(
             res => {
                 let body = res.json();
+
+                this.userID = body.user_id;
+
                 let currentPeriodEnd: Date = null;
                 if (body.current_period_end){
                     currentPeriodEnd = new Date(body.current_period_end * 1000);
@@ -63,6 +68,7 @@ export class SubscribeComponent implements OnInit {
                 }
                 this.subscription = {
                     subscriptionActive: body.subscription_active,
+                    subscriptionType: body.subscription_type,
 
                     accountValid: body.account_valid,
                     free: body.free,
@@ -172,6 +178,7 @@ export class SubscribeComponent implements OnInit {
 
 export class Subscription {
     subscriptionActive: boolean;
+    subscriptionType: string;
 
     accountValid: boolean;
     free: boolean;

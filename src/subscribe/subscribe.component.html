@@ -91,17 +91,31 @@
             If you are noticing issues, please don't hesitate to get in touch through the  <a href="https://discord.gg/JywstAB">Discord</a>. 
         </p>
         <p>
-            All payment handling is completed through <a href="https://stripe.com">Stripe</a> - OverTrack never receives or stores your credit card details.
+            All payment handling is completed through <a href="https://stripe.com">Stripe</a> or PayPal - OverTrack never receives or stores your credit card details.
         </p>
         <br/>
-        <button [disabled]="!buttonActive" class="btn btn-success" (click)="doSubscribe()">Subscribe</button>
+
+        <button [disabled]="!buttonActive" class="btn btn-success" (click)="doSubscribe()" style="
+            width: 200px;
+            float: left;
+            margin-right: 20px;
+        ">
+            Subscribe with Credit Card
+        </button>
+        <form ngNoForm *ngIf="userID" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="{{ paypalHostedButtonID }}">
+            <input type="hidden" name="custom" value="{{ userID }}">
+            <button disabled title="Check back in an hour or two ;)" type="submit" class="btn btn-success" style="width: 200px;">Subscribe with PayPal</button>
+        </form>
+
     </ng-container>
 
     <ng-container *ngIf="subscriptionState == 4"> <!-- TrialOver -->
         <h4>Subscription Status: Trial Ended</h4>
         <p>
             Thanks for trying OverTrack.<br/>
-            If you don't feel the trial period gave you enough time or you encountered issues please get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:simon@uint8.me">simon@uint8.me</a>.
+            If you don't feel the trial period gave you enough time or you encountered issues please get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:payments@overtrack.gg">payments@overtrack.gg</a>.
         </p>
         <br/>
         <p>
@@ -109,26 +123,46 @@
             All payment handling is completed through <a href="https://stripe.com">Stripe</a> - OverTrack never receives or stores your credit card details.
         </p>
 
-        <button [disabled]="!buttonActive" class="btn btn-success" (click)="doSubscribe()">Subscribe</button>
+        <button [disabled]="!buttonActive" class="btn btn-success" (click)="doSubscribe()" style="
+            width: 200px;
+            float: left;
+            margin-right: 20px;
+        ">
+            Subscribe with Credit Card
+        </button>
+        <form ngNoForm *ngIf="userID" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="{{ paypalHostedButtonID }}">
+            <input type="hidden" name="custom" value="{{ userID }}">
+            <button disabled title="Check back in an hour or two ;)" type="submit" class="btn btn-success" style="width: 200px;">Subscribe with PayPal</button>
+        </form>
+
     </ng-container>
 
     <ng-container *ngIf="subscriptionState == 5"> <!-- CanCancel -->
         <h4>Subscription Status: Subscription Active</h4>
+        <p *ngIf="subscription.currentPeriodEnd">
+            Your OverTrack subscription is currently active and will renew on {{ subscription.currentPeriodEnd }}.
+        </p>
+        <p *ngIf="!subscription.currentPeriodEnd">
+            Your OverTrack subscription is currently active.
+        </p>
         <p>
-            Your OverTrack subscription is currently active and will renew on {{ subscription.currentPeriodEnd }}.<br/><br/>
             If you would like to cancel your subscription click the button below. Note that you will still be able to track games until the subscription period ends.<br/>
-            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:simon@uint8.me">simon@uint8.me</a>.
+            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:payments@overtrack.gg">payments@overtrack.gg</a>.
         </p>
 
-        <button [disabled]="!buttonActive" class="btn btn-danger" (click)="cancelSubscription()">Cancel Subscription</button>
+        <button *ngIf="subscription.subscriptionType == 'stripe'" [disabled]="!buttonActive" class="btn btn-danger" (click)="cancelSubscription()">Cancel Subscription</button>
+        <a *ngIf="subscription.subscriptionType == 'paypal'" href="{{ paypalUnsubscribeURL }}" class="btn btn-danger" role="button">Cancel Subscription</a>
+
     </ng-container>
 
     <ng-container *ngIf="subscriptionState == 6"> <!-- WillNotRenew -->
         <h4>Subscription Status: Subscription Will Not Renew</h4>
         <p>
             Your OverTrack subscription has been canceled and will not renew.<br/>
-            You will still be able to track games with OverTrack until {{ subscription.currentPeriodEnd }}, at which point you will be able to resubscribe.<br/><br/>
-            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:simon@uint8.me">simon@uint8.me</a>.
+            You will still be able to track games with OverTrack until {{ subscription.currentPeriodEnd || 'your current subscription runs out' }}, at which point you will be able to resubscribe.<br/><br/>
+            If you have an issue with OverTrack or your subscription don't hesitate to get in touch through the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> (PM @Muon) or email <a href="mailto:payments@overtrack.gg">payments@overtrack.gg</a>.
         </p>
     </ng-container>
 
