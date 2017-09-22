@@ -31,7 +31,7 @@ export class GamesListService {
         let num = 1;
 
         for (let game of body.games) {
-            let gamelist = [];
+            let gamelist: Array<GamesListEntry> = [];
 
             let playerName = game.player_name;
             if (game.custom_game || playerName.indexOf('(Custom Games)') != -1){
@@ -96,7 +96,8 @@ export class GamesListService {
                     heroes: heroes,
                     rank: game.rank,
                     customGame: game.custom_game,
-                    season: this.getSeason(game.time)
+                    season: this.getSeason(game.time),
+                    viewable: game.viewable
                 });
             } else {
                 gamelist.push({
@@ -117,8 +118,9 @@ export class GamesListService {
                     key: game.key,
                     heroes: null,
                     rank: null,
-                    custom_game: false,
-                    season: this.getSeason(game.time)
+                    customGame: false,
+                    season: this.getSeason(game.time),
+                    viewable: true
                 });
             }
         }
@@ -203,6 +205,7 @@ export class GamesListEntry {
     rank: string;
     customGame: boolean;
     season: string;
+    viewable: boolean;
 }
 
 export class GamesListHero {

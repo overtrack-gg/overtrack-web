@@ -60,7 +60,15 @@
                                     <p>Game uploading...</p>
                                 </td> 
                             </tr>
-                            <tr *ngFor="let game of visibleGames(games.list)" (mousedown)="prepRoute(game, $event)" (mouseup)="route(game, $event)" [class.hoverable]="!game.error" id="game-{{ game.num }}">
+                            <tr *ngFor="let game of visibleGames(games.list)"
+                                id="game-{{ game.num }}"
+                                [class.sub-required]="!game.viewable"
+                                [class.hoverable]="!game.error"
+                                (mousedown)="prepRoute(game, $event)" 
+                                (mouseup)="route(game, $event)"  
+                                data-toggle="popover"
+                                tabindex="0"
+                            >
                                 <td class="gn">{{formatTime(game.time)}} {{ formatDay(game.time) }}<br>
                                     {{formatDate(game.time)}}
                                 </td>

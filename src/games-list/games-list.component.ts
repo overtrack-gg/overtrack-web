@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import * as D3 from 'd3';
 
@@ -7,8 +7,7 @@ import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 import { GamesListService, GamesListEntry, PlayerGameList } from './games-list.service';
 import { UserLoginService, User } from '../login/user-login.service';
 
-
-
+declare var $: any;
 declare var Plotly: any;
 
 @Component({
@@ -16,7 +15,7 @@ declare var Plotly: any;
     templateUrl: './games-list.component.html',
     providers: [RouterModule]
 })
-export class GamesListComponent implements OnInit {
+export class GamesListComponent implements OnInit, AfterContentChecked {
     gamesLists: Array<PlayerGameList>;
     currentSR: number;
     player: string;
@@ -51,6 +50,16 @@ export class GamesListComponent implements OnInit {
                 }             
             }
         );
+    }
+
+    ngAfterContentChecked(): void {
+        $('.sub-required').popover({
+            trigger: 'focus', 
+            placement: 'bottom',
+            title: 'Subscription Required',
+            content: 'Please <a href="/subscribe">subscribe</a> to view full match details for games played after the trial period has ended',
+            html: true,
+        });
     }
 
     updateGamesDropdown(){
@@ -326,7 +335,8 @@ export class GamesListComponent implements OnInit {
     }
 
     route(game: GamesListEntry, event: any) {
-        if (!game.error && this.linkKey === game.key && this.linkMouse === event.button) {
+        if (!game.viewable){
+        } else if (!game.error && this.linkKey === game.key && this.linkMouse === event.button) {
             if (event.button === 0) { // Left mouse button
                 if (event.ctrlKey){
                     window.open('./game/' + game.key);

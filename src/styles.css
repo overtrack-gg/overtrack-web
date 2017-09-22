@@ -3,6 +3,14 @@ body {
     padding-top: 50px;
 }
 
+.popover {
+    max-width: 750px !important;
+}
+
+.popover-title {
+    background-color: #555 !important;
+}
+
 a.navbar-brand > img {
     display: inline-block;
     margin-top:-5px;
