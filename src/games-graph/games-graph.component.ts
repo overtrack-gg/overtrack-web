@@ -87,7 +87,7 @@ export class GamesGraphComponent implements OnInit {
         let x = 0;
         for (let game of games.slice().reverse()){
             if (game.endSR){
-                let currentDate: string = this.formatDate(game.endTime);
+                let currentDate: string = this.formatDate(game.startTime);
                 if (lastDate != currentDate){
                     xAxisText.push(currentDate);
                     xAxisPoints.push(x);
