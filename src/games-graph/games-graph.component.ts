@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
-import { GamesListService, GamesListEntry, PlayerGameList } from '../games-list/games-list.service';
+import { GamesListService, PlayerGameList } from '../games-list/games-list.service';
+import { Game } from '../game/game.service';
 
 
 declare var Plotly: any;
@@ -64,10 +65,11 @@ export class GamesGraphComponent implements OnInit {
 
     formatDate(date: Date): string {
         var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
+        console.log(date);
         return days[date.getDay()] + ' ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear().toString().slice(2);
     }
 
-    renderGraph(games: Array<GamesListEntry>): void {
+    renderGraph(games: Array<Game>): void {
         let sr: Array<number> = [];
         let srX: Array<number> = [];
 
@@ -78,27 +80,27 @@ export class GamesGraphComponent implements OnInit {
         let xAxisText: Array<string> = [];
         let xAxisPoints: Array<number> = [];
 
-        let index2game: Map<number, GamesListEntry> = new Map<number, GamesListEntry>();
+        let index2game: Map<number, Game> = new Map<number, Game>();
         
         let lastDate: string = null;
         let last: number = null;
         let x = 0;
         for (let game of games.slice().reverse()){
-            if (game.sr){
-                let currentDate: string = this.formatDate(game.time);
+            if (game.endSR){
+                let currentDate: string = this.formatDate(game.endTime);
                 if (lastDate != currentDate){
                     xAxisText.push(currentDate);
                     xAxisPoints.push(x);
                     lastDate = currentDate;
                 }
-                gamePointsText.push(game.result + ' - ' + game.map); gamePoints.push(game.sr); gamePointsX.push(x);
+                gamePointsText.push(game.result + ' - ' + game.map); gamePoints.push(game.endSR); gamePointsX.push(x);
                 index2game.set(sr.length-1, game);
-                sr.push(game.sr); srX.push(x);
+                sr.push(game.endSR); srX.push(x);
                 x += 2;
             } else if (last != null){
                  sr.push(null); srX.push(x++);
             }
-            last = game.sr;
+            last = game.endSR;
         }
 
         Plotly.newPlot('sr-graph', [

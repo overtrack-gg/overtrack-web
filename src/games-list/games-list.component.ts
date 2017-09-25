@@ -1,10 +1,13 @@
-import { Component, OnInit, AfterContentChecked, Input } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, Input, Inject } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
+import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import * as D3 from 'd3';
+import { DOCUMENT } from '@angular/platform-browser';
 
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 
-import { GamesListService, GamesListEntry, PlayerGameList } from './games-list.service';
+import { GamesListService, PlayerGameList } from './games-list.service';
+import { Game } from '../game/game.service';
 import { UserLoginService, User } from '../login/user-login.service';
 
 declare var $: any;
@@ -27,16 +30,23 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     currentUploadRequested: Date = null;
     currentUserID: number;
 
+    gameToEdit: Game = null;
+
     public linkKey: string;
     public linkMouse: number;
 
     public visibleSeasons: string[];
     public seasonSelectDropdown: IMultiSelectOption[];
 
+    private batchEditURL = 'https://api.overtrack.gg/batch_edit';
+    
     constructor(public gamesListService: GamesListService,
                 public loginService: UserLoginService,
                 public activatedRoute: ActivatedRoute,
-                public router: Router) { }
+                private http: Http,
+                public router: Router,
+                @Inject(DOCUMENT) public document: any
+            ) { }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe(
@@ -89,9 +99,9 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.updateGamesList();
     }
 
-    visibleGames(games: Array<GamesListEntry>) {
+    visibleGames(games: Array<Game>) {
         return games.filter(
-            g => this.visibleSeasons.indexOf(g.season) != -1
+            g => this.visibleSeasons.indexOf(g.season) != -1 && !g.deleted
         )
     }
 
@@ -150,14 +160,15 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     setSelectedPlayer(playerName: string){
         this.player = playerName;
         this.updateGamesDropdown();
-        this.updateGamesList()
+        this.updateGamesList();
+        $('#account-input').get(0).value = playerName;
     }
 
     updateGamesList() {
         let sr: Array<number> = [];
         let gamePoints: Array<number> = [];
         let last: number = null;
-        let games = [];
+        let games: Array<Game> = [];
         for (let playerGames of this.gamesLists) {
             if (playerGames.player == this.player) {
                 games = this.visibleGames(playerGames.list);
@@ -171,7 +182,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         let index2id: Map<number, number> = new Map<number, number>();
         let x = 0;
         for (let game of games){
-            if (game.sr == null){
+            if (game.endSR == null){
                 if (last != null){
                     sr.push(null);
                     gamePoints.push(null);
@@ -185,11 +196,11 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                     sr.push(game.startSR);
                     gamePoints.push(null);
                 }
-                gamePoints.push(game.sr);
-                sr.push(game.sr);
+                gamePoints.push(game.endSR);
+                sr.push(game.endSR);
                 index2id.set(sr.length-1, game.num);
             }
-            last = game.sr;
+            last = game.endSR;
         }
         this.currentSR = last;
 
@@ -208,7 +219,6 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 srDottedY.push(null);
             }
         }
-
         Plotly.newPlot('sr-graph', [
                 {
                     y: sr,
@@ -334,8 +344,19 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         return days[date.getDay()]
     }
 
-    route(game: GamesListEntry, event: any) {
+    route(game: Game, event: any) {
         if (!game.viewable){
+            // $('.popover-sub').popover('hide');
+            // $('.popover-sub').removeClass('popover-sub');
+            // let gameElem = $('#game-' + game.num);
+            // gameElem.popover({
+            //     trigger: 'focus',
+            //     title: 'Subscribe to view full game details',
+            //     content: 'Viewing full game details',
+            //     placement: 'bottom',
+            // });
+            // gameElem.popover('show');
+            // gameElem.addClass('popover-sub');
         } else if (!game.error && this.linkKey === game.key && this.linkMouse === event.button) {
             if (event.button === 0) { // Left mouse button
                 if (event.ctrlKey){
@@ -352,7 +373,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.linkMouse = null;
     }
 
-    prepRoute(game: GamesListEntry, event: any) {
+    prepRoute(game: Game, event: any) {
         this.linkKey = game.key;
         this.linkMouse = event.button;
         if (event.button === 1) { // Middle mouse button
@@ -361,7 +382,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     }
 
 
-    wltClass(game: GamesListEntry) {
+    wltClass(game: Game) {
         if (game.result === 'UNKN') {
             return 'text-unknown';
         } else if (game.result === 'DRAW') {
@@ -376,15 +397,15 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         throw new Error('Unexpected game result: ' + game.result);
     }
 
-    min(game: GamesListEntry) {
+    min(game: Game) {
         return Math.round(game.duration / 60);
     }
 
-    map(game: GamesListEntry) {
+    map(game: Game) {
         return game.map.toLowerCase().replace(' ', '-').replace(' ', '-').replace('\'', '').replace(':', '');
     }
 
-    unit(game: GamesListEntry) {
+    unit(game: Game) {
         /* if (game.map === 'Nepal'
            || game.map === 'Volskaya Industries'
            || game.map === 'Hanamura'
@@ -416,5 +437,57 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         } else {
             return 'grandmaster';
         }
+    }
+
+    formatSR(game: Game){
+        return game.endSR || '    ';
+    }
+
+    srChange(game: Game){
+        let srChange = game.rank == "placement" ? '-' : '?';
+        if (game.startSR && game.endSR){
+            srChange = String(game.endSR - game.startSR);
+        }
+        return srChange;
+    }
+
+    edit(game: Game, event: any){
+        this.gameToEdit = game;
+        $("#edit").modal('show');
+        event.stopPropagation();
+    }
+
+    batchEdit(action: string){
+        let accountName = $('#account-input').get(0).value;
+        let playername = $('#playername-input').val().toUpperCase();
+
+        if (action == 'delete'){
+            if (!confirm('Delete all games beloining to ' + accountName + '? This action cannot be undone.')){
+                console.log('Edit canceled');
+                $('#batch-edit').modal('hide');
+                return;
+            }
+        }
+
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers, withCredentials: true });
+        this.http.post(
+            this.batchEditURL, 
+            {
+                'action': action,
+                'account_name': accountName,
+                'player_name': playername
+            },
+            options
+        ).subscribe(
+            succ => {
+                $('#batch-edit').modal('hide');
+                this.document.location.reload();
+            },
+            err => {
+                $('#batch-edit').modal('hide');
+                throw err;
+            }
+        );
     }
 }

@@ -453,13 +453,20 @@ export class GameService {
         }
         
         return {
+            num: null,
+            error: false,
+            url: this.gameUrl + body.key + '/game.json',
+            heroes: null,
+            rank: null,
+            season: null,
+            viewable: true,
+
             userID: body.user_id,
             map: body.map,
             mapType: body.map_type,
             blueScore: body.score ? body.score[0] : null,
             redScore: body.score ? body.score[1] : null,
             result: body.result === 'UNKNOWN' ? 'UNKN' : body.result,
-            deaths: body.deaths,
             startTime: new Date(body.game_started * 1000),
             player: body.player,
             key: body.key,
@@ -470,25 +477,38 @@ export class GameService {
             duration: body.game_duration,
             tabStatistics: body.tab_statistics,
             heroStatistics: heroStatistics,
+
             startSR: body.start_sr,
             startSREditable: true,
+            //startSREditable: !body.start_sr || body.start_sr_editable,
             endSR: body.end_sr,
             endSREditable: true,
+            //endSREditable: !body.end_sr || body.end_sr_editable,
+
             teams: teams,
             customGame: body.custom_game,
             placement: placement,
             rankEditable: teams == null || body.rank_ediable,
-            groupSize: body.group_size
+            groupSize: body.group_size,
+
+            deleted: false
         };
     }
 }
 
 export class Game {
+    num: number;
+    error: boolean;
+    url: string;
+    heroes: any;
+    rank: string;
+    season: string;
+    viewable: boolean;
+
     userID: number;
     map: string;
     mapType: string;
     result: string;
-    deaths: number;
     startTime: Date;
     redScore: number;
     blueScore: number;
@@ -510,6 +530,8 @@ export class Game {
     placement: boolean;
     rankEditable: boolean;
     groupSize: number;
+
+    deleted: boolean;
 }
 
 export class Teams {

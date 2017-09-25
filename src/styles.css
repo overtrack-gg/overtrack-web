@@ -17,6 +17,19 @@ a.navbar-brand > img {
     height:30px;
 }
 
+.list-game:hover .game-edit {
+    display: inline !important;
+}
+
+.game-edit {
+    /* visibility: hidden; */
+    display: none !important;
+    position: absolute !important;
+    right: 2px !important;
+    top: 35px !important;
+    font-size: 10pt !important;
+}
+
 .tab-stats-table > tbody > tr > td,
 .tab-stats-table > tbody > tr > th,
 .tab-stats-table > tfoot > tr > td,

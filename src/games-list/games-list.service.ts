@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { User } from '../login/user-login.service';
+import { Game } from '../game/game.service';
 
 @Injectable()
 export class GamesListService {
@@ -24,14 +25,14 @@ export class GamesListService {
 
     toGamesList(res: Response) {
         let list: Array<PlayerGameList> = [];
-        let map: { [id: string]: Array<GamesListEntry>} = {};
+        let map: { [id: string]: Array<Game>} = {};
         
         let body = res.json();
 
         let num = 1;
 
         for (let game of body.games) {
-            let gamelist: Array<GamesListEntry> = [];
+            let gamelist: Array<Game> = [];
 
             let playerName = game.player_name;
             if (game.custom_game || playerName.indexOf('(Custom Games)') != -1){
@@ -60,15 +61,7 @@ export class GamesListService {
                     }
                 }
 
-                let srChange = game.rank == "placement" ? '-' : '?';
-                if (game.start_sr && game.end_sr){
-                    srChange = String(game.end_sr - game.start_sr);
-                }
 
-                let srString = '    ';
-                if (game.end_sr != null){
-                    srString = String(game.end_sr);
-                }
 
                 let blueScore: number = null;
                 let redScore: number = null;
@@ -82,10 +75,10 @@ export class GamesListService {
                     error: false,
                     map: game.map,
                     result: game.result == 'UNKNOWN' ? 'UNKN' : game.result,
-                    srChange: srChange,
-                    srString: srString,
-                    sr: game.end_sr,
-                    time: new Date(game.time * 1000),
+                    // srChange: srChange,
+                    // srString: srString,
+                    endSR: game.end_sr,
+                    startTime: new Date(game.time * 1000),
                     startSR: game.start_sr,
                     player: game.player_name,
                     blueScore: blueScore,
@@ -97,7 +90,24 @@ export class GamesListService {
                     rank: game.rank,
                     customGame: game.custom_game,
                     season: this.getSeason(game.time),
-                    viewable: game.viewable
+                    viewable: game.viewable,
+
+                    userID: game.user_id,
+                    mapType: null,
+                    owner: game.player_name,
+                    stages: null,
+                    killfeed: null,
+                    endTime: null,
+                    tabStatistics: null,
+                    heroStatistics: null,
+                    startSREditable: true,
+                    endSREditable: true,
+                    teams: null,
+                    placement: false,
+                    rankEditable: false,
+                    groupSize: null,
+
+                    deleted: false
                 });
             } else {
                 gamelist.push({
@@ -105,10 +115,8 @@ export class GamesListService {
                     error: true,
                     map: null,
                     result: 'ERROR',
-                    srChange: null,
-                    srString: null,
-                    sr: null,
-                    time: new Date(game.time * 1000),
+                    endSR: null,
+                    startTime: new Date(game.time * 1000),
                     startSR: null,
                     player: game.player_name,
                     blueScore: null,
@@ -120,7 +128,24 @@ export class GamesListService {
                     rank: null,
                     customGame: false,
                     season: this.getSeason(game.time),
-                    viewable: true
+                    viewable: true,
+
+                    userID: game.user_id,
+                    mapType: null,
+                    owner: game.player_name,
+                    stages: null,
+                    killfeed: null,
+                    endTime: null,
+                    tabStatistics: null,
+                    heroStatistics: null,
+                    startSREditable: true,
+                    endSREditable: true,
+                    teams: null,
+                    placement: false,
+                    rankEditable: false,
+                    groupSize: null,
+
+                    deleted: false
                 });
             }
         }
@@ -181,32 +206,32 @@ export class GamesListService {
 export class PlayerGameList {
     player: string;
     user_id: number;
-    list: Array<GamesListEntry>;
+    list: Array<Game>;
 }
 
-// TODO: Move out into own files
-export class GamesListEntry {
-    num: number;
-    error: boolean;
-    map: string;
-    result: string;
-    srChange: string;
-    srString: string;
-    startSR: number;
-    time: Date;
-    sr: number;
-    player: string;
-    blueScore: number;
-    redScore: number;
-    duration: number;
-    heroes: Array<GamesListHero>;
-    url: string;
-    key: string;
-    rank: string;
-    customGame: boolean;
-    season: string;
-    viewable: boolean;
-}
+// // TODO: Move out into own files
+// export class GamesListEntry {
+//     num: number;
+//     error: boolean;
+//     map: string;
+//     result: string;
+//     srChange: string;
+//     srString: string;
+//     startSR: number;
+//     time: Date;
+//     sr: number;
+//     player: string;
+//     blueScore: number;
+//     redScore: number;
+//     duration: number;
+//     heroes: Array<GamesListHero>;
+//     url: string;
+//     key: string;
+//     rank: string;
+//     customGame: boolean;
+//     season: string;
+//     viewable: boolean;
+// }
 
 export class GamesListHero {
     name: string;

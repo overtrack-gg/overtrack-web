@@ -17,6 +17,7 @@
 </div>
 
 <div class="container overview view" *ngIf="loaded && (currentUploadRequested || (gamesLists && gamesLists.length))">
+    <edit-game [game]="gameToEdit" [leaveOnDelete]="false" [allowRename]="false" ></edit-game>
     <div class="row col-md-12">
         <div>
             <div class="col-xs-12">
@@ -29,6 +30,53 @@
             </div>
             <div *ngIf="displayShareKey" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
                 <share-link class="pull-right"></share-link>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#batch-edit" style="margin-right: 20px;">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp; Batch Edit
+                </button>
+
+                <div id="batch-edit" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel2" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="mySmallModalLabel2" style="display: inline">Batch Edit</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <label for="account-input" class="col-2 col-form-label">Account</label>
+                                    <div class="col-10">
+                                        <select id="account-input" class="form-control">
+                                            <option *ngFor="let games of gamesLists">{{ games.player }}</option>
+                                        </select> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="playername-input" class="col-2 col-form-label">Player Name</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" value="" id="playername-input">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6" style="padding: 2px;">
+                                        <button class="btn btn-danger" (click)="batchEdit('delete')">
+                                            Delete
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-6" style="padding: 2px;">
+                                        <button class="btn btn-info pull-right" style="margin-left: 83%" (click)="batchEdit('rename')">
+                                            Rename
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
         
@@ -62,6 +110,7 @@
                             </tr>
                             <tr *ngFor="let game of visibleGames(games.list)"
                                 id="game-{{ game.num }}"
+                                class="list-game"
                                 [class.sub-required]="!game.viewable"
                                 [class.hoverable]="!game.error"
                                 (mousedown)="prepRoute(game, $event)" 
@@ -69,21 +118,26 @@
                                 data-toggle="popover"
                                 tabindex="0"
                             >
-                                <td class="gn">{{formatTime(game.time)}} {{ formatDay(game.time) }}<br>
-                                    {{formatDate(game.time)}}
+                                <!-- data-toggle="popover"  -->
+                           
+                                <!-- (mouseenter)="mouseenter(game)"
+                                (mouseleave)="mouseleave(game)" -->
+                                <td class="gn">{{formatTime(game.startTime)}} {{ formatDay(game.startTime) }}<br>
+                                    {{formatDate(game.startTime)}}
                                 </td>
                                 <td *ngIf="!game.error" class="{{wltClass(game)}} text-right num">
-                                    <b>{{game.srChange}}</b>
+                                    <b>{{ srChange( game) }}</b>
                                 </td>
-                                <td *ngIf="!game.error" class="{{wltClass(game)}} text-left" >{{game.result}}</td>
-                                <td *ngIf="!game.error"><span class="num">{{game.blueScore}}</span><span class="unit">{{unit(game)}}</span>/<span class="num">{{game.redScore}}</span><span class="unit">{{unit(game)}}</span></td>
-                                <td *ngIf="!game.error && game.rank == 'placement' && !game.sr" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                <td *ngIf="!game.error && (game.rank != 'placement' || game.sr)" class="num sr"><img src="assets/images/icons/{{rank(game.sr)}}.png"/><span>{{game.srString}}</span></td>
+                                <td *ngIf="!game.error" class="{{wltClass(game)}} text-left" >{{ game.result }}</td>
+                                <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span><span class="unit">{{ unit(game) }}</span>/<span class="num">{{ game.redScore }}</span><span class="unit">{{ unit(game) }}</span></td>
+                                <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR)" class="num sr"><img src="assets/images/icons/{{ rank(game.endSR) }}.png"/><span>{{ formatSR(game) }}</span></td>
                                 
-                                <td *ngIf="!game.error" class="time"><div class="num">{{min(game)}}</div><div class="unit">min</div></td>
-                                <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{game.map}}</i></td>
-                                <td *ngIf="!game.error" class="hero">
+                                <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
+                                <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{ game.map }}</i></td>
+                                <td *ngIf="!game.error" class="hero" style="position: relative">
                                     <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
+                                    <span [style.hidden]="linkKey == game.key" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
                                 </td>
                                 <td *ngIf="game.error" colspan="2" class="{{wltClass(game)}} text-left">{{game.result}}</td>
                                 <td *ngIf="game.error" colspan="5" class="error-message text-error">

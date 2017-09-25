@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
-import { GamesListService, GamesListEntry, PlayerGameList, GamesListHero } from '../games-list/games-list.service';
+import { GamesListService, PlayerGameList, GamesListHero } from '../games-list/games-list.service';
 import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
+import { Game } from '../game/game.service';
+
 
 
 declare var Plotly: any;
@@ -79,7 +81,7 @@ export class WinRatesComponent implements OnInit {
         return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
 
-	updateHeroWR(winrates: Map<String, HeroWinrate>, game: GamesListEntry, hero: GamesListHero): void {
+	updateHeroWR(winrates: Map<String, HeroWinrate>, game: Game, hero: GamesListHero): void {
 		if (!winrates.has(hero.name)) {
 			let blankHeroWR = new HeroWinrate();
 			blankHeroWR.heroname = hero.name;
@@ -98,7 +100,7 @@ export class WinRatesComponent implements OnInit {
 		}
 	}
 	
-    calcWinrates(games: Array<GamesListEntry>): void {
+    calcWinrates(games: Array<Game>): void {
 		this.activeMap = ALL_MAPS_NAME;
 		let maps: Map<string, MapStats> = new Map<string, MapStats>();
 		maps.set(ALL_MAPS_NAME, new MapStats());
