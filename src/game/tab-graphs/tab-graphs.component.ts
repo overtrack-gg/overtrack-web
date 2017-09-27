@@ -11,7 +11,7 @@ export let heroStatNames = {
 	'reaper': ['weapon accuracy', 'death blossom kills', 'kill streak - best', 'souls consumed', 'final blows'],
 	's76': ['weapon accuracy', 'helix rocket kills', 'kill streak - best', 'tactical visor kills', 'final blows'],
 	'sombra': ['weapon accuracy', 'enemies hacked', 'kill streak - best', 'enemies emp\'d', 'offensive assists'],
-	'tracer': ['weapon accuracy', 'pulse bomb kills', 'kill streak - best', 'pulse bombs attatched', 'final blows'],
+	'tracer': ['weapon accuracy', 'pulse bomb kills', 'kill streak - best', 'pulse bombs attached', 'final blows'],
 	'bastion': ['weapon accuracy', 'sentry kills', 'kill streak - best', 'tank kills', 'recon kills', 'self healing'],
 	'hanzo': ['weapon accuracy', 'critical hits', 'kill streak - best', 'recon assists', 'final blows', 'dragonstrike kills'],
 	'junkrat': ['weapon accuracy', 'enemies trapped', 'kill streak - best', 'rip-tire kills', 'final blows'],
