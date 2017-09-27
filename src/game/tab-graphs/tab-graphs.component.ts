@@ -3,7 +3,7 @@ import { Stage } from '../game.service';
 
 declare var Plotly: any;
 
-// ಠ_ಠ 
+// ಠ_ಠ
 export let heroStatNames = {
 	'genji': ['weapon accuracy', 'damage reflected', 'kill streak - best', 'dragonblade kills', 'final blows'],
 	'mccree': ['weapon accuracy', 'critical hits', 'kill streak - best', 'deadeye kills', 'final blows', 'fan the hammer kills'],
@@ -11,7 +11,7 @@ export let heroStatNames = {
 	'reaper': ['weapon accuracy', 'death blossom kills', 'kill streak - best', 'souls consumed', 'final blows'],
 	's76': ['weapon accuracy', 'helix rocket kills', 'kill streak - best', 'tactical visor kills', 'final blows'],
 	'sombra': ['weapon accuracy', 'enemies hacked', 'kill streak - best', 'enemies emp\'d', 'offensive assists'],
-	'tracer': ['weapon accuracy', 'pulse bomb kills', 'kill streak - best', 'pulse bombs attatched', 'final blows'],
+	'tracer': ['weapon accuracy', 'pulse bomb kills', 'kill streak - best', 'pulse bombs attached', 'final blows'],
 	'bastion': ['weapon accuracy', 'sentry kills', 'kill streak - best', 'tank kills', 'recon kills', 'self healing'],
 	'hanzo': ['weapon accuracy', 'critical hits', 'kill streak - best', 'recon assists', 'final blows', 'dragonstrike kills'],
 	'junkrat': ['weapon accuracy', 'enemies trapped', 'kill streak - best', 'rip-tire kills', 'final blows'],
@@ -120,7 +120,7 @@ export class TabGraphsComponent {
     toTitleCase(str: string){
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1)});
     }
-    
+
     toGraphName(str: string){
         if (str.indexOf(': ') != -1){
             str = this.toHeroName(str.split(': ')[0]) + ': ' + str.split(': ')[1];
@@ -193,7 +193,7 @@ export class TabGraphsComponent {
             ], maxy
          )
     }
-    
+
     renderUniversalStat(stat: string) {
         let time: Array<number> = this.tabStatistics.time;
         let values: Array<number> = this.tabStatistics[stat];
@@ -209,7 +209,7 @@ export class TabGraphsComponent {
         let heroSwapX: Array<number> = [0];
         let heroSwapY: Array<number> = [0];
         let heroSwapName: Array<string> = [this.toHeroName(heroes[0])];
-        
+
         let maxy: number = 0;
         let last = -1;
         let lastHero = heroes[0];
@@ -349,6 +349,6 @@ export class TabGraphsComponent {
            str = 'D.Va';
         }
         return this.toTitleCase(str);
-    } 
+    }
 
 }
