@@ -161,7 +161,9 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.player = playerName;
         this.updateGamesDropdown();
         this.updateGamesList();
-        $('#account-input').get(0).value = playerName;
+        if (this.displayShareKey){
+            $('#account-input').get(0).value = playerName;
+        }
     }
 
     updateGamesList() {
