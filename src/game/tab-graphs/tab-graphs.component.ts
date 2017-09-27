@@ -8,7 +8,7 @@ export let heroStatNames = {
 	'genji': ['weapon accuracy', 'damage reflected', 'kill streak - best', 'dragonblade kills', 'final blows'],
 	'mccree': ['weapon accuracy', 'critical hits', 'kill streak - best', 'deadeye kills', 'final blows', 'fan the hammer kills'],
 	'pharah': ['weapon accuracy', 'barrage kills', 'kill streak - best', 'rocket direct hits', 'final blows'],
-	'reaper': ['weapon accuracy', 'death blossom kills', 'kill streak - best', 'souls consumed', 'final blows'],
+	'reaper': ['weapon accuracy', 'death blossom kills', 'kill streak - best', 'self healing', 'final blows'],
 	's76': ['weapon accuracy', 'helix rocket kills', 'kill streak - best', 'tactical visor kills', 'final blows'],
 	'sombra': ['weapon accuracy', 'enemies hacked', 'kill streak - best', 'enemies emp\'d', 'offensive assists'],
 	'tracer': ['weapon accuracy', 'pulse bomb kills', 'kill streak - best', 'pulse bombs attached', 'final blows'],
