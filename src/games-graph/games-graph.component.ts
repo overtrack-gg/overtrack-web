@@ -132,6 +132,8 @@ export class GamesGraphComponent implements OnInit {
         const playerDotLabels: string[][] = players.map(_ => []);
         const playerDotGames: Game[][] = players.map(_ => []);
 
+        const gameHeroImages: any[] = [];
+
         // The last-graphed entry for each account.
         const playerLastEntries: GraphableGame[] = players.map(_ => null);
 
@@ -172,6 +174,21 @@ export class GamesGraphComponent implements OnInit {
             playerDotSRs[playerIndex].push(game.endSR);
             playerDotGames[playerIndex].push(game);
             playerDotLabels[playerIndex].push(this.formatLabel(game));
+
+            if (graphable.length <= 128 && game.heroes && game.heroes.length) {
+                gameHeroImages.push({
+                    source: `/assets/images/heroes/${game.heroes[0].name}.png`,
+                    xref: 'x',
+                    yref: 'y',
+                    x: x,
+                    y: game.endSR,
+                    sizex: 1.5,
+                    sizey: 20,
+                    xanchor: 'center',
+                    yanchor: 'middle',
+                    layer: 'above'
+                });
+            }
 
             if ((playerLastEntry && playerLastEntry.connectedToNext) || connectedToNext) {
                 playerLineXs[playerIndex].push(x);
@@ -292,6 +309,7 @@ export class GamesGraphComponent implements OnInit {
             },
             plot_bgcolor: 'rgba(0, 0, 0, 0)',
             paper_bgcolor: 'rgba(0, 0, 0, 0)',
+            images: gameHeroImages
         };
 
         const config = {
