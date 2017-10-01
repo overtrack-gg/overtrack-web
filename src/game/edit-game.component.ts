@@ -22,7 +22,10 @@ export class EditGameComponent {
 
     edit() {
         // this should not be jquery...
-        let playername = $('#playername-input').val().toUpperCase();
+        let playername: string = null;
+        if ($('#playername-input').get(0)){
+            playername = $('#playername-input').val().toUpperCase();
+        }
         let startSR = Number($('#start-sr-input').val());
         let endSR = Number($('#end-sr-input').val());
         let result = $('#result-input').get(0).value.toUpperCase();
@@ -31,7 +34,7 @@ export class EditGameComponent {
             placement = $('#is-placement-input').get(0).checked;
         }
 
-        if (playername != this.game.player){
+        if (playername && playername != this.game.player){
             if (!confirm('Changing the player name will change the tab this game belongs to in the games list. Are you sure?')){
                 console.log('Edit canceled');
                 $('#edit').modal('hide');
