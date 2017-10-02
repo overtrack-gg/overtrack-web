@@ -36,7 +36,7 @@ export class GamesGraphComponent implements OnInit {
             res => {
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.renderGraph(this.gamesLists[0].list);
+                    this.renderGraph(this.gamesLists);
                 }
             },
             err => {
@@ -50,7 +50,7 @@ export class GamesGraphComponent implements OnInit {
             res => {
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.renderGraph(this.gamesLists[0].list);
+                    this.renderGraph(this.gamesLists);
                 }
             },
             err => {
@@ -65,111 +65,208 @@ export class GamesGraphComponent implements OnInit {
 
     formatDate(date: Date): string {
         var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
-        console.log(date);
         return days[date.getDay()] + ' ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear().toString().slice(2);
     }
 
-    renderGraph(games: Array<Game>): void {
-        let sr: Array<number> = [];
-        let srX: Array<number> = [];
+    formatLabel(game: Game) {
+        return game.result + ' - ' + game.map;
+    }
 
-        let gamePointsText: Array<string> = [];
-        let gamePoints: Array<number> = [];
-        let gamePointsX: Array<number> = [];
+    renderGraph(gameLists: PlayerGameList[]): void {
+        const players = gameLists.map(l => l.player);
 
-        let xAxisText: Array<string> = [];
-        let xAxisPoints: Array<number> = [];
+        type GraphableGame = {
+            game: Game,
+            playerIndex: number,
+            connectedToNext: boolean
+        };
 
-        let index2game: Map<number, Game> = new Map<number, Game>();
-        
-        let lastDate: string = null;
-        let last: number = null;
-        let x = 0;
-        for (let game of games.slice().reverse()){
-            if (game.endSR){
-                let currentDate: string = this.formatDate(game.startTime);
-                if (lastDate != currentDate){
-                    xAxisText.push(currentDate);
-                    xAxisPoints.push(x);
-                    lastDate = currentDate;
+        // All graphable games and their continuity in a single flattened sorted list.
+        const graphable: GraphableGame[] = [];
+
+        for (const gamesList of gameLists) {
+            let lastEntry: GraphableGame = null;
+            const playerIndex = players.indexOf(gamesList.player);
+            for (const game of Array.from(gamesList.list).reverse()) {
+                const entry = {
+                    game: game,
+                    playerIndex: playerIndex,
+                    connectedToNext: false
+                };
+
+                if (game.endSR && game.startTime) {
+                    graphable.push(entry);
+
+                    // We're connected if the previous game has an end SR and
+                    // the current game's start SR matches that end SR or is unknown.
+                    if (lastEntry && (game.startSR == null || game.startSR == lastEntry.game.endSR)) {
+                        lastEntry.connectedToNext = true;
+                    }
                 }
-                gamePointsText.push(game.result + ' - ' + game.map); gamePoints.push(game.endSR); gamePointsX.push(x);
-                index2game.set(sr.length-1, game);
-                sr.push(game.endSR); srX.push(x);
-                x += 2;
-            } else if (last != null){
-                 sr.push(null); srX.push(x++);
+
+                lastEntry = entry;
             }
-            last = game.endSR;
         }
 
-        Plotly.newPlot('sr-graph', [
-                {
-                    x: srX,
-                    y: sr,
-                    mode: 'lines',
-                    hoverinfo: 'skip',
-                    line: {
-                        color: '#c19400'
+        graphable.sort((a, b) => +a.game.startTime - +b.game.startTime);
+
+        // The data for the lines and dots for each account's games.
+        const playerLineXs: number[][] = players.map(_ => []);
+        const playerLineSRs: number[][] = players.map(_ => []);
+
+        const playerDotXs: number[][] = players.map(_ => []);
+        const playerDotSRs: number[][] = players.map(_ => []);
+        const playerDotLabels: string[][] = players.map(_ => []);
+
+        // The last-graphed entry for each account.
+        const playerLastEntries: GraphableGame[] = players.map(_ => null);
+
+        // Dates on the x-axis, common to all accounts.
+        const xAxisText: string[] = [];
+        const xAxisPoints: number[] = [];
+
+        // A looping list of colors to use for different accounts on the graph.
+        const colors = ['#c19400', '#7560f2', '#c2004e', '#8ec200', '#008ec2', '#c2008e'];
+
+        let x = 0;
+        let lastDate: string = null;
+        let lastEntry = null;
+        for (const entry of graphable) {
+            const {playerIndex, game, connectedToNext} = entry;
+
+            const playerLastEntry = playerLastEntries[playerIndex];
+
+            if (playerLastEntry) {
+                if (playerLastEntry.connectedToNext) {
+                    if (playerLastEntry != lastEntry) {
+                        playerLineXs[playerIndex].push(x - 1);
+                        playerLineSRs[playerIndex].push(playerLastEntry.game.endSR);
                     }
-                },
-                {
-                    x: gamePointsX,
-                    y: gamePoints,
-                    text: gamePointsText,
-                    mode: 'markers',
-                    hoverinfo: 'y+text',
-                    marker: {
-                        size: 8,
-                        color: '#c19400',
+                } else {
+                    playerLineXs[playerIndex].push(x);
+                    playerLineSRs[playerIndex].push(null);
+
+                    if (playerLastEntry == lastEntry) {
+                        // If we're immediately following a non-connected game on the same
+                        // account, insert a gap to make it clear they're separate.
+                        x++;
                     }
                 }
-            ], 
-            {
-                title: '',
-                font: {
-                    color: 'rgb(150, 150, 150)'
-                },
-                xaxis: {
-                    title: '',
-                    
-                    tickmode: 'array',
-                    ticktext: xAxisText,
-                    tickvals: xAxisPoints,
-
-                    ticks: '',
-                    showgrid: true,
-                    gridcolor: 'rgba(0, 0, 0, 0.2)',
-                    zeroline: false,
-                    fixedrange: true
-                },
-                yaxis: {
-                    fixedrange: true,
-                    nticks: 3,
-                    side: 'right'
-                },
-                overlaying: false,
-                //bargroupgap: 0,
-                margin: {
-                    l: 10,
-                    r: 40,
-                    b: 70,
-                    t: 5
-                },
-                showlegend: false,
-                plot_bgcolor: "rgba(0, 0, 0, 0)",
-                paper_bgcolor: "rgba(0, 0, 0, 0)",
-            },
-            {
-                displayModeBar: false,
-                staticPlot: false,
-                doubleClick: false,
-                showTips: false,
-                showAxisDragHandles: false,
-                showAxisRangeEntryBoxes: false,
-                displaylogo: false,
             }
-        );
+
+            playerDotXs[playerIndex].push(x);
+            playerDotSRs[playerIndex].push(game.endSR);
+            playerDotLabels[playerIndex].push(this.formatLabel(game));
+
+            if ((playerLastEntry && playerLastEntry.connectedToNext) || connectedToNext) {
+                playerLineXs[playerIndex].push(x);
+                playerLineSRs[playerIndex].push(game.endSR);
+            }
+
+            const date: string = this.formatDate(entry.game.startTime);
+            if (lastDate != date){
+                xAxisText.push(date);
+                xAxisPoints.push(x);
+                lastDate = date;
+            }
+
+            x++;
+            playerLastEntries[playerIndex] = entry;
+            lastEntry = entry;
+        }
+
+        // List of data series for Plotly.
+        const data: any[] = [];
+
+        // We need to specify the series in the order we want them drawn:
+        // lines under dots, then least-recent accounts under more-recent.
+        for (let i = players.length - 1; i >= 0; i--) {
+            const color = colors[i % colors.length];
+            data.push({
+                showlegend: false,
+                name: players[i],
+                legendgroup: players[i],
+                x: playerLineXs[i],
+                y: playerLineSRs[i],
+                mode: 'lines',
+                hoverinfo: 'skip',
+                line: {
+                    color: color
+                }
+            });
+        }
+        for (let i = players.length - 1; i >= 0; i--) {
+            const color = colors[i % colors.length];
+            data.push({
+                name: players[i],
+                legendgroup: players[i],
+                x: playerDotXs[i],
+                y: playerDotSRs[i],
+                text: playerDotLabels[i],
+                mode: 'markers',
+                hoverinfo: 'y+text',
+                marker: {
+                    size: 8,
+                    color: color,
+                }
+            });
+            
+        }
+
+        // We should probably reference this element in a more Angular way.
+        const plotEl = document.getElementById('sr-graph');
+
+        const layout = {
+            title: '',
+            font: {
+                color: 'rgb(150, 150, 150)'
+            },
+            xaxis: {
+                title: '',
+                
+                tickmode: 'array',
+                ticktext: xAxisText,
+                tickvals: xAxisPoints,
+
+                ticks: '',
+                showgrid: true,
+                gridcolor: 'rgba(0, 0, 0, 0.2)',
+                zeroline: false,
+                fixedrange: true
+            },
+            yaxis: {
+                fixedrange: true,
+                nticks: 3,
+                side: 'right'
+            },
+            overlaying: false,
+            margin: {
+                l: 10,
+                r: 40,
+                b: 70,
+                t: 5
+            },
+            showlegend: players.length > 1,
+            legend: {
+                y: 100,
+                x: 0,
+                orientation: 'h'
+            },
+            plot_bgcolor: 'rgba(0, 0, 0, 0)',
+            paper_bgcolor: 'rgba(0, 0, 0, 0)',
+        };
+
+        const config = {
+            displayModeBar: false,
+            staticPlot: false,
+            doubleClick: false,
+            showTips: false,
+            showAxisDragHandles: false,
+            showAxisRangeEntryBoxes: false,
+            displaylogo: false,
+        };
+
+        Plotly.newPlot(plotEl, data, layout, config);
     }
 
 }
