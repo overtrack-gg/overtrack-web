@@ -137,7 +137,7 @@
                                 <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{ game.map }}</i></td>
                                 <td *ngIf="!game.error" class="hero" style="position: relative">
                                     <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
-                                    <span *ngIf="displayShareKey" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
+                                    <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
                                 </td>
                                 <td *ngIf="game.error" colspan="2" class="{{wltClass(game)}} text-left">{{game.result}}</td>
                                 <td *ngIf="game.error" colspan="5" class="error-message text-error">
