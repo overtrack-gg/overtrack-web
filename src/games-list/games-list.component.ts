@@ -343,7 +343,12 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     }
     
     formatDate(date: Date) {
-        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear().toString().slice(2);
+        return date.toLocaleDateString(undefined, {
+            year: '2-digit',
+            month: 'numeric',
+            day: 'numeric'
+
+        });
     }
 
     formatDay(date: Date) {
