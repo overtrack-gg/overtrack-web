@@ -23,7 +23,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     currentSR: number;
     player: string;
 
-    displayShareKey = false;
+    isOwnGames = false;
 
     loaded: boolean = false;
     showUploadingGames = true;
@@ -52,10 +52,10 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.activatedRoute.params.subscribe(
             params => {
                 if (params.hasOwnProperty('share_key')){
-                    this.displayShareKey = false;
+                    this.isOwnGames = false;
                     this.fetchSharedGames(params['share_key']);
                 } else {
-                    this.displayShareKey = true;
+                    this.isOwnGames = true;
                     this.fetchOwnGames();
                 }             
             }
@@ -63,11 +63,16 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     }
 
     ngAfterContentChecked(): void {
+        let content: string;
+        if (this.isOwnGames){
+            content = 'Please <a href="/subscribe">subscribe</a> to view full match details for games played after the trial period has ended';
+        } else {
+            content = 'In order to view full match details the owner of this game needs to be subscribed';        }
         $('.sub-required').popover({
             trigger: 'focus', 
             placement: 'bottom',
             title: 'Subscription Required',
-            content: 'Please <a href="/subscribe">subscribe</a> to view full match details for games played after the trial period has ended',
+            content: content,
             html: true,
         });
     }
@@ -161,7 +166,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.player = playerName;
         this.updateGamesDropdown();
         this.updateGamesList();
-        if (this.displayShareKey){
+        if (this.isOwnGames){
             $('#account-input').get(0).value = playerName;
         }
     }

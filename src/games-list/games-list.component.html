@@ -28,7 +28,7 @@
                             top: 15px;" 
                     [options]="seasonSelectDropdown" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)"></ss-multiselect-dropdown>
             </div>
-            <div *ngIf="displayShareKey" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
+            <div *ngIf="isOwnGames" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
                 <share-link class="pull-right"></share-link>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#batch-edit" style="margin-right: 20px;">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp; Batch Edit
