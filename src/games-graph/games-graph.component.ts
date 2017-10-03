@@ -271,8 +271,7 @@ export class GamesGraphComponent implements OnInit {
             legend: {
                 y: 100,
                 x: 0,
-                orientation: 'h',
-                traceorder: 'reversed'
+                orientation: 'h'
             },
             plot_bgcolor: 'rgba(0, 0, 0, 0)',
             paper_bgcolor: 'rgba(0, 0, 0, 0)',
