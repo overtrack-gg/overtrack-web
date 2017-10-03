@@ -65,7 +65,12 @@ export class GamesGraphComponent implements OnInit {
 
     formatDate(date: Date): string {
         var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
-        return days[date.getDay()] + ' ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear().toString().slice(2);
+        return days[date.getDay()] + ' ' + date.toLocaleDateString(undefined, {
+            year: '2-digit',
+            month: 'numeric',
+            day: 'numeric'
+
+        });
     }
 
     formatLabel(game: Game) {
