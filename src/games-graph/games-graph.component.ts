@@ -227,7 +227,7 @@ export class GamesGraphComponent implements OnInit {
                 mode: 'markers',
                 hoverinfo: 'y+text',
                 marker: {
-                    size: 8,
+                    size: 6,
                     color: color,
                 }
             });
