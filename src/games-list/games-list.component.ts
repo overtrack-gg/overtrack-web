@@ -474,6 +474,9 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 $('#batch-edit').modal('hide');
                 return;
             }
+        } else if (playername.length < 3){
+            $('#playername-input').fadeTo(100, 0.3, function() { $(this).fadeTo(500, 1.0); });
+            return;
         }
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
