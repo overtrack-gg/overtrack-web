@@ -129,8 +129,8 @@ export class GamesGraphComponent implements OnInit {
         const playerLastEntries: GraphableGame[] = players.map(_ => null);
 
         // Dates on the x-axis, common to all accounts.
-        const xAxisText: string[] = [];
-        const xAxisPoints: number[] = [];
+        let xAxisText: string[] = [];
+        let xAxisPoints: number[] = [];
 
         // A looping list of colors to use for different accounts on the graph.
         const colors = ['#c19400', '#7560f2', '#c2004e', '#8ec200', '#008ec2', '#c2008e'];
@@ -181,6 +181,11 @@ export class GamesGraphComponent implements OnInit {
             playerLastEntries[playerIndex] = entry;
             lastEntry = entry;
         }
+
+        // Sample the number of X axis tick values (i.e. dates) to be around 15
+        let nInM = Math.max(1, Math.round(xAxisText.length / 14))
+        xAxisText = xAxisText.filter((e, i) => i % nInM == 0)
+        xAxisPoints = xAxisPoints.filter((e, i) => i % nInM == 0)
 
         // List of data series for Plotly.
         const data: any[] = [];
@@ -266,7 +271,8 @@ export class GamesGraphComponent implements OnInit {
             legend: {
                 y: 100,
                 x: 0,
-                orientation: 'h'
+                orientation: 'h',
+                traceorder: 'reversed'
             },
             plot_bgcolor: 'rgba(0, 0, 0, 0)',
             paper_bgcolor: 'rgba(0, 0, 0, 0)',
