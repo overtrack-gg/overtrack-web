@@ -72,6 +72,13 @@ export class GamesGraphComponent implements OnInit {
         return game.result + ' - ' + game.map;
     }
 
+    graphableGamesLists(gameLists: Array<PlayerGameList>){
+        if (!gameLists){
+            return 
+        }
+        return gameLists.filter(gameList => gameList.list.filter(game => game.endSR != null).length >= 2);
+    }
+
     renderGraph(gameLists: PlayerGameList[]): void {
         const players = gameLists.map(l => l.player);
 
@@ -180,8 +187,12 @@ export class GamesGraphComponent implements OnInit {
 
         // We need to specify the series in the order we want them drawn:
         // lines under dots, then least-recent accounts under more-recent.
+        let colorIndex = 0;
         for (let i = players.length - 1; i >= 0; i--) {
-            const color = colors[i % colors.length];
+            if (playerLineXs[i].length < 2){
+                continue;
+            }
+            const color = colors[colorIndex++ % colors.length];
             data.push({
                 showlegend: false,
                 name: players[i],
@@ -195,8 +206,13 @@ export class GamesGraphComponent implements OnInit {
                 }
             });
         }
+
+        colorIndex = 0;
         for (let i = players.length - 1; i >= 0; i--) {
-            const color = colors[i % colors.length];
+            if (playerLineXs[i].length < 2){
+                continue;
+            }
+            const color = colors[colorIndex++ % colors.length];
             data.push({
                 name: players[i],
                 legendgroup: players[i],

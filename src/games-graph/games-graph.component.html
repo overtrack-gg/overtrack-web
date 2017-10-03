@@ -13,7 +13,7 @@
                 <ul class="nav nav-tabs">
                     <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Accounts:</b></li>
                     <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} active"><a (click)="renderGraph(gamesLists)" href="#" data-toggle="tab">ALL</a></li>
-                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" *ngFor="let games of gamesLists;"><a (click)="renderGraph([games])" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
+                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" *ngFor="let games of graphableGamesLists(gamesLists)"><a (click)="renderGraph([games])" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
                 </ul>
             </div>
             <div class="tab-graph tab-pane active" id="sr-graph"></div>
