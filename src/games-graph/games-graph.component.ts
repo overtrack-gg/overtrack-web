@@ -129,6 +129,7 @@ export class GamesGraphComponent implements OnInit {
         const playerDotXs: number[][] = players.map(_ => []);
         const playerDotSRs: number[][] = players.map(_ => []);
         const playerDotLabels: string[][] = players.map(_ => []);
+        const playerDotGames: Game[][] = players.map(_ => []);
 
         // The last-graphed entry for each account.
         const playerLastEntries: GraphableGame[] = players.map(_ => null);
@@ -168,6 +169,7 @@ export class GamesGraphComponent implements OnInit {
 
             playerDotXs[playerIndex].push(x);
             playerDotSRs[playerIndex].push(game.endSR);
+            playerDotGames[playerIndex].push(game);
             playerDotLabels[playerIndex].push(this.formatLabel(game));
 
             if ((playerLastEntry && playerLastEntry.connectedToNext) || connectedToNext) {
@@ -228,6 +230,7 @@ export class GamesGraphComponent implements OnInit {
                 legendgroup: players[i],
                 x: playerDotXs[i],
                 y: playerDotSRs[i],
+                overtrackGames: playerDotGames[i],
                 text: playerDotLabels[i],
                 mode: 'markers',
                 hoverinfo: 'y+text',
@@ -247,6 +250,7 @@ export class GamesGraphComponent implements OnInit {
             font: {
                 color: 'rgb(150, 150, 150)'
             },
+            hovermode: 'closest',
             xaxis: {
                 title: '',
                 
@@ -293,6 +297,23 @@ export class GamesGraphComponent implements OnInit {
         };
 
         Plotly.newPlot(plotEl, data, layout, config);
-    }
 
+        (plotEl as any).on('plotly_click', data => {
+            if (data.points.length != 1) {
+                return;
+            }
+            if (!data.points[0].data.overtrackGames) {
+                return;
+            }
+            const game:Game = data.points[0].data.overtrackGames[data.points[0].pointNumber];
+            if (!game.viewable) {
+                return;
+            }
+            if (data.event.ctrlKey){
+                window.open('./game/' + game.key);
+            } else {
+                this.router.navigate(['/game/' + game.key]);
+            }
+        });
+    }
 }
