@@ -606,6 +606,9 @@ a.navbar-brand > img {
 .map.temple-of-anubis {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/temple-of-anubis.jpg');
 }
+.map.junkertown {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/junkertown.jpg');
+}
 
 .banner.nepal {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal-banner.jpg');
@@ -680,6 +683,10 @@ a.navbar-brand > img {
 .banner.horizon-lunar-colony {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony-banner.jpg');
 }
+.banner.junkertown {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/junkertown-banner.jpg');
+}
+
 
 
 /*
