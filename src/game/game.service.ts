@@ -501,14 +501,14 @@ export class Game {
     error: boolean;
     url: string;
     heroes: any;
-    rank: string;
+    rank: 'placement' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
     season: string;
     viewable: boolean;
 
     userID: number;
     map: string;
     mapType: string;
-    result: string;
+    result: 'UNKN' | 'WIN' | 'DRAW' | 'LOSS' | 'ERROR';
     startTime: Date;
     redScore: number;
     blueScore: number;
