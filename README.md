@@ -6,7 +6,7 @@ This project uses [Angular CLI](https://github.com/angular/angular-cli) to manag
 
 ## Installation
 
-After cloning, install the dependencies uaing npm.
+After cloning, install the dependencies using npm.
 
 ```bash
 npm install
