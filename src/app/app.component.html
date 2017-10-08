@@ -39,11 +39,11 @@
                     <li class="nav-item" [class.active]="router.isActive('/faq', false)" routerLink="faq">
                         <a class="nav-link" (click)="prevent($event)" href="/faq">FAQ / Troubleshooting</a>
                     </li>
-                </ng-container>
-
-                <li *ngIf="user" class="nav-item" [class.active]="router.isActive('/subscribe', false)" routerLink="subscribe">
-                    <a class="nav-link" (click)="prevent($event)" href="/subscribe">Subscription</a>
-                </li>
+                    <li *ngIf="user" class="nav-item" [class.active]="router.isActive('/subscribe', false)" routerLink="subscribe">
+                        <a class="nav-link" (click)="prevent($event)" href="/subscribe">Subscription</a>
+                    </li>
+               </ng-container>
+            
 
             </ul>
             <user-login></user-login>
