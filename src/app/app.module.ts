@@ -27,6 +27,7 @@ import { RegisterComponent } from '../register/register.component';
 import { WelcomeComponent } from '../welcome/welcome.component';
 import { SubscribeComponent } from '../subscribe/subscribe.component';
 import { FAQComponent } from '../faq/faq.component';
+import { StreamerInfoComponent } from '../streamer-info/streamer-info.component';
 import { NotFoundComponent } from '../404/404.component';
 
 import { UserLoginService } from '../login/user-login.service';
@@ -125,6 +126,7 @@ const appRoutes: Routes = [
 		{ path: 'welcome', component: WelcomeComponent },
 		{ path: 'tracker', component: InstallInstructionsComponent},
 		{ path: 'faq', component: FAQComponent },
+		{ path: 'streamer', component: StreamerInfoComponent },
 
 		{ path: '**', component: NotFoundComponent },
 ];
@@ -154,6 +156,7 @@ const appRoutes: Routes = [
 		SubscribeComponent,
 		ShareLinkComponent, 
 		FAQComponent,
+		StreamerInfoComponent,
 		NotFoundComponent,
 	],
 	bootstrap:    [ AppComponent ],
