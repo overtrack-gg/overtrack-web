@@ -20,7 +20,7 @@ export class GamesListService {
     }
 
     getSharedGamesList(share_key: string): Observable<Response> {
-        return this.http.get(this.gamesListUrl + '/' + share_key, { withCredentials: true});
+        return this.http.get(this.gamesListUrl + '/' + share_key);
     }
 
     toGamesList(res: Response) {

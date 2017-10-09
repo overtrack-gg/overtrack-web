@@ -14,7 +14,7 @@ export class HeroStatisticsService {
 
     getStats(share_key? : string): Observable<Response> {
         if (share_key){
-            return this.http.get(this.statsUrl + '/' + share_key, { withCredentials: true});
+            return this.http.get(this.statsUrl + '/' + share_key);
         } else {
             return this.http.get(this.statsUrl, { withCredentials: true});
         }
