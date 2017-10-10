@@ -6,6 +6,7 @@ import { Game } from '../game/game.service';
 
 
 declare var Plotly: any;
+declare var $: any;
 
 @Component({
     selector: 'games-graph',
@@ -182,8 +183,8 @@ export class GamesGraphComponent implements OnInit {
                     yref: 'y',
                     x: x,
                     y: game.endSR,
-                    sizex: 1.5,
-                    sizey: 20,
+                    sizex: 10,
+                    sizey: 10,
                     xanchor: 'center',
                     yanchor: 'middle',
                     layer: 'above'
@@ -309,7 +310,6 @@ export class GamesGraphComponent implements OnInit {
             },
             plot_bgcolor: 'rgba(0, 0, 0, 0)',
             paper_bgcolor: 'rgba(0, 0, 0, 0)',
-            images: gameHeroImages
         };
 
         const config = {
@@ -344,7 +344,6 @@ export class GamesGraphComponent implements OnInit {
         });
 
         (plotEl as any).on('plotly_relayout', eventdata => {  
-
             // prevent the user panning/zooming outside the range of games played
             let eventSource = 'user';
             if (eventdata['source']){
@@ -355,11 +354,21 @@ export class GamesGraphComponent implements OnInit {
                 let right = Math.min(eventdata['xaxis.range[1]'], initialRight);
 
                 if (eventSource == 'user'){
+
+                    let visibleImages = gameHeroImages.filter(e => left < e.x && e.x < right);
+                    if (visibleImages.length > 75){
+                        visibleImages = [];
+                    }
+
                     Plotly.relayout(plotEl, {
                         'source': 'constrainZoom',
                         'xaxis.range[0]': left,
                         'xaxis.range[1]': right,
+                        'images': visibleImages
                     });
+                    Plotly.redraw(plotEl);
+
+                    $('.imagelayer').children().height(30);
                 }
             }
         });
