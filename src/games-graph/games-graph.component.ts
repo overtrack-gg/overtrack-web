@@ -248,8 +248,8 @@ export class GamesGraphComponent implements OnInit {
         const plotEl = document.getElementById('sr-graph');
 
         // set the initial zoom to include the last 100 games
-        let intitialLeft = allXs[Math.max(allXs.length - 100, 0)];
-        let initialRight = allXs[allXs.length - 1];
+        let intitialLeft = allXs[Math.max(allXs.length - 100, 0)] - 0.5;
+        let initialRight = allXs[allXs.length - 1] + 1;
 
         const layout = {
             title: '',
@@ -325,6 +325,9 @@ export class GamesGraphComponent implements OnInit {
             }
         });
 
+        const minLeft = -1;
+        const maxRight = initialRight;
+        const maxRange = maxRight - minLeft;
         (plotEl as any).on('plotly_relayout', eventdata => {  
 
             // prevent the user panning/zooming outside the range of games played
@@ -332,9 +335,26 @@ export class GamesGraphComponent implements OnInit {
             if (eventdata['source']){
                 eventSource = eventdata['source'];
             }
-            if (eventdata['xaxis.range[0]'] != undefined && eventdata['xaxis.range[1]'] != undefined){
-                let left = Math.max(eventdata['xaxis.range[0]'], 0);
-                let right = Math.min(eventdata['xaxis.range[1]'], initialRight);
+
+            let left: number = eventdata['xaxis.range[0]'];
+            let right: number = eventdata['xaxis.range[1]'];
+            if (right != undefined && left != undefined){
+                let range = right - left;
+
+                if (range > maxRange) {
+                    const excess = range - maxRange;
+                    range = maxRange;
+                    left += excess / 2;
+                    right -= excess / 2;
+                }
+
+                if (left < minLeft) {
+                    left = minLeft;
+                    right = left + range;
+                } else if (right > maxRight) {
+                    right = maxRight;
+                    left = right - range;
+                }
 
                 if (eventSource == 'user'){
                     Plotly.relayout(plotEl, {
