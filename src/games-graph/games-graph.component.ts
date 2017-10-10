@@ -126,6 +126,7 @@ export class GamesGraphComponent implements OnInit {
         const playerLineXs: number[][] = players.map(_ => []);
         const playerLineSRs: number[][] = players.map(_ => []);
 
+        const allXs: Array<number> = [];
         const playerDotXs: number[][] = players.map(_ => []);
         const playerDotSRs: number[][] = players.map(_ => []);
         const playerDotLabels: string[][] = players.map(_ => []);
@@ -174,6 +175,7 @@ export class GamesGraphComponent implements OnInit {
 
             if ((playerLastEntry && playerLastEntry.connectedToNext) || connectedToNext) {
                 playerLineXs[playerIndex].push(x);
+                allXs.push(x);
                 playerLineSRs[playerIndex].push(game.endSR);
             }
 
@@ -245,12 +247,17 @@ export class GamesGraphComponent implements OnInit {
         // We should probably reference this element in a more Angular way.
         const plotEl = document.getElementById('sr-graph');
 
+        // set the initial zoom to include the last 100 games
+        let intitialLeft = allXs[Math.max(allXs.length - 100, 0)];
+        let initialRight = allXs[allXs.length - 1];
+
         const layout = {
             title: '',
             font: {
                 color: 'rgb(150, 150, 150)'
             },
             hovermode: 'closest',
+            dragmode: 'pan',
             xaxis: {
                 title: '',
                 
@@ -262,7 +269,8 @@ export class GamesGraphComponent implements OnInit {
                 showgrid: true,
                 gridcolor: 'rgba(0, 0, 0, 0.2)',
                 zeroline: false,
-                fixedrange: true
+                fixedrange: false,
+                range: [intitialLeft, initialRight]
             },
             yaxis: {
                 fixedrange: true,
@@ -294,6 +302,7 @@ export class GamesGraphComponent implements OnInit {
             showAxisDragHandles: false,
             showAxisRangeEntryBoxes: false,
             displaylogo: false,
+            scrollZoom: true
         };
 
         Plotly.newPlot(plotEl, data, layout, config);
@@ -313,6 +322,27 @@ export class GamesGraphComponent implements OnInit {
                 window.open('./game/' + game.key);
             } else {
                 this.router.navigate(['/game/' + game.key]);
+            }
+        });
+
+        (plotEl as any).on('plotly_relayout', eventdata => {  
+
+            // prevent the user panning/zooming outside the range of games played
+            let eventSource = 'user';
+            if (eventdata['source']){
+                eventSource = eventdata['source'];
+            }
+            if (eventdata['xaxis.range[0]'] != undefined && eventdata['xaxis.range[1]'] != undefined){
+                let left = Math.max(eventdata['xaxis.range[0]'], 0);
+                let right = Math.min(eventdata['xaxis.range[1]'], initialRight);
+
+                if (eventSource == 'user'){
+                    Plotly.relayout(plotEl, {
+                        'source': 'constrainZoom',
+                        'xaxis.range[0]': left,
+                        'xaxis.range[1]': right,
+                    });
+                }
             }
         });
     }
