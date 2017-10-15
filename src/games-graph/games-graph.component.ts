@@ -126,7 +126,7 @@ export class GamesGraphComponent implements OnInit {
         const playerLineXs: number[][] = players.map(_ => []);
         const playerLineSRs: number[][] = players.map(_ => []);
 
-        const allXs: Array<number> = [];
+        const allXs: number[] = [];
         const playerDotXs: number[][] = players.map(_ => []);
         const playerDotSRs: number[][] = players.map(_ => []);
         const playerDotLabels: string[][] = players.map(_ => []);
@@ -248,8 +248,47 @@ export class GamesGraphComponent implements OnInit {
         const plotEl = document.getElementById('sr-graph');
 
         // set the initial zoom to include the last 100 games
-        let intitialLeft = allXs[Math.max(allXs.length - 100, 0)] - 0.5;
-        let initialRight = allXs[allXs.length - 1] + 1;
+        const intitialLeft = allXs[Math.max(allXs.length - 100, 0)] - 0.5;
+        const initialRight = allXs[allXs.length - 1] + 1;
+
+        const calculateYAxisRange = (left: number, right: number): [number, number] => {
+            let gamesInRange = 0;
+            let minX = +Infinity;
+            let maxX = -Infinity;
+            let minSR = +Infinity;
+            let maxSR = -Infinity;
+
+            const defaultRange: [number, number] = [1000, 3000];
+
+            for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
+                for (let dotIndex = 0; dotIndex < playerDotXs[playerIndex].length; dotIndex++) {
+                    const x = playerDotXs[playerIndex][dotIndex];
+                    const sr = playerDotSRs[playerIndex][dotIndex];
+                    if (x >= left && x <= right) {
+                        gamesInRange++;
+                        if (sr < minSR) {
+                            minSR = sr;
+                        }
+                        if (sr > maxSR) {
+                            maxSR = sr;
+                        }
+                        if (x < minX) {
+                            minX = x;
+                        }
+                        if (x > maxX) {
+                            maxX = x;
+                        }
+                    }
+                }
+            }
+
+            if (gamesInRange == 0) {
+                return defaultRange;
+            } else {
+                const padding = 25;
+                return [minSR - padding, maxSR + padding];
+            }
+        };
 
         const layout = {
             title: '',
@@ -274,6 +313,7 @@ export class GamesGraphComponent implements OnInit {
             },
             yaxis: {
                 fixedrange: true,
+                range: calculateYAxisRange(intitialLeft, initialRight),
                 nticks: 3,
                 side: 'right'
             },
@@ -328,6 +368,7 @@ export class GamesGraphComponent implements OnInit {
         const minLeft = -1;
         const maxRight = initialRight;
         const maxRange = maxRight - minLeft;
+        const minRange = 2;
         (plotEl as any).on('plotly_relayout', eventdata => {  
 
             // prevent the user panning/zooming outside the range of games played
@@ -346,6 +387,11 @@ export class GamesGraphComponent implements OnInit {
                     range = maxRange;
                     left += excess / 2;
                     right -= excess / 2;
+                } else if (range < minRange) {
+                    const shortfall = minRange - range;
+                    range = minRange;
+                    left -= shortfall / 2;
+                    right += shortfall / 2;
                 }
 
                 if (left < minLeft) {
@@ -359,8 +405,8 @@ export class GamesGraphComponent implements OnInit {
                 if (eventSource == 'user'){
                     Plotly.relayout(plotEl, {
                         'source': 'constrainZoom',
-                        'xaxis.range[0]': left,
-                        'xaxis.range[1]': right,
+                        'xaxis.range': [left, right],
+                        'yaxis.range': calculateYAxisRange(left, right)
                     });
                 }
             }
