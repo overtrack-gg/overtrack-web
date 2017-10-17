@@ -397,7 +397,7 @@ export class GamesGraphComponent implements OnInit {
         const maxRange = maxRight - minLeft;
         const minRange = 2;
         // Gets the closest legal X range and computed Y range for an input X range.
-        const getRanges = (left: number, right: number): {xRange: [number, number], yRange: [number, number]} => {
+        const getRanges = (left: number, right: number, enabledTraces: Array<string> | null): {xRange: [number, number], yRange: [number, number]} => {
             let range = right - left;
 
             if (range > maxRange) {
@@ -424,6 +424,9 @@ export class GamesGraphComponent implements OnInit {
             let maxSR = 0;
 
             for (const game of allGames) {
+                if (enabledTraces && enabledTraces.indexOf(game.data.player) == -1){
+                    continue;
+                }
                 if (game.x >= left && game.x <= right) {
                     if (game.sr < minSR) {
                         minSR = game.sr;
@@ -450,7 +453,7 @@ export class GamesGraphComponent implements OnInit {
         // Set the initial range to include the last 100 games.
         const intitialLeft = allXs[Math.max(allXs.length - initialGamesVisible, 0)] - 0.5;
         const initialRight = allXs[allXs.length - 1] + 1;
-        const initialRanges = getRanges(intitialLeft, initialRight);
+        const initialRanges = getRanges(intitialLeft, initialRight, null);
         plotlyLayout.xaxis.range = initialRanges.xRange;
         plotlyLayout.yaxis.range = initialRanges.yRange;
 
@@ -484,7 +487,8 @@ export class GamesGraphComponent implements OnInit {
             let left: number = eventdata['xaxis.range[0]'];
             let right: number = eventdata['xaxis.range[1]'];
             if (eventSource == 'user' && right != undefined && left != undefined){
-                const {xRange, yRange} = getRanges(left, right);
+                const enabledTraces: Array<string> = (plotlyElement as any).data.filter(e => e.showlegend == false && e.visible != 'legendonly').map(e => e.name);
+                const {xRange, yRange} = getRanges(left, right, enabledTraces);
 
                 Plotly.relayout(plotlyElement, {
                     'source': 'constrainZoom',
@@ -493,6 +497,20 @@ export class GamesGraphComponent implements OnInit {
                 });
             }
         });
+
+        (plotlyElement as any).on('plotly_restyle', eventdata => {
+            let left: number = (plotlyElement as any).layout.xaxis.range[0];
+            let right: number = (plotlyElement as any).layout.xaxis.range[1];
+            const enabledTraces: Array<string> = (plotlyElement as any).data.filter(e => e.showlegend == false && e.visible != 'legendonly').map(e => e.name);
+            const {xRange, yRange} = getRanges(left, right, enabledTraces);
+
+            Plotly.relayout(plotlyElement, {
+                'source': 'constrainZoom',
+                'xaxis.range': xRange,
+                'yaxis.range': yRange
+            });
+        });
+
     }
     
     // Attaches an estimated SR to games with unknown SR, where possible.
