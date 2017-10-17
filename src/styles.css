@@ -782,3 +782,7 @@ svg .timeline-event:hover {
 svg {
     overflow: visible !important;
 }
+
+#sr-graph.point-hovered .draglayer rect {
+    cursor: pointer;
+}
