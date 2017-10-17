@@ -782,3 +782,8 @@ svg .timeline-event:hover {
 svg {
     overflow: visible !important;
 }
+
+#sr-graph {
+    /* give a bit more room for overflowing x-axis labels */
+    margin-bottom: 20px;
+}
