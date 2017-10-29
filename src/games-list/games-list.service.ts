@@ -196,8 +196,12 @@ export class GamesListService {
             return 'Season 5';
         } else if (time < 1504224000){
             return 'Season 5-6 Off Season';
+        } else if (time < 1509237000) { // October 29, 2017 @ 12:30:00 am UTC
+            return 'Season 6';
+        } else if (time < 1509494400){
+            return 'Season 6-7 Off Season';
         } else {
-            return 'Season 6'
+            return 'Season 7';
         }
     }
 
