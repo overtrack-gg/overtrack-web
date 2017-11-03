@@ -16,6 +16,7 @@ type SRUnknownReason = null | 'placement' | 'unknown';
 })
 export class GamesGraphComponent implements OnInit {
     gamesLists: Array<PlayerGameList>;
+    show = true;
 
     constructor(public gamesListService: GamesListService,
                 public router: Router,
@@ -143,7 +144,12 @@ export class GamesGraphComponent implements OnInit {
         type FullyAnnotatedGame = typeof gamesWithXs[0][0];
 
         // Graphable games from all players, flattened into a single sorted array.
-        const allGames = gamesWithXs.reduce((a, b) => a.concat(b)).sort((a, b) => this.compareGamesChronologically(a.data, b.data));
+        const allGames = gamesWithXs.reduce((a, b) => a.concat(b), []).sort((a, b) => this.compareGamesChronologically(a.data, b.data));
+        if (!allGames.length){
+            this.show = false;
+            return;
+        }
+
         const allXs: number[] = [];
         for (let x = 0; x < allGames.length; x++) {
             allGames[x].x = x;
