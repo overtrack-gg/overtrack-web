@@ -270,18 +270,9 @@ export class GameService {
 
         let count = 1;
         const killfeed: Array<KillFeedEntry> = [];
-        let resMap: Map<number, string> = new Map();
         for (const kill of body.killfeed) {
-            //Make reses use the same id if same time. TODO: Ensure res for same team!
             const isRes = (kill[1] & 2) != 0;
             let id = "event" + count;
-            if (isRes) {
-                if (resMap.has(kill[0])) {
-                    id = resMap.get(kill[0]);
-                } else{
-                    resMap.set(kill[0], id);
-                }
-            }
 
             if (body.rename){
                 let originalName: string = body.rename[0];
