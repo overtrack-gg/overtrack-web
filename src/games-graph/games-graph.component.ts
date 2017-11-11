@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
 import { GamesListService, PlayerGameList } from '../games-list/games-list.service';
@@ -14,7 +14,7 @@ type SRUnknownReason = null | 'placement' | 'unknown';
     templateUrl: './games-graph.component.html',
     providers: [RouterModule]
 })
-export class GamesGraphComponent implements OnInit {
+export class GamesGraphComponent implements AfterViewInit {
     gamesLists: Array<PlayerGameList>;
     show = true;
 
@@ -22,7 +22,7 @@ export class GamesGraphComponent implements OnInit {
                 public router: Router,
                 public activatedRoute: ActivatedRoute) { }
 
-     ngOnInit(): void {
+    ngAfterViewInit(): void {
         this.activatedRoute.params.subscribe(
             params => {
                 if (params.hasOwnProperty('share_key')){
