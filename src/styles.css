@@ -609,6 +609,9 @@ a.navbar-brand > img {
 .map.junkertown {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/junkertown.jpg');
 }
+.map.blizzard-world {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/blizzard-world.jpg');
+}
 
 .banner.nepal {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal-banner.jpg');
@@ -685,6 +688,9 @@ a.navbar-brand > img {
 }
 .banner.junkertown {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/junkertown-banner.jpg');
+}
+.banner.blizzard-world {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/blizzard-world-banner.jpg');
 }
 
 
