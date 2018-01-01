@@ -179,6 +179,10 @@ button.multi-choice:last-child{
     background-color: rgb(255, 225, 108);
     box-shadow: rgb(255, 234, 149) 0px 0.2rem 0px 0px inset;
 }
+.progress-bar-moira{
+    background-color: rgb(179, 54, 93);
+    box-shadow: rgb(179, 54, 93) 0px 0.2rem 0px 0px inset;
+}
 .progress-bar-orisa{
     background-color: rgb(220, 154, 0);
     box-shadow: rgb(255, 180, 5) 0px 0.2rem 0px 0px inset;
