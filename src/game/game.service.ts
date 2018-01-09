@@ -311,6 +311,7 @@ export class GameService {
 
         const stages: Array<Stage> = [];
         let index = 0;
+        let ult_index = 0;
         for (const stage of objective_stages){
             const players: Array<Player> = [];
             this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue', body.tab_statistics);
@@ -364,6 +365,45 @@ export class GameService {
             if (stage.checkpoints && stage.checkpoints.length && stage.end - stage.checkpoints[stage.checkpoints.length - 1][0] < 10 * 1000) { // && progress == 0){
                 // final progress is within 10s of a checkpoint and the progress here was 0 - this means the previous team was beaten and the progress is set back to 0
                 formatProgress = "";
+            }
+
+            if (body.spectate_bar){
+                for (let i in players){
+                    let start = 0;
+                    for (let e of body.spectate_bar.has_ult[i]){
+                        let t: number = e[0];
+                        let gain: boolean = e[1];
+                        if (gain){
+                            start = t;
+                        } else if (start) {
+                            let end = t;
+                            if (stage.start < start && start < stage.end){
+                                t = Math.min(t, stage.end);
+                                (players[i].events as Array<GameEvent>).push({
+                                    id: 'event-ult' + ult_index++,
+                                    absoluteTime: start,
+                                    time: start - stage.start,
+                                    type: 'ult',
+                                    duration: end - start
+                                });
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (let ult_period of body.ults as Array<Array<number>> || []){
+                    let start = ult_period[0];
+                    let end = ult_period[1];
+                    if (stage.start < start && start < stage.end){
+                        (players[0].events as Array<GameEvent>).push({
+                            id: 'event-ult' + ult_index++,
+                            absoluteTime: start,
+                            time: start - stage.start,
+                            type: 'ult',
+                            duration: end - start
+                        });
+                    }
+                }
             }
 
             stages.push({
@@ -626,6 +666,7 @@ export class GameEvent {
     time: number;
     absoluteTime: number;
     type: string;
-    otherHero: string;
-    other: string;
+    otherHero?: string;
+    other?: string;
+    duration?: number;
 }

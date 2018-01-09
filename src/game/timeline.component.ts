@@ -37,6 +37,35 @@ export class TimelineComponent implements OnChanges {
             .attr('fill', 'gray')
             .attr('stroke', 'white');
 
+        // ults
+        svg.selectAll('.timeline-event-nohover .ult-period').data((player: Player) => player.events.filter(event => event.type == 'ult'))
+            .enter().append('rect')
+            .attr('class', (event: GameEvent) => 'timeline-event ult-period ' + event.id)
+            .attr('y', '28px')
+            .attr('height', '11px')
+            .attr('fill', '#9FECFC')
+            .attr('x', (event: GameEvent) => this.x(event.time) + '%')
+            .attr('width', (event: GameEvent) => this.x(event.duration) + '%')
+            .attr('data-type', (event: GameEvent) => event.type)
+            .attr('data-timestamp', (event: GameEvent) => event.absoluteTime)
+            .attr('data-duration', (event: GameEvent) => event.duration);
+        svg.selectAll('.timeline-event-nohover .ult-icon-gain').data((player: Player) => player.events.filter(event => event.type == 'ult'))
+            .enter().append('image')
+            .attr('class', (event: GameEvent) => 'timeline-event ult-icon-gain ' + event.id)
+            .attr('xlink:href','assets/images/timeline/ult_gain.png')
+            .attr('x', (event: GameEvent) => this.x(event.time) + '%')
+            .attr('transform', 'translate(-14)')
+            .attr('y', '18px')
+            .attr('height', '29px');
+        svg.selectAll('.timeline-event-nohover .ult-icon-use').data((player: Player) => player.events.filter(event => event.type == 'ult'))
+            .enter().append('image')
+            .attr('class', (event: GameEvent) => 'timeline-event ult-icon-use ' + event.id)
+            .attr('xlink:href','assets/images/timeline/ult_use.png')
+            .attr('x', (event: GameEvent) => this.x(event.time + event.duration) + '%')
+            .attr('transform', 'translate(-14)')
+            .attr('y', '18px')
+            .attr('height', '29px');
+
         svg.selectAll('.timeline-event .destroyed').data((player: Player) => player.events.filter(event => event.type == 'destroyed'))
             .enter().append('image')
             .attr('class', (event: GameEvent) => 'timeline-event destroyed ' + event.id)
