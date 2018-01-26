@@ -10,8 +10,10 @@
 
     <br/><br/>
     <h3 id="failed-to-execute">How do I solve 'Failed to execute script wrapper' when launching OverTrack?</h3>
+    <img src="assets\images\faq\wrapper.png" style="padding-bottom: 20px;">
     <p>
-        Download and install  <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48145">vc_redist.x64.exe</a> from Microsoft.<br/>
+        Download and install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48145">vc_redist.x64.exe</a> from Microsoft.<br/>
+        This issue can also be caused if you have non-english characters in your username.<br/>
         If the problem persists join the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> and ask for help there.
     </p>
 
@@ -19,7 +21,8 @@
     <h3 id="install">Where does OverTrack install to?</h3>
     <p>
         OverTrack runs directly from the .exe file you downloaded. To launch manually simply run the .exe or the desktop shortcut OverTrack creates when it first runs.<br/>
-        To uninstall OverTrack just uncheck 'Start OverTrack when Windows starts'.
+        OverTrack also creates a config.json file in "%appdata%\overtrack", which can be deleted to unlink your account and places a copy of the executable here.<br/>
+        To uninstall OverTrack just uncheck 'Start OverTrack when Windows starts' from OverTracks menu in the taskbar (and optionally delete teh executable).
     </p>
 
     <br/>
@@ -28,12 +31,14 @@
         OverTrack can have difficulty picking up Overwatch for the following reasons:
     </p>
     <ul>
-        <li>Overwatch is being run as admin, but OverTrack is not</li>
-        <li>Overwatch is being run in fullscreen mode on Windows 7</li>
-        <li>Overwatch is being run in 21:9 aspect ratio (ingame setting)</li>
-        <li>You are using a laptop with switchable graphics and running Overwatch on the dedicated GPU</li>
-        <li>Overwatch is not set to English</li>
-        <li>The killfeed is disabled</li>
+        <li>Overwatch is being run as admin, but OverTrack is not.</li>
+        <li>Overwatch is being run in fullscreen mode on Windows 7. Windows 7 fullscreen capture requires using <a href="#obs" class="scrollto">OBS Capture</a>.</li>
+        <li>You are using a laptop with switchable graphics and running Overwatch on the dedicated GPU. Laptop fullscreen capture requires using <a href="#obs" class="scrollto">OBS Capture</a>.</li>
+        <li>Overwatch is being run in 21:9 aspect ratio (ingame setting).</li>
+        <li>You have an in-game overlay (e.g. ShadowPlay overlay, Discord Overlay, Windows registration text). Either disable this overlay or use <a href="#obs" class="scrollto">OBS Capture</a>.</li>
+        <li>Overwatch is not set to English.</li>
+        <li>The killfeed is disabled.</li>
+        <li>You are using an unusual brightness/contrast or colorblind mode.</li>
     </ul>
 
     <br/>
@@ -42,6 +47,32 @@
         OverTrack applies Computer Vision and Machine Learning techniques to analyse and extract information from what is displayed onscreen. 
         This allows OverTrack to track information such as match SR, map, killfeed and tab-screen statistics not directly provided by Blizzard. 
     </p>
+
+    <br/>
+    <h3 id="obs">OBS Integration</h3>
+    <p>
+        OverTrack can make use of OBS's capture, provided you have a Game Capture for Overwatch active in the current scene.<br/>
+        This option offers the minimum performance impact of all capture methods and has the least chance of causing stutter.<br/><br/>
+        To use this feature, make sure you are running OBS (64 bit) or OBS Streamlabs and capturing from Overwatch using a Game Capture source and enable "Capture from OBS".
+    </p>
+    <img src="assets\images\faq\obs-capture.png" style="padding-bottom: 20px;">
+    <p>Note that:</p>
+    <ul>
+        <li>If OBS is being run as admin, OverTrack must also be</li>
+        <li>The capture source must be enabled and in the current scene. The scene preview can still be disabled.</li>
+        <li>Because the capture must be in the current scene, if you are streaming and switching scenes you may need to add the Game Capture source to the other scenes (you can drag it outside of the scene canvas or make it small and hide it behind another source).</li>
+        <li>If you are not streaming and want absolute minimal performance impact, set OBS's FPS to 4, limit the game capture FPS and disable the preview.</li>
+        <li>If you are using a laptop with switchable graphics, both OBS and OverTrack must also be run on the GPU (either through right click > Run with Graphics Processor or with the Nvidia control panel) or OBS must be using the Game Capture setting "SLI/Crossfire Support".</li>
+    </ul>
+
+    <br/>
+    <h3 id="battletag">Battletag Reading</h3>
+    <p>
+        OverTrack can read your Battletag from the Blizzard App to improve name recognition.<br/>
+        This feature must be enabled manually, but is recommended provided you are prepared for OverTrack to read from the Blizzard App's memory (OverTrack still does not and will never read from Overwatch's memory as this would classify it as a cheat).<br/>
+        Additionally you should only enable this option if you switch accounts using a single Blizzard App. If you run multiple apps, or switch accounts in-game this method will cause incorrect results. 
+    </p>
+    <img src="assets\images\faq\battletag.png" style="padding-bottom: 20px; width: 800px;">
 
     <br/>
     <h3 id="is-that-legal">Is OverTrack a cheat?</h3>
@@ -53,13 +84,20 @@
     <br/>
     <h3 id="suggestions">I have a suggestion/feature request for OverTrack. How should I make it known?</h3>
     <p>
-        Please use the <a href="https://www.reddit.com/r/OverTrack/comments/6uml66/overtrack_feature_requests_megathread/">Feature Requests</a> thread on reddit to vote on and make suggestions.
+        Please join our <a href="https://discord.gg/JywstAB">Discord</a> and post it in #support-and-feedback.
+    </p>
+
+    <br/>
+    <h3 id="stutter">OverTrack is causing stutter/frame drops</h3>
+    <p>
+        Stutter/frame drops can be caused by OverTrack's fullsceen capture method - specifically if you are using multiple monitors and playing media on a secondary monitor while playing Overwatch, although it can also occur without this.<br/>
+        Using <a href="#obs" class="scrollto">OBS Capture</a> will mitigate this issue.
     </p>
 
     <br/>
     <h3 id="missing-sr">OverTrack is missing my SR for games</h3>
     <p>
-        In order to track SR, make sure you are visting the play menu before and after each game so OverTrack can capture the SR. 
+        In order to track SR, make sure you are visiting the play menu before and after each game so OverTrack can capture the SR. 
         If OverTrack missed the SR for a game you can manually provide it using the 'Edit' button on games.
     </p>
 
@@ -73,7 +111,8 @@
     <br/>
     <h3 id="unknown-name">My games/some of my games show up under an account beginning with @</h3>
     <p>
-        OverTrack is unable to read special characters in player names - if your account has special characters your games will show up under '@battletag'.
+        OverTrack is unable to read special characters in player names - if your account has special characters your games will show up under '@battletag'.<br/>
+        You can also let OverTrack use the battletag from your currently logged in Battle.net account by <a href="#battletag" class="scrollto">enabling "Read Battletag From Blizzard App"</a><br/>.
         If your account does not have special characters this could be caused by OverTrack having difficulty detecting the correct player name. Use the 'Edit' button to correct these games, and report the issue through discord if this happens frequently.
     </p>
 
@@ -81,6 +120,13 @@
     <h3 id="other-unknown-names">Why are some players @UNKNONWN_BLUE#0 or @UNKNONWN_RED#1?</h3>
     <p>
         @UNKNOWN names appear for players who use special characters as part of their battletags.
+    </p>
+
+    <br/>
+    <h3 id="universal-c">How do I solve 'Entry Point Not Found'?</h3>
+    <img src="assets\images\faq\universal-c.png" style="padding-bottom: 20px;">
+    <p>
+        Make sure your Windows is up to date with windows update.
     </p>
  
     <br/>
@@ -90,7 +136,7 @@
     </p> 
 
     <br/>
-<h3 id="cost">Why does OverTrack cost?</h3>
+    <h3 id="cost">Why does OverTrack cost?</h3>
     <p>
         OverTrack is something that I have spent many months of fulltime development on, and something that I want to continue to build and support.<br/>
         Subscribing to OverTrack supports the development and server costs and is what allows OverTrack to function and to keep growing and improving.
