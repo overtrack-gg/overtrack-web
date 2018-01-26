@@ -30,6 +30,7 @@
             </div>
             <div *ngIf="isOwnGames" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
                 <share-link class="pull-right"></share-link>
+                <integrations [accounts]="accountNames" class="pull-right"></integrations>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#batch-edit" style="margin-right: 20px;">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp; Batch Edit
                 </button>

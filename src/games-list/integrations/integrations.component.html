@@ -1,0 +1,119 @@
+<button 
+    id="integrations-button"
+    type="button" 
+    class="btn btn-primary" 
+    (click)="showIntegrations()" 
+    style="display: none;"
+>
+    <span class="glyphicon glyphicon-globe"></span>&nbsp; Integrations
+</button>
+
+<div id="integrations" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="integrations-label" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="integrations-label" style="display: inline">Integrations</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="!loading" class="form-group row">
+                    <label class="col-2 col-form-label">Twitch</label>
+                    <div *ngIf="twitchAccount" class="col-10">
+                        <div style="overflow: hidden;">
+                            <input class="form-control" type="text" disabled value="{{ twitchAccount }}" style="cursor: default; width: 75%;  float: left;">
+                            <button (click)="unlinkTwitch()" class="btn btn-warning" type="button" style="float: left; width: 25%;">
+                                Unlink
+                            </button>
+                        </div>
+                        <p style="margin: 6px;">
+                            Twitch derived share link: <a href="https://overtrack.gg/games/{{ twitchAccount }}">https://overtrack.gg/games/{{ twitchAccount }}</a>
+                        </p>
+                    </div>
+                    <div *ngIf="!twitchAccount" class="col-10">
+                        <button (click)="linkTwitch()" type="button" class="btn btn-success">
+                            Link Twitch.tv Account
+                        </button>
+                        <p style="text-align: justify; margin: 6px;">
+                            Linking your Twitch.tv account will allow you to use your Twitch account name as a share link and allow you to enable the OverTrack Twitch bot.
+                        </p>
+                    </div>
+
+                    <div *ngIf="twitchAccount && !hasTwitchBot" class="col-10">
+                        <label class="col-2 col-form-label" style="padding-top:  20px;">Twitch Bot</label>
+                        <div style="overflow: hidden;">
+                            <button (click)="enableTwitchBot()" type="button" class="btn btn-success">
+                                Enable OverTrack Twitch Bot
+                            </button>
+                        </div>
+                        <p style="margin: 6px;">
+                            Post matches to twitch.tv/{{ twitchAccount }} chat. Please make sure OverTrackGG has permission to post links to the domain overtrack.gg either through whitelisting or by modding the bot.<br/>
+                            <br/>
+                            Example:
+                        </p>
+                        <div style="margin: 2px; padding: 4px; background: #19171c; border-radius: 4px;">
+                            <span style="color: rgb(255, 88, 26); font-weight: 600;">
+                                overtrackgg
+                            </span>
+                            <span class="qa-mod-message" style="color: rgb(255, 69, 0);">
+                                {{ twitchAccount | uppercase }} just WON a game on Voskaya Industries | 4202 → 4226 (+24) |
+                            </span>
+                            <span style="color: #999;">
+                                https://overtrack.gg/game/&lt;link&gt;
+                            </span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="webhooks < 5" class="col-10">
+                        <label class="col-2 col-form-label" style="padding-top: 20px;">Discord Bot</label>
+                        <div style="overflow: hidden;">
+                            <input class="form-control" type="text" id="url" placeholder="discord webhook"  style="float: left; width: 75%;">
+                            <button (click)="addDiscordBot()" type="button" class="btn btn-success" style="float: left; width: 25%;">
+                                Add Discord Bot
+                            </button>
+                        </div>
+                        <div *ngIf="!webhooks">
+                            <p style="margin: 6px;">
+                                Post matches to a discord channel. Create <a href="https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks">Discord Webhook</a> for the channel and enter it above.<br/>
+                                <br/>
+                                Example:
+                            </p>
+                            <img src="/assets/images/streamer/discord2.png" style="width: 100%; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div *ngFor="let integration of sortIntegrations(integrations)" class="col-10" style="padding-top: 20px;">
+                        <label>{{ formatType(integration.type) }}</label>
+                        <div style="overflow: hidden;">
+                            <input 
+                                class="form-control" 
+                                type="text" 
+                                disabled 
+                                value="{{ getIntegrationURL(integration) }}" 
+                                style="cursor: default; width: 60%; float: left; margin-right: 1.4%;"
+                            >
+                            <accounts-dropdown
+                                [accounts]="accounts" 
+                                [enabled]="integration.player_name_filter"
+                                [all]="integration.player_name_filter == null"
+                                [custom]="integration.custom_games"
+                                (accountsSelected)="updateIntegration(integration.id, $event)"
+                                style="float: left; width: 25%;"
+                            ></accounts-dropdown>
+                            <button (click)="deleteIntegration(integration.id)" 
+                                class="btn btn-danger" 
+                                type="button" 
+                                style="float: right; width: 15%;"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,7 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { AppComponent } from './app.component';
 import { UserLoginComponent } from '../login/user-login.component';
 import { GamesListComponent } from '../games-list/games-list.component';
+import { IntegrationsComponent, AccountsDropdownComponent } from '../games-list/integrations/integrations.component';
 import { ShareLinkComponent } from '../games-list/share-link.component';
 import { GameComponent, MetaGameComponent } from '../game/game.component';
 import { EditGameComponent } from '../game/edit-game.component';
@@ -138,6 +139,8 @@ const appRoutes: Routes = [
 		UserLoginComponent,
 		RedirectToGamesComponent,
 		GamesListComponent,
+		IntegrationsComponent,
+		AccountsDropdownComponent,
 		GamesGraphComponent,
 		WinRatesComponent,
 		GameComponent,
