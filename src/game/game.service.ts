@@ -412,6 +412,7 @@ export class GameService {
                 start: stage.start,
                 killfeed: this.filterKillfeed(stage, killfeed),
                 end: stage.end,
+                duration: stage.end - stage.start,
                 players: players,
                 objectiveInfo: objectiveInfo,
 
@@ -615,6 +616,7 @@ export class Stage {
     index: number;
     start: number;
     end: number;
+    duration: number;
     players: Array<Player>;
     objectiveInfo: ObjectiveInfo;
 

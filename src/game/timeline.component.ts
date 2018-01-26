@@ -45,7 +45,7 @@ export class TimelineComponent implements OnChanges {
             .attr('height', '11px')
             .attr('fill', '#9FECFC')
             .attr('x', (event: GameEvent) => this.x(event.time) + '%')
-            .attr('width', (event: GameEvent) => this.x(event.duration) + '%')
+            .attr('width', (event: GameEvent) => this.x(Math.min(event.duration, this.stage.duration - event.time)) + '%')
             .attr('data-type', (event: GameEvent) => event.type)
             .attr('data-timestamp', (event: GameEvent) => event.absoluteTime)
             .attr('data-duration', (event: GameEvent) => event.duration);
@@ -57,7 +57,7 @@ export class TimelineComponent implements OnChanges {
             .attr('transform', 'translate(-14)')
             .attr('y', '18px')
             .attr('height', '29px');
-        svg.selectAll('.timeline-event-nohover .ult-icon-use').data((player: Player) => player.events.filter(event => event.type == 'ult'))
+        svg.selectAll('.timeline-event-nohover .ult-icon-use').data((player: Player) => player.events.filter(event => event.type == 'ult' && event.absoluteTime + event.duration < this.stage.end))
             .enter().append('image')
             .attr('class', (event: GameEvent) => 'timeline-event ult-icon-use ' + event.id)
             .attr('xlink:href','assets/images/timeline/ult_use.png')
