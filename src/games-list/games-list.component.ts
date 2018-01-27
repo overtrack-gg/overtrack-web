@@ -20,6 +20,7 @@ declare var Plotly: any;
 })
 export class GamesListComponent implements OnInit, AfterContentChecked {
     gamesLists: Array<PlayerGameList>;
+    accountNames: Array<string>;
     currentSR: number;
     player: string;
 
@@ -118,6 +119,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                     this.player = this.gamesLists[0].player;
                     this.updateGamesDropdown();
                     this.updateGamesList();
+                    this.accountNames = this.gamesLists.map(gl => gl.player.toUpperCase().split('#')[0]).filter(e => e != 'CUSTOM GAMES');
                 }
                 this.loaded = true;
             },
@@ -136,6 +138,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                     this.player = this.gamesLists[0].player;
                     this.updateGamesDropdown();
                     this.updateGamesList();
+                    this.accountNames = this.gamesLists.map(gl => gl.player.toUpperCase().split('#')[0]).filter(e => e != 'CUSTOM GAMES');
                 }
                 this.loaded = true;
             },
