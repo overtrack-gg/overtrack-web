@@ -52,16 +52,17 @@
     <h3 id="obs">OBS Integration</h3>
     <p>
         OverTrack can make use of OBS's capture, provided you have a Game Capture for Overwatch active in the current scene.<br/>
-        This option offers the minimum performance impact of all capture methods and has the least chance of causing stutter.<br/><br/>
+        This option offers the minimum performance impact of all capture methods and has the least chance of causing stutter.<br/>
+        Additionally OBS capture allows capture on Windows 7, Laptops with switchable graphics and capture from Overwatch when alt-tabbed (other fullscreen capture methods only work when the Overwatch is in the foreground).<br/><br/>
         To use this feature, make sure you are running OBS (64 bit) or OBS Streamlabs and capturing from Overwatch using a Game Capture source and enable "Capture from OBS".
     </p>
     <img src="assets\images\faq\obs-capture.png" style="padding-bottom: 20px;">
     <p>Note that:</p>
     <ul>
-        <li>If OBS is being run as admin, OverTrack must also be</li>
+        <li>If OBS is being run as admin, OverTrack must be as well.</li>
         <li>The capture source must be enabled and in the current scene. The scene preview can still be disabled.</li>
         <li>Because the capture must be in the current scene, if you are streaming and switching scenes you may need to add the Game Capture source to the other scenes (you can drag it outside of the scene canvas or make it small and hide it behind another source).</li>
-        <li>If you are not streaming and want absolute minimal performance impact, set OBS's FPS to 4, limit the game capture FPS and disable the preview.</li>
+        <li>If you are not streaming and want the minimum possible performance impact, set OBS's FPS to 4, limit the game capture FPS and disable the preview.</li>
         <li>If you are using a laptop with switchable graphics, both OBS and OverTrack must also be run on the GPU (either through right click > Run with Graphics Processor or with the Nvidia control panel) or OBS must be using the Game Capture setting "SLI/Crossfire Support".</li>
     </ul>
 

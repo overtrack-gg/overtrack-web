@@ -14,7 +14,7 @@ export class FAQComponent implements OnInit {
             return false;
         });
         if (document.location.hash){
-            window.setTimeout(e => {$('html, body').animate({scrollTop: $(document.location.hash).offset().top - 60}, 250);}, 0);
+            window.setTimeout(e => {$('html, body').animate({scrollTop: $(document.location.hash).offset().top - 60}, 250);}, 250);
         }
     }
 }
