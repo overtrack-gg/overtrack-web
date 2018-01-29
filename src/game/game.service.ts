@@ -522,6 +522,7 @@ export class GameService {
             placement: placement,
             rankEditable: teams == null || body.rank_ediable,
             groupSize: body.group_size,
+            twitch: body.twitch || null,
 
             deleted: false
         };
@@ -562,6 +563,7 @@ export class Game {
     placement: boolean;
     rankEditable: boolean;
     groupSize: number;
+    twitch: string;
 
     deleted: boolean;
 }

@@ -106,6 +106,7 @@ export class GamesListService {
                     placement: false,
                     rankEditable: false,
                     groupSize: null,
+                    twitch: null,
 
                     deleted: false
                 });
@@ -144,6 +145,7 @@ export class GamesListService {
                     placement: false,
                     rankEditable: false,
                     groupSize: null,
+                    twitch: null,
 
                     deleted: false
                 });
