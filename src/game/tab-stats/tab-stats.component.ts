@@ -63,6 +63,7 @@ export class TabStatisticsComponent {
     @Input() heroStatistics: Array<HeroStatistics>;
     heroNames: Array<string>;
     statsByHero: Map<string, HeroStatistics>;
+    duration: number;
 
     ngOnInit(): void {
         if (!this.heroStatistics){
@@ -82,10 +83,10 @@ export class TabStatisticsComponent {
             return this.statsByHero.get(b).timePlayed - this.statsByHero.get(a).timePlayed;
         });
 
-        let neverSwitched: boolean = false;
-        for (let hero of this.heroNames){
-            neverSwitched = neverSwitched || (hero != 'ALL' && this.statsByHero.get(hero).timePlayed == this.statsByHero.get('ALL').timePlayed);
-        }
+        
+        this.duration = Array.from(this.statsByHero.values()).map(s => s.timePlayed).reduce((p, c) => Math.max(p, c), 0);
+
+        let neverSwitched = Array.from(this.statsByHero.values()).reduce((p, c) => p || (c.heroName != 'ALL' && c.timePlayed >= this.duration * 0.95), false);
         if (neverSwitched){
             // No need to show "All Heroes"
             this.heroNames.splice(this.heroNames.indexOf('ALL'), 1);

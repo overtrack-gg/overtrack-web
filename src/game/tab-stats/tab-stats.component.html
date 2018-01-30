@@ -9,7 +9,7 @@
             <div class="tab-pane" [class.active]="f" *ngFor="let hero of heroNames; let f = first;" id="{{ toHref(hero) }}">
                 <hero-stats
                     [stat]="statsByHero.get(hero)"
-                    [duration]="statsByHero.get('ALL').timePlayed">
+                    [duration]="duration">
                 </hero-stats>
             </div>
         </div>
