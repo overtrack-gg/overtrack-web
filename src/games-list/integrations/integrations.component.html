@@ -2,9 +2,7 @@
     id="integrations-button"
     type="button" 
     class="btn btn-primary" 
-    (click)="showIntegrations()" 
-    style="display: none;"
->
+    (click)="showIntegrations()">
     <span class="glyphicon glyphicon-globe"></span>&nbsp; Integrations
 </button>
 
@@ -78,7 +76,8 @@
                         </div>
                         <div *ngIf="!webhooks">
                             <p style="margin: 6px;">
-                                Post matches to a discord channel. Create <a href="https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks">Discord Webhook</a> for the channel and enter it above.<br/>
+                                Post matches to a discord channel. Create <a href="https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks">Discord Webhook</a> for the channel and enter it above.
+                                Get the icon <a href="/assets/images/streamer/Overtrack_256px_active.png">here</a>. Twitch account mist be linked for the Twitch VOD link to be included.<br/>
                                 <br/>
                                 Example:
                             </p>

@@ -15,8 +15,7 @@ export class ShareLinksComponent implements OnInit {
 
     @Input() accounts: Array<string>;
 
-    private shareKeysURL = 'https://api.overtrack.gg/share_keys'
-    private gamesURL = 'https://overtrack.gg/games/';
+    private shareKeysURL = 'https://api.overtrack.gg/share_keys';
 
     shareKeys: Array<ShareLink> = [];
     defaultLinks = 0;
