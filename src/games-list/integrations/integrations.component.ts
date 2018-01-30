@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
-import { select } from 'd3';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
@@ -143,8 +142,6 @@ export class IntegrationsComponent implements OnInit{
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params: Params) => {
-            console.log('=>', params);
-
             let postArgs = null;
             if (params['integrations'] != undefined){
                 $('#integrations').modal('show');
@@ -167,25 +164,27 @@ export class IntegrationsComponent implements OnInit{
                     postArgs,
                     options
                 )
-            } else {
+            } else if (this.loading){
                 let options = new RequestOptions({ withCredentials: true });
                 response = this.http.get(
                     this.integrationsURL, 
                     options
                 )
             }
-            response.subscribe(
-                res => {
-                    this.update(res);
-                    this.loading = false;
-                    if (postArgs){
-                        this.router.navigate(['.'], { relativeTo: this.route, queryParams: { integrations: '' }});
+
+            if (response){
+                response.subscribe(
+                    res => {
+                        this.update(res);
+                        if (postArgs){
+                            this.router.navigate(['.'], { relativeTo: this.route, queryParams: { integrations: '' }});
+                        }
+                    },
+                    err => {
+                        throw err;
                     }
-                },
-                err => {
-                    throw err;
-                }
-            );
+                );
+            }
         });
 
         $('#integrations').on('hide.bs.modal', e => {
@@ -194,6 +193,7 @@ export class IntegrationsComponent implements OnInit{
     }
 
     update(res){
+        this.loading = false;
         const body = res.json();
 
         this.twitchAccount = body.twitch.account;
