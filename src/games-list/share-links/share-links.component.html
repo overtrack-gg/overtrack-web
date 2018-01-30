@@ -59,7 +59,7 @@
                         (click)="createKey('battletag')">
                         Create Battletag link
                     </button>
-                    <button *ngIf="!hasTwitchLink && twitchAccount" 
+                    <button *ngIf="!hasTwitchLink && twitchAccount != null" 
                         class="btn btn-success" 
                         style="width: 35%; float: right;"
                         (click)="createKey('twitch')">
