@@ -365,4 +365,8 @@ export class IntegrationsComponent implements OnInit{
         }
     }
 
+    openShareLinks(){
+        $('#integrations').modal('hide');
+        this.router.navigate(['.'], { relativeTo: this.route, queryParams: { share: 'refresh' }});
+    }
 }

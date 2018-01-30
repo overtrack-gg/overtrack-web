@@ -30,6 +30,9 @@
                         <p style="margin: 6px;">
                             Twitch derived share link: <a href="https://overtrack.gg/games/{{ twitchAccount }}">https://overtrack.gg/games/{{ twitchAccount }}</a>
                         </p>
+                        <p style="margin: 6px; color: #faa123;">
+                            You can filter any secret/private accounts for this share link in the <a (click)="openShareLinks()">Share</a> panel.
+                        </p>
                     </div>
                     <div *ngIf="!twitchAccount" class="col-10">
                         <button (click)="linkTwitch()" type="button" class="btn btn-success">
