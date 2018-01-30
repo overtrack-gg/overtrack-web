@@ -122,7 +122,7 @@ export class IntegrationsComponent implements OnInit{
 
     loading: boolean = true;
     twitchAccount: string;
-    integrations: Array<any>;
+    integrations: Array<Integration> = [];
     hasTwitchBot: boolean;
     webhooks: number;
 
@@ -202,7 +202,25 @@ export class IntegrationsComponent implements OnInit{
         this.twitchOAuthNonce = body.twitch.nonce;
         this.twitchOAuthScope = body.twitch.scope;
 
-        this.integrations = body.integrations;
+        this.integrations = [];
+        for (let i of body.integrations){
+            console.log(i);
+            let integration: Integration = {
+                id: i.id,
+                type: i.type,
+                player_name_filter: i.player_name_filter,
+                custom_games: i.custom_games,
+            };
+            if (integration.type.indexOf('WEBHOOK') != -1){
+                integration.webhook = i.webhook;
+            } else if (integration.type == 'TWITCH_IRC_MESSAGE'){
+                integration.channel = i.channel;
+            }
+            this.integrations.push(integration);
+        }
+        this.integrations.sort((a, b) =>{
+            return a.type === 'TWITCH_IRC_MESSAGE' ? 0 : 1;
+        });
         this.hasTwitchBot = this.integrations.reduce((prev, cur) => {
             return prev || cur.type == 'TWITCH_IRC_MESSAGE';
         }, false);
@@ -342,13 +360,6 @@ export class IntegrationsComponent implements OnInit{
         $('#integrations').find('button').attr('disabled', true);
     }
 
-
-    sortIntegrations(i: Array<any>) {
-        return i.sort((a, b) =>{
-            return a.type === 'TWITCH_IRC_MESSAGE' ? 0 : 1;
-        });
-    }
-
     formatType(s: string){
         if (s == 'TWITCH_IRC_MESSAGE'){
             return 'Twitch Bot';
@@ -357,7 +368,7 @@ export class IntegrationsComponent implements OnInit{
         }
     }
 
-    getIntegrationURL(i){
+    getIntegrationURL(i: Integration){
         if (i.type == 'TWITCH_IRC_MESSAGE'){
             return 'twitch.tv/' + i.channel;
         } else if (i.type == 'DISCORD_WEBHOOK'){
@@ -369,4 +380,14 @@ export class IntegrationsComponent implements OnInit{
         $('#integrations').modal('hide');
         this.router.navigate(['.'], { relativeTo: this.route, queryParams: { share: 'refresh' }});
     }
+}
+
+class Integration {
+    id: string;
+    type: string;
+    player_name_filter: Array<string>;
+    custom_games: boolean;
+
+    webhook?: string;
+    channel?: string;
 }

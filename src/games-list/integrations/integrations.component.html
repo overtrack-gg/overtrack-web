@@ -86,7 +86,7 @@
                     </div>
 
                     <hr>
-                    <div *ngFor="let integration of sortIntegrations(integrations)" class="col-10" style="padding-top: 20px;">
+                    <div *ngFor="let integration of integrations" class="col-10" style="padding-top: 20px;">
                         <label>{{ formatType(integration.type) }}</label>
                         <div style="overflow: hidden;">
                             <input 
