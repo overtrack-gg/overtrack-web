@@ -29,7 +29,7 @@
                     [options]="seasonSelectDropdown" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)"></ss-multiselect-dropdown>
             </div>
             <div *ngIf="isOwnGames" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
-                <share-link class="pull-right"></share-link>
+                <share-links [accounts]="accountNames" class="pull-right"></share-links>
                 <integrations [accounts]="accountNames" class="pull-right"></integrations>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#batch-edit" style="margin-right: 20px;">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp; Batch Edit
@@ -76,8 +76,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
         

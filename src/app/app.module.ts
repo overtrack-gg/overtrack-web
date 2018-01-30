@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { UserLoginComponent } from '../login/user-login.component';
 import { GamesListComponent } from '../games-list/games-list.component';
 import { IntegrationsComponent, AccountsDropdownComponent } from '../games-list/integrations/integrations.component';
-import { ShareLinkComponent } from '../games-list/share-link.component';
+import { ShareLinksComponent } from '../games-list/share-links/share-links.component';
 import { GameComponent, MetaGameComponent } from '../game/game.component';
 import { EditGameComponent } from '../game/edit-game.component';
 import { TimelineComponent } from '../game/timeline.component';
@@ -157,14 +157,14 @@ const appRoutes: Routes = [
 		RegisterComponent,
 		WelcomeComponent,
 		SubscribeComponent,
-		ShareLinkComponent, 
+		ShareLinksComponent, 
 		FAQComponent,
 		StreamerInfoComponent,
 		NotFoundComponent,
 	],
 	bootstrap:    [ AppComponent ],
 	providers: [
-		{ provide: ErrorHandler, useClass: RavenErrorHandler }, 
+		// { provide: ErrorHandler, useClass: RavenErrorHandler }, 
 		UserLoginService,
 		GamesListService,
 		LoggedIn

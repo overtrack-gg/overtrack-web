@@ -1,0 +1,74 @@
+<button 
+    id="share-button"
+    type="button" 
+    class="btn btn-primary" 
+    (click)="showShareLinks()">
+    <span class="glyphicon glyphicon-link"></span>Share Links
+</button>
+
+<div id="share-links" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="integrations-label" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="share-links-label" style="display: inline">Share Links</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="shareKeys.length" style="margin: 6px;">
+                    Click a share link to copy the URL.
+                </p>
+                <div *ngFor="let key of shareKeys" class="col-10" style="padding-top: 20px; overflow: hidden;">
+                    <div (click)="copy(key.url, $event)">
+                        <input 
+                            class="form-control url-copyable" 
+                            type="text" 
+                            disabled 
+                            value="{{ key.url }}" 
+                            style="cursor: default; width: 60%; float: left; margin-right: 1.4%;">
+                    </div>
+                    <accounts-dropdown
+                        [accounts]="accounts" 
+                        [enabled]="key.enabled"
+                        [all]="key.enabled == null"
+                        [custom]="key.custom_games"
+                        (accountsSelected)="editKey(key.key, $event)"
+                        style="float: left; width: 25%;"
+                    ></accounts-dropdown>
+                    <button (click)="deleteKey(key.key)" 
+                        class="btn btn-danger" 
+                        type="button" 
+                        style="float: right; width: 15%;"
+                    >
+                        Delete
+                    </button>
+                </div>
+
+                <hr>
+                <div class="row" style="overflow: hidden;">
+                    <button *ngIf="defaultLinks < 6" 
+                        class="btn btn-success" 
+                        style="width: 29%; margin-left: 1%; margin-right: 2%; float: right;"
+                        (click)="createKey('default')">
+                        Create normal link
+                    </button>
+                    <button *ngIf="!hasBattletagLink" 
+                        class="btn btn-success" 
+                        style="width: 30%; margin-left: 1%; float: right;"
+                        (click)="createKey('battletag')">
+                        Create Battletag link
+                    </button>
+                    <button *ngIf="!hasTwitchLink && twitchAccount" 
+                        class="btn btn-success" 
+                        style="width: 35%; float: right;"
+                        (click)="createKey('twitch')">
+                        Create Twitch.tv account link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
