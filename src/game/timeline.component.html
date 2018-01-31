@@ -1,4 +1,8 @@
 <div #timelineBody class="col-md-12 game-timeline">
+
+    <div #twitchEmbed id="twitch-embed-{{ stage.index }}" [hidden]="!showVod">
+    </div>
+
     <div class="game-timeline-content col-xs-8" style="
             padding-left: 5px;
             padding-bottom: 15px;
@@ -48,9 +52,9 @@
     </div>
     <div class="col-md-4">
         <h2>Kill Feed</h2>
-        <div id="killfeed">
+        <div id="killfeed" class="killfeed-{{ stage.index }}">
             <table class="table table-striped text-center">
-                <tr *ngFor="let kill of stage.killfeed" class="timeline-event {{kill.id}}">
+                <tr *ngFor="let kill of stage.killfeed" class="timeline-event {{kill.id}}" [class.current]="highlightKill(kill, killfeedTime)">
                     <td class="num">{{time(kill)}}</td>
                     <td>
                         <img *ngIf="kill.leftHero" class="heroicon" src="assets/images/heroes/{{kill.leftHero}}.png"/>

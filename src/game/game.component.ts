@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/switchMap';
@@ -56,9 +56,12 @@ export class GameComponent implements OnInit {
     game: Game;
     hideTimelineKey: boolean;
     user: User;
+    currentTab: Stage;
+    showVod = false;
 
     constructor(
         public gameService: GameService, 
+        public router: Router,
         public route: ActivatedRoute, 
         public loginService: UserLoginService,
         @Inject(DOCUMENT) public document: any
@@ -67,19 +70,44 @@ export class GameComponent implements OnInit {
     ngOnInit(): void {
         this.hideTimelineKey = true;
         this.route.params
-            .switchMap((params: Params) =>
-                       this.gameService.getGame(params['user'] + '/' + params['game']))
+            .switchMap((params: Params) => {
+                return this.gameService.getGame(params['user'] + '/' + params['game']);
+            })
             .subscribe(
                 res => {
                     this.game = this.gameService.toGame(res);
+                    this.currentTab = this.game.stages[0];
                 },
                 err => {
                     console.error(err);
                 }
             );
+        let loaded = false;
+        this.route.queryParams.subscribe(params => {
+            if (!loaded){
+                loaded = true;
+                if (params.hasOwnProperty('vod') && params.vod == 'true'){
+                    this.showVod = true;
+
+                }
+            }
+        });
         this.loginService.getUser().subscribe(user => {
             this.user = user;
         })
+    }
+
+    toggleVOD() {
+        this.showVod = !this.showVod;
+        if (this.showVod){
+            this.router.navigate(['.'], { relativeTo: this.route, queryParams: { 'vod': 'true'  }});
+        } else {
+            this.router.navigate(['.'], { relativeTo: this.route, queryParams: {  }});
+        }
+    }
+
+    changeTab(stage: Stage){
+        this.currentTab = stage;
     }
     
     toggleTimelineKey() {

@@ -624,7 +624,7 @@ export class Stage {
 
     progress: number;
     formatProgress: string;
-    events: any; // FIXME
+    events: Array<GameEvent>;
 }
 
 export interface ObjectiveInfo {

@@ -29,7 +29,7 @@
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <li><b>Stages:</b></li>
-                    <li class="{{f ? 'active' : ''}}"*ngFor="let stage of game.stages; let f = first;"><a href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
+                    <li class="{{f ? 'active' : ''}}"*ngFor="let stage of game.stages; let f = first;"><a (click)="changeTab(stage)" href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
                     <li class="divider"> <!-- TODO: make this work --> </li>
                 </ul>
             </div>
@@ -37,7 +37,10 @@
                 <button *ngIf="user?.id == game.userID || user?.superuser" style="top: -42px; left: -5px; position: relative; height: 37px; padding-top: 7px;" class="btn btn-primary" data-toggle="modal" data-target="#edit">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp; Edit
                 </button>
-                <a *ngIf="game.twitch" href="{{ game.twitch }}" style="top: -42px; left: -5px; position: relative; height: 37px; padding-top: 7px;     background-image: linear-gradient(#6441A5, #6441A5, 60%, #392E5C);" class="btn btn-primary">
+                <button *ngIf="game.twitch" style="top: -42px; left: -5px; position: relative; height: 37px; padding-top: 7px;" class="btn btn-primary" (click)="toggleVOD()" [class.active]="showVod">
+                    <span class="glyphicon glyphicon-play"></span>&nbsp; Show Interactive Video
+                </button>
+                <a *ngIf="game.twitch" href="{{ game.twitch }}" style="top: -42px; left: -5px; position: relative; height: 37px; padding-top: 7px; background-image: linear-gradient(#6441A5, #6441A5, 60%, #392E5C);" class="btn btn-primary">
                     <span><img src="assets/images/badges/Glitch_White_RGB.png"></span>&nbsp; Watch on Twitch
                 </a>
             </div>
@@ -45,7 +48,7 @@
             <div class="panel-body">
                 <div class="tab-content">
                     <timeline *ngFor="let stage of game.stages; let f = first;" class="tab-pane {{f ? 'active' : ''}}" id="{{ stageHref(stage) }}"
-                        [stage]="stage">
+                        [stage]="stage" [active]="stage == currentTab" [showVod]="showVod" [twitchURL]="game.twitch">
                     </timeline>
                     <div style="clear:both;"></div>
                     <div class="panel panel-default">

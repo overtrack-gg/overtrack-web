@@ -3,6 +3,11 @@ body {
     padding-top: 50px;
 }
 
+.btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+ }
+
 .popover {
     max-width: 750px !important;
 }
@@ -450,6 +455,14 @@ a.navbar-brand > img {
     display: block;
     padding: 0px;
 } */
+
+.timeline-event.current {
+    background-color: #666 !important;
+}
+
+#killfeed .current img.killicon {
+    mix-blend-mode: exclusion;
+}
 
 #killfeed td {
     padding: 2px;
