@@ -184,7 +184,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
                 let killfeed = D3.select('.killfeed-' + this.stage.index);
                 (killfeed.node() as any).scrollTop = 31 * (scrollTo - 2);
             }
-        }, 1000);
+        }, 500);
     }
 
     keydown(e: KeyboardEvent){
@@ -232,7 +232,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
     }
 
     seek(time: number){
-        if (this.twitchPlayer && this.twitchLoaded){
+        if (this.twitchPlayer && this.twitchLoaded && this.showVod){
             let x = time / this.stage.duration;
 
             let start = this.twitchVideoStart + this.stage.start / 1000;
@@ -502,9 +502,18 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
             svg.selectAll("svg .timeline-event")
                 .on("click", e => {
                     if (this.active){
-                        this.scrollKillfeed(e as KillFeedEntry);
                         let x = D3.event.layerX / (lineArea.node() as any).clientWidth;
                         this.seek(x * this.stage.duration);
+
+                        let scrollTo = 0;
+                        for (let k of this.stage.killfeed){
+                            if ((e as KillFeedEntry).id == k.id){
+                                break;
+                            }
+                            scrollTo += 1;
+                        }
+                        let killfeed = D3.select('.killfeed-' + this.stage.index);
+                        (killfeed.node() as any).scrollTop = 31 * (scrollTo - 2);
                     }
                 });
 
@@ -531,18 +540,6 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
         }, 0);
     }
 
-    scrollKillfeed(data: KillFeedEntry) { 
-        let killfeed = D3.select('.killfeed-' + this.stage.index);
-        let target = killfeed.select('.' + data.id);
-        if (target.node()){
-            let toffset = (target.node() as any).getBoundingClientRect().top - 431;
-            console.log(toffset,  (killfeed.node() as any).scrollTop);
-            if (toffset < 0 || toffset > 475) {        
-                (killfeed.node() as any).scrollTop += toffset - 100;
-            }
-        }
-    }
-     
     mouseOverTimelineEvent() {
         //Find the id of the event by searching through the classes of the current element
         let classes: Array<String> = D3.select(this as any).attr('class').split(" ");
@@ -676,6 +673,6 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
 
     highlightKill(kill: KillFeedEntry, time: number){
         let timeSinceKill = time - kill.time;
-        return (0 < timeSinceKill && timeSinceKill < this.highlightKillWindow);
+        return (-1 * 1000 < timeSinceKill && timeSinceKill < this.highlightKillWindow);
     }
 }
