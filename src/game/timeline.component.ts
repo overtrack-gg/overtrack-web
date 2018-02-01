@@ -503,7 +503,8 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
                 .on("click", e => {
                     if (this.active){
                         this.scrollKillfeed(e as KillFeedEntry);
-                        this.seek((e as KillFeedEntry).time);
+                        let x = D3.event.layerX / (lineArea.node() as any).clientWidth;
+                        this.seek(x * this.stage.duration);
                     }
                 });
 
