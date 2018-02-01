@@ -100,9 +100,9 @@ export class GameComponent implements OnInit {
     toggleVOD() {
         this.showVod = !this.showVod;
         if (this.showVod){
-            this.router.navigate(['.'], { relativeTo: this.route, queryParams: { 'vod': 'true'  }});
+            this.router.navigate(['.'], { relativeTo: this.route, replaceUrl: true, queryParams: { 'vod': 'true' }});
         } else {
-            this.router.navigate(['.'], { relativeTo: this.route, queryParams: {  }});
+            this.router.navigate(['.'], { relativeTo: this.route, replaceUrl: true, queryParams: {  }});
         }
     }
 
