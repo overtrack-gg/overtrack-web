@@ -288,8 +288,9 @@ export class IntegrationsComponent implements OnInit{
         let url: string = $('#url').val();
         let prefix1 = 'https://discordapp.com/api/webhooks/';
         let prefix2 = 'https://canary.discordapp.com/api/webhooks/';
+        let prefix3 = 'https://ptb.discordapp.com/api/webhooks/';
 
-        if (url.startsWith(prefix1) || url.startsWith(prefix2)){
+        if (url.startsWith(prefix1) || url.startsWith(prefix2) || url.startsWith(prefix3)){
             $('#url').css('background-color', 'white');
             let headers = new Headers({ 'Content-Type': 'application/json' });
             let options = new RequestOptions({ headers: headers, withCredentials: true });
