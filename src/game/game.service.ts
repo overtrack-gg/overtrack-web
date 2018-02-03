@@ -57,7 +57,8 @@ export class GameService {
                     hero = tabPress.hero;
                 } else {
                     let kill = <KillFeedEntry> event;
-                    if (kill.leftPlayer === player.name) {
+                    let leftColor = kill.isLeftRed ? 'red': 'blue';
+                    if (kill.leftPlayer === player.name && leftColor == teamColour) {
                         if (kill.isRes){
                             // we don't display anything on the Mercy's timeline, but this can be used to check their player
                             hero = kill.leftHero;
@@ -94,7 +95,7 @@ export class GameService {
                             }
                         }
                     }
-                    if (kill.rightPlayer === player.name) {
+                    if (kill.rightPlayer === player.name && ((!kill.isRes && leftColor != teamColour) || (kill.isRes && leftColor == teamColour))) {
                         if (kill.isRes){
                             hero = kill.rightHero;
 
