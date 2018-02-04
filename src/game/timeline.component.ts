@@ -127,7 +127,9 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
 
                     if (Math.abs(now - t) < 10){
                         this.twitchLoaded = true;
-                        this.twitchPlayer.setMuted(initialMute);
+                        window.setTimeout(e => {
+                            this.twitchPlayer.setMuted(initialMute);
+                        }, 500);
                         console.log('Twitch loaded');
                     } else {
                         window.setTimeout(e => {
