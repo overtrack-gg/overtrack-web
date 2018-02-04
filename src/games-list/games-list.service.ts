@@ -46,7 +46,8 @@ export class GamesListService {
                 list.push({
                     player: playerName,
                     user_id: game.user_id,
-                    list: gamelist
+                    list: gamelist,
+                    customGames: game.custom_game
                 });
             }
 
@@ -217,6 +218,7 @@ export class PlayerGameList {
     player: string;
     user_id: number;
     list: Array<Game>;
+    customGames: boolean;
 }
 
 // // TODO: Move out into own files

@@ -92,9 +92,9 @@
                         <table class="table table-striped text-center">
                             <tr style="width:100%">
                                 <th>Game Time</th>
-                                <th colspan="2">Win/Loss/Tie</th>
+                                <th colspan="2">Win/Loss/Draw</th>
                                 <th>Score</th>
-                                <th>Skill Rating</th>
+                                <th *ngIf="!games.customGames">Skill Rating</th>
                                 <th>Length</th>
                                 <th>Map</th>
                                 <th>Heroes</th>
@@ -124,14 +124,14 @@
                                 <td class="gn">{{formatTime(game.startTime)}} {{ formatDay(game.startTime) }}<br>
                                     {{formatDate(game.startTime)}}
                                 </td>
-                                <td *ngIf="!game.error" class="{{wltClass(game)}} text-right num">
+                                <td *ngIf="!game.error && !game.customGame" class="{{wltClass(game)}} text-right num">
                                     <b>{{ srChange( game) }}</b>
                                 </td>
+                                <td *ngIf="!game.error && game.customGame"></td>
                                 <td *ngIf="!game.error" class="{{wltClass(game)}} text-left" >{{ game.result }}</td>
                                 <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span><span class="unit">{{ unit(game) }}</span>/<span class="num">{{ game.redScore }}</span><span class="unit">{{ unit(game) }}</span></td>
-                                <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR)" class="num sr"><img src="assets/images/icons/{{ rank(game.endSR) }}.png"/><span>{{ formatSR(game) }}</span></td>
-                                
+                                <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !game.customGame" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !game.customGame" class="num sr"><img src="assets/images/icons/{{ rank(game.endSR) }}.png"/><span>{{ formatSR(game) }}</span></td>
                                 <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
                                 <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{ game.map }}</i></td>
                                 <td *ngIf="!game.error" class="hero" style="position: relative">
