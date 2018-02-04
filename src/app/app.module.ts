@@ -120,7 +120,7 @@ const appRoutes: Routes = [
 		
 		{ path: 'game/:user/:game',  component: GameComponent },
 
-		{ path: 'authenticate_client', component: AuthenticateClientComponent, canActivate: [LoggedIn] },
+		{ path: 'authenticate_client', component: AuthenticateClientComponent },
 		{ path: 'subscribe', component: SubscribeComponent, canActivate: [LoggedIn]  },
 
 		{ path: 'register', component: RegisterComponent },
