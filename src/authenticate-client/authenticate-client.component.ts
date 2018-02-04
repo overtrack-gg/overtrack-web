@@ -47,16 +47,6 @@ export class AuthenticateClientComponent implements OnInit  {
             }
         });
 
-        this.userLoginService.isLoggedIn().subscribe(isLoggedIn => {
-            this.loggedIn = isLoggedIn;
-            if (isLoggedIn){
-               this.authenticateClientService.fetchToken(() => {
-                    this.token = this.authenticateClientService.getToken();
-                });
-            }
-        });
-
-
     }
 
     authenticate(): void {
