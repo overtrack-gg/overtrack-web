@@ -21,6 +21,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
     @Input() twitchURL: string;
 
     private twitchVideoStart: number;
+    private twitchVideoOffset = 6;
     
     @ViewChild('timelineBody') element: ElementRef;
     @ViewChild('twitchEmbed') twitchEmebed: ElementRef;
@@ -72,7 +73,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
     
     createTwitchPlayer() {
         let twitchVideo = this.twitchURL.split('videos/')[1].split('?')[0];
-        this.twitchVideoStart = Number(this.twitchURL.split('=')[1].split('s')[0]);
+        this.twitchVideoStart = Number(this.twitchURL.split('=')[1].split('s')[0]) + this.twitchVideoOffset;
         this.twitchPlayer = new Twitch.Player(this.twitchEmebed.nativeElement.id, {
             width: '100%',
             height: 480,

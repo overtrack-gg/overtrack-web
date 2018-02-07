@@ -412,7 +412,7 @@ export class GameService {
                 index: index++,
                 start: stage.start,
                 killfeed: this.filterKillfeed(stage, killfeed),
-                end: stage.end,
+                end: stage.end + 10 * 1000,
                 duration: stage.end - stage.start,
                 players: players,
                 objectiveInfo: objectiveInfo,
