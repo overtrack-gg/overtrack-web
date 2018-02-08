@@ -484,6 +484,13 @@ export class GameService {
         } else {
             teams = null;
         }
+
+        let gameType = 'competitive';
+        if (body.custom_game){
+            gameType = 'custom';
+        } else if (body.game_type){
+            gameType = body.game_type;
+        }
         
         return {
             num: null,
@@ -497,6 +504,7 @@ export class GameService {
             userID: body.user_id,
             map: body.map,
             mapType: body.map_type,
+            gameType: gameType,
             blueScore: body.score ? body.score[0] : null,
             redScore: body.score ? body.score[1] : null,
             result: body.result === 'UNKNOWN' ? 'UNKN' : body.result,
@@ -542,6 +550,7 @@ export class Game {
     userID: number;
     map: string;
     mapType: string;
+    gameType: string;
     result: 'UNKN' | 'WIN' | 'DRAW' | 'LOSS' | 'ERROR';
     startTime: Date;
     redScore: number;

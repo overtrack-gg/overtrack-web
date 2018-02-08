@@ -489,6 +489,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers, withCredentials: true });
+        $('#batch-edit').find('button').attr('disabled', true);
         this.http.post(
             this.batchEditURL, 
             {
@@ -500,6 +501,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         ).subscribe(
             succ => {
                 $('#batch-edit').modal('hide');
+                $('#batch-edit').find('button').attr('disabled', false);
                 this.document.location.reload();
             },
             err => {

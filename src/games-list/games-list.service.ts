@@ -37,6 +37,8 @@ export class GamesListService {
             let playerName = game.player_name;
             if (game.custom_game || playerName.indexOf('(Custom Games)') != -1){
                 playerName = 'Custom Games';
+            } else if (game.game_type == 'ctf'){
+                playerName = playerName + ' (CTF)';
             }
             
             if (map[playerName]) {
@@ -92,6 +94,7 @@ export class GamesListService {
                     customGame: game.custom_game,
                     season: this.getSeason(game.time),
                     viewable: game.viewable,
+                    gameType: game.game_type,
 
                     userID: game.user_id,
                     mapType: null,
@@ -131,6 +134,7 @@ export class GamesListService {
                     customGame: false,
                     season: this.getSeason(game.time),
                     viewable: true,
+                    gameType: null,
 
                     userID: game.user_id,
                     mapType: null,
