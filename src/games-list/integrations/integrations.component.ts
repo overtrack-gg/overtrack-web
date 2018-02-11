@@ -46,20 +46,22 @@ export class AccountsDropdownComponent implements OnInit{
 
     private allPreviouslySelected: boolean;
     private lastNotified: number[];
+    private accounts_: Array<string> = [];
 
     ngOnInit(): void {
         this.options.push({
             id: 1,
             name: 'All Accounts'
         });
-        for (let i in this.accounts){
+        this.accounts_ = this.accounts.filter(e => e.indexOf(' (CTF)') == -1);
+        for (let i in this.accounts_){
             this.options.push({
                 id: Number(i) + 2,
-                name: this.accounts[i]
+                name: this.accounts_[i]
             });
         }
         this.options.push({
-            id: this.accounts.length + 2,
+            id: this.accounts_.length + 2,
             name: 'Custom Games'
         });
 
@@ -78,7 +80,7 @@ export class AccountsDropdownComponent implements OnInit{
             }
         }
         if (this.custom){
-            this.selected.push(this.accounts.length + 2);
+            this.selected.push(this.accounts_.length + 2);
         }
         this.lastNotified = this.selected.slice();
     }
@@ -86,7 +88,7 @@ export class AccountsDropdownComponent implements OnInit{
     onChange(event) {
         let allSelected = this.selected.indexOf(1) != -1;
         let specificAccountSelected = this.selected.reduce((p, c) => {
-            return p || (c != 1 && c != this.accounts.length + 2)
+            return p || (c != 1 && c != this.accounts_.length + 2)
         }, false);
         if (allSelected && specificAccountSelected){
             if (this.allPreviouslySelected){
@@ -98,7 +100,7 @@ export class AccountsDropdownComponent implements OnInit{
                 // all was not already selected, so the new select is 'All Accounts'
                 this.allPreviouslySelected = true
                 // Unselect specific accounts
-                this.selected = this.selected.filter(s => s == 1 || s == this.accounts.length + 2);
+                this.selected = this.selected.filter(s => s == 1 || s == this.accounts_.length + 2);
             }
         }
     }
