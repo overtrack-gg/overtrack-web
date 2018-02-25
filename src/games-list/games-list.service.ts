@@ -39,6 +39,7 @@ export class GamesListService {
                 playerName = 'Custom Games';
             } else if (game.game_type == 'ctf'){
                 playerName = playerName + ' (CTF)';
+                continue;
             }
             
             if (map[playerName]) {
