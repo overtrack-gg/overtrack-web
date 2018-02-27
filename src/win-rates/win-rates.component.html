@@ -14,24 +14,33 @@
                     <li [class.hidden]="!(gamesLists && gamesLists.length > 1)" ><b>Accounts:</b></li>
                     <li [class.hidden]="!(gamesLists && gamesLists.length > 1)"
 						*ngFor="let games of gamesLists; let f = first;" [class.active]="f">
-						<a (click)="calcWinrates(games.list)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a>
+						<a (click)="selectPlayer(games)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a>
 					</li>
                 </ul>
             </div>
             <div class="tab-graph tab-pane active winrate-area" *ngIf="mapList">
-				<div class="center">
-					<button class="multi-choice" *ngFor="let singleMap of mapList;"
-						(click)="switchMap(singleMap)"
-						[class.active]="singleMap === activeMap">
-						{{singleMap}}
-					</button>
-				</div>
-				<div class="center" *ngIf="mapList2" style="margin-top: -1px;">
-					<button class="multi-choice" *ngFor="let singleMap of mapList2;"
-						(click)="switchMap(singleMap)"
-						[class.active]="singleMap === activeMap">
-						{{singleMap}}
-					</button>
+				<div class="row" style="padding-bottom: 20px;">
+					<ss-multiselect-dropdown 
+						class="col-lg-1"
+						style="padding-right: 20px;" 
+						[options]="seasonSelectDropdown" [settings]="settings" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)">
+					</ss-multiselect-dropdown>
+					<div class="col-lg-11">
+						<div class="center">
+							<button class="multi-choice" *ngFor="let singleMap of mapList;"
+								(click)="switchMap(singleMap)"
+								[class.active]="singleMap === activeMap">
+								{{singleMap}}
+							</button>
+						</div>
+						<div class="center" *ngIf="mapList2" style="margin-top: -1px;">
+							<button class="multi-choice" *ngFor="let singleMap of mapList2;"
+								(click)="switchMap(singleMap)"
+								[class.active]="singleMap === activeMap">
+								{{singleMap}}
+							</button>
+						</div>
+					</div>
 				</div>
 				
 				<h2 class="center">{{activeMap | uppercase}}</h2>

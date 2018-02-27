@@ -4,7 +4,7 @@
 -->
 <div class="jumbotron overview view banner eichenwalde" style="padding-bottom: 10px;">
     <div class="container">                      
-        <div class="pull-right col-md-5">
+        <div class="pull-right col-md-5" style="{{ player == 'Custom Games' ? 'display: none;' : '' }}">
                <div id="sr-graph"
                     name="sr-graph"
                     style="width: 100%; height: 175px; border-radius: 3px; overflow: hidden; background: rgba(26, 26, 36, 0.8);">
@@ -12,7 +12,7 @@
         </div>
         <h1>Games</h1>
         <h2 *ngIf="player" style="padding-left: 15px;"> {{ player }} </h2>
-        <p *ngIf="player" class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
+        <p *ngIf="player && player != 'Custom Games'" class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
     </div>
 </div>
 
@@ -26,7 +26,7 @@
                     style=" position: absolute;
                             left: 130px;
                             top: 15px;" 
-                    [options]="seasonSelectDropdown" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)"></ss-multiselect-dropdown>
+                    [options]="seasonSelectDropdown" [settings]="settings" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)"></ss-multiselect-dropdown>
             </div>
             <div *ngIf="isOwnGames" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
                 <share-links [accounts]="accountNames" class="pull-right"></share-links>

@@ -4,7 +4,7 @@ import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import * as D3 from 'd3';
 import { DOCUMENT } from '@angular/platform-browser';
 
-import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
+import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 
 import { GamesListService, PlayerGameList } from './games-list.service';
 import { Game } from '../game/game.service';
@@ -38,6 +38,10 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     public visibleSeasons: string[];
     public seasonSelectDropdown: IMultiSelectOption[];
+    settings: IMultiSelectSettings = {
+		minSelectionLimit: 1,
+//		dynamicTitleMaxItems: 2
+    };
 
     private batchEditURL = 'https://api.overtrack.gg/batch_edit';
     
@@ -184,6 +188,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 games = this.visibleGames(playerGames.list);
             }
         }
+
         games = games.slice();
         games.reverse();
         if (games.length > 40){

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
+import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
+
 import { GamesListService, PlayerGameList, GamesListHero } from '../games-list/games-list.service';
 import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
 import { Game } from '../game/game.service';
@@ -20,6 +22,15 @@ const LOW_FREQUENCY_HERO_PERCENTAGE = 20;
 	
 
 export class WinRatesComponent implements OnInit {
+	public visibleSeasons: string[];
+	public seasonSelectDropdown: IMultiSelectOption[];
+	settings: IMultiSelectSettings = {
+		minSelectionLimit: 1,
+		dynamicTitleMaxItems: 1
+    };
+	
+	currentPlayer: PlayerGameList;
+
     gamesLists: Array<PlayerGameList>;
 	mapStats: Map<string, MapStats>; //mapping of map to (hero to winrate)
 	mapList: Array<string>;
@@ -47,6 +58,33 @@ export class WinRatesComponent implements OnInit {
             }
         );
 		this.normalise = localStorage.getItem('normalise') == 'true';
+	}
+
+	updateSeasonDropdown() {
+		let seasons: Array<string> = [];
+        for (let gl of this.gamesLists){
+            if (gl.player == this.currentPlayer.player){
+                for (let g of gl.list){
+                    let season = g.season;
+                    if (seasons.indexOf(season) == -1){
+                        seasons.push(season);
+                    }
+                }
+            }
+        }
+        this.seasonSelectDropdown = [];
+        for (let season of seasons){
+            this.seasonSelectDropdown.push({
+                id: season,
+                name: season
+            })
+            // this.visibleSeasons.push(season);
+        }
+        this.visibleSeasons = [ seasons[0] ];
+	}
+	
+    changeSeasonSelection(event) {
+        this.calcWinrates();
     }
 
 	fetchSharedGames(share_key: string){
@@ -54,7 +92,7 @@ export class WinRatesComponent implements OnInit {
             res => {
                 this.gamesLists = res;
 				if (this.gamesLists.length){
-                 	this.calcWinrates(this.gamesLists[0].list);
+					this.selectPlayer(this.gamesLists[0]);
 	 			}
             },
             err => {
@@ -68,7 +106,7 @@ export class WinRatesComponent implements OnInit {
             res => {
                 this.gamesLists = res;
 				if (this.gamesLists.length){
-                 	this.calcWinrates(this.gamesLists[0].list);
+					this.selectPlayer(this.gamesLists[0]);
 	 			}
             },
             err => {
@@ -100,11 +138,21 @@ export class WinRatesComponent implements OnInit {
 		}
 	}
 	
-    calcWinrates(games: Array<Game>): void {
+    selectPlayer(player: PlayerGameList): void {
+		this.currentPlayer = player;
+		this.updateSeasonDropdown();
+		this.calcWinrates();
+	}
+
+	calcWinrates() {
 		this.activeMap = ALL_MAPS_NAME;
 		let maps: Map<string, MapStats> = new Map<string, MapStats>();
 		maps.set(ALL_MAPS_NAME, new MapStats());
-        for (let game of games){
+        for (let game of this.currentPlayer.list){
+			if (this.visibleSeasons.indexOf(game.season) == -1){
+				continue;
+			}
+
 			if (game.result == "UNKN"){
 				continue;
 			}
