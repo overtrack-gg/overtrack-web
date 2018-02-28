@@ -102,6 +102,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
             })
             // this.visibleSeasons.push(season);
         }
+        console.log('Setting season to', seasons[0]);
         this.visibleSeasons = [ seasons[0] ];
     }
 
