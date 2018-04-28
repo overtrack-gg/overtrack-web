@@ -216,8 +216,12 @@ export class GamesListService {
             return 'Season 8';
         } else if (time < 1519862400){
             return 'Season 8-9 Off Season';
-        } else {
+        } else if (time < 1524875400){
             return 'Season 9';
+        } else if (time < 1525132800){
+            return 'Season 9-10 Off Season';
+        } else {
+            return 'Season 10';
         }
     }
 
