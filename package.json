@@ -21,7 +21,7 @@
     "@angular/platform-browser": "^5.2.6",
     "@angular/platform-browser-dynamic": "^5.2.6",
     "@angular/router": "^5.2.6",
-    "angular-2-dropdown-multiselect": "^1.5.4",
+    "angular-2-dropdown-multiselect": "1.6.3",
     "core-js": "^2.4.1",
     "d3": "~4.13.0",
     "raven-js": "^3.17.0",
