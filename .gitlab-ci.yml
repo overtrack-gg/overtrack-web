@@ -1,4 +1,4 @@
-image: node:7.5
+image: node:9
 pages:
   stage: deploy
   script:
