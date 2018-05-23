@@ -575,6 +575,9 @@ a.navbar-brand > img {
 }
 
 .map.eichenwalde {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/rialto.jpg');
+}
+.map.eichenwalde {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde.jpg');
 }
 .map.watchpoint-gibraltar {
@@ -626,6 +629,11 @@ a.navbar-brand > img {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/blizzard-world.jpg');
 }
 
+.banner.rialto {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/rialto-banner.jpg');
+    background-position: center;
+    background-size: cover;
+}
 .banner.nepal {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal-banner.jpg');
     background-position: center;
