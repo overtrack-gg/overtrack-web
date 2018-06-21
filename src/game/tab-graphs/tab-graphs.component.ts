@@ -30,7 +30,8 @@ export let heroStatNames = {
 	'symmetra': ['sentry turret kills', 'players teleported', 'kill streak - best', 'teleporter uptime', 'damage blocked'],
 	'zenyatta': ['weapon accuracy', 'defensive assists', 'kill streak - best', 'transcendence healing', 'offensive assists'],
     'doomfist': ['weapon accuracy', 'ability damage done', 'kill streak - best', 'meteor strike kills', 'final blows', 'shields created'],
-    'moira': ['secondary fire accuracy', 'coalescence kills', 'kill streak - best', 'coalescence healing', 'defensive assists']
+    'moira': ['secondary fire accuracy', 'coalescence kills', 'kill streak - best', 'coalescence healing', 'defensive assists'],
+    'brigitte': ['offensive assists', 'armor provided', 'defensive assists', null, 'damage blocked']
 }
 
 export let heroGraphedStats = [
