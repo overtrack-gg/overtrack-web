@@ -320,6 +320,7 @@ export class GameService {
 
             this.addAssists(players[0], body.assists, stage);
             this.addKillfeedAssists(players, stage, killfeed);
+            console.log('players:', players);
 
             let objectiveInfo: ObjectiveInfo;
             if (body.map_type === 'KOTH' || body.map_type == 'Control') {
@@ -491,6 +492,50 @@ export class GameService {
         } else if (body.game_type){
             gameType = body.game_type;
         }
+
+        let heroPlayed: HeroPlayed = null;
+        if (body.hero_played){
+            heroPlayed = {
+                timePlayed: [],
+                swaps: []
+            }
+            console.log(body.hero_played.time_played);
+            for (let hero of Object.keys(body.hero_played.time_played)){
+                console.log(hero);
+                heroPlayed.timePlayed.push({
+                    hero: hero,
+                    duration: body.hero_played.time_played[hero]
+                });
+            }
+            for (let swap of body.hero_played.swaps){
+                heroPlayed.swaps.push({
+                    hero: swap[1],
+                    timestamp: swap[0]
+                });
+            }
+            console.log('heroPlayed: ', heroPlayed);
+        }
+
+        let endGameStatistics: EndGameStatistics = null;
+        if (body.endgame_statistics){
+            endGameStatistics = {
+                heroes: []
+            }
+            for (let hero of Object.keys(body.endgame_statistics)){
+                let heroStats: Map<string, number> = new Map();
+                for (let stat of body.endgame_statistics[hero]){
+                    heroStats.set(stat[0], stat[1]);
+                }
+                endGameStatistics.heroes.push({
+                    hero: hero,
+                    statistics: heroStats
+                });
+            }
+            if (endGameStatistics.heroes.length == 0){
+                endGameStatistics = null;
+            }
+            console.log('endGameStatistics: ', endGameStatistics);
+        }
         
         return {
             num: null,
@@ -518,6 +563,8 @@ export class GameService {
             duration: body.game_duration,
             tabStatistics: body.tab_statistics,
             heroStatistics: heroStatistics,
+            endGameStatistics: endGameStatistics,
+            heroPlayed: heroPlayed,
 
             startSR: body.start_sr,
             startSREditable: true,
@@ -564,6 +611,9 @@ export class Game {
     duration: number;
     tabStatistics: any;
     heroStatistics: Array<HeroStatistics>;
+    heroPlayed: HeroPlayed;
+    endGameStatistics: EndGameStatistics;
+
     startSR: number;
     startSREditable: boolean;
     endSR: number;
@@ -683,4 +733,23 @@ export class GameEvent {
     otherHero?: string;
     other?: string;
     duration?: number;
+}
+
+export class HeroPlayed {
+    timePlayed: Array<{
+        hero: string;
+        duration: number;
+    }>;
+
+    swaps: Array<{
+        hero: string;
+        timestamp: number;
+    }>;
+}
+
+export class EndGameStatistics {
+    heroes: Array<{
+        hero: string,
+        statistics: Map<string, number>
+    }>;
 }

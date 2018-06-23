@@ -96,11 +96,13 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="game.tabStatistics">
+    <div class="row" *ngIf="game.tabStatistics || (game.endGameStatistics && game.heroPlayed)">
         <div class="col-md-6">
             <h2>Statistics</h2>
             <tab-stats
-                [heroStatistics]="game.heroStatistics">
+                [heroStatistics]="game.heroStatistics"
+                [endgameStatistics]="game.endGameStatistics"
+                [heroPlayed]="game.heroPlayed">
             </tab-stats>
         </div>
         <div class="col-md-6">
@@ -140,7 +142,7 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="game.tabStatistics">
+    <div class="row" *ngIf="game.tabStatistics && game.tabStatistics.hero && game.tabStatistics.hero.length > 4">
          <div class="col-md-12">
             <h2>Graphs</h2>
             <tab-graphs

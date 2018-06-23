@@ -112,6 +112,8 @@ export class GamesListService {
                     rankEditable: false,
                     groupSize: null,
                     twitch: null,
+                    endGameStatistics: null,
+                    heroPlayed: null,
 
                     deleted: false
                 });
@@ -136,6 +138,8 @@ export class GamesListService {
                     season: this.getSeason(game.time),
                     viewable: true,
                     gameType: null,
+                    endGameStatistics: null,
+                    heroPlayed: null,
 
                     userID: game.user_id,
                     mapType: null,
