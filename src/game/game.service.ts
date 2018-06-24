@@ -19,8 +19,8 @@ export class GameService {
     }
 
 
-    addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string, tab?: any) {
-        let isPlayer = !!tab;
+    addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string, tab?: any, heroPlayed?: HeroPlayed) {
+        let isPlayer = !!tab || !!heroPlayed;
         for (const player of team) {
             const heroes: Array<GameHero> = [];
             const events: Array<GameEvent> = [];
@@ -33,7 +33,7 @@ export class GameService {
             }
             let killfeedAndTab: Array<KillFeedEntry | TabPress> = [];
             killfeedAndTab = killfeedAndTab.concat(killfeed);
-            if (isPlayer){
+            if (isPlayer && tab){
                 for (let i in tab.time){
                     killfeedAndTab.push({
                         time: tab.time[i],
@@ -41,8 +41,17 @@ export class GameService {
                     })
                 }
                 killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
-                isPlayer = false;
             }
+            if (isPlayer && heroPlayed){
+                for (let swap of heroPlayed.swaps){
+                    killfeedAndTab.push({
+                        time: swap.timestamp,
+                        hero: swap.hero
+                    });
+                }
+                killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
+            }
+            isPlayer = false;
 
             for (const event of killfeedAndTab) {
                 if (event.time > stage.end || event.time < stage.start) {
@@ -269,6 +278,29 @@ export class GameService {
         const body = res.json();
         console.log(body);
 
+        let heroPlayed: HeroPlayed = null;
+        if (body.hero_played){
+            heroPlayed = {
+                timePlayed: [],
+                swaps: []
+            }
+            console.log(body.hero_played.time_played);
+            for (let hero of Object.keys(body.hero_played.time_played)){
+                console.log(hero);
+                heroPlayed.timePlayed.push({
+                    hero: hero,
+                    duration: body.hero_played.time_played[hero]
+                });
+            }
+            for (let swap of body.hero_played.swaps){
+                heroPlayed.swaps.push({
+                    hero: swap[1],
+                    timestamp: swap[0]
+                });
+            }
+            console.log('heroPlayed: ', heroPlayed);
+        }
+
         let count = 1;
         const killfeed: Array<KillFeedEntry> = [];
         for (const kill of body.killfeed) {
@@ -315,7 +347,7 @@ export class GameService {
         let ult_index = 0;
         for (const stage of objective_stages){
             const players: Array<Player> = [];
-            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue', body.tab_statistics);
+            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue', body.tab_statistics, heroPlayed);
             this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red');
 
             this.addAssists(players[0], body.assists, stage);
@@ -491,29 +523,6 @@ export class GameService {
             gameType = 'custom';
         } else if (body.game_type){
             gameType = body.game_type;
-        }
-
-        let heroPlayed: HeroPlayed = null;
-        if (body.hero_played){
-            heroPlayed = {
-                timePlayed: [],
-                swaps: []
-            }
-            console.log(body.hero_played.time_played);
-            for (let hero of Object.keys(body.hero_played.time_played)){
-                console.log(hero);
-                heroPlayed.timePlayed.push({
-                    hero: hero,
-                    duration: body.hero_played.time_played[hero]
-                });
-            }
-            for (let swap of body.hero_played.swaps){
-                heroPlayed.swaps.push({
-                    hero: swap[1],
-                    timestamp: swap[0]
-                });
-            }
-            console.log('heroPlayed: ', heroPlayed);
         }
 
         let endGameStatistics: EndGameStatistics = null;
