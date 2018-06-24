@@ -108,6 +108,15 @@ export class TabStatisticsComponent {
         } else if (this.heroStatistics){
             console.log('Using tab stats', this.heroStatistics);
             for (let stat of this.heroStatistics){
+                if (this.heroPlayed){
+                    for (let hero of this.heroPlayed.timePlayed){
+                        if (hero.hero == stat.heroName){
+                            console.log('Updating time played for', stat.heroName, 'from', stat.timePlayed, '(from tab) to', hero.duration, '(from hero played)')
+                            stat.timePlayed = hero.duration;
+                            break;
+                        }
+                    }
+                }
                 if (stat.timePlayed < 0.9 * 60 * 1000){
                     console.log('Ignoring %d seconds on %s', stat.timePlayed / 1000, stat.heroName);
                     continue;
