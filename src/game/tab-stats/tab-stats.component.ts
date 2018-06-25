@@ -191,7 +191,7 @@ export class TabStatisticsComponent {
                 // only do hero stats if this is not for all heroes
                 let thisHeroStatNames: Array<string> = heroStatNames[hero];
                 for (let stat of Array.from(matchingEndgameStats.statistics.keys())){
-                    let statName = stat.replace('Ö', 'O').toLowerCase();
+                    let statName = stat.replace('Ö', 'O').replace('-', ' - ').toLowerCase();
                     let i = thisHeroStatNames.indexOf(statName);
                     if (i != -1){
                         statNameLookup[stat] = 'heroStat' + (i+1);
