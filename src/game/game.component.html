@@ -29,7 +29,7 @@
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <li><b>Stages:</b></li>
-                    <li class="{{f ? 'active' : ''}}"*ngFor="let stage of game.stages; let f = first;"><a (click)="changeTab(stage)" href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
+                    <li class="{{f ? 'active' : ''}}" *ngFor="let stage of game.stages; let f = first;"><a (click)="changeTab(stage)" href="#{{ stageHref(stage) }}" data-toggle="tab">{{ stage.name }}</a></li>
                     <li class="divider"> <!-- TODO: make this work --> </li>
                 </ul>
             </div>
@@ -96,19 +96,43 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="game.tabStatistics || (game.endGameStatistics && game.heroPlayed)">
+    <div class="row">
         <div class="col-md-6">
-            <h2>Statistics</h2>
-            <tab-stats
+            <div class="h2">
+                Statistics
+                <a *ngIf="!game.endGameStatistics" data-toggle="popover" data-trigger="hover" title="Endgame Statistics Not Captured" data-html="true" data-content="
+                    OverTrack was not able to record endgame statistics.<br/>
+                    For best quality statistics, please stay in game until the endgame stats screens have displayed."
+                >
+                    <span class="glyphicon glyphicon-warning-sign" style="
+                        font-size: 25px;
+                        margin-left: 10px;
+                        color: orange;
+                    "></span>
+                </a>
+            </div>
+            <tab-stats *ngIf="game.tabStatistics || (game.endGameStatistics && game.heroPlayed)"
                 [heroStatistics]="game.heroStatistics"
                 [endgameStatistics]="game.endGameStatistics"
                 [heroPlayed]="game.heroPlayed">
             </tab-stats>
         </div>
         <div class="col-md-6">
-            <ng-container *ngIf="game.teams">
-                <h2>Teams</h2>
-                <div class="panel panel-default row">
+            <ng-container>
+                <div class="h2">
+                        Teams
+                        <a *ngIf="!game.teams" data-toggle="popover" data-trigger="hover" title="Player List Not Captured" data-html="true" data-content="
+                            OverTrack was not able to record the player list.<br/>
+                            For more accurate and complete data please ensure you are tabbed-in to Overwatch when the game starts or are using OBS capture mode."
+                        >
+                            <span class="glyphicon glyphicon-warning-sign" style="
+                                font-size: 25px;
+                                margin-left: 10px;
+                                color: orange;
+                            "></span>
+                        </a>
+                    </div>
+                <div *ngIf="game.teams" class="panel panel-default row">
                     <div class="col-md-6">
                         <table class="table team-table text-blue">
                             <tr>

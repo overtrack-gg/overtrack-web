@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, Input, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
@@ -52,7 +52,7 @@ export class MetaGameComponent  implements OnInit {
     templateUrl: './game.component.html',
     providers: [GameService]
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, AfterContentChecked {
     game: Game;
     hideTimelineKey: boolean;
     user: User;
@@ -95,6 +95,12 @@ export class GameComponent implements OnInit {
         this.loginService.getUser().subscribe(user => {
             this.user = user;
         })
+    }
+
+    ngAfterContentChecked(): void {
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover(); 
+        });
     }
 
     toggleVOD() {

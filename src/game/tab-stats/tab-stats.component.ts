@@ -71,7 +71,7 @@ export class TabStatisticsComponent {
     ngOnInit(): void {
         this.heroNames = [];
         this.statsByHero = new Map<string, HeroStatistics>();
-        if (this.endgameStatistics){
+        if (this.endgameStatistics && this.heroPlayed){
             // prefer using endgame stats
             console.log('Using endgame stats', this.endgameStatistics);
             for (let hero of this.heroPlayed.timePlayed){
