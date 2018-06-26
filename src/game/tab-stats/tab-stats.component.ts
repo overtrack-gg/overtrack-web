@@ -191,10 +191,15 @@ export class TabStatisticsComponent {
                 // only do hero stats if this is not for all heroes
                 let thisHeroStatNames: Array<string> = heroStatNames[hero];
                 for (let stat of Array.from(matchingEndgameStats.statistics.keys())){
-                    let statName = stat.replace('Ö', 'O').replace('-', ' - ').toLowerCase();
+                    if (statNameLookup[stat]){
+                        continue;
+                    }
+                    let statName = stat.replace('Ö', 'O').toLowerCase();
                     let i = thisHeroStatNames.indexOf(statName);
                     if (i != -1){
                         statNameLookup[stat] = 'heroStat' + (i+1);
+                    } else {
+                        console.error('Could not find mapping for stat', hero, '"' + statName + '"');
                     }
                 }
             }
@@ -214,7 +219,7 @@ export class TabStatisticsComponent {
                     return e;
                 }
             }
-            console.warn('Could not find stats in tab');
+            console.warn('Could not find', hero, 'stats in tab');
             return null;
         }
     }
