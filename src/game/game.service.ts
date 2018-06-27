@@ -282,15 +282,22 @@ export class GameService {
         if (body.hero_played){
             heroPlayed = {
                 timePlayed: [],
-                swaps: []
+                swaps: [],
+                duration: 0
             }
             console.log(body.hero_played.time_played);
+            let totalDuration = 0;
             for (let hero of Object.keys(body.hero_played.time_played)){
                 console.log(hero);
                 heroPlayed.timePlayed.push({
                     hero: hero,
-                    duration: body.hero_played.time_played[hero]
+                    duration: body.hero_played.time_played[hero],
+                    percent: 0
                 });
+                totalDuration += body.hero_played.time_played[hero];
+            }
+            for (let hero of heroPlayed.timePlayed){
+                hero.percent = hero.duration / totalDuration;
             }
             for (let swap of body.hero_played.swaps){
                 heroPlayed.swaps.push({
@@ -298,6 +305,7 @@ export class GameService {
                     timestamp: swap[0]
                 });
             }
+            heroPlayed.duration = totalDuration;
             console.log('heroPlayed: ', heroPlayed);
         }
 
@@ -477,7 +485,16 @@ export class GameService {
                 heroStat6: stat.hero_stat_6,
             });
         }
-        console.log(body.hero_statistics);
+        if (heroStatistics.length == 1 && heroStatistics[0].heroName == 'ALL'){
+            let mainPlayed = heroPlayed.timePlayed.sort((a, b) => a.duration - b.duration)[0];
+            if (mainPlayed.percent > 0.95){
+                console.warn(mainPlayed.hero, 'was played for', mainPlayed.percent * 100, '% of the game but only "ALL" was seen - setting ALL at', mainPlayed.hero);
+                let mainHeroStat: HeroStatistics = {...heroStatistics[0]};
+                mainHeroStat.heroName = mainPlayed.hero.split('_')[0];
+                heroStatistics.push(mainHeroStat);
+            }
+        }
+        console.log(heroStatistics);
 
         let validRanks = 0;
         let teams: Teams;
@@ -748,12 +765,15 @@ export class HeroPlayed {
     timePlayed: Array<{
         hero: string;
         duration: number;
+        percent: number;
     }>;
 
     swaps: Array<{
         hero: string;
         timestamp: number;
     }>;
+
+    duration: number;
 }
 
 export class EndGameStatistics {

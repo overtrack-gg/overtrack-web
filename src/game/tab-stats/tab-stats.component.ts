@@ -71,9 +71,12 @@ export class TabStatisticsComponent {
     ngOnInit(): void {
         this.heroNames = [];
         this.statsByHero = new Map<string, HeroStatistics>();
+        console.log('heroPlayed:', this.heroPlayed);
+        console.log('endgameStatistics:', this.endgameStatistics);
+        console.log('heroStatistics:', this.heroStatistics);
         if (this.endgameStatistics && this.heroPlayed){
             // prefer using endgame stats
-            console.log('Using endgame stats', this.endgameStatistics);
+            console.log('Using endgame stats', this.endgameStatistics, this.heroPlayed.timePlayed);
             for (let hero of this.heroPlayed.timePlayed){
                 console.log('>>>', hero);
                 if (hero.duration < 0.9 * 60 * 1000){
@@ -108,7 +111,10 @@ export class TabStatisticsComponent {
         } else if (this.heroStatistics){
             console.log('Using tab stats', this.heroStatistics);
             for (let stat of this.heroStatistics){
-                if (this.heroPlayed){
+                if (stat.heroName == 'ALL' && this.heroPlayed){
+                    stat.timePlayed = this.heroPlayed.duration;
+                    console.log('Updating time played for ALL from', stat.timePlayed, '(from tab) to', this.heroPlayed.duration, '(from hero played)')
+                } else if (this.heroPlayed){
                     for (let hero of this.heroPlayed.timePlayed){
                         if (hero.hero == stat.heroName){
                             console.log('Updating time played for', stat.heroName, 'from', stat.timePlayed, '(from tab) to', hero.duration, '(from hero played)')
