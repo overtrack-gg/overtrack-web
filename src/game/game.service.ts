@@ -465,37 +465,39 @@ export class GameService {
         }
 
         let heroStatistics: Array<HeroStatistics> = [];
-        for (let heroName of Object.keys(body.hero_statistics)){
-            let stat = body.hero_statistics[heroName];
-            heroStatistics.push({
-                heroName: heroName,
-                timePlayed: stat.time_played,
+        if (body.hero_statistics){
+            for (let heroName of Object.keys(body.hero_statistics)){
+                let stat = body.hero_statistics[heroName];
+                heroStatistics.push({
+                    heroName: heroName,
+                    timePlayed: stat.time_played,
 
-                elims: stat.elims,
-                damage: stat.damage,
-                objectiveKills: stat.objective_kills,
-                healing: stat.healing,
-                objectiveTime: stat.objective_time,
-                deaths: stat.deaths,
-                heroStat1: stat.hero_stat_1,
-                heroStat2: stat.hero_stat_2,
-                heroStat3: stat.hero_stat_3,
-                heroStat4: stat.hero_stat_4,
-                heroStat5: stat.hero_stat_5,
-                heroStat6: stat.hero_stat_6,
-            });
-        }
-        if (heroStatistics.length == 1 && heroStatistics[0].heroName == 'ALL'){
-            let mainPlayed = heroPlayed.timePlayed.sort((a, b) => a.duration - b.duration)[0];
-            if (mainPlayed.percent > 0.95){
-                console.warn(mainPlayed.hero, 'was played for', mainPlayed.percent * 100, '% of the game but only "ALL" was seen - setting ALL at', mainPlayed.hero);
-                let mainHeroStat: HeroStatistics = {...heroStatistics[0]};
-                mainHeroStat.heroName = mainPlayed.hero.split('_')[0];
-                heroStatistics.push(mainHeroStat);
+                    elims: stat.elims,
+                    damage: stat.damage,
+                    objectiveKills: stat.objective_kills,
+                    healing: stat.healing,
+                    objectiveTime: stat.objective_time,
+                    deaths: stat.deaths,
+                    heroStat1: stat.hero_stat_1,
+                    heroStat2: stat.hero_stat_2,
+                    heroStat3: stat.hero_stat_3,
+                    heroStat4: stat.hero_stat_4,
+                    heroStat5: stat.hero_stat_5,
+                    heroStat6: stat.hero_stat_6,
+                });
             }
+            if (heroStatistics.length == 1 && heroStatistics[0].heroName == 'ALL'){
+                let mainPlayed = heroPlayed.timePlayed.sort((a, b) => a.duration - b.duration)[0];
+                if (mainPlayed.percent > 0.95){
+                    console.warn(mainPlayed.hero, 'was played for', mainPlayed.percent * 100, '% of the game but only "ALL" was seen - setting ALL at', mainPlayed.hero);
+                    let mainHeroStat: HeroStatistics = {...heroStatistics[0]};
+                    mainHeroStat.heroName = mainPlayed.hero.split('_')[0];
+                    heroStatistics.push(mainHeroStat);
+                }
+            }
+            console.log(heroStatistics);
         }
-        console.log(heroStatistics);
-
+        
         let validRanks = 0;
         let teams: Teams;
         let placement: boolean = false;

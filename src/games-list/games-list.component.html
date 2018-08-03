@@ -121,6 +121,9 @@
                            
                                 <!-- (mouseenter)="mouseenter(game)"
                                 (mouseleave)="mouseleave(game)" -->
+                                <p display="False" style="display: none;">
+                                    {{ game.key }}
+                                </p>
                                 <td class="gn">{{formatTime(game.startTime)}} {{ formatDay(game.startTime) }}<br>
                                     {{formatDate(game.startTime)}}
                                 </td>

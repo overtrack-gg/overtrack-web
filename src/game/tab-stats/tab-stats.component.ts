@@ -247,6 +247,8 @@ export class TabStatisticsComponent {
             str = 'Torbjörn';
         } else if (str == 'dva'){
            str = 'D.Va';
+        } else if (str == 'hammond'){
+            str = 'Wrecking Ball';
         }
         return this.toTitleCase(str);
     } 

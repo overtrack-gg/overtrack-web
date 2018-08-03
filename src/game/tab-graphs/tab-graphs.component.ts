@@ -12,7 +12,8 @@ export let heroStatNames = {
 	's76': ['weapon accuracy', 'helix rocket kills', 'kill streak - best', 'tactical visor kills', 'final blows'],
 	'sombra': ['weapon accuracy', 'enemies hacked', 'kill streak - best', 'enemies emp\'d', 'offensive assists'],
 	'tracer': ['weapon accuracy', 'pulse bomb kills', 'kill streak - best', 'pulse bombs attached', 'final blows'],
-	'bastion': ['weapon accuracy', 'sentry kills', 'kill streak - best', 'tank kills', 'recon kills', 'self healing'],
+    'bastion': ['weapon accuracy', 'sentry kills', 'kill streak - best', 'tank kills', 'recon kills', 'self healing'],
+    'hammond': ['weapon accuracy',  'grappling claw kills', 'kill streak - best', 'piledriver kills', 'final blows', 'minefield kills'],
 	'hanzo': ['weapon accuracy', 'critical hits', 'kill streak - best', 'recon assists', 'final blows', 'dragonstrike kills'],
 	'junkrat': ['weapon accuracy', 'enemies trapped', 'kill streak - best', 'rip-tire kills', 'final blows'],
 	'mei': ['damage blocked', 'blizzard kills', 'kill streak - best', 'self healing', 'enemies frozen'],
@@ -349,6 +350,8 @@ export class TabGraphsComponent {
             str = 'Torbjörn';
         } else if (str == 'dva'){
            str = 'D.Va';
+        } else if (str == 'hammond'){
+            str = 'Wrecking Ball';
         }
         return this.toTitleCase(str);
     } 

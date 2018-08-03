@@ -327,16 +327,19 @@ export class WinRatesComponent implements OnInit {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 
-	toHeroName(str: string) {
+    toHeroName(str: string) {
         if (str == 's76'){
             str = 'Soldier: 76';
         } else if (str == 'torb'){
             str = 'Torbjörn';
         } else if (str == 'dva'){
-           return 'D.Va';
+           str = 'D.Va';
+        } else if (str == 'hammond'){
+            str = 'Wrecking Ball';
         }
         return this.toTitleCase(str);
     } 
+
 }
 
 class HeroWinrate{
