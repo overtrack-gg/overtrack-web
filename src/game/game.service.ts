@@ -355,7 +355,8 @@ export class GameService {
         let ult_index = 0;
         for (const stage of objective_stages){
             const players: Array<Player> = [];
-            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue', body.tab_statistics, heroPlayed);
+            // only provide heroPlayed if this is not a spectated game
+            this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue', body.tab_statistics, body.spectate_bar ? null : heroPlayed);
             this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red');
 
             this.addAssists(players[0], body.assists, stage);
