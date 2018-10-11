@@ -35,31 +35,32 @@ import { SubscribeComponent } from '../subscribe/subscribe.component';
 import { FAQComponent } from '../faq/faq.component';
 import { StreamerInfoComponent } from '../streamer-info/streamer-info.component';
 import { NotFoundComponent } from '../404/404.component';
+import { PlaylistsComponent } from '../game/playlists/playlists.component'; 
 
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
 
 declare var ga:Function;
 
-Raven
-	.config('https://adb4e1d3ae1040fcb434a6c018934bf4@sentry.io/161537')
-	.install();
+// Raven
+// 	.config('https://adb4e1d3ae1040fcb434a6c018934bf4@sentry.io/161537')
+// 	.install();
 
-export class RavenErrorHandler implements ErrorHandler {
-	handleError(err:any) : void {
-		if ( console && console.group && console.error ) {
-			console.group('Error Log Service');
-			console.error(err);
-			console.error(err.message);
-			console.error(err.stack);
-			console.groupEnd();
-		}
+// export class RavenErrorHandler implements ErrorHandler {
+// 	handleError(err:any) : void {
+// 		if ( console && console.group && console.error ) {
+// 			console.group('Error Log Service');
+// 			console.error(err);
+// 			console.error(err.message);
+// 			console.error(err.stack);
+// 			console.groupEnd();
+// 		}
 
-		if (!isDevMode()){
-			Raven.captureException(err.originalError || err);
-		}
-	}
-}
+// 		if (!isDevMode()){
+// 			Raven.captureException(err.originalError || err);
+// 		}
+// 	}
+// }
 
 @Injectable()
 export class LoggedIn implements CanActivate {
@@ -138,7 +139,21 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-	imports:      [ RouterModule.forRoot(appRoutes), BrowserModule, HttpModule, FormsModule, ReactiveFormsModule, MultiselectDropdownModule ],
+	imports: [
+		RouterModule.forRoot(appRoutes),
+		BrowserModule, 
+		HttpModule, 
+		FormsModule, 
+		ReactiveFormsModule,
+		MultiselectDropdownModule,
+
+		BrowserModule,
+        VgCoreModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+		VgBufferingModule,
+		VgStreamingModule
+	],
 	declarations: [ 
 		AppComponent, 
 		UserLoginComponent,
@@ -166,13 +181,16 @@ const appRoutes: Routes = [
 		FAQComponent,
 		StreamerInfoComponent,
 		NotFoundComponent,
+		PlaylistsComponent,
 	],
-	bootstrap:    [ AppComponent ],
+	bootstrap: [ 
+		AppComponent
+	],
 	providers: [
 		// { provide: ErrorHandler, useClass: RavenErrorHandler }, 
 		UserLoginService,
 		GamesListService,
-		LoggedIn
+		LoggedIn,
 	]
 })
 export class AppModule { }

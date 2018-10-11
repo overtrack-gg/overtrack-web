@@ -24,8 +24,10 @@
     "angular-2-dropdown-multiselect": "1.8.1",
     "core-js": "^2.5.7",
     "d3": "~4.13.0",
+    "hls.js": "^0.11.0",
     "raven-js": "^3.27.0",
     "rxjs": "^6.3.3",
+    "videogular2": "^6.3.0",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
@@ -34,6 +36,7 @@
     "@angular/compiler-cli": "^6.1.9",
     "@types/core-js": "^2.5.0",
     "@types/d3": "~5.0.0",
+    "@types/hls.js": "^0.10.2",
     "@types/jasmine": "2.8.6",
     "@types/node": "~9.4.6",
     "codelyzer": "~4.1.0",

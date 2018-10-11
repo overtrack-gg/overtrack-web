@@ -557,7 +557,15 @@ export class GameService {
             if (endGameStatistics.heroes.length == 0){
                 endGameStatistics = null;
             }
-            console.log('endGameStatistics: ', endGameStatistics);
+        }
+
+        let playlists: Playlists = null;
+        if (body.playlists){
+            playlists = {
+                vod: body.playlists.vod,
+                kills: body.playlists.kills,
+                deaths: body.playlists.deaths,                
+            }
         }
         
         return {
@@ -602,6 +610,7 @@ export class GameService {
             rankEditable: teams == null || body.rank_ediable,
             groupSize: body.group_size,
             twitch: body.twitch || null,
+            playlists: playlists,
 
             deleted: false
         };
@@ -647,6 +656,8 @@ export class Game {
     rankEditable: boolean;
     groupSize: number;
     twitch: string;
+
+    playlists: Playlists;
 
     deleted: boolean;
 }
@@ -778,4 +789,10 @@ export class EndGameStatistics {
         hero: string,
         statistics: Map<string, number>
     }>;
+}
+
+export class Playlists {
+    vod: string;
+    kills: string;
+    deaths: string;
 }

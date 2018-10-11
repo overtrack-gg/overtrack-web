@@ -113,6 +113,7 @@ export class GamesListService {
                     twitch: null,
                     endGameStatistics: null,
                     heroPlayed: null,
+                    playlists: null,
 
                     deleted: false
                 });
@@ -155,6 +156,7 @@ export class GamesListService {
                     rankEditable: false,
                     groupSize: null,
                     twitch: null,
+                    playlists: null,
 
                     deleted: false
                 });
