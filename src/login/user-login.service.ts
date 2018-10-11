@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { Observable, ReplaySubject } from 'rxjs';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserLoginService {
@@ -57,8 +57,8 @@ export class UserLoginService {
         );
     }
 
-    isLoggedIn():Observable<boolean> {
-        return this.http.get(this.loginUrl).map(response => response.ok);
+    isLoggedIn(): Observable<boolean> {
+        return this.http.get(this.loginUrl).pipe(map(response => response.ok));
     }
 
 }

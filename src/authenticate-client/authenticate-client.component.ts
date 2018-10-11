@@ -50,7 +50,6 @@ export class AuthenticateClientComponent implements OnInit  {
     }
 
     authenticate(): void {
-        console.log('yes');
     }
 
 }

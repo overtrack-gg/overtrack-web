@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
 
 import { User } from '../login/user-login.service';
 import { Game } from '../game/game.service';

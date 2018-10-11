@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class GameService {
@@ -285,10 +285,8 @@ export class GameService {
                 swaps: [],
                 duration: 0
             }
-            console.log(body.hero_played.time_played);
             let totalDuration = 0;
             for (let hero of Object.keys(body.hero_played.time_played)){
-                console.log(hero);
                 heroPlayed.timePlayed.push({
                     hero: hero,
                     duration: body.hero_played.time_played[hero],
@@ -306,7 +304,6 @@ export class GameService {
                 });
             }
             heroPlayed.duration = totalDuration;
-            console.log('heroPlayed: ', heroPlayed);
         }
 
         let count = 1;
@@ -361,7 +358,6 @@ export class GameService {
 
             this.addAssists(players[0], body.assists, stage);
             this.addKillfeedAssists(players, stage, killfeed);
-            console.log('players:', players);
 
             let objectiveInfo: ObjectiveInfo;
             if (body.map_type === 'KOTH' || body.map_type == 'Control') {
@@ -496,7 +492,6 @@ export class GameService {
                     heroStatistics.push(mainHeroStat);
                 }
             }
-            console.log(heroStatistics);
         }
         
         let validRanks = 0;
@@ -527,7 +522,6 @@ export class GameService {
                     validRanks += 1;
                 }
             }
-            console.log(teams.blue[0].rank);
             if (teams.blue[0].rank == 'placement'){
                 placement = true;
             }

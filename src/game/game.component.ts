@@ -1,8 +1,6 @@
 import { Component, OnInit, AfterContentChecked, Input, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
-import { Http, RequestOptions, Headers, Response } from '@angular/http';
-import 'rxjs/add/operator/switchMap';
 import * as D3 from 'd3';
 import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service';
 import { UserLoginService, User } from '../login/user-login.service';
@@ -69,19 +67,19 @@ export class GameComponent implements OnInit, AfterContentChecked {
 
     ngOnInit(): void {
         this.hideTimelineKey = true;
-        this.route.params
-            .switchMap((params: Params) => {
-                return this.gameService.getGame(params['user'] + '/' + params['game']);
-            })
-            .subscribe(
+        this.route.params.subscribe(
+        params => {
+            this.gameService.getGame(params['user'] + '/' + params['game']).subscribe(
                 res => {
                     this.game = this.gameService.toGame(res);
+                    console.log(this.game);
                     this.currentTab = this.game.stages[0];
                 },
                 err => {
                     console.error(err);
                 }
-            );
+            );        
+        });
         let loaded = false;
         this.route.queryParams.subscribe(params => {
             if (!loaded){

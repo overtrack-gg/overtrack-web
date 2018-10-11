@@ -4,10 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, URLSearchParams } from '@angular/http';
 import { RouterModule, Router, Routes, CanActivate, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { Observable } from 'rxjs';
 
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
+import { VgStreamingModule } from 'videogular2/streaming';
 
 import { AppComponent } from './app.component';
 import { UserLoginComponent } from '../login/user-login.component';

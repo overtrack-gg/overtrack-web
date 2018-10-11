@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
