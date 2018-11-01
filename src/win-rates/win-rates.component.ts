@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
-import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
-
 import { GamesListService, PlayerGameList, GamesListHero } from '../games-list/games-list.service';
 import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
 import { Game } from '../game/game.service';
@@ -23,11 +21,14 @@ const LOW_FREQUENCY_HERO_PERCENTAGE = 20;
 
 export class WinRatesComponent implements OnInit {
 	public visibleSeasons: string[];
-	public seasonSelectDropdown: IMultiSelectOption[];
-	settings: IMultiSelectSettings = {
-		minSelectionLimit: 1,
-		dynamicTitleMaxItems: 1
+	public seasonSelectDropdown: string[];
+	public dropdownSettings = {
+        itemsShowLimit: 3,
     };
+	// settings: IMultiSelectSettings = {
+	// 	minSelectionLimit: 1,
+	// 	dynamicTitleMaxItems: 1
+    // };
 	
 	currentPlayer: PlayerGameList;
 
@@ -74,10 +75,7 @@ export class WinRatesComponent implements OnInit {
         }
         this.seasonSelectDropdown = [];
         for (let season of seasons){
-            this.seasonSelectDropdown.push({
-                id: season,
-                name: season
-            })
+            this.seasonSelectDropdown.push(season);
             // this.visibleSeasons.push(season);
         }
         this.visibleSeasons = [ seasons[0] ];
@@ -85,7 +83,12 @@ export class WinRatesComponent implements OnInit {
 	
     changeSeasonSelection(event) {
         this.calcWinrates();
-    }
+	}
+	
+	selectAll(all){
+		this.visibleSeasons = all;
+		this.calcWinrates();
+	}
 
 	fetchSharedGames(share_key: string){
         this.gamesListService.fetchSharedGames(share_key,
@@ -149,6 +152,7 @@ export class WinRatesComponent implements OnInit {
 		let maps: Map<string, MapStats> = new Map<string, MapStats>();
 		maps.set(ALL_MAPS_NAME, new MapStats());
         for (let game of this.currentPlayer.list){
+			console.log(this.visibleSeasons);
 			if (this.visibleSeasons.indexOf(game.season) == -1){
 				continue;
 			}

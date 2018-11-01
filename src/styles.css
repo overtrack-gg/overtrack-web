@@ -813,3 +813,7 @@ svg {
 #sr-graph.point-hovered .draglayer rect {
     cursor: pointer;
 }
+
+.multiselect-dropdown .dropdown-btn .selected-item a {
+    display: none;
+}

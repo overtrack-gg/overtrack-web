@@ -20,11 +20,21 @@
             </div>
             <div class="tab-graph tab-pane active winrate-area" *ngIf="mapList">
 				<div class="row" style="padding-bottom: 20px;">
-					<ss-multiselect-dropdown 
+					<!-- <ss-multiselect-dropdown 
 						class="col-lg-2"
 						style="padding-right: 20px;" 
 						[options]="seasonSelectDropdown" [settings]="settings" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)">
-					</ss-multiselect-dropdown>
+					</ss-multiselect-dropdown> -->
+					<ng-multiselect-dropdown
+						style="float: left; margin-left: 20px; margin-top: 15px; min-width: 240px;"
+						[data]="seasonSelectDropdown"
+						[(ngModel)]="visibleSeasons"
+						[settings]="dropdownSettings"
+						(onSelect)="changeSeasonSelection($event)"
+						(onDeSelect)="changeSeasonSelection($event)"
+						(onSelectAll)="selectAll($event)"
+					>
+					</ng-multiselect-dropdown>
 					<div class="col-lg-10">
 						<div class="center">
 							<button class="multi-choice" *ngFor="let singleMap of mapList;"

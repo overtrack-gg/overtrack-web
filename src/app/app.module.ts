@@ -6,7 +6,7 @@ import { HttpModule, URLSearchParams } from '@angular/http';
 import { RouterModule, Router, Routes, CanActivate, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import {VgCoreModule} from 'videogular2/core';
 import {VgControlsModule} from 'videogular2/controls';
@@ -72,7 +72,7 @@ export class LoggedIn implements CanActivate {
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 		return Observable.create((observer) => {
 			this.userLoginService.getUser().subscribe(user => {
-				console.log('>', user);
+				// console.log('>', user);
 				// console.log(this.router.url);
 				if (!user){
 					let params_str = window.location.href.split('?');
@@ -145,7 +145,8 @@ const appRoutes: Routes = [
 		HttpModule, 
 		FormsModule, 
 		ReactiveFormsModule,
-		MultiselectDropdownModule,
+
+		NgMultiSelectDropDownModule.forRoot(),
 
 		BrowserModule,
         VgCoreModule,

@@ -612,7 +612,8 @@ export class GameService {
             twitch: body.twitch || null,
             playlists: playlists,
 
-            deleted: false
+            deleted: false,
+            listView: null
         };
     }
 }
@@ -660,6 +661,8 @@ export class Game {
     playlists: Playlists;
 
     deleted: boolean;
+
+    listView: Object;
 }
 
 export class Teams {

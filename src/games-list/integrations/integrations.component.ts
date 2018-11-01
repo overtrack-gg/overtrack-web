@@ -4,25 +4,23 @@ import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
-import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
-
 declare var $: any;
 
 @Component({
     selector: 'accounts-dropdown',
     template: `
     <div>
-        <ss-multiselect-dropdown
-            style="position: absolute; display: inline-block;"
-            [settings]="settings"
-            [texts]="texts"
-            [options]="options"
+        <ng-multiselect-dropdown
+            style="position: absolute; display: inline-block; min-width: 130px;"
+            [data]="options"
             [(ngModel)]="selected"
-            (ngModelChange)="onChange($event)"
-            (dropdownClosed)="dropdownClosed()"
-        ></ss-multiselect-dropdown>
+            [settings]="dropdownSettings"
+            (onSelect)="onChange($event)"
+            (onDropDownClose)="dropdownClosed()"
+        >
+        </ng-multiselect-dropdown>
     </div>
-    `
+    `,
 })
 export class AccountsDropdownComponent implements OnInit{
 
@@ -33,81 +31,73 @@ export class AccountsDropdownComponent implements OnInit{
 
     @Output() accountsSelected = new EventEmitter();
 
-    selected: number[] = [];
-    options: IMultiSelectOption[] = [];
-    settings: IMultiSelectSettings = {
-        fixedTitle: true,
-        minSelectionLimit: 1,
-        containerClasses: 'btn-block',
-    };
-    texts: IMultiSelectTexts = {
-        defaultTitle: 'Filter Accounts'
+    public options: string[] = [];
+    public selected: string[] = [];
+    public dropdownSettings = {
+        enableCheckAll: false,
+        itemsShowLimit: 1,
     };
 
     private allPreviouslySelected: boolean;
-    private lastNotified: number[];
+    private lastNotified: string[];
     private accounts_: Array<string> = [];
 
     ngOnInit(): void {
-        this.options.push({
-            id: 1,
-            name: 'All Accounts'
-        });
+        this.options.push('All Accounts');
         this.accounts_ = this.accounts.filter(e => e.indexOf(' (CTF)') == -1);
         for (let i in this.accounts_){
-            this.options.push({
-                id: Number(i) + 2,
-                name: this.accounts_[i]
-            });
+            this.options.push(this.accounts_[i]);
         }
-        this.options.push({
-            id: this.accounts_.length + 2,
-            name: 'Custom Games'
-        });
+        this.options.push('Custom Games');
 
         if (this.all){
-            this.selected.push(1);
+            this.selected.push('All Accounts');
             this.allPreviouslySelected = true;
         }
         if (this.enabled){
+            console.log(this.enabled);
             for (let o of this.options){
                 for (let a of this.enabled){
-                    if (o.name == a){
-                        this.selected.push(o.id);
+                    if (o == a){
+                        this.selected.push(o);
                         break;
                     }
                 }
             }
         }
         if (this.custom){
-            this.selected.push(this.accounts_.length + 2);
+            this.selected.push('Custom Games');
         }
         this.lastNotified = this.selected.slice();
+        console.log('>', this.selected);
     }
 
     onChange(event) {
-        let allSelected = this.selected.indexOf(1) != -1;
+        console.log('>>', event);
+        let allSelected = this.selected.indexOf('All Accounts') != -1;
         let specificAccountSelected = this.selected.reduce((p, c) => {
-            return p || (c != 1 && c != this.accounts_.length + 2)
+            return p || (c != 'All Accounts' && c != 'Custom Games')
         }, false);
         if (allSelected && specificAccountSelected){
             if (this.allPreviouslySelected){
                 // all was already selected, so the new select is a specific account
                 this.allPreviouslySelected = false;
                 // unselect 'All Accounts'
-                this.selected = this.selected.filter(s => s != 1)
+                this.selected = this.selected.filter(s => s != 'All Accounts')
             } else {
                 // all was not already selected, so the new select is 'All Accounts'
                 this.allPreviouslySelected = true
                 // Unselect specific accounts
-                this.selected = this.selected.filter(s => s == 1 || s == this.accounts_.length + 2);
+                this.selected = this.selected.filter(s => s == 'All Accounts' || s == 'Custom Games');
             }
         }
     }
 
     dropdownClosed() {
+        console.log('closed');
+        console.log(this.selected);
         if (this.selected.sort().toString() != this.lastNotified.sort().toString() ){
-            this.accountsSelected.emit(this.selected.map(i => this.options[i - 1].name));
+            this.accountsSelected.emit(this.selected);
         }
         this.lastNotified = this.selected.slice();
     }

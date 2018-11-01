@@ -94,7 +94,7 @@
                                 type="text" 
                                 disabled 
                                 value="{{ getIntegrationURL(integration) }}" 
-                                style="cursor: default; width: 60%; float: left; margin-right: 1.4%;"
+                                style="cursor: default; width: 50%; float: left; margin-right: 1.4%;"
                             >
                             <accounts-dropdown
                                 [accounts]="accounts" 
@@ -102,7 +102,7 @@
                                 [all]="integration.player_name_filter == null"
                                 [custom]="integration.custom_games"
                                 (accountsSelected)="updateIntegration(integration.id, $event)"
-                                style="float: left; width: 25%;"
+                                style="float: left; width: 35%;"
                             ></accounts-dropdown>
                             <button (click)="deleteIntegration(integration.id)" 
                                 class="btn btn-danger" 

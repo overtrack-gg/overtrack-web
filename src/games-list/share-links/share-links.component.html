@@ -26,7 +26,7 @@
                             type="text" 
                             disabled 
                             value="{{ key.url }}" 
-                            style="cursor: default; width: 60%; float: left; margin-right: 1.4%;">
+                            style="cursor: default; width: 53%; float: left; margin-right: 1.4%;">
                     </div>
                     <accounts-dropdown
                         [accounts]="accounts" 
@@ -34,7 +34,7 @@
                         [all]="key.enabled == null"
                         [custom]="key.custom_games"
                         (accountsSelected)="editKey(key.key, $event)"
-                        style="float: left; width: 25%;"
+                        style="float: left; width: 32%;"
                     ></accounts-dropdown>
                     <button (click)="deleteKey(key.key)" 
                         class="btn btn-danger" 

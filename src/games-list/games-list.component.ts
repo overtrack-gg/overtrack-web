@@ -1,10 +1,8 @@
-import { Component, OnInit, AfterContentChecked, Input, Inject } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, Input, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import * as D3 from 'd3';
 import { DOCUMENT } from '@angular/platform-browser';
-
-import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 
 import { GamesListService, PlayerGameList } from './games-list.service';
 import { Game } from '../game/game.service';
@@ -16,10 +14,14 @@ declare var Plotly: any;
 @Component({
     selector: 'games-list',
     templateUrl: './games-list.component.html',
-    providers: [RouterModule]
+    providers: [RouterModule],
+    // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesListComponent implements OnInit, AfterContentChecked {
+
     gamesLists: Array<PlayerGameList>;
+    visibleGames: Array<Game>;
+
     accountNames: Array<string>;
     currentSR: number;
     player: string;
@@ -36,11 +38,13 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     public linkKey: string;
     public linkMouse: number;
 
-    public visibleSeasons: string[];
-    public seasonSelectDropdown: IMultiSelectOption[];
-    settings: IMultiSelectSettings = {
-		minSelectionLimit: 1,
-//		dynamicTitleMaxItems: 2
+    public isCustomGames: boolean;
+    public visibleSeasons: string[] = [];
+    public allSeasons: string[] = [];
+    public dropdownSettings = {
+        enableCheckAll: false,
+        itemsShowLimit: 3,
+        closeDropDownOnSelection: true,
     };
 
     private batchEditURL = 'https://api.overtrack.gg/batch_edit';
@@ -50,7 +54,8 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 public activatedRoute: ActivatedRoute,
                 private http: Http,
                 public router: Router,
-                @Inject(DOCUMENT) public document: any
+                @Inject(DOCUMENT) public document: any,
+                // private cdr: ChangeDetectorRef
             ) { }
 
     ngOnInit(): void {
@@ -65,6 +70,26 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 }             
             }
         );
+    }
+
+    rank(sr: number) {
+        if (sr === null || sr == undefined) {
+            return 'unknown';
+        } else if (sr < 1500) {
+            return 'bronze';
+        } else if (sr < 2000) {
+            return 'silver';
+        } else if (sr < 2500) {
+            return 'gold';
+        } else if (sr < 3000) {
+            return 'platinum';
+        } else if (sr < 3500) {
+            return 'diamond';
+        } else if (sr < 4000) {
+            return 'master';
+        } else {
+            return 'grandmaster';
+        }
     }
 
     ngAfterContentChecked(): void {
@@ -82,6 +107,16 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         });
     }
 
+    setSelectedPlayer(playerName: string){
+        this.isCustomGames = playerName.indexOf('Custom Games') != -1;
+        this.player = playerName;
+        this.updateGamesDropdown();
+        this.changeSeasonSelection(null);
+        if (this.isOwnGames){
+            $('#account-input').get(0).value = playerName;
+        }
+    }
+
     updateGamesDropdown(){
         let seasons: Array<string> = [];
         for (let gl of this.gamesLists){
@@ -94,31 +129,34 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 }
             }
         }
-        this.seasonSelectDropdown = [];
+        this.allSeasons = [];
         for (let season of seasons){
-            this.seasonSelectDropdown.push({
-                id: season,
-                name: season
-            })
-            // this.visibleSeasons.push(season);
+            this.allSeasons.push(season)
         }
-        console.log('Setting season to', seasons[0]);
-        this.visibleSeasons = [ seasons[0] ];
+        console.log('all seasons set to ', this.allSeasons);
+        if (this.visibleSeasons.length == 0){
+            this.visibleSeasons = [ seasons[0] ];
+        }
     }
 
-    changeSeasonSelection() {
+    changeSeasonSelection(event) {
+        console.log('changeSeasonSelection', event);
         this.updateGamesList();
+        if (this.visibleGames.length == 0 || event == null){
+            this.visibleSeasons = [this.allSeasons[0]];
+            this.updateGamesList();
+        }
     }
 
-    visibleGames(games: Array<Game>) {
-        return games.filter(
-            g => this.visibleSeasons.indexOf(g.season) != -1 && !g.deleted
-        )
+    myTrackByFunction(index: number, item: Game){
+        return item.num;
+        // return index;
     }
 
     fetchSharedGames(share_key: string){
         this.gamesListService.fetchSharedGames(share_key,
             res => {
+                console.log('fetchSharedGames: updating games list');
                 this.gamesLists = res;
                 if (this.gamesLists.length){
                     this.player = this.gamesLists[0].player;
@@ -138,6 +176,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     fetchOwnGames() {
         this.gamesListService.fetchGames(
             res => {
+                console.log('fetchOwnGames: updating games list');
                 this.gamesLists = res;
                 if (this.gamesLists.length){
                     this.player = this.gamesLists[0].player;
@@ -170,25 +209,27 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         return 'player_' + playerGames.player.replace(/\W/g, '_');
     }
 
-    setSelectedPlayer(playerName: string){
-        this.player = playerName;
-        this.updateGamesDropdown();
-        this.updateGamesList();
-        if (this.isOwnGames){
-            $('#account-input').get(0).value = playerName;
-        }
-    }
-
     updateGamesList() {
+        console.log('updateGamesList');
+
         let sr: Array<number> = [];
         let gamePoints: Array<number> = [];
         let last: number = null;
-        let games: Array<Game> = [];
-        for (let playerGames of this.gamesLists) {
-            if (playerGames.player == this.player) {
-                games = this.visibleGames(playerGames.list);
+
+        let visibleGames: Array<Game> = [];
+        for (let gl of this.gamesLists){
+            if (gl.player == this.player){
+                for (let g of gl.list){
+                    let season = g.season;
+                    if (this.visibleSeasons.indexOf(season) != -1){
+                        visibleGames.push(g);
+                    }
+                }
             }
         }
+        this.visibleGames = visibleGames;
+        console.log('set ' + this.visibleGames.length + ' games visible');
+        let games: Array<Game> = Object.assign([], this.visibleGames);
 
         games = games.slice();
         games.reverse();
@@ -337,34 +378,9 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
             }
         });
 
+        // this.cdr.markForCheck();
     }
     
-    formatTime(date: Date) {
-        let hour = date.getHours();
-        const pm = hour > 11;
-        hour = hour % 12;
-        hour = hour === 0 ? 12 : hour;
-        let min: number|string = date.getMinutes();
-        if (min < 10){
-            min = '0' + min;
-        }
-        return hour + ':' + min + (pm ? 'pm' : 'am');
-    }
-    
-    formatDate(date: Date) {
-        return date.toLocaleDateString(undefined, {
-            year: '2-digit',
-            month: 'numeric',
-            day: 'numeric'
-
-        });
-    }
-
-    formatDay(date: Date) {
-        var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
-        return days[date.getDay()]
-    }
-
     route(game: Game, event: any) {
         if (!game.viewable){
             // $('.popover-sub').popover('hide');
@@ -403,21 +419,6 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     }
 
 
-    wltClass(game: Game) {
-        if (game.result === 'UNKN') {
-            return 'text-unknown';
-        } else if (game.result === 'DRAW') {
-            return 'text-warning';
-        } else if (game.result === 'WIN') {
-            return 'text-success';
-        } else if (game.result === 'LOSS') {
-            return 'text-danger';
-        } else if (game.result == 'ERROR') {
-            return 'text-error';
-        }
-        throw new Error('Unexpected game result: ' + game.result);
-    }
-
     min(game: Game) {
         return Math.round(game.duration / 60);
     }
@@ -438,38 +439,6 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         }
         return 'm'; */
         return '';
-    }
-
-    rank(sr: number) {
-        if (sr === null || sr == undefined) {
-            return 'unknown';
-        } else if (sr < 1500) {
-            return 'bronze';
-        } else if (sr < 2000) {
-            return 'silver';
-        } else if (sr < 2500) {
-            return 'gold';
-        } else if (sr < 3000) {
-            return 'platinum';
-        } else if (sr < 3500) {
-            return 'diamond';
-        } else if (sr < 4000) {
-            return 'master';
-        } else {
-            return 'grandmaster';
-        }
-    }
-
-    formatSR(game: Game){
-        return game.endSR || '    ';
-    }
-
-    srChange(game: Game){
-        let srChange = game.rank == "placement" ? '-' : '?';
-        if (game.startSR && game.endSR){
-            srChange = String(game.endSR - game.startSR);
-        }
-        return srChange;
     }
 
     edit(game: Game, event: any){

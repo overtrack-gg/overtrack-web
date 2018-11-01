@@ -26,12 +26,17 @@
     <div class="row col-md-12">
         <div>
             <div class="col-xs-12">
-                <h2>Games</h2>
-                <ss-multiselect-dropdown 
-                    style=" position: absolute;
-                            left: 130px;
-                            top: 15px;" 
-                    [options]="seasonSelectDropdown" [settings]="settings" [(ngModel)]="visibleSeasons" (ngModelChange)="changeSeasonSelection($event)"></ss-multiselect-dropdown>
+                <h2 style="float: left;">Games</h2>
+                <ng-multiselect-dropdown
+                    style="float: left; margin-left: 20px; margin-top: 15px; min-width: 240px;"
+                    [data]="allSeasons"
+                    [(ngModel)]="visibleSeasons"
+                    [settings]="dropdownSettings"
+
+                    (onSelect)="changeSeasonSelection($event)"
+                    (onDeSelect)="changeSeasonSelection($event)"
+                  >
+                  </ng-multiselect-dropdown>
             </div>
             <div *ngIf="isOwnGames" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
                 <share-links [accounts]="accountNames" class="pull-right"></share-links>
@@ -88,72 +93,76 @@
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }}" ><b>Accounts:</b></li>
-                    <li class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"><a (click)="setSelectedPlayer(games.player)" href="#{{ playerHref(games) }}" data-toggle="tab">{{ games.player }}</a></li>
+                    <li 
+                        class="{{ gamesLists && gamesLists.length > 1 ? '' : 'hidden' }} {{f ? 'active' : ''}}" 
+                        *ngFor="let games of gamesLists; let f = first;"
+                    >
+                        <a 
+                            (click)="setSelectedPlayer(games.player)" 
+                            href="#{{ playerHref(games) }}" 
+                            data-toggle="tab">
+                                {{ games.player }}
+                            </a>
+                    </li>
                 </ul>
             </div>
             <div class="panel-body">
                 <div class="tab-content">
-                    <div class="table-responsive tab-pane {{f ? 'active' : ''}}" *ngFor="let games of gamesLists; let f = first;"  id="{{ playerHref(games) }}">
-                        <table class="table table-striped text-center">
-                            <tr style="width:100%">
-                                <th>Game Time</th>
-                                <th colspan="2">Win/Loss/Draw</th>
-                                <th>Score</th>
-                                <th *ngIf="!games.customGames">Skill Rating</th>
-                                <th>Length</th>
-                                <th>Map</th>
-                                <th>Heroes</th>
-                            </tr>
-                            <tr *ngIf="currentUploadRequested && currentUserID == games.user_id">
-                                <td class="gn">{{formatTime(currentUploadRequested)}} {{ formatDay(currentUploadRequested) }}<br>
-                                    {{formatDate(currentUploadRequested)}}
-                                </td>
-                                <td colspan="6" style="color:#808080">
-                                    <p>Game uploading...</p>
-                                </td> 
-                            </tr>
-                            <tr *ngFor="let game of visibleGames(games.list)"
-                                id="game-{{ game.num }}"
-                                class="list-game"
-                                [class.sub-required]="!game.viewable"
-                                [class.hoverable]="!game.error"
-                                (mousedown)="prepRoute(game, $event)" 
-                                (mouseup)="route(game, $event)"  
-                                data-toggle="popover"
-                                tabindex="0"
-                            >
-                                <!-- data-toggle="popover"  -->
-                           
-                                <!-- (mouseenter)="mouseenter(game)"
-                                (mouseleave)="mouseleave(game)" -->
-                                <p display="False" style="display: none;">
-                                    {{ game.key }}
-                                </p>
-                                <td class="gn">{{formatTime(game.startTime)}} {{ formatDay(game.startTime) }}<br>
-                                    {{formatDate(game.startTime)}}
-                                </td>
-                                <td *ngIf="!game.error && !game.customGame" class="{{wltClass(game)}} text-right num">
-                                    <b>{{ srChange( game) }}</b>
-                                </td>
-                                <td *ngIf="!game.error && game.customGame"></td>
-                                <td *ngIf="!game.error" class="{{wltClass(game)}} text-left" >{{ game.result }}</td>
-                                <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span><span class="unit">{{ unit(game) }}</span>/<span class="num">{{ game.redScore }}</span><span class="unit">{{ unit(game) }}</span></td>
-                                <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !game.customGame" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !game.customGame" class="num sr"><img src="assets/images/icons/{{ rank(game.endSR) }}.png"/><span>{{ formatSR(game) }}</span></td>
-                                <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
-                                <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{ game.map }}</i></td>
-                                <td *ngIf="!game.error" class="hero" style="position: relative">
-                                    <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
-                                    <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
-                                </td>
-                                <td *ngIf="game.error" colspan="2" class="{{wltClass(game)}} text-left">{{game.result}}</td>
-                                <td *ngIf="game.error" colspan="5" class="error-message text-error">
-                                    <p>Game uploaded but failed to process. This is a bug. Please report this with the following game key: </p>
-                                    <pre>{{ game.key }}</pre>
-                                </td> 
-                            </tr>
-                        </table>
-                    </div>
+                    <table class="table table-striped text-center">
+                        <tr style="width:100%">
+                            <th>Game Time</th>
+                            <th colspan="2">Win/Loss/Draw</th>
+                            <th>Score</th>
+                            <th *ngIf="!isCustomGames">Skill Rating</th>
+                            <th>Length</th>
+                            <th>Map</th>
+                            <th>Heroes</th>
+                        </tr>
+                        <tr *ngIf="currentUploadRequested && currentUserID == games.user_id">
+                            <td class="gn">{{formatTime(currentUploadRequested)}} {{ formatDay(currentUploadRequested) }}<br>
+                                {{formatDate(currentUploadRequested)}}
+                            </td>
+                            <td colspan="6" style="color:#808080">
+                                <p>Game uploading...</p>
+                            </td> 
+                        </tr>
+                        <tr *ngFor="let game of visibleGames; trackBy: myTrackByFunction"
+                            id="game-{{ game.num }}"
+                            class="list-game"
+                            [class.sub-required]="!game.viewable"
+                            [class.hoverable]="!game.error"
+                            (mousedown)="prepRoute(game, $event)" 
+                            (mouseup)="route(game, $event)"  
+                            data-toggle="popover"
+                            tabindex="0"
+                        >
+                            <p display="False" style="display: none;">
+                                {{ game.key }}
+                            </p>
+                            <td class="gn">{{game.listView.formatTime}} {{game.listView.formatDay}}<br>
+                                {{game.listView.formatDate}}
+                            </td>
+                            <td *ngIf="!game.error && !game.customGame" class="{{game.listView.wltClass}} text-right num">
+                                <b>{{ game.listView.srChange }}</b>
+                            </td>
+                            <td *ngIf="!game.error && game.customGame"></td>
+                            <td *ngIf="!game.error" class="{{game.listView.wltClass}} text-left" >{{ game.result }}</td>
+                            <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span>/<span class="num">{{ game.redScore }}</span></td>
+                            <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !game.customGame" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                            <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !game.customGame" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
+                            <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
+                            <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{ game.map }}</i></td>
+                            <td *ngIf="!game.error" class="hero" style="position: relative">
+                                <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
+                                <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
+                            </td>
+                            <td *ngIf="game.error" colspan="2" class="{{game.listView.wltClass}} text-left">{{game.result}}</td>
+                            <td *ngIf="game.error" colspan="5" class="error-message text-error">
+                                <p>Game uploaded but failed to process. This is a bug. Please report this with the following game key: </p>
+                                <pre>{{ game.key }}</pre>
+                            </td> 
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
