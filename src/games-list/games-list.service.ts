@@ -82,14 +82,14 @@ export class GamesListService {
         }
     }
 
-    formatSR(game: Game){
-        return game.endSR || '    ';
+    formatSR(game){
+        return game.end_sr || '    ';
     }
 
-    srChange(game: Game){
+    srChange(game){
         let srChange = game.rank == "placement" ? '-' : '?';
-        if (game.startSR && game.endSR){
-            srChange = String(game.endSR - game.startSR);
+        if (game.start_sr && game.end_sr){
+            srChange = String(game.end_sr - game.start_sr);
         }
         return srChange;
     }
@@ -103,10 +103,6 @@ export class GamesListService {
         let num = 1;
 
         for (let game of body.games) {
-            if (num > 500){
-                break;
-            }
-
             let gamelist: Array<Game> = [];
 
             let playerName = game.player_name;
