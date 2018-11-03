@@ -22,7 +22,7 @@ export class GamesListService {
     }
 
     wltClass(result: string) {
-        if (result === 'UNKN') {
+        if (!result || result === 'UNKN') {
             return 'text-unknown';
         } else if (result === 'DRAW') {
             return 'text-warning';
