@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Playlists } from '../game.service';
-
 @Component({
     selector: 'playlists',
     template: `
@@ -11,10 +9,6 @@ import { Playlists } from '../game.service';
         <ul class="nav nav-tabs">
             <li><b>VOD:</b></li>
             <li class="{{f ? 'active' : ''}} titleize" *ngFor="let tab of tabs; let f = first;"><a (click)="changeTab(tab)" href="#{{ tab }}" data-toggle="tab">{{ tab }}</a></li>
-
-            <li><i>Ults</i></li>
-            <li><i>Ressurects</i></li>
-            <li><i>Custom</i></li>
         </ul>
     </div>
     <div class="player">
@@ -77,18 +71,47 @@ import { Playlists } from '../game.service';
 })
 export class PlaylistsComponent implements OnInit { 
 
-    @Input() playlists: Playlists;
+    @Input() playlists: object;
+
+    private tabOrdering = [
+        'vod',
+        'Kills',
+        'Resurrects',
+        'Deaths',
+        'Ults'
+    ]
 
     tabs: Array<string> = [];
     url: string;
 
+    toTitleCase(toTransform) {
+        return toTransform.replace(/\b([a-z])/g, function (_, initial) {
+            return initial.toUpperCase();
+        });
+      }
+
     ngOnInit(): void {
-        this.url = this.playlists.vod;
-        for (let k in this.playlists){
-            if (k == 'vod'){
-                k = 'Game';
+        this.url = this.playlists['vod'];
+
+        for (let k of this.tabOrdering){
+            if (Object.keys(this.playlists).indexOf(k.toLowerCase()) != -1) {
+                if (k == 'vod'){
+                    k = 'Game';
+                }
+                this.tabs.push(k);
             }
-            this.tabs.push(k);
+        }
+        for (let k of Object.keys(this.playlists)){
+            let found = false; 
+            for (let o of this.tabOrdering){
+                if (o.toLowerCase() == k){
+                    found = true;
+                    break
+                }
+            }
+            if (!found){
+                this.tabs.push(this.toTitleCase(k));
+            }
         }
     }
 
@@ -96,7 +119,7 @@ export class PlaylistsComponent implements OnInit {
         if (tab == 'Game'){
             tab = 'vod';
         }
-        this.url = this.playlists[tab];
+        this.url = this.playlists[tab.toLowerCase()];
     }
 
 }

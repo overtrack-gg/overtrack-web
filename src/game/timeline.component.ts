@@ -486,7 +486,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
             .attr('class', 'col-xs-12')
             .style('position', 'absolute');
         lineArea.append('div').attr('class', 'col-xs-2 timeline');
-        lineArea = lineArea.append('svg').attr('class', 'col-xs-9 timeline');
+        let lineArea2 = lineArea.append('svg').attr('class', 'col-xs-9 timeline');
         this.line = lineArea.append('line')
             .attr('x1', 0)
             .attr('x2', 0)
@@ -505,7 +505,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
             svg.selectAll("svg .timeline-event")
                 .on("click", e => {
                     if (this.active){
-                        let x = D3.event.layerX / (lineArea.node() as any).clientWidth;
+                        let x = D3.event.layerX / (lineArea2.node() as any).clientWidth;
                         this.seek(x * this.stage.duration);
 
                         let scrollTo = 0;
@@ -524,7 +524,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
                 .on('click', e => {
                     let d3 = D3;
                     if (this.active){
-                        let x = D3.event.layerX / (lineArea.node() as any).clientWidth;
+                        let x = D3.event.layerX / (lineArea2.node() as any).clientWidth;
                         this.seek(x * this.stage.duration);
                     }
                 }
@@ -534,7 +534,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
                 .on('click', e => {
                     let d3 = D3;
                     if (this.active){
-                        let x = D3.event.layerX / (lineArea.node() as any).clientWidth;
+                        let x = D3.event.layerX / (lineArea2.node() as any).clientWidth;
                         this.seek(x * this.stage.duration);
                     }
                 }

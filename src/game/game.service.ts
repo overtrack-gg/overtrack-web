@@ -559,14 +559,6 @@ export class GameService {
             }
         }
 
-        let playlists: Playlists = null;
-        if (body.playlists){
-            playlists = {
-                vod: body.playlists.vod,
-                kills: body.playlists.kills,
-                deaths: body.playlists.deaths,                
-            }
-        }
         
         return {
             num: null,
@@ -607,10 +599,10 @@ export class GameService {
             teams: teams,
             customGame: body.custom_game,
             placement: placement,
-            rankEditable: teams == null || body.rank_ediable,
+            rankEditable: teams == null || body.rank_editable || body.rank_ediable,
             groupSize: body.group_size,
             twitch: body.twitch || null,
-            playlists: playlists,
+            playlists: body.playlists,
 
             deleted: false,
             listView: null
@@ -658,7 +650,7 @@ export class Game {
     groupSize: number;
     twitch: string;
 
-    playlists: Playlists;
+    playlists: object;
 
     deleted: boolean;
 
@@ -794,8 +786,3 @@ export class EndGameStatistics {
     }>;
 }
 
-export class Playlists {
-    vod: string;
-    kills: string;
-    deaths: string;
-}
