@@ -104,13 +104,17 @@ export class GamesListService {
 
         for (let game of body.games) {
             let gamelist: Array<Game> = [];
+            let hasSR = true;
 
             let playerName = game.player_name;
             if (game.custom_game || playerName.indexOf('(Custom Games)') != -1){
                 playerName = 'Custom Games';
+                hasSR = false;
             } else if (game.game_type == 'ctf'){
-                playerName = playerName + ' (CTF)';
                 continue;
+            } else if (game.game_type == 'quickplay'){
+                hasSR = false;
+                playerName = 'Quick Play';
             }
             
             if (map[playerName]) {
@@ -162,6 +166,7 @@ export class GamesListService {
                     error: false,
                     map: game.map,
                     result: result,
+                    hasSR: hasSR,
                     // srChange: srChange,
                     // srString: srString,
                     endSR: game.end_sr,
@@ -223,6 +228,7 @@ export class GamesListService {
                     customGame: false,
                     season: this.getSeason(game.time),
                     viewable: true,
+                    hasSR: false,
                     gameType: null,
                     endGameStatistics: null,
                     heroPlayed: null,

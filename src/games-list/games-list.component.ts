@@ -38,7 +38,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     public linkKey: string;
     public linkMouse: number;
 
-    public isCustomGames: boolean;
+    public hideSR: boolean;
     public visibleSeasons: string[] = [];
     public allSeasons: string[] = [];
     public dropdownSettings = {
@@ -108,11 +108,11 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     }
 
     setSelectedPlayer(playerName: string){
-        this.isCustomGames = playerName.indexOf('Custom Games') != -1;
+        this.hideSR = playerName == 'Custom Games' || playerName == 'Quick Play';
         this.player = playerName;
         this.updateGamesDropdown();
         this.changeSeasonSelection(null);
-        if (this.isOwnGames){
+        if (this.isOwnGames && $('#account-input').get(0)){
             $('#account-input').get(0).value = playerName;
         }
     }
@@ -159,10 +159,8 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 console.log('fetchSharedGames: updating games list');
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.player = this.gamesLists[0].player;
-                    this.updateGamesDropdown();
-                    this.updateGamesList();
                     this.accountNames = this.gamesLists.map(gl => gl.player.toUpperCase().split('#')[0]).filter(e => e != 'CUSTOM GAMES');
+                    this.setSelectedPlayer(this.gamesLists[0].player);
                 }
                 this.loaded = true;
             },
@@ -179,10 +177,8 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 console.log('fetchOwnGames: updating games list');
                 this.gamesLists = res;
                 if (this.gamesLists.length){
-                    this.player = this.gamesLists[0].player;
-                    this.updateGamesDropdown();
-                    this.updateGamesList();
                     this.accountNames = this.gamesLists.map(gl => gl.player.toUpperCase().split('#')[0]).filter(e => e != 'CUSTOM GAMES');
+                    this.setSelectedPlayer(this.gamesLists[0].player);
                 }
                 this.loaded = true;
             },

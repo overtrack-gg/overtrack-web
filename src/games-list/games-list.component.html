@@ -113,7 +113,7 @@
                             <th>Game Time</th>
                             <th colspan="2">Win/Loss/Draw</th>
                             <th>Score</th>
-                            <th *ngIf="!isCustomGames">Skill Rating</th>
+                            <th *ngIf="showSR">Skill Rating</th>
                             <th>Length</th>
                             <th>Map</th>
                             <th>Heroes</th>
@@ -142,14 +142,14 @@
                             <td class="gn">{{game.listView.formatTime}} {{game.listView.formatDay}}<br>
                                 {{game.listView.formatDate}}
                             </td>
-                            <td *ngIf="!game.error && !game.customGame" class="{{game.listView.wltClass}} text-right num">
+                            <td *ngIf="!game.error && !hideSR" class="{{game.listView.wltClass}} text-right num">
                                 <b>{{ game.listView.srChange }}</b>
                             </td>
-                            <td *ngIf="!game.error && game.customGame"></td>
+                            <td *ngIf="!game.error && hideSR"></td>
                             <td *ngIf="!game.error" class="{{game.listView.wltClass}} text-left" >{{ game.result }}</td>
                             <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span>/<span class="num">{{ game.redScore }}</span></td>
-                            <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !game.customGame" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                            <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !game.customGame" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
+                            <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !game.hasSR && !hideSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                            <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !game.hasSR && !hideSR" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
                             <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
                             <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{ game.map }}</i></td>
                             <td *ngIf="!game.error" class="hero" style="position: relative">

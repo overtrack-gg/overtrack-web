@@ -568,6 +568,7 @@ export class GameService {
             rank: null,
             season: null,
             viewable: true,
+            hasSR: true,
 
             userID: body.user_id,
             map: body.map,
@@ -605,7 +606,7 @@ export class GameService {
             playlists: body.playlists,
 
             deleted: false,
-            listView: null
+            listView: null,
         };
     }
 }
@@ -618,6 +619,7 @@ export class Game {
     rank: 'placement' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
     season: string;
     viewable: boolean;
+    hasSR: boolean;
 
     userID: number;
     map: string;
