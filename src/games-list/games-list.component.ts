@@ -38,7 +38,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     public linkKey: string;
     public linkMouse: number;
 
-    public hideSR: boolean;
+    public hideSR: boolean = false;
     public visibleSeasons: string[] = [];
     public allSeasons: string[] = [];
     public dropdownSettings = {
