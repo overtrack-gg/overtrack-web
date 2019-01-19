@@ -17,10 +17,10 @@
 </div>
 
 <div class="container overview view" *ngIf="loaded && (currentUploadRequested || (gamesLists && gamesLists.length))">
-    <div class="col-md-12 alert alert-danger" role="alert">
+    <!-- <div class="col-md-12 alert alert-warning" role="alert">
         Blizzard's current stance on third party programs is unclear. Some third party programs with similar functionality to OverTrack have been forbidden.<br>
         You may wish to discontinue use of OverTrack until its legality is resolved. Get more details and keep up to date on this issue in the <a href="https://discord.gg/JywstAB">OverTrack Discord</a>
-    </div>
+    </div> -->
 
     <edit-game [game]="gameToEdit" [leaveOnDelete]="false" [allowRename]="false" ></edit-game>
     <div class="row col-md-12">
