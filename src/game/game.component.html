@@ -24,6 +24,13 @@
 </div>
 
 <div *ngIf="game" class="container game view">
+    <div *ngIf="game.killfeedMissing" class="nokillfeed-warning row">
+        <div class="col-md-12 alert alert-danger" role="alert">
+                <h4>No kills tracked</h4>
+                Please make sure the killfeed is enabled and you are not using colorblind mode. <br/>
+                If you are using the standard killfeed and seeing this error frequenty please report this as a bug in the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> 
+        </div>
+    </div>
     <playlists *ngIf="game.playlists" [playlists]="game.playlists"></playlists>
     <div class="row">
         <div class="panel with-nav-tabs panel-default">

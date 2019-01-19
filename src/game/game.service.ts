@@ -308,7 +308,7 @@ export class GameService {
 
         let count = 1;
         const killfeed: Array<KillFeedEntry> = [];
-        for (const kill of body.killfeed) {
+        for (const kill of body.killfeed || []) {
             const isRes = (kill[1] & 2) != 0;
             let id = "event" + count;
 
@@ -582,6 +582,7 @@ export class GameService {
             key: body.key,
             owner: body.owner,
             stages: stages,
+            killfeedMissing: !body.killfeed,
             killfeed: killfeed,
             endTime: new Date(body.game_ended),
             duration: body.game_duration,
@@ -633,6 +634,7 @@ export class Game {
     key: string;
     owner: string;
     stages: Array<Stage>;
+    killfeedMissing: boolean;
     killfeed: Array<KillFeedEntry>;
     endTime: Date;
     duration: number;
