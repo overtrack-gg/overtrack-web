@@ -5,6 +5,7 @@ declare var Plotly: any;
 
 // ಠ_ಠ 
 export let heroStatNames = {
+    'ashe': ['weapon accuracy', 'scoped critical hits', 'final blows', 'dynamite kills', 'scoped accuracy', 'bob kills'],
 	'genji': ['weapon accuracy', 'damage reflected', 'kill streak - best', 'dragonblade kills', 'final blows'],
 	'mccree': ['weapon accuracy', 'critical hits', 'kill streak - best', 'deadeye kills', 'final blows', 'fan the hammer kills'],
 	'pharah': ['weapon accuracy', 'barrage kills', 'kill streak - best', 'rocket direct hits', 'final blows'],
@@ -17,7 +18,7 @@ export let heroStatNames = {
 	'hanzo': ['weapon accuracy', 'critical hits', 'kill streak - best', 'recon assists', 'final blows', 'dragonstrike kills'],
 	'junkrat': ['weapon accuracy', 'enemies trapped', 'kill streak - best', 'rip-tire kills', 'final blows'],
 	'mei': ['damage blocked', 'blizzard kills', 'kill streak - best', 'self healing', 'enemies frozen'],
-	'torb': ['weapon accuracy', 'turret kills', 'kill streak - best', 'molten core kills', 'torbjorn kills', 'armor packs created'],
+	'torb': ['weapon accuracy', 'turret kills', 'kill streak - best', 'molten core kills', 'torbjorn kills', 'turret damage'],
 	'widowmaker': ['recon assists', 'scoped accuracy', 'kill streak - best', 'scoped critical hits', 'final blows'],
 	'dva': ['weapon accuracy', 'self-destruct kills', 'kill streak - best', 'mechs called', 'damage blocked'],
 	'orisa': ['weapon accuracy', 'offensive assists', 'kill streak - best', 'damage amplified', 'damage blocked'],
@@ -28,11 +29,11 @@ export let heroStatNames = {
 	'ana': ['unscoped accuracy', 'nano boost assists', 'scoped accuracy', 'enemies slept', 'defensive assists'],
 	'lucio': ['weapon accuracy', 'offensive assists', 'kill streak - best', 'defensive assists', 'sound barriers provided'],
 	'mercy': ['offensive assists', 'blaster kills', 'defensive assists', 'damage amplified', 'players resurrected'],
-	'symmetra': ['sentry turret kills', 'players teleported', 'kill streak - best', 'teleporter uptime', 'damage blocked'],
+	'symmetra': ['sentry turret kills', 'players teleported', 'kill streak - best', 'primary fire accuracy', 'secondary fire accuracy'],
 	'zenyatta': ['weapon accuracy', 'defensive assists', 'kill streak - best', 'transcendence healing', 'offensive assists'],
     'doomfist': ['weapon accuracy', 'ability damage done', 'kill streak - best', 'meteor strike kills', 'final blows', 'shields created'],
     'moira': ['secondary fire accuracy', 'coalescence kills', 'kill streak - best', 'coalescence healing', 'defensive assists', 'self healing'],
-    'brigitte': ['offensive assists', 'armor provided', 'defensive assists', null, 'damage blocked']
+    'brigitte': ['offensive assists', 'armor provided', 'defensive assists', null, 'damage blocked', 'inspire uptime percentage']
 }
 
 export let heroGraphedStats = [

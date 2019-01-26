@@ -135,7 +135,8 @@ export class HeroStatisticPaneComponent implements OnInit {
             'best', // best transcendance heal, kill streak - best
             'accuracy', // weapon, hook, etc. 
             'average', // average energy
-            'uptime'
+            'uptime',
+            'percentage'
         ]
         for (let b of blacklist) {
             if (statName.indexOf(b) != -1){
