@@ -628,6 +628,9 @@ a.navbar-brand > img {
 .map.blizzard-world {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/blizzard-world.jpg');
 }
+.map.busan {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/busan.jpg');
+}
 
 .banner.rialto {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/rialto-banner.jpg');
@@ -706,12 +709,23 @@ a.navbar-brand > img {
 }
 .banner.horizon-lunar-colony {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony-banner.jpg');
+    background-position: center;
+    background-size: cover;
 }
 .banner.junkertown {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/junkertown-banner.jpg');
+    background-position: center;
+    background-size: cover;
 }
 .banner.blizzard-world {
     background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/blizzard-world-banner.jpg');
+    background-position: center;
+    background-size: cover;
+}
+.banner.busan {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/busan-banner.jpg');
+    background-position: center;
+    background-size: cover;
 }
 
 
