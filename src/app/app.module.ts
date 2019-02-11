@@ -36,9 +36,11 @@ import { FAQComponent } from '../faq/faq.component';
 import { StreamerInfoComponent } from '../streamer-info/streamer-info.component';
 import { NotFoundComponent } from '../404/404.component';
 import { PlaylistsComponent } from '../game/playlists/playlists.component'; 
+import { VideoSearchComponent } from '../video-search/video-search.component';
 
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
+
 
 declare var ga:Function;
 
@@ -135,6 +137,8 @@ const appRoutes: Routes = [
 		{ path: 'faq', component: FAQComponent },
 		{ path: 'streamer', component: StreamerInfoComponent },
 
+		{ path: 'video', component: VideoSearchComponent },
+
 		{ path: '**', component: NotFoundComponent },
 ];
 
@@ -183,6 +187,7 @@ const appRoutes: Routes = [
 		StreamerInfoComponent,
 		NotFoundComponent,
 		PlaylistsComponent,
+		VideoSearchComponent
 	],
 	bootstrap: [ 
 		AppComponent

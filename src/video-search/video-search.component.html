@@ -1,0 +1,105 @@
+<div class="video-search">
+    <div class="video-search-form row banner rialto">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-2">
+                <h4>Hero</h4>
+                <form [formGroup]="form">
+                    <ng-multiselect-dropdown 
+                        #heroDropdown
+                        name="hero" 
+                        [placeholder]="'Any'" 
+                        [data]="heroes" 
+                        formControlName="hero" 
+                        [settings]="heroDropdownSettings" 
+                        (onDropDownClose)="onDropDownClose()" 
+                    >
+                    </ng-multiselect-dropdown>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <h4>Event Type</h4>
+                <form [formGroup]="form">
+                    <ng-multiselect-dropdown 
+                        #typeDropdown
+                        name="type" 
+                        [placeholder]="'Any'" 
+                        [data]="types" 
+                        formControlName="type" 
+                        [settings]="typeDropdownSettings" 
+                        (onDropDownClose)="onDropDownClose()" 
+                    >
+                    </ng-multiselect-dropdown>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <h4>Other Hero</h4>
+                <form [formGroup]="form">
+                    <ng-multiselect-dropdown 
+                        #otherHeroDropdown
+                        name="other_hero" 
+                        [placeholder]="'Any'" 
+                        [data]="otherHeroes" 
+                        formControlName="other_hero" 
+                        [settings]="otherHeroDropdownSettings" 
+                        (onDropDownClose)="onDropDownClose()" 
+                    >
+                    </ng-multiselect-dropdown>
+                </form>
+            </div>
+            <!-- <div class="col-md-6">
+                <h3>Option</h3>
+                <div class="checkbox">
+                    <label>
+                    <input type="checkbox" [checked]="closeDropdownSelection" (change)="toggleCloseDropdownSelection()">Close Dropdown on selection
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                    <input type="checkbox" [checked]="disabled" [(ngModel)]="disabled"> Disabled
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                    <input type="button" (click)="handleReset()" value="reset">
+                    </label>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="video-search-player row">
+        <vg-player>
+            <vg-overlay-play></vg-overlay-play>
+            <!--<vg-buffering></vg-buffering>-->
+
+            <vg-controls>
+                <vg-play-pause></vg-play-pause>
+                <vg-playback-button></vg-playback-button>
+
+                <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+                <vg-scrub-bar>
+                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                </vg-scrub-bar>
+
+                <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+                <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+                <vg-mute></vg-mute>
+                <vg-volume></vg-volume>
+
+                <vg-fullscreen></vg-fullscreen>
+            </vg-controls>
+
+            <video 
+                [vgMedia]="media" 
+                #media 
+                id="singleVideo"
+                preload="auto"
+                crossorigin
+                [vgHls]="url"
+            >
+            </video>
+        </vg-player>
+    </div>
+</div>
