@@ -6,28 +6,45 @@
         <div [class.hidden]="hide" *ngIf="data" class="panel-body">
             <h2>Raw Game</h2>
             <ng-container *ngIf="data.raw_game">
-                <p *ngFor="let key of keys(data.raw_game,['attributes'])">
-                    {{key}}: <span>{{data.raw_game[key] ? data.raw_game[key] : "null"}}</span>
-                </p>
-                <h3>Attributes</h3>
-                <p class="indent-1" *ngFor="let key of keys(data.raw_game.attributes,['metadata'])">
-                    {{key}}: <span>{{data.raw_game.attributes[key] ? data.raw_game.attributes[key] : "null"}}</span>
-                </p>
+                <ng-container *ngIf="data.raw_game.metadata">
+                    <p *ngFor="let key of keys(data.raw_game,['attributes'])">
+                        {{key}}: <span>{{data.raw_game[key] ? data.raw_game[key] : "null"}}</span>
+                    </p>
+                    <h3>Attributes</h3>
+                    <p class="indent-1" *ngFor="let key of keys(data.raw_game.attributes,['metadata'])">
+                        {{key}}: <span>{{data.raw_game.attributes[key] ? data.raw_game.attributes[key] : "null"}}</span>
+                    </p>
                 
-                <p class="indent-1">metadata: {{'{'}}</p>
-                <p class="indent-2" *ngFor="let key of keys(data.raw_game.attributes.metadata,[])">
-                    {{key}}: 
-                    <span>
-                        {{data.raw_game.attributes.metadata[key] ? data.raw_game.attributes.metadata[key] : "null"}}
-                    </span>
-                </p>
-                <p class="indent-1">{{'}'}}</p>
-                <hr>
+                    <p class="indent-1">metadata: {{'{'}}</p>
+                    <p class="indent-2" *ngFor="let key of keys(data.raw_game.attributes.metadata,[])">
+                        {{key}}: 
+                        <span>
+                            {{data.raw_game.attributes.metadata[key] ? data.raw_game.attributes.metadata[key] : "null"}}
+                        </span>
+                    </p>
+                    <p class="indent-1">{{'}'}}</p>
+                    <hr>
+                </ng-container>
+                <ng-container *ngIf="data.raw_game.url">
+                    <b class="indent-1">Signed URL</b>
+                    <p class="indent-1">
+                        <a href="{{data.raw_game.url}}">{{data.dynamo_game.source}}</a>
+                    </p>
+                    <b class="indent-1">Last Modified</b>
+                    <p class="indent-1">
+                        {{data.raw_game.last_modified}}
+                    </p>
+                    <b class="indent-1">Content Length</b>
+                    <p class="indent-1">
+                        {{data.raw_game.content_length}}
+                    </p>
+                </ng-container>
+
             </ng-container>
+            
             <p *ngIf="!data.raw_game">
                 Deleted
             </p>
-            
             
             <h2>Dynamo Game</h2>
              <p *ngFor="let key of keys(data.dynamo_game,['score','log-id','heroes-played'])">
