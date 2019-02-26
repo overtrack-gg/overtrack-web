@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
     selector: 'playlists',
     template: `
 <div class="playlists row">
-<div class="panel with-nav-tabs panel-default">
+<div class="panel with-nav-tabs panel-default" style="width: 100%;">
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <li><b>VOD:</b></li>

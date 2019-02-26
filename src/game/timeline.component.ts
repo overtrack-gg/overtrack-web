@@ -21,7 +21,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
     @Input() twitchURL: string;
 
     private twitchVideoStart: number;
-    private twitchVideoOffset = 6;
+    private twitchVideoOffset = 0;
     
     @ViewChild('timelineBody') element: ElementRef;
     @ViewChild('twitchEmbed') twitchEmebed: ElementRef;

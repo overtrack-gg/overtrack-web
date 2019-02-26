@@ -1,9 +1,88 @@
-import { Component, OnInit, Input, ViewEncapsulation, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { OnInit, Input, ViewEncapsulation, ViewChild, ViewChildren, QueryList, Component, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MultiSelectComponent } from 'ng-multiselect-dropdown';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
-import { ThrowStmt } from '@angular/compiler';
+import { VgHLS } from 'videogular2/src/streaming/vg-hls/vg-hls';
+import { VgAPI } from 'videogular2/core';
+import * as Hls from 'hls.js';
+
+interface HeroEventsSummary {
+    id: string,
+    name: string,
+    role: string,
+    events: {
+        map: Array<string>,
+        mode: Array<string>,
+        other_hero: Array<string>,
+        type: Array<string>
+    }
+}
+
+interface KillHero{
+    hero: string,
+    player: string,
+    blue_team: boolean,
+    name_correct: boolean,
+}
+
+interface Kill {
+    timestamp: number,
+    left: KillHero,
+    right: KillHero,
+    suicide: boolean,
+    resurrect: boolean
+}
+
+interface Event {
+    id: string,
+    game_key: string,
+    time: number,
+    player: string,
+    map: string,
+    mode: string,
+    hero: string,
+    other_hero: string,
+    type: string,
+    data: Kill,
+    suicide: boolean,
+    resurrect: boolean
+}
+
+@Component({
+    selector: 'killfeed-event',
+    templateUrl: 'killfeed-event.component.html',
+    styles: [
+        `
+        `
+    ]
+})
+export class KillfeedEventComponent {
+    @Input() data: Kill;
+    
+    time() {
+        let time = this.data.timestamp;
+        let secs = Math.floor(time);
+        let mins = Math.floor(secs / 60);
+        secs = secs - 60 * mins;
+        let secd = secs < 10 ? '0' + secs : secs;
+        return mins + ':' + secd;
+    }
+
+    teamClass(hero: KillHero){
+        if (hero && hero.blue_team){
+            return 'text-blue';
+        }
+        return 'text-red';
+    }
+
+    tooLong(hero: KillHero): string {
+        if (hero && hero.player && hero.player.length > 12) {
+            return 'too-long'
+        }
+        return '';
+    }
+}
 
 @Component({
     selector: 'video-search',
@@ -29,21 +108,55 @@ import { ThrowStmt } from '@angular/compiler';
         .video-search-player{
             height: calc(100vh - 150px);
         }
+        .events-overlay {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            left: 0;
+            width: 25%;
+            max-width: 350px;
+            font-family: sans-serif;
+            color: white;
+            z-index: 250;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-left: 30px;
+        }
+        .event {
+            
+        }
+        vg-scrub-bar-cue-points .cue-point-container .cue-point {
+            background-color: rgba(255, 204, 0, 0.5) !important;
+        }
+        .no-results-banner {
+            position: absolute;
+            top: 50px;
+            left: 25%;
+            width: 50%;
+            font-family: 'Roboto', sans-serif;
+        }
         `
     ]
 })
 export class VideoSearchComponent implements OnInit { 
 
     @Input() playlists: object;
-    private heroesEndpoint = 'http://localhost:1235/video_search/available';
-    private videoEndpoint = 'http://localhost:1235/video_search/video.m3u8'
+    private heroesEndpoint = 'https://api2.overtrack.gg/video_search/available';
+    private videoEndpoint = 'https://api2.overtrack.gg/video_search/video.m3u8'
+    private metadataEndpoint = 'https://api2.overtrack.gg/video_search/metadata.vtt';
 
-    private options;
+    private eventsSummary: Array<HeroEventsSummary>;
+
+    metadata: Array<string> = [];
+    activeCuePoints: Array<Event> = [];
 
     url: string;
+    haveResults = true;
     form: FormGroup;
 
+    @ViewChild(VgHLS) private vgHls: VgHLS;
     @ViewChildren(MultiSelectComponent) private dropdowns : QueryList<MultiSelectComponent>;
+    // @ViewChildren(TextTrack) tracks : QueryList<TextTrack>;
+    tracks: Array<TextTrack>;
 
 
     @ViewChild('heroDropdown') private heroDropdown: MultiSelectComponent;
@@ -84,8 +197,9 @@ export class VideoSearchComponent implements OnInit {
     constructor (private http: Http, private fb: FormBuilder) {}
 
     ngOnInit(): void {
-        this.http.get(this.heroesEndpoint).subscribe(r=>{
-            this.options = r.json();
+        this.http.get(this.heroesEndpoint, {withCredentials: true}).subscribe(r=>{
+            this.eventsSummary = r.json();
+            console.log(this.eventsSummary);
             this.updateDropdowns();
             this.updateURL();
         })
@@ -96,6 +210,48 @@ export class VideoSearchComponent implements OnInit {
             other_hero: this.otherHeroDropdown.selectedItems
         });
         this.form.valueChanges.subscribe(e => this.updateDropdowns());
+    }
+
+    onPlayerReady(api: VgAPI) {
+        // update tracks list, used by scrub bar
+        api.getDefaultMedia().subscriptions.loadedMetadata.subscribe((e) => {
+            console.log('loaded metadata', e);
+            this.haveResults = true;
+            if (e.target && e.target.textTracks){
+                this.tracks = e.target.textTracks;
+            }
+        });
+
+        (<any>this.vgHls).onError.subscribe((e) => {
+            console.error(e);
+            this.haveResults = false;
+        });
+
+        // highlight the first event
+        api.getDefaultMedia().subscriptions.loadedData.subscribe((e) => {
+            api.seekTime(0.01);
+        });
+
+        // api.getDefaultMedia().subscriptions.play.subscribe((e) => {
+        // });
+
+        // hack to make hls.js only use credentials for the m3u8 but not the .ts chunks
+        let _this = this;
+        let onPlayerReady = this.vgHls.onPlayerReady.bind(this.vgHls);
+        this.vgHls.onPlayerReady = function(){ 
+            onPlayerReady(); 
+            _this.vgHls.config.xhrSetup = function (xhr, url: string) {
+                if (url.indexOf(_this.videoEndpoint) != -1){
+                    xhr.withCredentials = true; 
+                } else {
+                    xhr.withCredentials = false; 
+                }
+            }
+        }
+    }
+
+    onVideoError(e){
+        console.error(e);
     }
 
     containsKey(list: Array<ListItem>, id: string){
@@ -125,7 +281,7 @@ export class VideoSearchComponent implements OnInit {
     }
 
     updateDropdowns(){
-        if (!this.options){
+        if (!this.eventsSummary){
             // not loaded yet
             return;
         }
@@ -133,7 +289,7 @@ export class VideoSearchComponent implements OnInit {
         let heroes: Array<ListItem> = [];
         let types: Array<ListItem> = [];
         let otherHeroes: Array<ListItem> = [];
-        for (let hero of this.options){
+        for (let hero of this.eventsSummary){
             if (!hero.events){
                 // no events for this hero
                 continue;
@@ -154,23 +310,15 @@ export class VideoSearchComponent implements OnInit {
                     }
                 }
                 for (let otherHero of Object.keys(hero.events.other_hero)){
-                    // TODO: look this up in a map
-                    let matchingHero = this.options.filter(e => e.id == otherHero);
-                    if (matchingHero.length){
-                        matchingHero = matchingHero[0].name;
-                    } else {
-                        matchingHero = otherHero;
-                    }
                     if (!otherHeroes.reduce((p, e) => p || e.id == otherHero, false)){
                         otherHeroes.push({
                             id: otherHero,
-                            text: matchingHero
+                            text: this.toHeroName(otherHero)
                         })
                     }
                 }
             }
         }
-        console.log(heroes);
         if (!this.heroDropdown._settings.defaultOpen){
             this.heroes = heroes;
         }
@@ -205,8 +353,124 @@ export class VideoSearchComponent implements OnInit {
         let newURL = this.videoEndpoint + '?' + params.toString();
         if (this.url != newURL){
             this.url = newURL;
-            console.log('Setting video path to', this.url);
+            this.metadata = [this.metadataEndpoint + '?' + params.toString()];
+            this.activeCuePoints = [];
         }
     }
 
+    titleise(s: string) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    toHeroName(id: string) {
+        let matchingHero = this.eventsSummary.filter(e => e.id == id);
+        if (matchingHero.length){
+            return matchingHero[0].name;
+        } else {
+            return this.titleise(id);
+        }
+    }
+
+    toDateString(epoch: number){
+        let date = new Date(epoch * 1000)
+        return this.formatDate(date) + ' ' +  this.formatDay(date) + ' ' + this.formatTime(date);
+    }
+
+    formatTime(date: Date) {
+        let hour = date.getHours();
+        const pm = hour > 11;
+        hour = hour % 12;
+        hour = hour === 0 ? 12 : hour;
+        let min: number|string = date.getMinutes();
+        if (min < 10){
+            min = '0' + min;
+        }
+        return hour + ':' + min + (pm ? 'pm' : 'am');
+    }
+    
+    formatDate(date: Date) {
+        return date.toLocaleDateString(undefined, {
+            year: '2-digit',
+            month: 'numeric',
+            day: 'numeric'
+
+        });
+    }
+
+    formatDay(date: Date) {
+        var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
+        return days[date.getDay()]
+    }
+
+    showEvent(event: Event){
+        if (!this.activeCuePoints.reduce((p, e) => p || e.id == event.id, false)){
+            this.activeCuePoints.push(event);
+        }
+    }
+
+    onEnterCuePoint(event) {
+        this.showEvent({"id": event.id, ...JSON.parse(event.text)});
+    }
+
+    onExitCuePoint(event) { 
+        this.activeCuePoints = this.activeCuePoints.filter(c => c.id != event.id);
+    }
 }
+
+// hack to make vgHls bubble errors to us
+VgHLS.prototype.ngOnInit = function () {
+    var _this = this;
+    if (this.API.isPlayerReady) {
+        this.onPlayerReady();
+    }
+    else {
+        this.subscriptions.push(this.API.playerReadyEvent.subscribe(function () { return _this.onPlayerReady(); }));
+    }
+    this.onError = new EventEmitter();
+};
+
+VgHLS.prototype.createPlayer = function () {
+    var _this = this;
+    if (this.hls) {
+        this.destroyPlayer();
+    }
+    // It's a HLS source
+    if (this.vgHls && this.vgHls.indexOf('.m3u8') > -1 && Hls.isSupported()) {
+        var video = this.ref.nativeElement;
+        this.hls = new Hls(this.config);
+        this.hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+            var videoList = [];
+            videoList.push({
+                qualityIndex: 0,
+                width: 0,
+                height: 0,
+                bitrate: 0,
+                mediaType: 'video',
+                label: 'AUTO'
+            });
+            data.levels.forEach(function (item, index) {
+                videoList.push({
+                    qualityIndex: ++index,
+                    width: item.width,
+                    height: item.height,
+                    bitrate: item.bitrate,
+                    mediaType: 'video',
+                    label: item.name
+                });
+            });
+            _this.onGetBitrates.emit(videoList);
+        });
+        this.hls.on(Hls.Events.ERROR, function (e, d) {
+            _this.onError.emit({event: e, data: d});
+        })
+        this.hls.loadSource(this.vgHls);
+        this.hls.attachMedia(video);
+    }
+    else {
+        if (this.target && !!this.target.pause) {
+            this.target.pause();
+            this.target.seekTime(0);
+            this.ref.nativeElement.src = this.vgHls;
+        }
+    }
+};

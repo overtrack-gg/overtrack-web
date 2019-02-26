@@ -31,7 +31,7 @@
                     </ng-multiselect-dropdown>
                 </form>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h4>Other Hero</h4>
                 <form [formGroup]="form">
                     <ng-multiselect-dropdown 
@@ -67,12 +67,39 @@
         </div>
     </div>
     <div class="video-search-player row">
-        <vg-player>
-            <vg-overlay-play></vg-overlay-play>
-            <!--<vg-buffering></vg-buffering>-->
+        <vg-player (onPlayerReady)="onPlayerReady($event)">
+            <div class="row no-results-banner" *ngIf="!haveResults">
+                <div class="col-md-12 alert alert-info" role="info">
+                    <h3 style="margin-top: 5px;">No results found.</h3>
+                    <br>
+                    No events found matching your search.
+                </div>
+            </div>
+
+            <div class="events-overlay">
+                <div *ngFor="let event of activeCuePoints" class="event" >
+                    <h3>{{toHeroName(event.hero)}} - {{titleise(event.type)}}</h3>
+                    <a href="/game/{{event.game_key}}" style="color: #5bc0de; text-decoration: underline;">
+                        <p>
+                            {{event.map}} - {{event.mode}}
+                        </p>
+                    </a>
+                    <p>
+                        {{ toDateString(event.time)}}
+                    </p>
+                    <div id="killfeed" class="killfeed event-kill">
+                        <table class="table table-striped text-center">
+                            <killfeed-event [data]="event.data"></killfeed-event>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <vg-overlay-play *ngIf="haveResults"></vg-overlay-play>
+            <vg-buffering  *ngIf="haveResults"></vg-buffering>
 
             <vg-controls>
-                <vg-play-pause></vg-play-pause>
+                <vg-play-pause *ngIf="haveResults"></vg-play-pause>
                 <vg-playback-button></vg-playback-button>
 
                 <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
@@ -80,6 +107,9 @@
                 <vg-scrub-bar>
                     <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
                     <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                    <ng-container *ngFor="let track of tracks">
+                        <vg-scrub-bar-cue-points [vgCuePoints]="track.cues"></vg-scrub-bar-cue-points>
+                    </ng-container>
                 </vg-scrub-bar>
 
                 <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
@@ -96,9 +126,20 @@
                 #media 
                 id="singleVideo"
                 preload="auto"
-                crossorigin
+                crossorigin="use-credentials"
                 [vgHls]="url"
+                (error)="onVideoError($event)"
             >
+
+                <track *ngFor="let src of metadata" 
+                    [src]="src" 
+                    kind="metadata" 
+                    label="Cue Points" 
+                    default
+                    vgCuePoints
+                    crossorigin="use-credentials"
+                    (onEnterCuePoint)="onEnterCuePoint($event)"
+                    (onExitCuePoint)="onExitCuePoint($event)">
             </video>
         </vg-player>
     </div>

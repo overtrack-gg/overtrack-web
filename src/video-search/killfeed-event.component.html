@@ -1,0 +1,22 @@
+<tr class="cue-event">
+    <td class="num">
+        {{time()}}
+    </td>
+    <td>
+        <img *ngIf="data.left.hero" class="heroicon" src="../assets/images/heroes/{{data.left.hero}}.png">
+    </td>
+    <td class="{{teamClass(data.left)}} text-left {{tooLong(data.left)}}">
+        <b *ngIf="data.left.hero">{{data.left.player}}</b>
+    </td>
+
+    <td class="nofade" *ngIf="!data.resurrect"><img class="killicon" src="assets/images/killicons/kill.png"/></td>
+    <td class="nofade" *ngIf="data.resurrect"><img class="killicon" src="assets/images/killicons/mercy.resurrect2.png"/></td>
+
+    <td>
+        <img class="heroicon" src="../assets/images/heroes/{{data.right.hero}}.png">
+    </td>
+    <td class="{{teamClass(data.right)}} text-left {{tooLong(data.right)}}">
+        <b>{{data.right.player}}</b>
+    </td>
+
+</tr>

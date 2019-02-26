@@ -20,38 +20,37 @@ export class GameService {
 
 
     addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string, tab?: any, heroPlayed?: HeroPlayed) {
-        let isPlayer = !!tab || !!heroPlayed;
+        class TabPress {
+            time: number;
+            hero: string;
+        }
+        let killfeedAndTab: Array<KillFeedEntry | TabPress> = [];
+        killfeedAndTab = killfeedAndTab.concat(killfeed);
+        if (tab){
+            for (let i in tab.time){
+                killfeedAndTab.push({
+                    time: tab.time[i],
+                    hero: tab.hero[i]
+                })
+            }
+            killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
+        }
+        if (heroPlayed){
+            for (let swap of heroPlayed.swaps){
+                killfeedAndTab.push({
+                    time: swap.timestamp,
+                    hero: swap.hero
+                });
+            }
+        }
+        killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
+        let firstPlayer = true;
         for (const player of team) {
             const heroes: Array<GameHero> = [];
             const events: Array<GameEvent> = [];
             let kills = 0;
             let deaths = 0;
 
-            class TabPress {
-                time: number;
-                hero: string;
-            }
-            let killfeedAndTab: Array<KillFeedEntry | TabPress> = [];
-            killfeedAndTab = killfeedAndTab.concat(killfeed);
-            if (isPlayer && tab){
-                for (let i in tab.time){
-                    killfeedAndTab.push({
-                        time: tab.time[i],
-                        hero: tab.hero[i]
-                    })
-                }
-                killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
-            }
-            if (isPlayer && heroPlayed){
-                for (let swap of heroPlayed.swaps){
-                    killfeedAndTab.push({
-                        time: swap.timestamp,
-                        hero: swap.hero
-                    });
-                }
-                killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
-            }
-            isPlayer = false;
 
             for (const event of killfeedAndTab) {
                 if (event.time > stage.end || event.time < stage.start) {
@@ -61,7 +60,7 @@ export class GameService {
 
                 // heroes played
                 let hero: string;
-                if ('hero' in event){
+                if ('hero' in event && firstPlayer){
                     let tabPress = <TabPress> event;
                     hero = tabPress.hero;
                 } else {
@@ -159,13 +158,22 @@ export class GameService {
                         heroes[heroes.length - 1].end = (event.time - stage.start) + 2 * 1000;
                     } else {
                         // once we see a new hero add this to the list
-                        heroes.push({
-                            name: hero,
-                            start: heroes[heroes.length - 1].end,
-                            end: event.time - stage.start
-                        });
+                        if (firstPlayer && heroPlayed){
+                            // if we have hero played data then don't guess
+                            heroes.push({
+                                name: hero,
+                                start: event.time - stage.start,
+                                end: event.time - stage.start + 2 * 1000
+                            });
+                        } else {
+                            heroes.push({
+                                name: hero,
+                                start: heroes[heroes.length - 1].end,
+                                end: event.time - stage.start
+                            });
+                        }
                     }
-                }
+                }   
             }
 
             // extend all heroes on to the end of the stage
@@ -187,7 +195,7 @@ export class GameService {
                 heroesPlayed: heroes,
                 colour: teamColour
             });
-
+            firstPlayer = false;
         }
     }
 
@@ -450,7 +458,7 @@ export class GameService {
                 index: index++,
                 start: stage.start,
                 killfeed: this.filterKillfeed(stage, killfeed),
-                end: stage.end + 10 * 1000,
+                end: stage.end,
                 duration: stage.end - stage.start,
                 players: players,
                 objectiveInfo: objectiveInfo,
@@ -497,17 +505,26 @@ export class GameService {
         let validRanks = 0;
         let teams: Teams;
         let placement: boolean = false;
-        if (body.avg_sr){
+
+        let gameType = 'competitive';
+        if (body.custom_game){
+            gameType = 'custom';
+        } else if (body.game_type){
+            gameType = body.game_type;
+        }
+
+        if (body.avg_sr || gameType != 'competitive'){
             teams = {
                 blue: [],
-                blueAvgSR: body.avg_sr[0],
+                blueAvgSR: body.avg_sr ? body.avg_sr[0]: null,
                 red: [],
-                redAvgSR: body.avg_sr[1],
+                redAvgSR:  body.avg_sr ? body.avg_sr[1]: null
             }
+            let fallbackRank = gameType == 'competitive' ? 'unknown' : 'none';
             for (let player of body.teams.blue){
                 teams.blue.push({
                     name: player.name,
-                    rank: player.rank || "unknown"
+                    rank: player.rank || fallbackRank
                 })
                 if (player.rank){
                     validRanks += 1;
@@ -516,7 +533,7 @@ export class GameService {
             for (let player of body.teams.red){
                 teams.red.push({
                     name: player.name,
-                    rank: player.rank || "unknown"
+                    rank: player.rank || fallbackRank
                 })
                 if (player.rank){
                     validRanks += 1;
@@ -525,18 +542,11 @@ export class GameService {
             if (teams.blue[0].rank == 'placement'){
                 placement = true;
             }
-            if (validRanks < 9){
+            if (validRanks < 9 && gameType == 'competitive'){
                 teams = null;
             }
         } else {
             teams = null;
-        }
-
-        let gameType = 'competitive';
-        if (body.custom_game){
-            gameType = 'custom';
-        } else if (body.game_type){
-            gameType = body.game_type;
         }
 
         let endGameStatistics: EndGameStatistics = null;

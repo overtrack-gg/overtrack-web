@@ -430,59 +430,6 @@ border-bottom-color: transparent;
   padding: 0px;
 } */
 
-#killfeed td {
-  padding: 2px;
-  line-height: 26px;
-  font-size: 12px;
-  height:30px;
-}
-
-#killfeed td.too-long {
-  font-size: 10px;
-}
-
-#killfeed .buffer{
-  height: 1000px;
-  width:10px;
-}
-
-#killfeed {
-  height: 475px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-#killfeed::-webkit-scrollbar {
-  width: 8px;
-  background-color: #333;
-}
-
-#killfeed::-webkit-scrollbar-thumb {
-  border-radius: 7px;
-  background-color: #555;
-}
-
-#killfeed::-webkit-scrollbar-track {
-  border-radius: 7px;
-  background-color: #333;
-}
-
-.game-timeline #killfeed b {
-  line-height:26px;
-}
-
-#killfeed img:not(.res) {
-  height:26px;
-}
-
-
-#killfeed img.res {
-  margin-top: 4px;
-}
-
-#killfeed img.killicon {
-  mix-blend-mode: lighten;
-}
 
 .jumbotron h1 {
   color:orange;

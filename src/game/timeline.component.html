@@ -52,7 +52,7 @@
     </div>
     <div class="col-md-4">
         <h2>Kill Feed</h2>
-        <div id="killfeed" class="killfeed-{{ stage.index }}">
+        <div id="killfeed" class="killfeed killfeed-stage killfeed-{{ stage.index }}">
             <table class="table table-striped text-center">
                 <tr *ngFor="let kill of stage.killfeed" class="timeline-event {{kill.id}}" [class.current]="highlightKill(kill, killfeedTime)">
                     <td class="num">{{time(kill)}}</td>

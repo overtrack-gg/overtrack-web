@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
-import {VgCoreModule} from 'videogular2/core';
-import {VgControlsModule} from 'videogular2/controls';
-import {VgOverlayPlayModule} from 'videogular2/overlay-play';
-import {VgBufferingModule} from 'videogular2/buffering';
+import { VgCoreModule } from 'videogular2/core';
+import { VgControlsModule } from 'videogular2/controls';
+import { VgOverlayPlayModule } from 'videogular2/overlay-play';
+import { VgBufferingModule } from 'videogular2/buffering';
 import { VgStreamingModule } from 'videogular2/streaming';
 
 import { AppComponent } from './app.component';
@@ -36,7 +36,7 @@ import { FAQComponent } from '../faq/faq.component';
 import { StreamerInfoComponent } from '../streamer-info/streamer-info.component';
 import { NotFoundComponent } from '../404/404.component';
 import { PlaylistsComponent } from '../game/playlists/playlists.component'; 
-import { VideoSearchComponent } from '../video-search/video-search.component';
+import { VideoSearchComponent, KillfeedEventComponent } from '../video-search/video-search.component';
 
 import { UserLoginService } from '../login/user-login.service';
 import { GamesListService } from '../games-list/games-list.service';
@@ -187,7 +187,8 @@ const appRoutes: Routes = [
 		StreamerInfoComponent,
 		NotFoundComponent,
 		PlaylistsComponent,
-		VideoSearchComponent
+		VideoSearchComponent,
+		KillfeedEventComponent
 	],
 	bootstrap: [ 
 		AppComponent
