@@ -223,8 +223,10 @@ export class VideoSearchComponent implements OnInit {
         });
 
         (<any>this.vgHls).onError.subscribe((e) => {
-            console.error(e);
-            this.haveResults = false;
+            console.error('got hls error', e);
+            if (e.event == 'hlsError' && e.data && e.data.type =='networkError' && e.data.networkDetails.status == 404){
+                this.haveResults = false;
+            }
         });
 
         // highlight the first event
