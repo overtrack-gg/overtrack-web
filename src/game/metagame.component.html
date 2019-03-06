@@ -3,7 +3,7 @@
          <div (click)="toggleMeta()" class="panel-heading">
             Meta-data
         </div>
-        <div [class.hidden]="hide" *ngIf="data" class="panel-body">
+        <div [class.hidden]="hide" *ngIf="data" class="panel-body" style="padding: 25px;">
             <h2>Raw Game</h2>
             <ng-container *ngIf="data.raw_game">
                 <ng-container *ngIf="data.raw_game.metadata">
@@ -63,8 +63,10 @@
             
             
             <h2>Processing Log</h2>
-            <pre>
+            <pre *ngIf="data.processing_log">
                 <p *ngFor="let line of data.processing_log">{{line}}</p>
             </pre>
-        </div>
+            <a *ngIf="data.processing_log_url" href="{{data.processing_log_url}}">
+                <button class="btn btn-primary">Download Logs</button>
+            </a>
     </div>
