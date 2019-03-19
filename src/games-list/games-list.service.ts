@@ -146,7 +146,7 @@ export class GamesListService {
             if (game.duration){
                 let heroes: Array<GamesListHero> = [];
                 for (let hero of game.heroes_played) {
-                    if (hero[1] > 0.15){
+                    if (hero[1] > 0.15 && heroes.length < 3){
                         heroes.push({
                             name: hero[0],
                             percentagePlayed: hero[1]
