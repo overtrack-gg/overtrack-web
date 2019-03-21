@@ -44,7 +44,8 @@ export class GamesGraphComponent implements AfterViewInit {
             },
             err => {
                 console.error(err);
-            }
+            },
+            ['all']
         );
     }
 
@@ -58,7 +59,8 @@ export class GamesGraphComponent implements AfterViewInit {
             },
             err => {
                 console.error(err);
-            }
+            },
+            ['all']
         );
     }
 

@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams  } from '@angular/common/http';
 
 import { Game } from '../game/game.service';
 
 @Injectable()
 export class GamesListService {
-    private gamesListUrl = 'https://api.overtrack.gg/games';
-    private games:Array<PlayerGameList> = null;
+    private gamesListUrl = 'https://api2.overtrack.gg/overwatch/games';
+    private games: Array<PlayerGameList> = null;
+    private seasons: Array<string> = null;
     private sharedGames: Map<string, Array<PlayerGameList>> = new Map<string, Array<PlayerGameList>>();
 
-    constructor (private http: Http) {}
+    constructor (private http: HttpClient) {}
 
-    getGamesList(): Observable<Response> {
-        return this.http.get(this.gamesListUrl, { withCredentials: true});
-    }
-
-    getSharedGamesList(share_key: string): Observable<Response> {
-        return this.http.get(this.gamesListUrl + '/' + share_key);
-    }
+    // getSharedGamesList(share_key: string): Observable<Object> {
+    //     return this.http.get(this.gamesListUrl + '/' + share_key);
+    // }
 
     wltClass(result: string) {
         if (!result || result === 'UNKN') {
@@ -94,12 +89,10 @@ export class GamesListService {
         return srChange;
     }
 
-    toGamesList(res: Response) {
+    toGamesList(body) {
         let list: Array<PlayerGameList> = [];
         let map: { [id: string]: Array<Game>} = {};
         
-        let body = res.json();
-
         let num = 1;
 
         for (let game of body.games) {
@@ -261,37 +254,52 @@ export class GamesListService {
         return list;
     }
 
-    fetchSharedGames(share_key: string, games: (value: Array<PlayerGameList>) => void, error: (error: any) => void){
-        if (this.sharedGames.get(share_key) != null){
-            games(this.sharedGames.get(share_key));
-        } else {
-            this.getSharedGamesList(share_key).subscribe(
-                next => {
-                    let fetchedGames = this.toGamesList(next);
-                    this.sharedGames.set(share_key, fetchedGames);
-                    games(fetchedGames);
-                },
-                err => {
-                    error(err);
-                }
-            );
+    fetchSharedGames(share_key: string, games: (value: Array<PlayerGameList>, seasons: Array<string>) => void, error: (error: any) => void, seasons?: Array<string>){
+        let params = null;
+        if (seasons && seasons.length){
+            params = {'season': seasons};
         }
+        this.http.get(
+            this.gamesListUrl + '/' + share_key,
+            { 
+                params: params,
+                responseType: 'json'
+            }
+        ).subscribe(
+            body => {
+                let fetchedGames = this.toGamesList(body);
+                this.seasons = body['seasons'].reverse();
+                this.sharedGames.set(share_key, fetchedGames);
+                games(fetchedGames, this.seasons);
+            },
+            err => {
+                error(err);
+            }
+        );
     }
 
-    fetchGames(games: (value: Array<PlayerGameList>) => void, error: (error: any) => void){
-        if (this.games != null){
-            games(this.games);
-        } else {
-            this.getGamesList().subscribe(
-                next => {
-                    this.games = this.toGamesList(next);
-                    games(this.games);
-                },
-                err => {
-                    console.error(err);
-                }
-            );
+    fetchGames(games: (games: Array<PlayerGameList>, seasons: Array<string>) => void, error: (error: any) => void, seasons?: Array<string>){
+        let params = null;
+        if (seasons && seasons.length){
+            params = {'season': seasons};
         }
+        this.http.get(
+            this.gamesListUrl,
+            { 
+                params: params,
+                responseType: 'json',
+                withCredentials: true
+            }
+        ).subscribe(
+            body => {
+                this.games = this.toGamesList(body);
+                this.seasons = body['seasons'].reverse();
+                games(this.games, this.seasons);
+            },
+            err => {
+                console.error(err);
+            }
+        );
     }
 
     getSeason(time: number){

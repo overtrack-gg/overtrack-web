@@ -94,8 +94,6 @@ export class AccountsDropdownComponent implements OnInit{
     }
 
     dropdownClosed() {
-        console.log('closed');
-        console.log(this.selected);
         if (this.selected.sort().toString() != this.lastNotified.sort().toString() ){
             this.accountsSelected.emit(this.selected);
         }

@@ -47,6 +47,9 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         closeDropDownOnSelection: true,
     };
 
+    private fetchSeasons: Array<string> = null;
+    private shareKey: string = null;
+
     private batchEditURL = 'https://api.overtrack.gg/batch_edit';
     
     constructor(public gamesListService: GamesListService,
@@ -63,7 +66,8 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
             params => {
                 if (params.hasOwnProperty('share_key')){
                     this.isOwnGames = false;
-                    this.fetchSharedGames(params['share_key']);
+                    this.shareKey = params['share_key'];
+                    this.fetchSharedGames(this.shareKey);
                 } else {
                     this.isOwnGames = true;
                     this.fetchOwnGames();
@@ -110,41 +114,36 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     setSelectedPlayer(playerName: string){
         this.hideSR = playerName == 'Custom Games' || playerName == 'Quick Play';
         this.player = playerName;
-        this.updateGamesDropdown();
-        this.changeSeasonSelection(null);
         if (this.isOwnGames && $('#account-input').get(0)){
             $('#account-input').get(0).value = playerName;
         }
+        this.updateGamesList();
     }
 
     updateGamesDropdown(){
-        let seasons: Array<string> = [];
-        for (let gl of this.gamesLists){
-            if (gl.player == this.player){
-                for (let g of gl.list){
-                    let season = g.season;
-                    if (seasons.indexOf(season) == -1){
-                        seasons.push(season);
-                    }
-                }
-            }
-        }
-        this.allSeasons = [];
-        for (let season of seasons){
-            this.allSeasons.push(season)
-        }
-        console.log('all seasons set to ', this.allSeasons);
-        if (this.visibleSeasons.length == 0){
-            this.visibleSeasons = [ seasons[0] ];
-        }
     }
 
     changeSeasonSelection(event) {
-        console.log('changeSeasonSelection', event);
-        this.updateGamesList();
-        if (this.visibleGames.length == 0 || event == null){
-            this.visibleSeasons = [this.allSeasons[0]];
-            this.updateGamesList();
+    }
+
+    closeDropdown(event) {
+        let toFetch = this.visibleSeasons;
+        if (toFetch.length == 0){
+            toFetch = [ this.allSeasons[0] ];
+        }
+
+        if (JSON.stringify(toFetch) != JSON.stringify(this.fetchSeasons)){
+            console.log('fetch', toFetch);
+            if (this.fetchSeasons == null){
+                this.fetchSeasons = Object.assign([], toFetch);
+            } else{
+                this.fetchSeasons = Object.assign([], toFetch);
+                if (this.isOwnGames){
+                    this.fetchOwnGames();
+                } else {
+                    this.fetchSharedGames(this.shareKey);
+                }
+            }
         }
     }
 
@@ -154,37 +153,45 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     }
 
     fetchSharedGames(share_key: string){
+        this.visibleGames = [];
         this.gamesListService.fetchSharedGames(share_key,
-            res => {
+            (games, seasons) => {
                 console.log('fetchSharedGames: updating games list');
-                this.gamesLists = res;
+                this.gamesLists = games;
+                this.allSeasons = seasons;
                 if (this.gamesLists.length){
                     this.accountNames = this.gamesLists.map(gl => gl.player.toUpperCase().split('#')[0]).filter(e => e != 'CUSTOM GAMES');
                     this.setSelectedPlayer(this.gamesLists[0].player);
                 }
                 this.loaded = true;
+                this.updateGamesList();
             },
             err => {
                 console.error(err);
-            }
+            },
+            this.fetchSeasons
         );
         this.showUploadingGames = false;
     }
 
     fetchOwnGames() {
+        this.visibleGames = [];
         this.gamesListService.fetchGames(
-            res => {
+            (games, seasons) => {
                 console.log('fetchOwnGames: updating games list');
-                this.gamesLists = res;
+                this.gamesLists = games;
+                this.allSeasons = seasons;
                 if (this.gamesLists.length){
                     this.accountNames = this.gamesLists.map(gl => gl.player.toUpperCase().split('#')[0]).filter(e => e != 'CUSTOM GAMES');
                     this.setSelectedPlayer(this.gamesLists[0].player);
                 }
                 this.loaded = true;
+                this.updateGamesList();
             },
             err => {
                 console.error(err);
-            }
+            },
+            this.fetchSeasons
         );
         this.showUploadingGames = true;
         this.loginService.getUser().subscribe(user => {
@@ -208,6 +215,10 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     updateGamesList() {
         console.log('updateGamesList');
 
+        if (this.visibleSeasons.length == 0){
+            this.visibleSeasons = [ this.allSeasons[0] ];
+        }
+
         let sr: Array<number> = [];
         let gamePoints: Array<number> = [];
         let last: number = null;
@@ -216,10 +227,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         for (let gl of this.gamesLists){
             if (gl.player == this.player){
                 for (let g of gl.list){
-                    let season = g.season;
-                    if (this.visibleSeasons.indexOf(season) != -1){
-                        visibleGames.push(g);
-                    }
+                    visibleGames.push(g);
                 }
             }
         }

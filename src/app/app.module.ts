@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, URLSearchParams } from '@angular/http';
 import { RouterModule, Router, Routes, CanActivate, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http'; 
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
@@ -147,6 +148,7 @@ const appRoutes: Routes = [
 		RouterModule.forRoot(appRoutes),
 		BrowserModule, 
 		HttpModule, 
+		HttpClientModule,
 		FormsModule, 
 		ReactiveFormsModule,
 
