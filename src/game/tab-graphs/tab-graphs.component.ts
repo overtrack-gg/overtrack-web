@@ -33,7 +33,8 @@ export let heroStatNames = {
 	'zenyatta': ['weapon accuracy', 'defensive assists', 'kill streak - best', 'transcendence healing', 'offensive assists'],
     'doomfist': ['weapon accuracy', 'ability damage done', 'kill streak - best', 'meteor strike kills', 'final blows', 'shields created'],
     'moira': ['secondary fire accuracy', 'coalescence kills', 'kill streak - best', 'coalescence healing', 'defensive assists', 'self healing'],
-    'brigitte': ['offensive assists', 'armor provided', 'defensive assists', null, 'damage blocked', 'inspire uptime percentage']
+    'brigitte': ['offensive assists', 'armor provided', 'defensive assists', null, 'damage blocked', 'inspire uptime percentage'],
+    'baptiste': ['weapon accuracy', 'amplification matrix assists', 'healing accuracy', 'defensive assists', 'damage amplified', 'immortality field deaths prevented']
 }
 
 export let heroGraphedStats = [
