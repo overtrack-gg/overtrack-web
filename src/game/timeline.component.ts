@@ -311,7 +311,7 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
         svg.append('rect')
             .attr('width', '100%')
             .attr('height', '40px')
-            .attr('fill', 'gray')
+            .attr('fill', '#4a5561')
             .attr('stroke', 'white');
 
         // ults
