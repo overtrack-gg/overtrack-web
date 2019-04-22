@@ -317,9 +317,9 @@ export class GamesGraphComponent implements AfterViewInit {
                 hoverinfo: 'skip',
                 line: {
                     shape: 'spline',
-                    smoothing: 1.3
+                    smoothing: 1.3,
                     width: 2,
-                    color: color,
+                    color: color
                 }
             });
             
