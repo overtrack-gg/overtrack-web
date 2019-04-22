@@ -879,3 +879,11 @@ path.js-line {
 .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: #4a5561 !important;
 }
+
+.text-success, .text-success:hover {
+    color: #00ff00;
+}
+
+.text-danger, .text-danger:hover {
+    color: #ff0000;
+}
