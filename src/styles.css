@@ -244,7 +244,7 @@ a.navbar-brand > img {
 }
 
 .text-red {
-    color: #ee5f5b;
+    color: #ff7874;
 }
 
 .text-error {
@@ -577,7 +577,7 @@ a.navbar-brand > img {
     opacity: 0.8;
 }
 #gametable .hoverable:hover {
-    cursor: pointer;
+    cursor: crosshair;
     opacity: 1;
 }
 .banner {
@@ -792,7 +792,7 @@ div#meta-game div.panel-body {
 
 
 div#meta-game div.panel-heading {
-    cursor: pointer;
+    cursor: crosshair;
 }
 
 div#meta-game p {
@@ -825,7 +825,7 @@ svg.timeline.col-xs-8 {
 } 
 
 svg .timeline-event:hover {
-    cursor: pointer;
+    cursor: crosshair;
 }
 
 .timeline-key {
