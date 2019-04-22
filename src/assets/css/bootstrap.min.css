@@ -1081,8 +1081,9 @@ body {
   font-size: 15px;
   line-height: 1.42857143;
   color: #ebebeb;
-  background-color: #2b3e50;
+  background-color: #222854;
 }
+
 input,
 button,
 select,
@@ -4529,7 +4530,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #cccccc;
 }
 .navbar-inverse {
-  background-color: #df691a;
+  background-color: #222854;
   border-color: transparent;
 }
 .navbar-inverse .navbar-brand {
