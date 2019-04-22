@@ -283,7 +283,7 @@ export class TabGraphsComponent {
         let vlines: Array<any> = [];
         for (let stage of this.stages){
             vlines.push({
-                'type': 'line',
+                'type': 'scatter',
                 'x0': stage.end,
                 'y0': 0,
                 'x1': stage.end,
@@ -291,7 +291,10 @@ export class TabGraphsComponent {
                 'line': {
                     'color': 'rgb(191, 128, 55)',
                     'width': 3,
+                    shape: 'spline',
+                    smoothing: 0.9
                 }
+
             });
         }
 

@@ -244,7 +244,7 @@ a.navbar-brand > img {
 }
 
 .text-red {
-    color: #ee5f5b;
+    color: #ff7874;
 }
 
 .text-error {
@@ -580,63 +580,87 @@ a.navbar-brand > img {
     cursor: pointer;
     opacity: 1;
 }
+.banner {
+  margin-top: -10px;
+  position: relative;
+}
+
+.banner:before{
+  position: absolute;
+  content:" ";
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display: none;
+  z-index:0;
+  display: block;
+  background-color: rgba(36, 42, 88, 0.3);
+}
+
+
+.jumbotron * {
+    position: relative;
+}
+
+
 
 .map.rialto {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/rialto.jpg');
+   background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/rialto.jpg');
 }
 .map.eichenwalde {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/eichenwalde.jpg');
 }
 .map.watchpoint-gibraltar {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/watchpoint-gibraltar.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/watchpoint-gibraltar.jpg');
 }
 .map.numbani {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/numbani.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/numbani.jpg');
 }
 .map.oasis {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/oasis.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/oasis.jpg');
 }
 .map.route-66 {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/route-66.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/route-66.jpg');
 }
 .map.nepal {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/nepal.jpg');
 }
 .map.dorado {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/dorado.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/dorado.jpg');
 }
 .map.hollywood {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hollywood.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/hollywood.jpg');
 }
 .map.kings-row {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/kings-row.jpg');
 }
 .map.lijiang-tower {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/lijiang-tower.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/lijiang-tower.jpg');
 }
 .map.volskaya-industries {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/volskaya-industries.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/volskaya-industries.jpg');
 }
 .map.hanamura {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hanamura.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/hanamura.jpg');
 }
 .map.horizon-lunar-colony {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/horizon-lunar-colony.jpg');
 }
 .map.ilios {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/ilios.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/ilios.jpg');
 }
 .map.temple-of-anubis {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/temple-of-anubis.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/temple-of-anubis.jpg');
 }
 .map.junkertown {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/junkertown.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/junkertown.jpg');
 }
 .map.blizzard-world {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/blizzard-world.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/blizzard-world.jpg');
 }
 .map.busan {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/busan.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/busan.jpg');
 }
 
 .banner.rialto {
@@ -645,92 +669,92 @@ a.navbar-brand > img {
     background-size: cover;
 }
 .banner.nepal {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/nepal-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/nepal-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.eichenwalde {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/eichenwalde-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/eichenwalde-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.lijiang-tower {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/lijiang-tower-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/lijiang-tower-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.oasis {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/oasis-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/oasis-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.hanamura {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hanamura-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/hanamura-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.hollywood {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/hollywood-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/hollywood-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.ilios {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/ilios-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/ilios-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.kings-row {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/kings-row-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/kings-row-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.dorado {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/dorado-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/dorado-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.numbani {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/numbani-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/numbani-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.temple-of-anubis {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/temple-of-anubis-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/temple-of-anubis-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.watchpoint-gibraltar {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/watchpoint-gibraltar-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/watchpoint-gibraltar-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.route-66 {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/route-66-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/route-66-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.volskaya-industries {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/volskaya-industries-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/volskaya-industries-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.horizon-lunar-colony {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/horizon-lunar-colony-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/horizon-lunar-colony-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.junkertown {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/junkertown-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/junkertown-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.blizzard-world {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/blizzard-world-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/blizzard-world-banner.jpg');
     background-position: center;
     background-size: cover;
 }
 .banner.busan {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.55) 100%), url('assets/images/maps/busan-banner.jpg');
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/busan-banner.jpg');
     background-position: center;
     background-size: cover;
 }
@@ -768,7 +792,7 @@ div#meta-game div.panel-body {
 
 
 div#meta-game div.panel-heading {
-    cursor: pointer;
+    cursor: crosshair;
 }
 
 div#meta-game p {
@@ -801,7 +825,7 @@ svg.timeline.col-xs-8 {
 } 
 
 svg .timeline-event:hover {
-    cursor: pointer;
+    cursor: crosshair;
 }
 
 .timeline-key {
@@ -837,4 +861,29 @@ svg {
 
 .multiselect-dropdown .dropdown-btn .selected-item a {
     display: none;
+}
+
+path.point {
+    fill: #a991d4 !important;
+}
+
+path.js-line {
+    stroke: #a991d4 !important;
+}
+
+.jumbotron.view h1 {
+    font-size: 50px;
+    text-shadow: none;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #4a5561 !important;
+}
+
+.text-success, .text-success:hover {
+    color: #00ff00;
+}
+
+.text-danger, .text-danger:hover {
+    color: #ff0000;
 }

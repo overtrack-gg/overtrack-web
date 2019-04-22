@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top"  style="font-family: 'Roboto', sans-serif;">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -29,20 +29,10 @@
                 <li class="nav-item" [class.active]="router.isActive('/winrates', false)" routerLink="winrates{{ shareKeyFragment }}">
                     <a class="nav-link" (click)="prevent($event)" href="/winrates">Win Rates</a>
                 </li>
+                 <li class="nav-item" [class.active]="router.isActive('/faq', false)" routerLink="faq">
+                        <a class="nav-link" (click)="prevent($event)" href="/faq">Help</a>
+                    </li>
 
-                <ng-container *ngIf="!shareKey">
-                    <li class="divider-vertical"></li><!-- how to make this not look s**t? -->
-                    
-                    <li class="nav-item" [class.active]="router.isActive('/tracker', false)" routerLink="tracker">
-                        <a class="nav-link" (click)="prevent($event)" href="/tracker">Download Tracker</a>
-                    </li>
-                    <li class="nav-item" [class.active]="router.isActive('/faq', false)" routerLink="faq">
-                        <a class="nav-link" (click)="prevent($event)" href="/faq">FAQ / Troubleshooting</a>
-                    </li>
-                    <li *ngIf="user" class="nav-item" [class.active]="router.isActive('/subscribe', false)" routerLink="subscribe">
-                        <a class="nav-link" (click)="prevent($event)" href="/subscribe">Subscription</a>
-                    </li>
-               </ng-container>
             
 
             </ul>

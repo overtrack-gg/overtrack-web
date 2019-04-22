@@ -312,11 +312,14 @@ export class GamesGraphComponent implements AfterViewInit {
                 x: lineXs,
                 y: lineSRs,
                 overtrackGames: games,
+                type: 'scatter',
                 mode: 'lines',
                 hoverinfo: 'skip',
                 line: {
+                    shape: 'spline',
+                    smoothing: 1.3,
                     width: 2,
-                    color: color,
+                    color: color
                 }
             });
             
