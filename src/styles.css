@@ -577,7 +577,7 @@ a.navbar-brand > img {
     opacity: 0.8;
 }
 #gametable .hoverable:hover {
-    cursor: crosshair;
+    cursor: pointer;
     opacity: 1;
 }
 .banner {
