@@ -563,25 +563,38 @@ a.navbar-brand > img {
     font-size:26px;
     text-shadow: 1px 1px 10px black;
     color:lightgray;
-    padding-right:15px;
-    padding-left: 0px;
-    overflow: hidden;
-    
-    background-size: cover;
-    background-position: 0 0, center;
+    padding: 0;
 }
 
-#gametable .map div {
+#gametable .map-wrap {
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: 0 0, center;
+    height: 48px;
+    margin: 2px 0 2px 0;
+}
+
+#gametable .map-bg {
+    position: absolute;
+    height: 52px;
+    width: 310px;
+    z-index: 0;
+}
+
+#gametable .map-title {
     display: inline-block;
     background-color: rgba(27,33,80,0.6);
     transform: skewX(-30deg);
     padding-right: 15px;
     padding-left: 20px;
     position: relative;
-    right: 15px;
+    top: 6px;
+    right: 14px;
+    z-index: 1;
 }
 
-#gametable .map i {
+#gametable .map-title i {
     display: inline-block;
     transform: skewX(30deg);
 }
@@ -617,61 +630,61 @@ a.navbar-brand > img {
 }
 
 
-.map.rialto {
+.map.rialto .map-bg {
    background: url('assets/images/maps/rialto.jpg');
 }
-.map.eichenwalde {
+.map.eichenwalde .map-bg {
     background: url('assets/images/maps/eichenwalde.jpg');
 }
-.map.watchpoint-gibraltar {
+.map.watchpoint-gibraltar .map-bg {
     background: url('assets/images/maps/watchpoint-gibraltar.jpg');
 }
-.map.numbani {
+.map.numbani .map-bg {
     background: url('assets/images/maps/numbani.jpg');
 }
-.map.oasis {
+.map.oasis .map-bg {
     background: url('assets/images/maps/oasis.jpg');
 }
-.map.route-66 {
+.map.route-66 .map-bg {
     background: url('assets/images/maps/route-66.jpg');
 }
-.map.nepal {
+.map.nepal .map-bg {
     background: url('assets/images/maps/nepal.jpg');
 }
-.map.dorado {
+.map.dorado .map-bg {
     background: url('assets/images/maps/dorado.jpg');
 }
-.map.hollywood {
+.map.hollywood .map-bg {
     background: url('assets/images/maps/hollywood.jpg');
 }
-.map.kings-row {
+.map.kings-row .map-bg {
     background: url('assets/images/maps/kings-row.jpg');
 }
-.map.lijiang-tower {
+.map.lijiang-tower .map-bg {
     background: url('assets/images/maps/lijiang-tower.jpg');
 }
-.map.volskaya-industries {
+.map.volskaya-industries .map-bg {
     background: url('assets/images/maps/volskaya-industries.jpg');
 }
-.map.hanamura {
+.map.hanamura .map-bg {
     background: url('assets/images/maps/hanamura.jpg');
 }
-.map.horizon-lunar-colony {
+.map.horizon-lunar-colony .map-bg {
     background: url('assets/images/maps/horizon-lunar-colony.jpg');
 }
-.map.ilios {
+.map.ilios .map-bg {
     background: url('assets/images/maps/ilios.jpg');
 }
-.map.temple-of-anubis {
+.map.temple-of-anubis .map-bg {
     background: url('assets/images/maps/temple-of-anubis.jpg');
 }
-.map.junkertown {
+.map.junkertown .map-bg {
     background: url('assets/images/maps/junkertown.jpg');
 }
-.map.blizzard-world {
+.map.blizzard-world .map-bg {
     background: url('assets/images/maps/blizzard-world.jpg');
 }
-.map.busan {
+.map.busan .map-bg {
     background: url('assets/images/maps/busan.jpg');
 }
 

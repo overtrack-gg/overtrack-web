@@ -153,8 +153,11 @@
                             <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !hideSR" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
                             <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
                             <td *ngIf="!game.error" class="map {{map(game)}}">
-                                <div>
-                                    <i>{{ game.map }}</i>
+                                <div class="map-wrap">
+                                    <div class="map-bg"></div>
+                                    <div class="map-title">
+                                        <i>{{ game.map }}</i>
+                                    </div>
                                 </div>
                             </td>
                             <td *ngIf="!game.error" class="hero" style="position: relative">
