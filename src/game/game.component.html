@@ -1,15 +1,13 @@
 <div *ngIf="game" class="jumbotron game view banner {{mapClass()}}" style="padding-top: 10px;">
     <div class="container">
-        <div class="pull-left col-lg-9">
-            <h1>{{game.map}}</h1>
-            <p>{{game.mapType}}</p>
-            <p>{{displayGameTime()}} minutes</p>
-            <p>{{ formatTime(game.startTime) }} {{ formatDay(game.startTime) }} {{formatDate(game.startTime) }}</p>
-        </div>
-        <div class="pull-right col-lg-3">
-            <h1 class="text-right"><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span></h1>
-            <p class="text-right">Score: {{game.blueScore}}/{{game.redScore}}</p>
+        <div class="pull-left col-lg-8">
+            <h1 class="mapname">{{game.map}}<small>{{ formatTime(game.startTime) }} {{ formatDay(game.startTime) }} {{formatDate(game.startTime) }}</small></h1>
+            <p><img src="/assets/images/{{game.mapType}}.svg" alt="{{game.mapType}}" class="maptype"> {{game.mapType}} <span class="glyphicon glyphicon-time
+" style="font-size:18px"> </span> {{displayGameTime()}} minutes</p>
 
+        </div>
+        <div class="pull-right col-lg-4">
+            <h1 class="text-right winloss"><span class="{{wltClass()}}">{{game.result ? game.result : 'UNKN'}}</span><small>{{game.blueScore}}/{{game.redScore}}</small></h1>
             <p *ngIf="game.customGame" style="text-align: right">
                 Custom Game
             </p>

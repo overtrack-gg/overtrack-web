@@ -286,7 +286,9 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                     mode: 'lines',
                     hoverinfo: 'skip',
                     line: {
-                        color: '#c19400'
+                        color: '#c19400',
+                        shape: 'spline',
+                        smoothing: 0.9
                     }
                 },
                 {
