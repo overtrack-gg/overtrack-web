@@ -152,7 +152,11 @@
                             <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !hideSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                             <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !hideSR" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
                             <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
-                            <td *ngIf="!game.error" class="map {{map(game)}}"><i>{{ game.map }}</i></td>
+                            <td *ngIf="!game.error" class="map {{map(game)}}">
+                                <div>
+                                    <i>{{ game.map }}</i>
+                                </div>
+                            </td>
                             <td *ngIf="!game.error" class="hero" style="position: relative">
                                 <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
                                 <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
