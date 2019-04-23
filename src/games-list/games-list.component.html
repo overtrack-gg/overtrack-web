@@ -154,8 +154,9 @@
                             <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
                             <td *ngIf="!game.error" class="map {{map(game)}}">
                                 <div class="map-wrap">
-                                    <div class="map-bg"></div>
+                                    <div class="map-bg bg"></div>
                                     <div class="map-title">
+                                        <div class="map-title-bg bg"></div>
                                         <i>{{ game.map }}</i>
                                     </div>
                                 </div>
