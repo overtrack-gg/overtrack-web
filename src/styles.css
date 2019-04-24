@@ -55,37 +55,37 @@ a.navbar-brand > img {
 }
 
 /*.table {
-	margin: 0 auto;
-	text-align: left;
-	width: 768px;
+    margin: 0 auto;
+    text-align: left;
+    width: 768px;
 }*/
 
 .tab-stats-table {
-	font: 300 11px 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font: 300 11px 'Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
-.tab-stats-table th {	
-	font-size: 15px;
+.tab-stats-table th {   
+    font-size: 15px;
 }
 
 .tab-stats-table span.big {
-	color: #FFFFFF;
-	font-size: 16px;
-	font-weight: 600;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .tab-stats-table tr th, .tab-stats-table tr td {
-	color: #C8C8C8;
-	font-weight: 300;
-	line-height: 1.5;
+    color: #C8C8C8;
+    font-weight: 300;
+    line-height: 1.5;
     padding: 10px;
-	/*width: 33%;*/
+    /*width: 33%;*/
 }
 
 .dashed-line{
     padding: 0px;
     margin: 5px 0 -2px;
-	position: relative;
+    position: relative;
     border-top: 1px dashed;
 }
 
@@ -341,18 +341,18 @@ a.navbar-brand > img {
     padding: 5px 5px 0 5px;
 }
 .panel.with-nav-tabs .nav-tabs{
-	border-bottom: none;
+    border-bottom: none;
 }
 .panel.with-nav-tabs .nav-justified{
-	margin-bottom: -1px;
+    margin-bottom: -1px;
 }
 
 .with-nav-tabs.panel-default .nav-tabs > li.active > a,
 .with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
 .with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
-	/*color: #555;*/
-	background-color: #2e3338;
-	border-bottom-color: transparent;
+    /*color: #555;*/
+    background-color: #2e3338;
+    border-bottom-color: transparent;
 }
 
 .nav > li > b {
@@ -639,9 +639,7 @@ a.navbar-brand > img {
 }
 
 
-.map.rialto .bg {
-   background: url('assets/images/maps/rialto.jpg');
-}
+
 .map.eichenwalde .bg {
     background: url('assets/images/maps/eichenwalde.jpg');
 }
@@ -684,6 +682,24 @@ a.navbar-brand > img {
 .map.ilios .bg {
     background: url('assets/images/maps/ilios.jpg');
 }
+.map.paris .bg {
+  background: url('assets/images/maps/paris.jpg');
+}
+.map.rialto .bg {
+   background: url('assets/images/maps/rialto.jpg');
+}
+.map.temple-of-anubis .bg {
+    background: url('assets/images/maps/temple-of-anubis.jpg');
+}
+.map.junkertown .bg {
+    background: url('assets/images/maps/junkertown.jpg');
+}
+.map.blizzard-world .bg {
+    background: url('assets/images/maps/blizzard-world.jpg');
+}
+.map.busan .bg {
+    background: url('assets/images/maps/busan.jpg');
+}
 .map.temple-of-anubis .bg {
     background: url('assets/images/maps/temple-of-anubis.jpg');
 }
@@ -697,15 +713,7 @@ a.navbar-brand > img {
     background: url('assets/images/maps/busan.jpg');
 }
 
-.map.paris .bg {
-  background: url('assets/images/maps/paris.jpg');
-}
 
-.banner.rialto {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.85) 100%), url('assets/images/maps/rialto-banner.jpg');
-    background-position: center;
-    background-size: cover;
-}
 .banner.nepal {
     background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/nepal-banner.jpg');
     background-position: center;
@@ -738,6 +746,16 @@ a.navbar-brand > img {
 }
 .banner.ilios {
     background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/ilios-banner.jpg');
+    background-position: center;
+    background-size: cover;
+}
+.banner.paris {
+  background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/paris-banner.jpg');
+  background-position: center;
+  background-size: cover;
+}
+.banner.rialto {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.85) 100%), url('assets/images/maps/rialto-banner.jpg');
     background-position: center;
     background-size: cover;
 }
@@ -797,11 +815,7 @@ a.navbar-brand > img {
     background-size: cover;
 }
 
-.banner.paris {
-  background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/paris-banner.jpg');
-  background-position: center;
-  background-size: cover;
-}
+
 
 
 
@@ -925,9 +939,29 @@ path.js-line {
 }
 
 .text-success, .text-success:hover {
-    color: #00ff00;
+    color: #90ff90;
 }
 
 .text-danger, .text-danger:hover {
-    color: #ff0000;
+    color: #ff6e6e;
+}
+
+.maptype {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    height: 18px;
+    margin-bottom: 5px;
+}
+
+h1.mapname small, h1.winloss small {
+    font-size: 18px;
+    color: #bdbdbd;
+}
+
+a.navbar-brand:focus {
+    outline: none;
+}
+
+install-instructions .container.overview.view {
+    padding: 50px 0;
 }

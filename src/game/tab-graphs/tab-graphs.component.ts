@@ -193,7 +193,13 @@ export class TabGraphsComponent {
                     x: x,
                     y: y,
                     name: '',
-                    mode: 'lines+markers'
+                    mode: 'lines+markers',
+                    'line': {
+                        'color': 'rgb(191, 128, 55)',
+                        'width': 3,
+                        shape: 'spline',
+                        smoothing: 0.9
+                    }
                 }
             ], maxy
          )
@@ -260,7 +266,13 @@ export class TabGraphsComponent {
                     x: x,
                     y: y,
                     name: '',
-                    mode: 'lines+markers'
+                    mode: 'lines+markers',
+                    'line': {
+                        'color': 'rgb(191, 128, 55)',
+                        'width': 3,
+                        shape: 'spline',
+                        smoothing: 0.9
+                    }
                 },
                 {
                     x: heroSwapX,
