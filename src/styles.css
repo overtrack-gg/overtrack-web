@@ -697,6 +697,10 @@ a.navbar-brand > img {
     background: url('assets/images/maps/busan.jpg');
 }
 
+.map.paris .bg {
+  background: url('assets/images/maps/paris.jpg');
+}
+
 .banner.rialto {
     background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.85) 100%), url('assets/images/maps/rialto-banner.jpg');
     background-position: center;
@@ -791,6 +795,12 @@ a.navbar-brand > img {
     background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/busan-banner.jpg');
     background-position: center;
     background-size: cover;
+}
+
+.banner.paris {
+  background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/paris-banner.jpg');
+  background-position: center;
+  background-size: cover;
 }
 
 
