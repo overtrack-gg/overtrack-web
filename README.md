@@ -1,5 +1,4 @@
 <h1 align="center"> OverTrack (WebUI) </h1> <br>
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 <p align="center">
   <a href="https://overtrack.gg/">
     <img alt="OverTrack" title="OverTrack" src="https://i.imgur.com/ieCUuC0.png" width="450">
@@ -30,7 +29,7 @@
 
 ## Introduction
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-73-orange.svg?style=flat-square)](./CONTRIBUTORS.md)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Discord chat](https://img.shields.io/badge/chat-on_discord-008080.svg?style=flat-square)](https://discord.gg/JywstAB)
 
