@@ -29,7 +29,7 @@
 
 ## Introduction
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-73-orange.svg?style=flat-square)](./CONTRIBUTORS.md)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Discord chat](https://img.shields.io/badge/chat-on_discord-008080.svg?style=flat-square)](https://discord.gg/JywstAB)
 
@@ -55,6 +55,11 @@ Feel free to discuss ideas and development on [Discord](https://discord.gg/Jywst
 
 ## Contributors
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://benolot.com"><img src="https://avatars2.githubusercontent.com/u/2461562?v=4" width="100px;" alt="Sam Fry"/><br /><sub><b>Sam Fry</b></sub></a><br /><a href="https://github.com/synap5e/overtrack-web/commits?author=benolot" title="Code">💻</a> <a href="#design-benolot" title="Design">🎨</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification and is brought to you by these [awesome contributors](./CONTRIBUTORS.md).
 
 ## Build Process
