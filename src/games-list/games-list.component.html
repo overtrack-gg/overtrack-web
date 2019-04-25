@@ -109,19 +109,7 @@
             </div>
             <div class="panel-body">
                 <div class="tab-content">
-                    <table *ngFor="let gamesOfDay of gamesByDay" class="table table-striped text-center">
-                        <thead>
-                            <tr class="date-row"><td colspan="8">{{gamesOfDay[0].listView.formatDate}}</td></tr>
-                            <tr style="width:100%">
-                                <th>Game Time</th>
-                                <th colspan="2">Win/Loss/Draw</th>
-                                <th>Score</th>
-                                <th *ngIf="!hideSR">Skill Rating</th>
-                                <th>Length</th>
-                                <th>Map</th>
-                                <th>Heroes</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-striped text-center">
                         <tr *ngIf="currentUploadRequested && currentUserID == games.user_id">
                             <td class="gn">{{formatTime(currentUploadRequested)}} {{ formatDay(currentUploadRequested) }}<br>
                                 {{formatDate(currentUploadRequested)}}
@@ -130,48 +118,60 @@
                                 <p>Game uploading...</p>
                             </td> 
                         </tr>
-                        <tr *ngFor="let game of gamesOfDay; trackBy: myTrackByFunction"
-                            id="game-{{ game.num }}"
-                            class="list-game"
-                            [class.sub-required]="!game.viewable"
-                            [class.hoverable]="!game.error"
-                            (mousedown)="prepRoute(game, $event)"
-                            (mouseup)="route(game, $event)"
-                            data-toggle="popover"
-                            tabindex="0"
-                        >
-                            <p display="False" style="display: none;">
-                                {{ game.key }}
-                            </p>
-                            <td class="gn">{{game.listView.formatTime}}</td>
-                            <td *ngIf="!game.error && !hideSR" class="{{game.listView.wltClass}} text-right num">
-                                <b>{{ game.listView.srChange }}</b>
-                            </td>
-                            <td *ngIf="!game.error && hideSR"></td>
-                            <td *ngIf="!game.error" class="{{game.listView.wltClass}} text-left" >{{ game.result }}</td>
-                            <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span>/<span class="num">{{ game.redScore }}</span></td>
-                            <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !hideSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                            <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !hideSR" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
-                            <td *ngIf="!game.error" class="time"><div class="num">{{ getFormattedDuration(game) }}</div></td>
-                            <td *ngIf="!game.error" class="map {{map(game)}}">
-                                <div class="map-wrap">
-                                    <div class="map-bg bg"></div>
-                                    <div class="map-title">
-                                        <div class="map-title-bg bg"></div>
-                                        <i>{{ game.map }}</i>
+                        <tbody *ngFor="let gamesOfDay of gamesByDay">
+                            <tr class="date-row"><th colspan="8">{{gamesOfDay[0].listView.formatDate}}</th></tr>
+                            <tr style="width:100%">
+                              <th>Game Time</th>
+                              <th colspan="2">Win/Loss/Draw</th>
+                              <th>Score</th>
+                              <th *ngIf="!hideSR">Skill Rating</th>
+                              <th>Length</th>
+                              <th>Map</th>
+                              <th>Heroes</th>
+                            </tr>
+                            <tr *ngFor="let game of gamesOfDay; trackBy: myTrackByFunction"
+                                id="game-{{ game.num }}"
+                                class="list-game"
+                                [class.sub-required]="!game.viewable"
+                                [class.hoverable]="!game.error"
+                                (mousedown)="prepRoute(game, $event)"
+                                (mouseup)="route(game, $event)"
+                                data-toggle="popover"
+                                tabindex="0"
+                            >
+                                <p display="False" style="display: none;">
+                                    {{ game.key }}
+                                </p>
+                                <td class="gn">{{game.listView.formatTime}}</td>
+                                <td *ngIf="!game.error && !hideSR" class="{{game.listView.wltClass}} text-right num">
+                                    <b>{{ game.listView.srChange }}</b>
+                                </td>
+                                <td *ngIf="!game.error && hideSR"></td>
+                                <td *ngIf="!game.error" class="{{game.listView.wltClass}} text-left" >{{ game.result }}</td>
+                                <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span>/<span class="num">{{ game.redScore }}</span></td>
+                                <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !hideSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !hideSR" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
+                                <td *ngIf="!game.error" class="time"><div class="num">{{ getFormattedDuration(game) }}</div></td>
+                                <td *ngIf="!game.error" class="map {{map(game)}}">
+                                    <div class="map-wrap">
+                                        <div class="map-bg bg"></div>
+                                        <div class="map-title">
+                                            <div class="map-title-bg bg"></div>
+                                            <i>{{ game.map }}</i>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td *ngIf="!game.error" class="hero" style="position: relative">
-                                <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
-                                <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
-                            </td>
-                            <td *ngIf="game.error" colspan="2" class="{{game.listView.wltClass}} text-left">{{game.result}}</td>
-                            <td *ngIf="game.error" colspan="5" class="error-message text-error">
-                                <p>Game uploaded but failed to process. This is a bug. Please report this with the following game key: </p>
-                                <pre>{{ game.key }}</pre>
-                            </td>
-                        </tr>
+                                </td>
+                                <td *ngIf="!game.error" class="hero" style="position: relative">
+                                    <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
+                                    <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
+                                </td>
+                                <td *ngIf="game.error" colspan="2" class="{{game.listView.wltClass}} text-left">{{game.result}}</td>
+                                <td *ngIf="game.error" colspan="5" class="error-message text-error">
+                                    <p>Game uploaded but failed to process. This is a bug. Please report this with the following game key: </p>
+                                    <pre>{{ game.key }}</pre>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

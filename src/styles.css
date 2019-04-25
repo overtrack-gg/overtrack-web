@@ -392,7 +392,10 @@ a.navbar-brand > img {
 }
 
 #gametable .date-row {
+    font-size: 26px;
     height: 53px;
+    vertical-align: middle;
+    background-color: transparent;
 }
 
 #gametable .sr img {
@@ -914,7 +917,7 @@ path.js-line {
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #4a5561 !important;
+    background-color: #4a5561
 }
 
 .text-success, .text-success:hover {
