@@ -118,7 +118,7 @@
                                 <p>Game uploading...</p>
                             </td> 
                         </tr>
-                        <tbody *ngFor="let gamesOfDay of gamesByDay">
+                        <tbody *ngFor="let gamesOfDay of gamesByDay" class="date-group">
                             <tr class="date-row"><th colspan="8">{{gamesOfDay[0].listView.formatDate}}</th></tr>
                             <tr style="width:100%">
                               <th>Game Time</th>
