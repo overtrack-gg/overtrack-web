@@ -639,6 +639,7 @@ a.navbar-brand > img {
 }
 
 
+
 .map.eichenwalde .bg {
     background: url('assets/images/maps/eichenwalde.jpg');
 }
@@ -681,6 +682,9 @@ a.navbar-brand > img {
 .map.ilios .bg {
     background: url('assets/images/maps/ilios.jpg');
 }
+.map.paris .bg {
+  background: url('assets/images/maps/paris.jpg');
+}
 .map.rialto .bg {
    background: url('assets/images/maps/rialto.jpg');
 }
@@ -696,9 +700,17 @@ a.navbar-brand > img {
 .map.busan .bg {
     background: url('assets/images/maps/busan.jpg');
 }
-
-.map.paris .bg {
-  background: url('assets/images/maps/paris.jpg');
+.map.temple-of-anubis .bg {
+    background: url('assets/images/maps/temple-of-anubis.jpg');
+}
+.map.junkertown .bg {
+    background: url('assets/images/maps/junkertown.jpg');
+}
+.map.blizzard-world .bg {
+    background: url('assets/images/maps/blizzard-world.jpg');
+}
+.map.busan .bg {
+    background: url('assets/images/maps/busan.jpg');
 }
 
 
@@ -736,6 +748,11 @@ a.navbar-brand > img {
     background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/ilios-banner.jpg');
     background-position: center;
     background-size: cover;
+}
+.banner.paris {
+  background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/paris-banner.jpg');
+  background-position: center;
+  background-size: cover;
 }
 .banner.rialto {
     background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.85) 100%), url('assets/images/maps/rialto-banner.jpg');
@@ -798,11 +815,7 @@ a.navbar-brand > img {
     background-size: cover;
 }
 
-.banner.paris {
-  background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/paris-banner.jpg');
-  background-position: center;
-  background-size: cover;
-}
+
 
 
 
