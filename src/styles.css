@@ -30,8 +30,8 @@ a.navbar-brand > img {
     /* visibility: hidden; */
     display: none !important;
     position: absolute !important;
-    right: 2px !important;
-    top: 35px !important;
+    right: 4px !important;
+    top: 18px !important;
     font-size: 10pt !important;
 }
 
