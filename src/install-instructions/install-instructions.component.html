@@ -1,4 +1,4 @@
-<div *ngIf="router.isActive('/tracker', false)" class="alert alert-dismissible alert-danger">
+<div *ngIf="!router.isActive('/tracker', false)" class="alert alert-dismissible alert-danger">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<strong>Hmm...</strong> it doesn't appear as you have any games tracked. Please ensure you have setup our tracking software!
 </div>
@@ -36,7 +36,7 @@
 				<li class=""><a href="#startup" data-toggle="tab" aria-expanded="false">2. Launch on Startup</a></li>
 				<li class=""><a href="#general" data-toggle="tab" aria-expanded="false">3. General Use</a></li>
 			</ul>
-			<div id="myTabContent" class="tab-content">
+			<div id="myTabContent" class="tab-content well">
 				<div class="tab-pane fade active in" id="setup">
 					<p>Upon first launch of the client you will be asked to authenticate/pair the client to your account using the OverTrack site. This should automatically open a page in your browser where you can click the <i>Authenticate Client</i> button: </p>
 
