@@ -1,4 +1,4 @@
-<div *ngIf="router.isActive('/tracker', false)" class="alert alert-dismissible alert-danger">
+<div *ngIf="!router.isActive('/tracker', false)" class="alert alert-dismissible alert-danger">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<strong>Hmm...</strong> it doesn't appear as you have any games tracked. Please ensure you have setup our tracking software!
 </div>
@@ -36,7 +36,7 @@
 				<li class=""><a href="#startup" data-toggle="tab" aria-expanded="false">2. Launch on Startup</a></li>
 				<li class=""><a href="#general" data-toggle="tab" aria-expanded="false">3. General Use</a></li>
 			</ul>
-			<div id="myTabContent" class="tab-content">
+			<div id="myTabContent" class="tab-content well">
 				<div class="tab-pane fade active in" id="setup">
 					<p>Upon first launch of the client you will be asked to authenticate/pair the client to your account using the OverTrack site. This should automatically open a page in your browser where you can click the <i>Authenticate Client</i> button: </p>
 
@@ -45,7 +45,8 @@
 					<p>If you are not logged in you will instead be presented with the welcome page - simply use the sign-in button and you will be redirected to the authenticate page.</p>
 				</div>
 				<div class="tab-pane fade" id="startup">
-					<p>By default OverTrack will not launch on startup - if you would like OverTrack to start automatically, right click on the icon in the notifications tray and check "Start OverTrack when Windows starts" </p><img alt="Menu" class="tut-image" src="assets/images/tracker/menu.png">
+					<p>By default OverTrack will not launch on startup - if you would like OverTrack to start automatically, right click on the icon in the notifications tray and check "Start OverTrack when Windows starts" </p>
+					<p><img alt="Menu" class="tut-image" src="assets/images/tracker/menu.png"></p>
 					</div>
 					<div class="tab-pane fade" id="general">
 						<p> OverTrack has a taskbar icon showing the current state and will present toasts (only visible if Overwatch is not fullscreen): </p><img alt="Tray icon" class="tut-image" src="assets/images/tracker/taskbar.png"><br><img alt="sample toasts of the client in action" class="tut-image" src="assets/images/tracker/toasts.png"><br><p> To ensure SR is tracked correctly you must visit the <i>Play Menu</i> (where the <i>Quick Play</i>, <i>Arcade</i>, <i>Competitive Play</i>, and, <i>Play vs. AI</i> buttons are seen) BEFORE and AFTER each game, as prompted by the toasts. </p><p> For best results for tracking scores, let the tracker see all score screens - this means not tabbing out or leaving the game at the round/game end score screens. </p><p> To close the client, right click the tray icon and select <i>Quit</i></p>

@@ -1,0 +1,33 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "benolot",
+      "name": "Sam Fry",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2461562?v=4",
+      "profile": "https://benolot.com",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    },
+    {
+      "login": "JWSenteney",
+      "name": "JWSenteney",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1554771?v=4",
+      "profile": "https://github.com/JWSenteney",
+      "contributions": [
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "overtrack-web",
+  "projectOwner": "synap5e",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
