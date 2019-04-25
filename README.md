@@ -1,4 +1,5 @@
 <h1 align="center"> OverTrack (WebUI) </h1> <br>
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 <p align="center">
   <a href="https://overtrack.gg/">
     <img alt="OverTrack" title="OverTrack" src="https://i.imgur.com/ieCUuC0.png" width="450">
@@ -55,6 +56,11 @@ Feel free to discuss ideas and development on [Discord](https://discord.gg/Jywst
 
 ## Contributors
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://benolot.com"><img src="https://avatars2.githubusercontent.com/u/2461562?v=4" width="100px;" alt="Sam Fry"/><br /><sub><b>Sam Fry</b></sub></a><br /><a href="https://github.com/synap5e/overtrack-web/commits?author=benolot" title="Code">💻</a> <a href="#design-benolot" title="Design">🎨</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification and is brought to you by these [awesome contributors](./CONTRIBUTORS.md).
 
 ## Build Process
