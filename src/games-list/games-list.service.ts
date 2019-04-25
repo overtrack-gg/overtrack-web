@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams  } from '@angular/common/http';
+import * as moment from 'moment';
 
 import { Game } from '../game/game.service';
 
@@ -32,29 +33,15 @@ export class GamesListService {
     }
 
     formatTime(date: Date) {
-        let hour = date.getHours();
-        const pm = hour > 11;
-        hour = hour % 12;
-        hour = hour === 0 ? 12 : hour;
-        let min: number|string = date.getMinutes();
-        if (min < 10){
-            min = '0' + min;
-        }
-        return hour + ':' + min + (pm ? 'pm' : 'am');
+        return moment(date).format('LT');
     }
     
     formatDate(date: Date) {
-        return date.toLocaleDateString(undefined, {
-            year: '2-digit',
-            month: 'numeric',
-            day: 'numeric'
-
-        });
+        return moment(date).format('dddd, LL');
     }
 
     formatDay(date: Date) {
-        var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
-        return days[date.getDay()]
+        return moment(date).format('ddd');
     }
 
     rank(sr: number) {
