@@ -385,44 +385,23 @@ a.navbar-brand > img {
 }
 
 #gametable td {
-    font-size:35px;
+    font-size:26px;
     vertical-align: middle;
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
-#gametable .gn {
-    font-size:18px;
+#gametable .date-row {
+    height: 53px;
 }
 
-#gametable .sr {
-    font-size:25px;
-    line-height:30px;
-    padding-top:5px;
-    padding-bottom:0px;
-}
-
-#gametable .sr > img {
-    height:45px;
-}
-
-#gametable .sr > span {
-    line-height: 25px;
+#gametable .sr img {
+    height:30px;
 }
 
 #gametable .time {
     padding-top:0px;
     padding-bottom:0px;
-}
-
-#gametable .time > .num {
-    font-size:25px;
-    line-height: 18px;
-    padding-top: 8px;
-}
-
-#gametable .time > .unit{
-    font-size: 18px;
 }
 
 .unit {
@@ -828,7 +807,7 @@ a.navbar-brand > img {
 }
 
 #gametable .hero > img {
-    height: 50px;
+    height: 48px;
 }
 
 /*

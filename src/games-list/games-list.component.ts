@@ -3,6 +3,7 @@ import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import * as D3 from 'd3';
 import { DOCUMENT } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 import { GamesListService, PlayerGameList } from './games-list.service';
 import { Game } from '../game/game.service';
@@ -21,6 +22,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     gamesLists: Array<PlayerGameList>;
     visibleGames: Array<Game>;
+    gamesByDay: Array<Array<Game>>;
 
     accountNames: Array<string>;
     currentSR: number;
@@ -154,6 +156,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     fetchSharedGames(share_key: string){
         this.visibleGames = [];
+        this.gamesByDay = [];
         this.gamesListService.fetchSharedGames(share_key,
             (games, seasons) => {
                 console.log('fetchSharedGames: updating games list');
@@ -176,6 +179,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     fetchOwnGames() {
         this.visibleGames = [];
+        this.gamesByDay = [];
         this.gamesListService.fetchGames(
             (games, seasons) => {
                 console.log('fetchOwnGames: updating games list');
@@ -234,6 +238,19 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.visibleGames = visibleGames;
         console.log('set ' + this.visibleGames.length + ' games visible');
         let games: Array<Game> = Object.assign([], this.visibleGames);
+
+        let workingDay = null;
+        let dayIndex = -1;
+        this.gamesByDay = visibleGames.reduce((days, game) => {
+            const gameDate = moment(game.startTime).startOf('day');
+            if (!gameDate.isSame(workingDay)) {
+                workingDay = gameDate;
+                days[++dayIndex] = [];
+            }
+
+            days[dayIndex].push(game);
+            return days;
+        }, []);
 
         games = games.slice();
         games.reverse();
@@ -426,9 +443,8 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         }
     }
 
-
-    min(game: Game) {
-        return Math.round(game.duration / 60);
+    getFormattedDuration(game: Game) {
+      return moment.unix(game.duration).format("m:ss")
     }
 
     map(game: Game) {
