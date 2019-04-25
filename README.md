@@ -1,7 +1,7 @@
 <h1 align="center"> OverTrack (WebUI) </h1> <br>
 <p align="center">
   <a href="https://overtrack.gg/">
-    <img alt="OverTrack" title="OverTrack" src="//i.imgur.com/ieCUuC0.png" width="450">
+    <img alt="OverTrack" title="OverTrack" src="https://i.imgur.com/ieCUuC0.png" width="450">
   </a>
 </p>
 
