@@ -21,7 +21,7 @@
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-73-orange.svg?style=flat-square)](./CONTRIBUTORS.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![Discord chat](https://img.shields.io/badge/chat-on_discord-008080.svg?style=flat-square)](https://gitter.im/git-point)
+[![Discord chat](https://img.shields.io/badge/chat-on_discord-008080.svg?style=flat-square)](https://discord.gg/JywstAB)
 
 This repo is for the WebUI of [OverTrack](https://overtrack.gg), a service built on computer vision that allows you to get post-game stats of your competitive Overwatch games. 
 
