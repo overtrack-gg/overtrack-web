@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "benolot",
+      "name": "Sam Fry",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2461562?v=4",
+      "profile": "https://benolot.com",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "overtrack-web",
+  "projectOwner": "synap5e",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
