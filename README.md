@@ -81,7 +81,7 @@ Running `ng serve --open` will additionally open the webpage in the default brow
 
 ### Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Support us
 
