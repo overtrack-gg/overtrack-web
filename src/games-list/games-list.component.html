@@ -42,11 +42,19 @@
                 </div>
                 <div *ngIf="isOwnGames" class="col-xs-6">
                     <div class="btn-group btn-group-toggle pull-left view-mode-buttons" data-toggle="buttons">
-                      <label class="btn btn-primary{{ isCompactView ? '' : ' active' }}" (click)="setIsCompact(false)">
+                      <label
+                          class="btn btn-primary{{ isCompactView ? '' : ' active' }}"
+                          (click)="setIsCompact(false)"
+                          title="Standard List View"
+                      >
                           <input type="radio" name="view-mode" class="btn btn-primary" id="thick-button">
                           <i class="glyphicon glyphicon-th-list"></i>
                       </label>
-                      <label class="btn btn-primary{{ isCompactView ? ' active' : '' }}" (click)="setIsCompact(true)">
+                      <label
+                          class="btn btn-primary{{ isCompactView ? ' active' : '' }}"
+                          (click)="setIsCompact(true)"
+                          title="Compact List View"
+                      >
                           <input type="radio" name="view-mode" class="btn btn-primary" id="compact-button">
                           <i class="glyphicon glyphicon-list"></i>
                       </label>
