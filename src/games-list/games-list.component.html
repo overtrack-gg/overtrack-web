@@ -26,10 +26,10 @@
     <div class="row col-md-12">
         <div class="panel panel-default control-panel">
             <div class="panel-heading">
-                <div class="col-xs-5">
+                <div class="col-xs-6">
                     <h2 class="col-xs-3">Games</h2>
                     <ng-multiselect-dropdown
-                        class="col-xs-9"
+                        class="col-xs-9 season-selector"
                         [data]="allSeasons"
                         [(ngModel)]="visibleSeasons"
                         [settings]="dropdownSettings"
@@ -40,8 +40,8 @@
                       >
                       </ng-multiselect-dropdown>
                 </div>
-                <div class="view-mode-buttons col-xs-2">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <div *ngIf="isOwnGames" class="col-xs-6">
+                    <div class="btn-group btn-group-toggle pull-left view-mode-buttons" data-toggle="buttons">
                       <label class="btn btn-primary{{ isCompactView ? '' : ' active' }}" (click)="setIsCompact(false)">
                           <input type="radio" name="view-mode" class="btn btn-primary" id="thick-button">
                           <i class="glyphicon glyphicon-th-list"></i>
@@ -51,8 +51,7 @@
                           <i class="glyphicon glyphicon-list"></i>
                       </label>
                     </div>
-                </div>
-                <div *ngIf="isOwnGames" class="col-xs-5">
+
                     <share-links [accounts]="accountNames" class="pull-right"></share-links>
                     <integrations [accounts]="accountNames" class="pull-right"></integrations>
                     <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#batch-edit">
