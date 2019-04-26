@@ -34,6 +34,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     showUploadingGames = true;
     currentUploadRequested: Date = null;
     currentUserID: number;
+    isCompactView: boolean = false;
 
     gameToEdit: Game = null;
 
@@ -76,6 +77,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 }             
             }
         );
+        this.isCompactView = (sessionStorage.getItem('isCompactView') === 'true');
     }
 
     rank(sr: number) {
@@ -508,5 +510,16 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 throw err;
             }
         );
+    }
+
+    setIsCompact(isCompact) {
+        this.isCompactView = isCompact;
+        sessionStorage.setItem('isCompactView', isCompact);
+
+        if (isCompact) {
+            $('#gametable table').addClass('compact');
+        } else {
+            $('#gametable table').removeClass('compact');
+        }
     }
 }

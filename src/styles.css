@@ -30,9 +30,14 @@ a.navbar-brand > img {
     /* visibility: hidden; */
     display: none !important;
     position: absolute !important;
+    right: 2px !important;
+    top: 35px !important;
+    font-size: 10pt !important;
+}
+
+.compact .game-edit {
     right: 4px !important;
     top: 18px !important;
-    font-size: 10pt !important;
 }
 
 .tab-stats-table > tbody > tr > td,
@@ -376,6 +381,24 @@ a.navbar-brand > img {
     border-top: 1px solid #697075;
 }
 
+.control-panel h2 {
+  padding-left: 0;
+  margin: 0;
+}
+
+.control-panel button, .control-panel .view-mode-buttons label {
+  height: 38px;
+}
+
+.control-panel > .panel-heading {
+  height: 66px;
+  padding-top: 16px;
+}
+
+.control-panel {
+  margin-bottom: 0;
+}
+
 #gametable {
     width: 100%;
 }
@@ -385,10 +408,14 @@ a.navbar-brand > img {
 }
 
 #gametable td {
-    font-size:18px;
+    font-size:26px;
     vertical-align: middle;
     padding-top: 0px;
     padding-bottom: 0px;
+}
+
+#gametable .compact td {
+  font-size:18px;
 }
 
 #gametable .date-row {
@@ -402,7 +429,11 @@ a.navbar-brand > img {
 }
 
 #gametable .sr img {
-    height:25px;
+    height: 30px;
+}
+
+#gametable .compact .sr img {
+  height: 25px;
 }
 
 #gametable .time {
@@ -545,13 +576,17 @@ a.navbar-brand > img {
 
 #gametable .map {
     text-align: left;
-    font-size:18px;
+    font-size: 26px;
     text-shadow: 1px 1px 10px black;
     color:lightgray;
     padding: 0;
 }
 
-#gametable .map .bg {
+#gametable .compact .map {
+    font-size: 18px;
+}
+
+#gametable .compact .map .bg {
     background-position: center 67%;
 }
 
@@ -560,16 +595,24 @@ a.navbar-brand > img {
     overflow: hidden;
     background-size: cover;
     background-position: 0 0, center;
-    height: 30px;
+    height: 48px;
     margin: 2px 0 2px 0;
+}
+
+#gametable .compact .map-wrap {
+    height: 30px;
 }
 
 #gametable .map-bg {
     position: absolute;
-    height: 28px;
+    height: 52px;
     width: 310px;
     z-index: 0;
     filter: blur(2px) brightness(75%);
+}
+
+#gametable .compact .map-bg {
+    height: 28px;
 }
 
 #gametable .map-title {
@@ -577,8 +620,12 @@ a.navbar-brand > img {
     padding-left: 20px;
     position: relative;
     padding-right: 20px;
-    top: 2px;
+    top: 6px;
     z-index: 1;
+}
+
+#gametable .compact .map-title {
+    top: 2px;
 }
 
 #gametable .map-title-bg {
@@ -817,6 +864,10 @@ a.navbar-brand > img {
 }
 
 #gametable .hero > img {
+    height: 48px;
+}
+
+#gametable .compact .hero > img {
     height: 30px;
 }
 
