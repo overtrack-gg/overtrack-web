@@ -40,7 +40,7 @@
                       >
                       </ng-multiselect-dropdown>
                 </div>
-                <div *ngIf="isOwnGames" class="col-xs-6">
+                <div class="col-xs-6">
                     <div class="btn-group btn-group-toggle pull-left view-mode-buttons" data-toggle="buttons">
                       <label
                           class="btn btn-primary{{ isCompactView ? '' : ' active' }}"
@@ -60,13 +60,13 @@
                       </label>
                     </div>
 
-                    <share-links [accounts]="accountNames" class="pull-right"></share-links>
-                    <integrations [accounts]="accountNames" class="pull-right"></integrations>
-                    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#batch-edit">
+                    <share-links *ngIf="isOwnGames" [accounts]="accountNames" class="pull-right"></share-links>
+                    <integrations *ngIf="isOwnGames" [accounts]="accountNames" class="pull-right"></integrations>
+                    <button *ngIf="isOwnGames" class="btn btn-primary pull-right" data-toggle="modal" data-target="#batch-edit">
                         <span class="glyphicon glyphicon-pencil"></span>&nbsp; Batch Edit
                     </button>
 
-                    <div id="batch-edit" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel2" aria-hidden="true">
+                    <div *ngIf="isOwnGames" id="batch-edit" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel2" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
                                 <div class="modal-header">
