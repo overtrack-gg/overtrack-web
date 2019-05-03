@@ -75,7 +75,16 @@ export class WinRatesComponent implements OnInit {
     updateSeasonGames(res: PlayerGameList[], seasons: string[]) {
         this.gamesLists = res;
         this.seasons = seasons;
-        this.calcWinrates();
+
+        let player = this.gamesLists[0];
+        for (let gl of this.gamesLists) {
+            if (gl.player === this.currentPlayer.player) {
+                player = gl;
+                break;
+            }
+        }
+
+        this.selectPlayer(player);
     }
 
     changeSeasonSelection(event) {
