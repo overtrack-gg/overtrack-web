@@ -32,6 +32,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "teamcoltra",
+      "name": "Travis McCrea",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/161164?v=4",
+      "profile": "http://travismccrea.com",
+      "contributions": [
+        "design",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
