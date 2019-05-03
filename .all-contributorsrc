@@ -42,6 +42,15 @@
         "design",
         "doc"
       ]
+    },
+    {
+      "login": "jeremyBanks",
+      "name": "Jeremy Banks",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18020?v=4",
+      "profile": "https://github.com/jeremyBanks",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
