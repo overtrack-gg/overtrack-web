@@ -30,8 +30,11 @@ export class WinRatesComponent implements OnInit {
 	// 	dynamicTitleMaxItems: 1
     // };
 	
+    share_key?: string;
+
 	currentPlayer: PlayerGameList;
 
+    seasons: Array<string>;
     gamesLists: Array<PlayerGameList>;
 	mapStats: Map<string, MapStats>; //mapping of map to (hero to winrate)
 	mapList: Array<string>;
@@ -52,7 +55,8 @@ export class WinRatesComponent implements OnInit {
         this.activatedRoute.params.subscribe(
             params => {
                 if (params.hasOwnProperty('share_key')){
-                    this.fetchSharedGames(params['share_key']);
+                    this.share_key = params['share_key'];
+                    this.fetchSharedGames(this.share_key);
                 } else {
                     this.fetchOwnGames();
                 }
@@ -62,41 +66,53 @@ export class WinRatesComponent implements OnInit {
 	}
 
 	updateSeasonDropdown() {
-		let seasons: Array<string> = [];
-        for (let gl of this.gamesLists){
-            if (gl.player == this.currentPlayer.player){
-                for (let g of gl.list){
-                    let season = g.season;
-                    if (seasons.indexOf(season) == -1){
-                        seasons.push(season);
-                    }
-                }
-            }
-        }
         this.seasonSelectDropdown = [];
-        for (let season of seasons){
+        for (let season of this.seasons){
             this.seasonSelectDropdown.push(season);
-            // this.visibleSeasons.push(season);
         }
-        this.visibleSeasons = [ seasons[0] ];
-	}
-	
-    changeSeasonSelection(event) {
+    }
+
+    updateSeasonGames(res: PlayerGameList[], seasons: string[]) {
+        this.gamesLists = res;
+        this.seasons = seasons;
         this.calcWinrates();
+    }
+
+    changeSeasonSelection(event) {
+        if (this.visibleSeasons.length === 0) {
+            this.visibleSeasons = [ this.seasons[0] ];
+        }
+        let error_func = err => console.error(err);
+        if (this.share_key) {
+            this.gamesListService.fetchSharedGames(
+                this.share_key,
+                (r, s) => this.updateSeasonGames(r, s),
+                error_func,
+                this.visibleSeasons
+            );
+        } else {
+            this.gamesListService.fetchGames(
+                (r, s) => this.updateSeasonGames(r, s),
+                error_func,
+                this.visibleSeasons
+            );
+        }
 	}
-	
+
 	selectAll(all){
 		this.visibleSeasons = all;
-		this.calcWinrates();
-	}
+        this.changeSeasonSelection(all);
+    }
 
 	fetchSharedGames(share_key: string){
         this.gamesListService.fetchSharedGames(share_key,
-            res => {
+            (res, seasons) => {
                 this.gamesLists = res;
-				if (this.gamesLists.length){
-					this.selectPlayer(this.gamesLists[0]);
-	 			}
+                this.seasons = seasons;
+                this.visibleSeasons = [ this.seasons[0] ];
+                if (this.gamesLists.length){
+                    this.selectPlayer(this.gamesLists[0]);
+                }
             },
             err => {
                 console.error(err);
@@ -106,11 +122,13 @@ export class WinRatesComponent implements OnInit {
 
     fetchOwnGames() {
         this.gamesListService.fetchGames(
-            res => {
+            (res, seasons) => {
                 this.gamesLists = res;
-				if (this.gamesLists.length){
-					this.selectPlayer(this.gamesLists[0]);
-	 			}
+                this.seasons = seasons;
+                this.visibleSeasons = [ this.seasons[0] ];
+                if (this.gamesLists.length){
+                    this.selectPlayer(this.gamesLists[0]);
+                }
             },
             err => {
                 console.error(err);
