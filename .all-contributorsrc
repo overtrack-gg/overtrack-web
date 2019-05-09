@@ -51,6 +51,16 @@
       "contributions": [
         "design"
       ]
+    },
+    {
+      "login": "Jamigrith",
+      "name": "Jamigrith",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/3393742?v=4",
+      "profile": "https://github.com/Jamigrith",
+      "contributions": [
+        "code",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
