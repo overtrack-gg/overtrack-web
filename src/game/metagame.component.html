@@ -28,7 +28,7 @@
                 <ng-container *ngIf="data.raw_game.url">
                     <b class="indent-1">Signed URL</b>
                     <p class="indent-1">
-                        <a href="{{data.raw_game.url}}">{{data.dynamo_game.source}}</a>
+                        <a href="{{data.raw_game.url}}">{{data.dynamo_game.source || 'Frames'}}</a>
                     </p>
                     <b class="indent-1">Last Modified</b>
                     <p class="indent-1">
@@ -61,12 +61,11 @@
             </p>
             <hr>
             
-            
             <h2>Processing Log</h2>
             <pre *ngIf="data.processing_log">
                 <p *ngFor="let line of data.processing_log">{{line}}</p>
             </pre>
-            <a *ngIf="data.processing_log_url" href="{{data.processing_log_url}}">
-                <button class="btn btn-primary">Download Logs</button>
+            <a *ngIf="data.processing_log_url" href="{{data.processing_log_url.log}}">
+                <button class="btn btn-primary">Logs</button>
             </a>
     </div>
