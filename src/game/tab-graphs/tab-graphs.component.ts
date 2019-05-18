@@ -174,7 +174,7 @@ export let heroStatNames = {
       "enemies hooked",
       "whole hog kills"
     ],
-    "soldier": [
+    "s76": [
       "weapon accuracy",
       "helix rocket kills",
       "kill streak - best",
@@ -198,7 +198,7 @@ export let heroStatNames = {
       "damage blocked",
       "secondary fire accuracy"
     ],
-    "torbjorn": [
+    "torb": [
       "weapon accuracy",
       "turret kills",
       "kill streak - best",
