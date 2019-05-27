@@ -4,38 +4,250 @@ import { Stage } from '../game.service';
 declare var Plotly: any;
 
 // ಠ_ಠ 
+// https://api2.overtrack.gg/data/overwatch/stat_names_v1
 export let heroStatNames = {
-    'ashe': ['weapon accuracy', 'scoped critical hits', 'final blows', 'dynamite kills', 'scoped accuracy', 'bob kills'],
-	'genji': ['weapon accuracy', 'damage reflected', 'kill streak - best', 'dragonblade kills', 'final blows'],
-	'mccree': ['weapon accuracy', 'critical hits', 'kill streak - best', 'deadeye kills', 'final blows', 'fan the hammer kills'],
-	'pharah': ['weapon accuracy', 'barrage kills', 'kill streak - best', 'rocket direct hits', 'final blows'],
-	'reaper': ['weapon accuracy', 'death blossom kills', 'kill streak - best', 'self healing', 'final blows'],
-	's76': ['weapon accuracy', 'helix rocket kills', 'kill streak - best', 'tactical visor kills', 'final blows'],
-	'sombra': ['weapon accuracy', 'enemies hacked', 'kill streak - best', 'enemies emp\'d', 'offensive assists'],
-	'tracer': ['weapon accuracy', 'pulse bomb kills', 'kill streak - best', 'pulse bombs attached', 'final blows'],
-    'bastion': ['weapon accuracy', 'sentry kills', 'kill streak - best', 'tank kills', 'recon kills', 'self healing'],
-    'hammond': ['weapon accuracy',  'grappling claw kills', 'kill streak - best', 'piledriver kills', 'final blows', 'minefield kills'],
-	'hanzo': ['weapon accuracy', 'critical hits', 'kill streak - best', 'recon assists', 'final blows', 'dragonstrike kills'],
-	'junkrat': ['weapon accuracy', 'enemies trapped', 'kill streak - best', 'rip-tire kills', 'final blows'],
-	'mei': ['damage blocked', 'blizzard kills', 'kill streak - best', 'self healing', 'enemies frozen'],
-	'torb': ['weapon accuracy', 'turret kills', 'kill streak - best', 'molten core kills', 'torbjorn kills', 'turret damage'],
-	'widowmaker': ['recon assists', 'scoped accuracy', 'kill streak - best', 'scoped critical hits', 'final blows'],
-	'dva': ['weapon accuracy', 'self-destruct kills', 'kill streak - best', 'mechs called', 'damage blocked'],
-	'orisa': ['weapon accuracy', 'offensive assists', 'kill streak - best', 'damage amplified', 'damage blocked'],
-	'reinhardt': ['damage blocked', 'fire strike kills', 'kill streak - best', 'earthshatter kills', 'charge kills'],
-	'roadhog': ['weapon accuracy', 'hook accuracy', 'kill streak - best', 'self healing', 'enemies hooked', 'whole hog kills'],
-	'winston': ['damage blocked', 'players knocked back', 'kill streak - best', null, 'melee kills'],
-	'zarya': ['damage blocked', 'average energy', 'kill streak - best', 'graviton surge kills', 'high energy kills'],
-	'ana': ['unscoped accuracy', 'nano boost assists', 'scoped accuracy', 'enemies slept', 'defensive assists'],
-	'lucio': ['weapon accuracy', 'offensive assists', 'kill streak - best', 'defensive assists', 'sound barriers provided'],
-	'mercy': ['offensive assists', 'blaster kills', 'defensive assists', 'damage amplified', 'players resurrected'],
-	'symmetra': ['sentry turret kills', 'players teleported', 'kill streak - best', 'primary fire accuracy', 'secondary fire accuracy'],
-	'zenyatta': ['weapon accuracy', 'defensive assists', 'kill streak - best', 'transcendence healing', 'offensive assists'],
-    'doomfist': ['weapon accuracy', 'ability damage done', 'kill streak - best', 'meteor strike kills', 'final blows', 'shields created'],
-    'moira': ['secondary fire accuracy', 'coalescence kills', 'kill streak - best', 'coalescence healing', 'defensive assists', 'self healing'],
-    'brigitte': ['offensive assists', 'armor provided', 'defensive assists', null, 'damage blocked', 'inspire uptime percentage'],
-    'baptiste': ['weapon accuracy', 'amplification matrix assists', 'healing accuracy', 'defensive assists', 'damage amplified', 'immortality field deaths prevented']
-}
+    "ana": [
+      "unscoped accuracy",
+      "nano boost assists",
+      "scoped accuracy",
+      "enemies slept",
+      "defensive assists",
+      null
+    ],
+    "ashe": [
+      "weapon accuracy",
+      "scoped critical hits",
+      "final blows",
+      "dynamite kills",
+      "scoped accuracy",
+      "bob kills"
+    ],
+    "baptiste": [
+      "weapon accuracy",
+      "amplification matrix assists",
+      "healing accuracy",
+      "defensive assists",
+      "damage amplified",
+      "immportality field deaths prevented"
+    ],
+    "bastion": [
+      "weapon accuracy",
+      "sentry kills",
+      "kill streak - best",
+      "tank kills",
+      "recon kills",
+      "self healing"
+    ],
+    "brigitte": [
+      "offensive assists",
+      "armor provided",
+      "defensive assists",
+      "inspire uptime percentage",
+      "damage blocked",
+      null
+    ],
+    "doomfist": [
+      "weapon accuracy",
+      "ability damage done",
+      "kill streak - best",
+      "meteor strike kills",
+      "final blows",
+      "shields created"
+    ],
+    "dva": [
+      "weapon accuracy",
+      "self-destruct kills",
+      "kill streak - best",
+      "mechs called",
+      "damage blocked",
+      null
+    ],
+    "genji": [
+      "weapon accuracy",
+      "damage reflected",
+      "kill streak - best",
+      "dragonblade kills",
+      "final blows",
+      null
+    ],
+    "hammond": [
+      "weapon accuracy",
+      "grappling claw kills",
+      "kill streak - best",
+      "piledriver kills",
+      "final blows",
+      "minefield kills"
+    ],
+    "hanzo": [
+      "weapon accuracy",
+      "critical hits",
+      "kill streak - best",
+      "recon assists",
+      "final blows",
+      "dragonstrike kills"
+    ],
+    "junkrat": [
+      "weapon accuracy",
+      "enemies trapped",
+      "kill streak - best",
+      "rip-tire kills",
+      "final blows",
+      null
+    ],
+    "lucio": [
+      "weapon accuracy",
+      "offensive assists",
+      "kill streak - best",
+      "defensive assists",
+      "sound barriers provided",
+      null
+    ],
+    "mccree": [
+      "weapon accuracy",
+      "critical hits",
+      "kill streak - best",
+      "deadeye kills",
+      "final blows",
+      "fan the hammer kills"
+    ],
+    "mei": [
+      "damage blocked",
+      "blizzard kills",
+      "kill streak - best",
+      "self healing",
+      "enemies frozen",
+      null
+    ],
+    "mercy": [
+      "offensive assists",
+      "blaster kills",
+      "defensive assists",
+      "damage amplified",
+      "players resurrected",
+      null
+    ],
+    "moira": [
+      "secondary fire accuracy",
+      "coalescence kills",
+      "kill streak - best",
+      "coalescence healing",
+      "defensive assists",
+      "self healing"
+    ],
+    "orisa": [
+      "weapon accuracy",
+      "offensive assists",
+      "kill streak - best",
+      "damage amplified",
+      "damage blocked",
+      null
+    ],
+    "pharah": [
+      "weapon accuracy",
+      "barrage kills",
+      "kill streak - best",
+      "rocket direct hits",
+      "final blows",
+      null
+    ],
+    "reaper": [
+      "weapon accuracy",
+      "death blossom kills",
+      "kill streak - best",
+      "self healing",
+      "final blows",
+      null
+    ],
+    "reinhardt": [
+      "damage blocked",
+      "fire strike kills",
+      "kill streak - best",
+      "earthshatter kills",
+      "charge kills",
+      null
+    ],
+    "roadhog": [
+      "weapon accuracy",
+      "hook accuracy",
+      "kill streak - best",
+      "self healing",
+      "enemies hooked",
+      "whole hog kills"
+    ],
+    "s76": [
+      "weapon accuracy",
+      "helix rocket kills",
+      "kill streak - best",
+      "tactical visor kills",
+      "final blows",
+      null
+    ],
+    "sombra": [
+      "weapon accuracy",
+      "enemies hacked",
+      "kill streak - best",
+      "enemies emp'd",
+      "offensive assists",
+      null
+    ],
+    "symmetra": [
+      "sentry turret kills",
+      "players teleported",
+      "kill streak - best",
+      "primary fire accuracy",
+      "damage blocked",
+      "secondary fire accuracy"
+    ],
+    "torb": [
+      "weapon accuracy",
+      "turret kills",
+      "kill streak - best",
+      "molten core kills",
+      "torbjorn kills",
+      "turret damage"
+    ],
+    "tracer": [
+      "weapon accuracy",
+      "pulse bomb kills",
+      "kill streak - best",
+      "pulse bombs attached",
+      "final blows",
+      null
+    ],
+    "widowmaker": [
+      "recon assists",
+      "scoped accuracy",
+      "kill streak - best",
+      "scoped critical hits",
+      "final blows",
+      null
+    ],
+    "winston": [
+      "damage blocked",
+      "players knocked back",
+      "kill streak - best",
+      "primal rage kills",
+      "melee kills",
+      null
+    ],
+    "zarya": [
+      "damage blocked",
+      "average energy",
+      "kill streak - best",
+      "graviton surge kills",
+      "high energy kills",
+      null
+    ],
+    "zenyatta": [
+      "secondary fire accuracy",
+      "defensive assists",
+      "kill streak - best",
+      "transcendence healing",
+      "offensive assists",
+      null
+    ]
+  }
+
 
 export let heroGraphedStats = [
     'damage reflected',

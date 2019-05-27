@@ -77,7 +77,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 }             
             }
         );
-        this.isCompactView = (sessionStorage.getItem('isCompactView') === 'true');
+        this.isCompactView = (localStorage.getItem('isCompactView') === 'true');
     }
 
     rank(sr: number) {
@@ -514,7 +514,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     setIsCompact(isCompact) {
         this.isCompactView = isCompact;
-        sessionStorage.setItem('isCompactView', isCompact);
+        localStorage.setItem('isCompactView', isCompact);
 
         if (isCompact) {
             $('#gametable table').addClass('compact');

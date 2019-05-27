@@ -23,6 +23,44 @@
       "contributions": [
         "design"
       ]
+    },
+    {
+      "login": "jess-sio",
+      "name": "Jessica Mortimer",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3945148?v=4",
+      "profile": "https://github.com/jess-sio",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "teamcoltra",
+      "name": "Travis McCrea",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/161164?v=4",
+      "profile": "http://travismccrea.com",
+      "contributions": [
+        "design",
+        "doc"
+      ]
+    },
+    {
+      "login": "jeremyBanks",
+      "name": "Jeremy Banks",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18020?v=4",
+      "profile": "https://github.com/jeremyBanks",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "Jamigrith",
+      "name": "Jamigrith",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/3393742?v=4",
+      "profile": "https://github.com/Jamigrith",
+      "contributions": [
+        "code",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
