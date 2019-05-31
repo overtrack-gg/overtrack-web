@@ -948,6 +948,17 @@ svg {
     display: none;
 }
 
+.multiselect-dropdown .dropdown-btn .selected-item {
+    background: inherit !important;
+    border: none !important;
+}
+
+.multiselect-dropdown .dropdown-btn span .dropdown-down,
+.multiselect-dropdown .dropdown-btn span .dropdown-up {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
 path.point {
     fill: #a991d4 !important;
 }
