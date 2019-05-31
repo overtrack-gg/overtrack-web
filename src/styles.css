@@ -733,9 +733,6 @@ a.navbar-brand > img {
 .map.blizzard-world .bg {
     background: url('assets/images/maps/blizzard-world.jpg');
 }
-.map.busan .bg {
-    background: url('assets/images/maps/busan.jpg');
-}
 .map.temple-of-anubis .bg {
     background: url('assets/images/maps/temple-of-anubis.jpg');
 }
@@ -747,6 +744,9 @@ a.navbar-brand > img {
 }
 .map.busan .bg {
     background: url('assets/images/maps/busan.jpg');
+}
+.map.havana .bg {
+    background: url('assets/images/maps/havana.jpg');
 }
 
 
@@ -847,6 +847,11 @@ a.navbar-brand > img {
 }
 .banner.busan {
     background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/busan-banner.jpg');
+    background-position: center;
+    background-size: cover;
+}
+.banner.havana {
+    background: linear-gradient(to bottom,rgb(27, 33, 80) 0,rgba(0, 0, 0, 0.42) 100%), url('assets/images/maps/havana-banner.jpg');
     background-position: center;
     background-size: cover;
 }
