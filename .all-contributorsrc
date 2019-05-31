@@ -62,6 +62,15 @@
         "code",
         "design"
       ]
+    },
+    {
+      "login": "zsol",
+      "name": "Zsolt Dollenstein",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/66740?v=4",
+      "profile": "https://github.com/zsol",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
