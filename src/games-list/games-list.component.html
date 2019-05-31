@@ -4,7 +4,7 @@
 -->
 <div class="jumbotron overview view banner eichenwalde">
     <div class="container">                      
-        <div class="pull-right col-md-5" style="{{ player == 'Custom Games' ? 'display: none;' : '' }}">
+        <div class="pull-right col-md-5" [style.visibility]="(player == 'Custom Games' || player == 'Quick Play') ? 'hidden' : 'visible'">
                <div id="sr-graph"
                     name="sr-graph"
                     style="width: 100%; height: 175px; border-radius: 3px; overflow: hidden; background: rgba(0, 0, 0, 0.8)">
@@ -12,7 +12,7 @@
         </div>
         <h1>Games</h1>
         <h2 *ngIf="player"> {{ player }} </h2>
-        <p style="margin-left:-15px; margin-top:-10px" *ngIf="player && player != 'Custom Games'" class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
+        <p style="margin-left:-15px; margin-top:-10px" *ngIf="player && player != 'Custom Games' && player != 'Quick Play'" class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
     </div>
 </div>
 
