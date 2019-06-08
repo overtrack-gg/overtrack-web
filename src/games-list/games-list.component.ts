@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentChecked, Input, Inject, ChangeDetectionS
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import * as D3 from 'd3';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 
 import { GamesListService, PlayerGameList } from './games-list.service';
