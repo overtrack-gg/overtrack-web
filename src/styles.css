@@ -973,7 +973,7 @@ path.js-line {
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #4a5561
+    background-color: #2f214a !important;
 }
 
 .text-success, .text-success:hover {
