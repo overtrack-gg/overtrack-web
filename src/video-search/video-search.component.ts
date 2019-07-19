@@ -153,13 +153,13 @@ export class VideoSearchComponent implements OnInit {
     haveResults = true;
     form: FormGroup;
 
-    @ViewChild(VgHLS) private vgHls: VgHLS;
+    @ViewChild(VgHLS, {static: true}) private vgHls: VgHLS;
     @ViewChildren(MultiSelectComponent) private dropdowns : QueryList<MultiSelectComponent>;
     // @ViewChildren(TextTrack) tracks : QueryList<TextTrack>;
     tracks: Array<TextTrack>;
 
 
-    @ViewChild('heroDropdown') private heroDropdown: MultiSelectComponent;
+    @ViewChild('heroDropdown', {static: true}) private heroDropdown: MultiSelectComponent;
     heroes: Array<ListItem>;
     heroDropdownSettings = {
         singleSelection: false,
@@ -172,7 +172,7 @@ export class VideoSearchComponent implements OnInit {
         maxHeight: 500,
     };
 
-    @ViewChild('typeDropdown') private typeDropdown: MultiSelectComponent;
+    @ViewChild('typeDropdown', {static: true}) private typeDropdown: MultiSelectComponent;
     types: Array<ListItem>;
     typeDropdownSettings = {
         singleSelection: false,
@@ -182,7 +182,7 @@ export class VideoSearchComponent implements OnInit {
         allowSearchFilter: false,
     };
 
-    @ViewChild('otherHeroDropdown') private otherHeroDropdown: MultiSelectComponent;
+    @ViewChild('otherHeroDropdown', {static: true}) private otherHeroDropdown: MultiSelectComponent;
     otherHeroes: Array<ListItem>;
     otherHeroDropdownSettings = {
         singleSelection: false,

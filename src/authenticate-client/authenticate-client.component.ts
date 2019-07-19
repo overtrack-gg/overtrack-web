@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {Router, ActivatedRoute, Params} from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 import { AuthenticateClientService } from './authenticate-client.service';
 import { UserLoginService } from '../login/user-login.service';

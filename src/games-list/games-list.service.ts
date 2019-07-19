@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams  } from '@angular/common/http';
+import * as moment from 'moment';
 
 import { Game } from '../game/game.service';
 
@@ -32,29 +33,15 @@ export class GamesListService {
     }
 
     formatTime(date: Date) {
-        let hour = date.getHours();
-        const pm = hour > 11;
-        hour = hour % 12;
-        hour = hour === 0 ? 12 : hour;
-        let min: number|string = date.getMinutes();
-        if (min < 10){
-            min = '0' + min;
-        }
-        return hour + ':' + min + (pm ? 'pm' : 'am');
+        return moment(date).format('LT');
     }
     
     formatDate(date: Date) {
-        return date.toLocaleDateString(undefined, {
-            year: '2-digit',
-            month: 'numeric',
-            day: 'numeric'
-
-        });
+        return moment(date).format('dddd, LL');
     }
 
     formatDay(date: Date) {
-        var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
-        return days[date.getDay()]
+        return moment(date).format('ddd');
     }
 
     rank(sr: number) {
@@ -174,7 +161,7 @@ export class GamesListService {
                     heroes: heroes,
                     rank: game.rank,
                     customGame: game.custom_game,
-                    season: this.getSeason(game.time),
+                    season: game.season,
                     viewable: game.viewable,
                     gameType: game.game_type,
 
@@ -220,7 +207,7 @@ export class GamesListService {
                     heroes: null,
                     rank: null,
                     customGame: false,
-                    season: this.getSeason(game.time),
+                    season: game.season,
                     viewable: true,
                     hasSR: false,
                     gameType: null,
@@ -301,57 +288,6 @@ export class GamesListService {
             }
         );
     }
-
-    getSeason(time: number){
-        if (time < 1488193200){ // 28 Feb 2017
-            return 'Season 3-4 Off Season';
-        } else if (time < 1496059200){ // 28 May 
-            return 'Season 4';
-        } else if (time < 1496275199){ // 1 June 2017
-            return 'Season 4-5 Off Season';
-        } else if (time < 1503964799){ // 29 August 2017
-            return 'Season 5';
-        } else if (time < 1504224000){
-            return 'Season 5-6 Off Season';
-        } else if (time < 1509237000) { // October 29, 2017 @ 12:30:00 am UTC
-            return 'Season 6';
-        } else if (time < 1509494400){
-            return 'Season 6-7 Off Season';
-        } else if (time < 1514458800 ) {
-            return 'Season 7';
-        } else if (time < 1514764800 ){
-            return 'Season 7-8 Off Season';
-        } else if (time < 1519556400){
-            return 'Season 8';
-        } else if (time < 1519862400){
-            return 'Season 8-9 Off Season';
-        } else if (time < 1524875400){
-            return 'Season 9';
-        } else if (time < 1525132800){
-            return 'Season 9-10 Off Season';
-        } else if (time < 1530144600){
-            return 'Season 10';
-        } else if (time < 1530403170){
-            return 'Season 10-11 Off Season';
-        } else if (time < 1535501400){
-            return 'Season 11';
-        } else if (time < 1535759970){
-            return 'Season 11-12 Off Season';
-        } else if (time < 1540768200) {
-            return 'Season 12';
-        } else if (time < 1541026770) {
-            return 'Season 12-13 Off Season';
-        } else if (time < 1546293600){
-            return 'Season 13';
-        } else if (time < 1546300800){
-            return 'Season 13-14 Off Season';
-        } else if (time < 1551398400){
-            return 'Season 14';
-        } else {
-            return 'Season 15'
-        }
-    }
-
 }
 
 export class PlayerGameList {

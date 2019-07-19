@@ -4,7 +4,7 @@
 -->
 <div class="jumbotron overview view banner eichenwalde">
     <div class="container">                      
-        <div class="pull-right col-md-5" style="{{ player == 'Custom Games' ? 'display: none;' : '' }}">
+        <div class="pull-right col-md-5" [style.visibility]="(player == 'Custom Games' || player == 'Quick Play') ? 'hidden' : 'visible'">
                <div id="sr-graph"
                     name="sr-graph"
                     style="width: 100%; height: 175px; border-radius: 3px; overflow: hidden; background: rgba(0, 0, 0, 0.8)">
@@ -12,7 +12,7 @@
         </div>
         <h1>Games</h1>
         <h2 *ngIf="player"> {{ player }} </h2>
-        <p style="margin-left:-15px; margin-top:-10px" *ngIf="player && player != 'Custom Games'" class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
+        <p style="margin-left:-15px; margin-top:-10px" *ngIf="player && player != 'Custom Games' && player != 'Quick Play'" class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
     </div>
 </div>
 
@@ -24,63 +24,84 @@
 
     <edit-game [game]="gameToEdit" [leaveOnDelete]="false" [allowRename]="false" ></edit-game>
     <div class="row col-md-12">
-        <div>
-            <div class="col-xs-12">
-                <h2 style="float: left;">Games</h2>
-                <ng-multiselect-dropdown
-                    style="float: left; margin-left: 20px; margin-top: 15px; min-width: 240px;"
-                    [data]="allSeasons"
-                    [(ngModel)]="visibleSeasons"
-                    [settings]="dropdownSettings"
+        <div class="panel panel-default control-panel">
+            <div class="panel-heading">
+                <div class="col-xs-6">
+                    <h2 class="col-xs-3">Games</h2>
+                    <ng-multiselect-dropdown
+                        class="col-xs-9 season-selector"
+                        [data]="allSeasons"
+                        [(ngModel)]="visibleSeasons"
+                        [settings]="dropdownSettings"
 
-                    (onSelect)="changeSeasonSelection($event)"
-                    (onDeSelect)="changeSeasonSelection($event)"
-                    (onDropDownClose)="closeDropdown($event)"
-                  >
-                  </ng-multiselect-dropdown>
-            </div>
-            <div *ngIf="isOwnGames" style="position: absolute; right: 0px; padding-top: 12px; padding-right: 30px;">
-                <share-links [accounts]="accountNames" class="pull-right"></share-links>
-                <integrations [accounts]="accountNames" class="pull-right"></integrations>
-                <button class="btn btn-primary" data-toggle="modal" data-target="#batch-edit" style="margin-right: 20px;">
-                    <span class="glyphicon glyphicon-pencil"></span>&nbsp; Batch Edit
-                </button>
+                        (onSelect)="changeSeasonSelection($event)"
+                        (onDeSelect)="changeSeasonSelection($event)"
+                        (onDropDownClose)="closeDropdown($event)"
+                      >
+                      </ng-multiselect-dropdown>
+                </div>
+                <div class="col-xs-6">
+                    <div class="btn-group btn-group-toggle pull-left view-mode-buttons" data-toggle="buttons">
+                      <label
+                          class="btn btn-primary{{ isCompactView ? '' : ' active' }}"
+                          (click)="setIsCompact(false)"
+                          title="Standard List View"
+                      >
+                          <input type="radio" name="view-mode" class="btn btn-primary" id="thick-button">
+                          <i class="glyphicon glyphicon-th-list"></i>
+                      </label>
+                      <label
+                          class="btn btn-primary{{ isCompactView ? ' active' : '' }}"
+                          (click)="setIsCompact(true)"
+                          title="Compact List View"
+                      >
+                          <input type="radio" name="view-mode" class="btn btn-primary" id="compact-button">
+                          <i class="glyphicon glyphicon-list"></i>
+                      </label>
+                    </div>
 
-                <div id="batch-edit" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel2" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="mySmallModalLabel2" style="display: inline">Batch Edit</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group row">
-                                    <label for="account-input" class="col-2 col-form-label">Account</label>
-                                    <div class="col-10">
-                                        <select id="account-input" class="form-control">
-                                            <option *ngFor="let games of gamesLists">{{ games.player }}</option>
-                                        </select> 
-                                    </div>
+                    <share-links *ngIf="isOwnGames" [accounts]="accountNames" class="pull-right"></share-links>
+                    <integrations *ngIf="isOwnGames" [accounts]="accountNames" class="pull-right"></integrations>
+                    <button *ngIf="isOwnGames" class="btn btn-primary pull-right" data-toggle="modal" data-target="#batch-edit">
+                        <span class="glyphicon glyphicon-pencil"></span>&nbsp; Batch Edit
+                    </button>
+
+                    <div *ngIf="isOwnGames" id="batch-edit" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel2" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="mySmallModalLabel2" style="display: inline">Batch Edit</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                    </button>
                                 </div>
+                                <div class="modal-body">
+                                    <div class="form-group row">
+                                        <label for="account-input" class="col-2 col-form-label">Account</label>
+                                        <div class="col-10">
+                                            <select id="account-input" class="form-control">
+                                                <option *ngFor="let games of gamesLists">{{ games.player }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                                <div class="form-group row">
-                                    <label for="playername-input" class="col-2 col-form-label">Player Name</label>
-                                    <div class="col-10" style="background: red; border-radius: 4px;">
-                                        <input class="form-control" type="text" value="" id="playername-input">
+                                    <div class="form-group row">
+                                        <label for="playername-input" class="col-2 col-form-label">Player Name</label>
+                                        <div class="col-10" style="background: red; border-radius: 4px;">
+                                            <input class="form-control" type="text" value="" id="playername-input">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6" style="padding: 2px;">
-                                        <button class="btn btn-danger" (click)="batchEdit('delete')">
-                                            Delete
-                                        </button>
-                                    </div>
-                                    <div class="col-lg-6" style="padding: 2px;">
-                                        <button class="btn btn-info pull-right" style="margin-left: 83%" (click)="batchEdit('rename')">
-                                            Rename
-                                        </button>
+                                    <div class="row">
+                                        <div class="col-lg-6" style="padding: 2px;">
+                                            <button class="btn btn-danger" (click)="batchEdit('delete')">
+                                                Delete
+                                            </button>
+                                        </div>
+                                        <div class="col-lg-6" style="padding: 2px;">
+                                            <button class="btn btn-info pull-right" style="margin-left: 83%" (click)="batchEdit('rename')">
+                                                Rename
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -109,16 +130,7 @@
             </div>
             <div class="panel-body">
                 <div class="tab-content">
-                    <table class="table table-striped text-center">
-                        <tr style="width:100%">
-                            <th>Game Time</th>
-                            <th colspan="2">Win/Loss/Draw</th>
-                            <th>Score</th>
-                            <th *ngIf="!hideSR">Skill Rating</th>
-                            <th>Length</th>
-                            <th>Map</th>
-                            <th>Heroes</th>
-                        </tr>
+                    <table class="table table-striped text-center{{ isCompactView ? ' compact' : '' }}">
                         <tr *ngIf="currentUploadRequested && currentUserID == games.user_id">
                             <td class="gn">{{formatTime(currentUploadRequested)}} {{ formatDay(currentUploadRequested) }}<br>
                                 {{formatDate(currentUploadRequested)}}
@@ -127,50 +139,60 @@
                                 <p>Game uploading...</p>
                             </td> 
                         </tr>
-                        <tr *ngFor="let game of visibleGames; trackBy: myTrackByFunction"
-                            id="game-{{ game.num }}"
-                            class="list-game"
-                            [class.sub-required]="!game.viewable"
-                            [class.hoverable]="!game.error"
-                            (mousedown)="prepRoute(game, $event)" 
-                            (mouseup)="route(game, $event)"  
-                            data-toggle="popover"
-                            tabindex="0"
-                        >
-                            <p display="False" style="display: none;">
-                                {{ game.key }}
-                            </p>
-                            <td class="gn">{{game.listView.formatTime}} {{game.listView.formatDay}}<br>
-                                {{game.listView.formatDate}}
-                            </td>
-                            <td *ngIf="!game.error && !hideSR" class="{{game.listView.wltClass}} text-right num">
-                                <b>{{ game.listView.srChange }}</b>
-                            </td>
-                            <td *ngIf="!game.error && hideSR"></td>
-                            <td *ngIf="!game.error" class="{{game.listView.wltClass}} text-left" >{{ game.result }}</td>
-                            <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span>/<span class="num">{{ game.redScore }}</span></td>
-                            <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !hideSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                            <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !hideSR" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
-                            <td *ngIf="!game.error" class="time"><div class="num">{{ min(game) }}</div><div class="unit">min</div></td>
-                            <td *ngIf="!game.error" class="map {{map(game)}}">
-                                <div class="map-wrap">
-                                    <div class="map-bg bg"></div>
-                                    <div class="map-title">
-                                        <div class="map-title-bg bg"></div>
-                                        <i>{{ game.map }}</i>
+                        <tbody *ngFor="let gamesOfDay of gamesByDay" class="date-group">
+                            <tr class="date-row"><th colspan="8">{{gamesOfDay[0].listView.formatDate}}</th></tr>
+                            <tr style="width:100%">
+                              <th>Game Time</th>
+                              <th colspan="2">Win/Loss/Draw</th>
+                              <th>Score</th>
+                              <th *ngIf="!hideSR">Skill Rating</th>
+                              <th>Length</th>
+                              <th>Map</th>
+                              <th>Heroes</th>
+                            </tr>
+                            <tr *ngFor="let game of gamesOfDay; trackBy: myTrackByFunction"
+                                id="game-{{ game.num }}"
+                                class="list-game"
+                                [class.sub-required]="!game.viewable"
+                                [class.hoverable]="!game.error"
+                                (mousedown)="prepRoute(game, $event)"
+                                (mouseup)="route(game, $event)"
+                                data-toggle="popover"
+                                tabindex="0"
+                            >
+                                <p display="False" style="display: none;">
+                                    {{ game.key }}
+                                </p>
+                                <td class="gn">{{game.listView.formatTime}}</td>
+                                <td *ngIf="!game.error && !hideSR" class="{{game.listView.wltClass}} text-right num">
+                                    <b>{{ game.listView.srChange }}</b>
+                                </td>
+                                <td *ngIf="!game.error && hideSR"></td>
+                                <td *ngIf="!game.error" class="{{game.listView.wltClass}} text-left" >{{ game.result }}</td>
+                                <td *ngIf="!game.error"><span class="num">{{ game.blueScore }}</span>/<span class="num">{{ game.redScore }}</span></td>
+                                <td *ngIf="!game.error && game.rank == 'placement' && !game.endSR && !hideSR" class="num sr"><img src="assets/images/icons/placement.png"/><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                <td *ngIf="!game.error && (game.rank != 'placement' || game.endSR) && !hideSR" class="num sr"><img src="assets/images/icons/{{ game.listView.rank }}.png"/><span>{{ game.listView.formatSR }}</span></td>
+                                <td *ngIf="!game.error" class="time"><div class="num">{{ getFormattedDuration(game) }}</div></td>
+                                <td *ngIf="!game.error" class="map {{map(game)}}">
+                                    <div class="map-wrap">
+                                        <div class="map-bg bg"></div>
+                                        <div class="map-title">
+                                            <div class="map-title-bg bg"></div>
+                                            <i>{{ game.map }}</i>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td *ngIf="!game.error" class="hero" style="position: relative">
-                                <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
-                                <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
-                            </td>
-                            <td *ngIf="game.error" colspan="2" class="{{game.listView.wltClass}} text-left">{{game.result}}</td>
-                            <td *ngIf="game.error" colspan="5" class="error-message text-error">
-                                <p>Game uploaded but failed to process. This is a bug. Please report this with the following game key: </p>
-                                <pre>{{ game.key }}</pre>
-                            </td> 
-                        </tr>
+                                </td>
+                                <td *ngIf="!game.error" class="hero" style="position: relative">
+                                    <img *ngFor="let hero of game.heroes" src="assets/images/heroes/{{hero.name}}.png"/>
+                                    <span *ngIf="isOwnGames" (mousedown)="edit(game, $event)" class="game-edit glyphicon glyphicon-pencil"></span>
+                                </td>
+                                <td *ngIf="game.error" colspan="2" class="{{game.listView.wltClass}} text-left">{{game.result}}</td>
+                                <td *ngIf="game.error" colspan="5" class="error-message text-error">
+                                    <p>Game uploaded but failed to process. This is a bug. Please report this with the following game key: </p>
+                                    <pre>{{ game.key }}</pre>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

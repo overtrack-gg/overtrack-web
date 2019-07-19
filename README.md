@@ -1,7 +1,7 @@
 <h1 align="center"> OverTrack (WebUI) </h1> <br>
 <p align="center">
   <a href="https://overtrack.gg/">
-    <img alt="OverTrack" title="OverTrack" src="//i.imgur.com/ieCUuC0.png" width="450">
+    <img alt="OverTrack" title="OverTrack" src="https://i.imgur.com/ieCUuC0.png" width="450">
   </a>
 </p>
 
@@ -29,7 +29,7 @@
 
 ## Introduction
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-73-orange.svg?style=flat-square)](./CONTRIBUTORS.md)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Discord chat](https://img.shields.io/badge/chat-on_discord-008080.svg?style=flat-square)](https://discord.gg/JywstAB)
 
@@ -55,6 +55,11 @@ Feel free to discuss ideas and development on [Discord](https://discord.gg/Jywst
 
 ## Contributors
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://benolot.com"><img src="https://avatars2.githubusercontent.com/u/2461562?v=4" width="100px;" alt="Sam Fry"/><br /><sub><b>Sam Fry</b></sub></a><br /><a href="https://github.com/synap5e/overtrack-web/commits?author=benolot" title="Code">💻</a> <a href="#design-benolot" title="Design">🎨</a></td><td align="center"><a href="https://github.com/JWSenteney"><img src="https://avatars0.githubusercontent.com/u/1554771?v=4" width="100px;" alt="JWSenteney"/><br /><sub><b>JWSenteney</b></sub></a><br /><a href="#design-JWSenteney" title="Design">🎨</a></td><td align="center"><a href="https://github.com/jess-sio"><img src="https://avatars3.githubusercontent.com/u/3945148?v=4" width="100px;" alt="Jessica Mortimer"/><br /><sub><b>Jessica Mortimer</b></sub></a><br /><a href="https://github.com/synap5e/overtrack-web/commits?author=jess-sio" title="Code">💻</a></td><td align="center"><a href="http://travismccrea.com"><img src="https://avatars0.githubusercontent.com/u/161164?v=4" width="100px;" alt="Travis McCrea"/><br /><sub><b>Travis McCrea</b></sub></a><br /><a href="#design-teamcoltra" title="Design">🎨</a> <a href="https://github.com/synap5e/overtrack-web/commits?author=teamcoltra" title="Documentation">📖</a></td><td align="center"><a href="https://github.com/jeremyBanks"><img src="https://avatars3.githubusercontent.com/u/18020?v=4" width="100px;" alt="Jeremy Banks"/><br /><sub><b>Jeremy Banks</b></sub></a><br /><a href="#design-jeremyBanks" title="Design">🎨</a></td><td align="center"><a href="https://github.com/Jamigrith"><img src="https://avatars1.githubusercontent.com/u/3393742?v=4" width="100px;" alt="Jamigrith"/><br /><sub><b>Jamigrith</b></sub></a><br /><a href="https://github.com/synap5e/overtrack-web/commits?author=Jamigrith" title="Code">💻</a> <a href="#design-Jamigrith" title="Design">🎨</a></td><td align="center"><a href="https://github.com/zsol"><img src="https://avatars3.githubusercontent.com/u/66740?v=4" width="100px;" alt="Zsolt Dollenstein"/><br /><sub><b>Zsolt Dollenstein</b></sub></a><br /><a href="https://github.com/synap5e/overtrack-web/commits?author=zsol" title="Code">💻</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification and is brought to you by these [awesome contributors](./CONTRIBUTORS.md).
 
 ## Build Process
@@ -76,7 +81,7 @@ Running `ng serve --open` will additionally open the webpage in the default brow
 
 ### Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Support us
 

@@ -21,6 +21,8 @@ export class GameService {
 
     addPlayersToStage(players: Array<Player>, stage: any, killfeed: Array<KillFeedEntry>, team: Array<any>, teamColour: string, tab?: any, heroPlayed?: HeroPlayed) {
         class TabPress {
+            player: number;
+            blue: boolean;
             time: number;
             hero: string;
         }
@@ -28,21 +30,43 @@ export class GameService {
         killfeedAndTab = killfeedAndTab.concat(killfeed);
         if (tab){
             for (let i in tab.time){
-                killfeedAndTab.push({
-                    time: tab.time[i],
-                    hero: tab.hero[i]
-                })
+                if (tab.blue_team){
+                    for (let j=0; j < 6; j++){
+                        killfeedAndTab.push({
+                            player: j,
+                            blue: true,
+                            time: tab.time[i],
+                            hero: j != 0 ? tab.blue_team[i][j] : tab.hero[i]
+                        });
+                        killfeedAndTab.push({
+                            player: j,
+                            blue: false,
+                            time: tab.time[i],
+                            hero: tab.red_team[i][j]
+                        });
+                    }
+                } else {
+                    killfeedAndTab.push({
+                        player: 0,
+                        blue: true,
+                        time: tab.time[i],
+                        hero: tab.hero[i]
+                    }); 
+                }
             }
             killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
         }
         if (heroPlayed){
             for (let swap of heroPlayed.swaps){
                 killfeedAndTab.push({
+                    player: 0,
+                    blue: true,
                     time: swap.timestamp,
                     hero: swap.hero
                 });
             }
         }
+        console.log('killfeedAndTab', killfeedAndTab, stage);
         killfeedAndTab = killfeedAndTab.sort((a, b) => a.time - b.time);
         let firstPlayer = true;
         for (const player of team) {
@@ -51,18 +75,19 @@ export class GameService {
             let kills = 0;
             let deaths = 0;
 
-
             for (const event of killfeedAndTab) {
-                if (event.time > stage.end || event.time < stage.start) {
+                if (event.time > stage.end || (event.time < stage.start && stage.index != 0)) {
                     // outside of this stage
                     continue;
                 }
 
                 // heroes played
                 let hero: string;
-                if ('hero' in event && firstPlayer){
+                if ('hero' in event){
                     let tabPress = <TabPress> event;
-                    hero = tabPress.hero;
+                    if (tabPress.blue == (teamColour == 'blue') && team[tabPress.player] == player){
+                        hero = tabPress.hero;
+                    }
                 } else {
                     let kill = <KillFeedEntry> event;
                     let leftColor = kill.isLeftRed ? 'red': 'blue';
@@ -351,8 +376,13 @@ export class GameService {
             objective_stages = [{
                 stage: 'Combined',
                 start: 0,
-                end: body.game_duration * 1000
+                end: body.game_duration * 1000,
+                index: 0
             }];
+        } else {
+            for (let j in objective_stages){
+                objective_stages[j].index = +j;
+            }
         }
 
         const stages: Array<Stage> = [];
@@ -362,7 +392,7 @@ export class GameService {
             const players: Array<Player> = [];
             // only provide heroPlayed if this is not a spectated game
             this.addPlayersToStage(players, stage, killfeed, body.teams.blue, 'blue', body.tab_statistics, body.spectate_bar ? null : heroPlayed);
-            this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red');
+            this.addPlayersToStage(players, stage, killfeed, body.teams.red, 'red', body.tab_statistics);
 
             this.addAssists(players[0], body.assists, stage);
             this.addKillfeedAssists(players, stage, killfeed);

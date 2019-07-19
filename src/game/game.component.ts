@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterContentChecked, Input, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import * as D3 from 'd3';
 import { GameService, Game, KillFeedEntry, Stage, GameHero, GameEvent} from './game.service';
 import { UserLoginService, User } from '../login/user-login.service';

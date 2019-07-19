@@ -1,8 +1,81 @@
 {
-  "files": ["README.md","CONTRIBUTORS.md"],
+  "files": [
+    "README.md",
+    "CONTRIBUTORS.md"
+  ],
   "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "benolot",
+      "name": "Sam Fry",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2461562?v=4",
+      "profile": "https://benolot.com",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    },
+    {
+      "login": "JWSenteney",
+      "name": "JWSenteney",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1554771?v=4",
+      "profile": "https://github.com/JWSenteney",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "jess-sio",
+      "name": "Jessica Mortimer",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3945148?v=4",
+      "profile": "https://github.com/jess-sio",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "teamcoltra",
+      "name": "Travis McCrea",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/161164?v=4",
+      "profile": "http://travismccrea.com",
+      "contributions": [
+        "design",
+        "doc"
+      ]
+    },
+    {
+      "login": "jeremyBanks",
+      "name": "Jeremy Banks",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18020?v=4",
+      "profile": "https://github.com/jeremyBanks",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "Jamigrith",
+      "name": "Jamigrith",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/3393742?v=4",
+      "profile": "https://github.com/Jamigrith",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    },
+    {
+      "login": "zsol",
+      "name": "Zsolt Dollenstein",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/66740?v=4",
+      "profile": "https://github.com/zsol",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
-  "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square)](#contributors)",
-  "contributorTemplate": "<%= avatarBlock %><br /><%= contributions %>",
-  "contributors": []
+  "projectName": "overtrack-web",
+  "projectOwner": "synap5e",
+  "repoType": "github",
+  "repoHost": "https://github.com"
 }

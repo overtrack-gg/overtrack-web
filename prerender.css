@@ -365,40 +365,6 @@ border-bottom-color: transparent;
   padding-bottom: 0px;
 }
 
-#gametable .gn {
-  font-size:18px;
-}
-
-#gametable .sr {
-  font-size:25px;
-  line-height:30px;
-  padding-top:5px;
-  padding-bottom:0px;
-}
-
-#gametable .sr > img {
-  height:45px;
-}
-
-#gametable .sr > span {
-  line-height: 25px;
-}
-
-#gametable .time {
-  padding-top:0px;
-  padding-bottom:0px;
-}
-
-#gametable .time > .num {
-  font-size:25px;
-  line-height: 18px;
-  padding-top: 8px;
-}
-
-#gametable .time > .unit{
-  font-size: 18px;
-}
-
 .unit {
   font-size: 20px; 
 }
@@ -493,7 +459,7 @@ border-bottom-color: transparent;
 }
 
 #gametable .hero > img {
-  height: 50px;
+  height: 48px;
 }
 
 div#meta-game div.panel-heading {

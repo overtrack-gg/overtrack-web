@@ -15,7 +15,6 @@
 .c9/
 *.launch
 .settings/
-package-lock.json
 
 # IDE - VSCode
 .vscode/*

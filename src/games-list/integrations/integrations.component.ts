@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular
 import { Observable } from 'rxjs';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 declare var $: any;
 

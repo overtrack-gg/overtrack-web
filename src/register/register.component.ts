@@ -1,6 +1,6 @@
 import { OnInit, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 
 import { UserLoginService } from '../login/user-login.service';
