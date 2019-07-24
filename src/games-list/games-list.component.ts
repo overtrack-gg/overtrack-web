@@ -50,7 +50,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         closeDropDownOnSelection: true,
     };
 
-    private fetchSeasons: Array<string> = null;
+    private fetchSeasons: Array<string> = [];
     private shareKey: string = null;
 
     private batchEditURL = 'https://api.overtrack.gg/batch_edit';
