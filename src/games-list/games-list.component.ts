@@ -223,6 +223,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
         if (this.visibleSeasons.length == 0){
             this.visibleSeasons = [ this.allSeasons[0] ];
+            this.fetchSeasons = [ this.allSeasons[0] ];
         }
 
         let sr: Array<number> = [];
