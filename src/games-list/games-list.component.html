@@ -12,7 +12,32 @@
         </div>
         <h1>Games</h1>
         <h2 *ngIf="player"> {{ player }} </h2>
-        <p style="margin-left:-15px; margin-top:-10px" *ngIf="player && player != 'Custom Games' && player != 'Quick Play'" class="col-md-3">Current SR: <span class="num">{{ currentSR }}</span><img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom"></p>
+        <div style="margin-left:-15px; margin-top:-10px" *ngIf="player && player != 'Custom Games' && player != 'Quick Play'" class="col-md-3">
+            <div *ngIf="roleQueueEnabled" class="curr-sr role-queue">
+                <div>
+                    <div *ngIf="currentTankSR">
+                        <img src="assets/images/roles/tank.svg">
+                        <span>{{currentTankSR}}</span>
+                        <img src="assets/images/icons/{{rank(currentTankSR)}}.png">
+                    </div>
+                    <div *ngIf="currentDamageSR">
+                        <img src="assets/images/roles/damage.svg">
+                        <span>{{currentDamageSR}}</span>
+                        <img src="assets/images/icons/{{rank(currentDamageSR)}}.png">
+                    </div>
+                    <div *ngIf="currentSupportSR">
+                      <img src="assets/images/roles/support.svg">
+                      <span>{{currentSupportSR}}</span>
+                      <img src="assets/images/icons/{{rank(currentSupportSR)}}.png">
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!roleQueueEnabled" class="curr-sr">
+                Current SR:
+                <span class="num">{{ currentSR }}</span>
+                <img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom">
+            </div>
+        </div>
     </div>
 </div>
 

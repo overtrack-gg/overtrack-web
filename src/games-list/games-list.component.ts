@@ -26,6 +26,11 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     accountNames: Array<string>;
     currentSR: number;
+    currentTankSR: number;
+    currentDamageSR: number;
+    currentSupportSR: number;
+    lastPlayedRole: string;
+    roleQueueEnabled: boolean;
     player: string;
 
     isOwnGames = false;
@@ -229,6 +234,10 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         let sr: Array<number> = [];
         let gamePoints: Array<number> = [];
         let last: number = null;
+        let lastTank: number = null;
+        let lastDamage: number = null;
+        let lastSupport: number = null;
+        let lastRole: string = null;
 
         let visibleGames: Array<Game> = [];
         for (let gl of this.gamesLists){
@@ -262,6 +271,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         }
         let index2id: Map<number, number> = new Map<number, number>();
         let x = 0;
+        this.roleQueueEnabled = false;
         for (let game of games){
             if (game.endSR == null){
                 if (last != null){
@@ -282,8 +292,27 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                 index2id.set(sr.length-1, game.num);
             }
             last = game.endSR;
+            if (game.role) { this.roleQueueEnabled = true; }
+            switch(game.role) {
+                case "tank":
+                    lastRole = 'tank';
+                    lastTank = last;
+                    break;
+                case "damage":
+                    lastRole = 'damage';
+                    lastDamage = last;
+                    break;
+                case "support":
+                    lastRole = 'support';
+                    lastSupport = last;
+                    break;
+            }
         }
         this.currentSR = last;
+        this.lastPlayedRole = lastRole;
+        this.currentTankSR = lastTank;
+        this.currentDamageSR = lastDamage;
+        this.currentSupportSR = lastSupport;
 
         let srDottedX: Array<number> = [];
         let srDottedY: Array<number> = [];

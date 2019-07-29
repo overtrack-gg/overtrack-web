@@ -555,6 +555,37 @@ a.navbar-brand > img {
     font-size:20px;
 }
 
+.jumbotron .curr-sr {
+    font-size: 23px;
+    overflow: visible;
+    white-space: nowrap;
+}
+
+.jumbotron .curr-sr div {
+    display: inline-block;
+}
+
+.jumbotron .curr-sr.role-queue div {
+    padding-left: 15px;
+}
+
+.jumbotron .curr-sr.role-queue div:first-of-type {
+    padding-left: 0;
+}
+
+.jumbotron .curr-sr.role-queue img:first-of-type {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    padding-right: 5px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.jumbotron .curr-sr.role-queue img:last-of-type {
+    height: 35px;
+    vertical-align: bottom;
+}
+
 .jumbotron.view.game {
     padding-bottom: 10px;
 }

@@ -617,6 +617,7 @@ export class GameService {
             blueScore: body.score ? body.score[0] : null,
             redScore: body.score ? body.score[1] : null,
             result: body.result === 'UNKNOWN' ? 'UNKN' : body.result,
+            role: body.role,
             startTime: new Date(body.game_started * 1000),
             player: body.player,
             key: body.key,
@@ -667,6 +668,7 @@ export class Game {
     mapType: string;
     gameType: string;
     result: 'UNKN' | 'WIN' | 'DRAW' | 'LOSS' | 'ERROR';
+    role: 'tank' | 'damage' | 'support';
     startTime: Date;
     redScore: number;
     blueScore: number;
