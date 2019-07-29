@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import {  Game } from './game.service';
 
 declare var $: any;

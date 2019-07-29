@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, AfterViewInit, ElementRef, ViewChild } fro
 import * as D3 from 'd3';
 
 import { Stage, GameHero, GameEvent, Player, KillFeedEntry, PayloadObjectiveInfo } from './game.service';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 declare var Twitch: any; // TODO
 
@@ -23,8 +22,8 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
     private twitchVideoStart: number;
     private twitchVideoOffset = 0;
     
-    @ViewChild('timelineBody') element: ElementRef;
-    @ViewChild('twitchEmbed') twitchEmebed: ElementRef;
+    @ViewChild('timelineBody', {static: true}) element: ElementRef;
+    @ViewChild('twitchEmbed', {static: true}) twitchEmebed: ElementRef;
 
     killfeedTime: number;
     highlightKillWindow = 10 * 1000;

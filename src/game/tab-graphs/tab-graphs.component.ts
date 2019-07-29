@@ -310,7 +310,7 @@ export class TabGraphsComponent {
             for (let statNum in heroStatNames[hero]){
                 // the stat name is not null and there is a nonzero value for that stat at i
                 let statName = heroStatNames[hero][statNum];
-                if (statName && this.tabStatistics['hero_stat_' + (Number(statNum) + 1)][i]){
+                if (statName && this.tabStatistics['hero_stat_' + (Number(statNum) + 1)] && this.tabStatistics['hero_stat_' + (Number(statNum) + 1)][i]){
                     showHero = true;
 
                     if (heroGraphedStats.indexOf(statName) != -1){

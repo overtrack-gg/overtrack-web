@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Http, Response, Headers } from '@angular/http';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 declare var $: any;
 declare var $: any;

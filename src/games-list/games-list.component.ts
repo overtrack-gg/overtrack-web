@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentChecked, Input, Inject, ChangeDetectionS
 import { Router, RouterModule, ActivatedRoute, Params } from '@angular/router';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import * as D3 from 'd3';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 
 import { GamesListService, PlayerGameList } from './games-list.service';
@@ -50,7 +50,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         closeDropDownOnSelection: true,
     };
 
-    private fetchSeasons: Array<string> = null;
+    private fetchSeasons: Array<string> = [];
     private shareKey: string = null;
 
     private batchEditURL = 'https://api.overtrack.gg/batch_edit';
@@ -223,6 +223,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
         if (this.visibleSeasons.length == 0){
             this.visibleSeasons = [ this.allSeasons[0] ];
+            this.fetchSeasons = [ this.allSeasons[0] ];
         }
 
         let sr: Array<number> = [];
