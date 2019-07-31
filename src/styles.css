@@ -382,21 +382,28 @@ a.navbar-brand > img {
 }
 
 .control-panel h2 {
-  padding-left: 0;
-  margin: 0;
+    padding-left: 0;
+    margin: 0;
 }
 
-.control-panel button, .control-panel .view-mode-buttons label {
-  height: 38px;
+.control-panel button, .control-panel .toggle-buttons label {
+    height: 38px;
+}
+
+.control-panel .role-select img {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    height: 15px;
+    margin-top: 2px;
 }
 
 .control-panel > .panel-heading {
-  height: 66px;
-  padding-top: 16px;
+    height: 66px;
+    padding-top: 16px;
 }
 
 .control-panel {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #gametable {

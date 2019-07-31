@@ -52,9 +52,8 @@
         <div class="panel panel-default control-panel">
             <div class="panel-heading">
                 <div class="col-xs-6">
-                    <h2 class="col-xs-3">Games</h2>
                     <ng-multiselect-dropdown
-                        class="col-xs-9 season-selector"
+                        class="col-xs-6 season-selector"
                         [data]="allSeasons"
                         [(ngModel)]="visibleSeasons"
                         [settings]="dropdownSettings"
@@ -63,26 +62,65 @@
                         (onDeSelect)="changeSeasonSelection($event)"
                         (onDropDownClose)="closeDropdown($event)"
                       >
-                      </ng-multiselect-dropdown>
+                    </ng-multiselect-dropdown>
+
+                    <div *ngIf="roleQueueEnabled && player !== 'Custom Games'" class="col-xs-6 btn-group btn-group-toggle toggle-buttons role-select" data-toggle="buttons">
+                        <label
+                            class="btn btn-primary{{ roleFilter === 'all' ? ' active' : '' }}"
+                            (click)="setRoleFilter('all')"
+                            title="All Roles"
+                        >
+                            <input type="radio" name="view-mode" class="btn btn-primary" id="all-roles-button">
+                            <img src="assets/images/roles/flex.svg" />
+                        </label>
+                        <label
+                            *ngIf="playedTank"
+                            class="btn btn-primary{{ roleFilter === 'tank' ? ' active' : '' }}"
+                            (click)="setRoleFilter('tank')"
+                            title="Tank"
+                        >
+                            <input type="radio" name="view-mode" class="btn btn-primary" id="tank-role-button">
+                            <img src="assets/images/roles/tank.svg" />
+                        </label>
+                        <label
+                            *ngIf="playedDamage"
+                            class="btn btn-primary{{ roleFilter === 'damage' ? ' active' : '' }}"
+                            (click)="setRoleFilter('damage')"
+                            title="Damage"
+                        >
+                            <input type="radio" name="view-mode" class="btn btn-primary" id="damage-role-button">
+                            <img src="assets/images/roles/damage.svg" />
+                        </label>
+                        <label
+                            *ngIf="playedSupport"
+                            class="btn btn-primary{{ roleFilter === 'support' ? ' active' : '' }}"
+                            (click)="setRoleFilter('support')"
+                            title="Support"
+                        >
+                            <input type="radio" name="view-mode" class="btn btn-primary" id="support-role-button">
+                            <img src="assets/images/roles/support.svg" />
+                        </label>
+                    </div>
                 </div>
+
                 <div class="col-xs-6">
-                    <div class="btn-group btn-group-toggle pull-left view-mode-buttons" data-toggle="buttons">
-                      <label
-                          class="btn btn-primary{{ isCompactView ? '' : ' active' }}"
-                          (click)="setIsCompact(false)"
-                          title="Standard List View"
-                      >
-                          <input type="radio" name="view-mode" class="btn btn-primary" id="thick-button">
-                          <i class="glyphicon glyphicon-th-list"></i>
-                      </label>
-                      <label
-                          class="btn btn-primary{{ isCompactView ? ' active' : '' }}"
-                          (click)="setIsCompact(true)"
-                          title="Compact List View"
-                      >
-                          <input type="radio" name="view-mode" class="btn btn-primary" id="compact-button">
-                          <i class="glyphicon glyphicon-list"></i>
-                      </label>
+                    <div class="btn-group btn-group-toggle pull-left toggle-buttons" data-toggle="buttons">
+                        <label
+                            class="btn btn-primary{{ isCompactView ? '' : ' active' }}"
+                            (click)="setIsCompact(false)"
+                            title="Standard List View"
+                        >
+                            <input type="radio" name="view-mode" class="btn btn-primary" id="thick-button">
+                            <i class="glyphicon glyphicon-th-list"></i>
+                        </label>
+                        <label
+                            class="btn btn-primary{{ isCompactView ? ' active' : '' }}"
+                            (click)="setIsCompact(true)"
+                            title="Compact List View"
+                        >
+                            <input type="radio" name="view-mode" class="btn btn-primary" id="compact-button">
+                            <i class="glyphicon glyphicon-list"></i>
+                        </label>
                     </div>
 
                     <share-links *ngIf="isOwnGames" [accounts]="accountNames" class="pull-right"></share-links>

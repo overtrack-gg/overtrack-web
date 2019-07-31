@@ -26,12 +26,17 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     accountNames: Array<string>;
     currentSR: number;
+    player: string;
+
+    playedTank: boolean = false;
+    playedDamage: boolean = false;
+    playedSupport: boolean = false;
     currentTankSR: number;
     currentDamageSR: number;
     currentSupportSR: number;
     lastPlayedRole: string;
     roleQueueEnabled: boolean;
-    player: string;
+    roleFilter: string = 'all';
 
     isOwnGames = false;
 
@@ -239,11 +244,49 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         let lastSupport: number = null;
         let lastRole: string = null;
 
+        // check which roles have actually been played before we try to filter them
+        this.playedTank = false;
+        this.playedDamage = false;
+        this.playedSupport = false;
+        for (let gl of this.gamesLists) {
+            if (gl.player == this.player) {
+                for (let g of gl.list) {
+                    switch (g.role) {
+                        case "tank":
+                            this.playedTank = true;
+                            break;
+                        case "damage":
+                            this.playedDamage = true;
+                            break;
+                        case "support":
+                            this.playedSupport = true;
+                            break;
+                    }
+                    if (this.playedTank && this.playedDamage && this.playedSupport) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        switch(this.roleFilter) {
+            case 'tank':
+                if (!this.playedTank) { this.roleFilter = 'all'; }
+                break;
+            case 'damage':
+                if (!this.playedDamage) { this.roleFilter = 'all'; }
+                break;
+            case 'support':
+                if (!this.playedSupport) { this.roleFilter = 'all'; }
+        }
+
         let visibleGames: Array<Game> = [];
-        for (let gl of this.gamesLists){
-            if (gl.player == this.player){
-                for (let g of gl.list){
-                    visibleGames.push(g);
+        for (let gl of this.gamesLists) {
+            if (gl.player == this.player) {
+                for (let g of gl.list) {
+                    if (!this.roleQueueEnabled || this.roleFilter === 'all' || this.roleFilter === g.role) {
+                        visibleGames.push(g);
+                    }
                 }
             }
         }
@@ -551,5 +594,10 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         } else {
             $('#gametable table').removeClass('compact');
         }
+    }
+
+    setRoleFilter(role) {
+        this.roleFilter = role;
+        this.updateGamesList();
     }
 }
