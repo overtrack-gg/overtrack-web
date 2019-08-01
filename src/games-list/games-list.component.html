@@ -203,15 +203,16 @@
                             </td> 
                         </tr>
                         <tbody *ngFor="let gamesOfDay of gamesByDay" class="date-group">
-                            <tr class="date-row"><th colspan="8">{{gamesOfDay[0].listView.formatDate}}</th></tr>
+                            <tr class="date-row"><th colspan="9">{{gamesOfDay[0].listView.formatDate}}</th></tr>
                             <tr style="width:100%">
-                              <th>Game Time</th>
-                              <th colspan="2">Win/Loss/Draw</th>
-                              <th>Score</th>
-                              <th *ngIf="!hideSR">Skill Rating</th>
-                              <th>Length</th>
-                              <th>Map</th>
-                              <th>Heroes</th>
+                                <th *ngIf="roleQueueEnabled && roleFilter === 'all'">Role</th>
+                                <th>Game Time</th>
+                                <th colspan="2">Win/Loss/Draw</th>
+                                <th>Score</th>
+                                <th *ngIf="!hideSR">Skill Rating</th>
+                                <th>Length</th>
+                                <th>Map</th>
+                                <th>Heroes</th>
                             </tr>
                             <tr *ngFor="let game of gamesOfDay; trackBy: myTrackByFunction"
                                 id="game-{{ game.num }}"
@@ -226,6 +227,9 @@
                                 <p display="False" style="display: none;">
                                     {{ game.key }}
                                 </p>
+                                <td *ngIf="roleQueueEnabled && roleFilter === 'all'" class="role-icon">
+                                    <img src="assets/images/roles/{{game.role || 'flex'}}.svg" />
+                                </td>
                                 <td class="gn">{{game.listView.formatTime}}</td>
                                 <td *ngIf="!game.error && !hideSR" class="{{game.listView.wltClass}} text-right num">
                                     <b>{{ game.listView.srChange }}</b>

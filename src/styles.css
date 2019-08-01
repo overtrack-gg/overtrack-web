@@ -448,6 +448,17 @@ a.navbar-brand > img {
     padding-bottom:0px;
 }
 
+#gametable .role-icon img {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    height: 25px;
+    margin-bottom: 2px;
+}
+
+#gametable .compact .role-icon img {
+    height: 20px;
+}
+
 .unit {
     font-size: 20px; 
 }
