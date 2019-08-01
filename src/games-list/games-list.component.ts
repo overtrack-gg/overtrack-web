@@ -31,6 +31,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     playedTank: boolean = false;
     playedDamage: boolean = false;
     playedSupport: boolean = false;
+    numRolesPlayed: number = 0;
     currentTankSR: number;
     currentDamageSR: number;
     currentSupportSR: number;
@@ -248,17 +249,21 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.playedTank = false;
         this.playedDamage = false;
         this.playedSupport = false;
+        this.numRolesPlayed = 0;
         for (let gl of this.gamesLists) {
             if (gl.player == this.player) {
                 for (let g of gl.list) {
                     switch (g.role) {
                         case "tank":
+                            if (!this.playedTank) { this.numRolesPlayed++; }
                             this.playedTank = true;
                             break;
                         case "damage":
+                            if (!this.playedDamage) { this.numRolesPlayed++; }
                             this.playedDamage = true;
                             break;
                         case "support":
+                            if (!this.playedSupport) { this.numRolesPlayed++; }
                             this.playedSupport = true;
                             break;
                     }
@@ -269,15 +274,21 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
             }
         }
 
-        switch(this.roleFilter) {
-            case 'tank':
-                if (!this.playedTank) { this.roleFilter = 'all'; }
-                break;
-            case 'damage':
-                if (!this.playedDamage) { this.roleFilter = 'all'; }
-                break;
-            case 'support':
-                if (!this.playedSupport) { this.roleFilter = 'all'; }
+        if (this.numRolesPlayed == 1) {
+            if (this.playedTank) { this.roleFilter = 'tank' }
+            if (this.playedDamage) { this.roleFilter = 'damage' }
+            if (this.playedSupport) { this.roleFilter = 'support' }
+        } else {
+            switch(this.roleFilter) {
+                case 'tank':
+                    if (!this.playedTank) { this.roleFilter = 'all'; }
+                    break;
+                case 'damage':
+                    if (!this.playedDamage) { this.roleFilter = 'all'; }
+                    break;
+                case 'support':
+                    if (!this.playedSupport) { this.roleFilter = 'all'; }
+            }
         }
 
         let visibleGames: Array<Game> = [];
