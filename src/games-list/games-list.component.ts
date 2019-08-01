@@ -54,7 +54,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     public allSeasons: string[] = [];
     public dropdownSettings = {
         enableCheckAll: false,
-        itemsShowLimit: 3,
+        itemsShowLimit: 1,
         closeDropDownOnSelection: true,
     };
 

@@ -994,6 +994,12 @@ svg {
     cursor: pointer;
 }
 
+.season-selector .selected-item{
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: visible;
+}
+
 .multiselect-dropdown .dropdown-btn .selected-item a {
     display: none;
 }
