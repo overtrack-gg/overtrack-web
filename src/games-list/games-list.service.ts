@@ -328,3 +328,21 @@ export class GamesListHero {
     percentagePlayed: number;
 }
 
+export class ListGraphData {
+    sr: RoleArrays = new RoleArrays();
+    gamePoints: RoleArrays = new RoleArrays();
+}
+
+export class RoleInts {
+    tank: number;
+    damage: number;
+    support: number;
+    all: number;
+}
+
+export class RoleArrays {
+    tank: Array<number> = [];
+    damage: Array<number> = [];
+    support: Array<number> = [];
+    all: Array<number> = [];
+}

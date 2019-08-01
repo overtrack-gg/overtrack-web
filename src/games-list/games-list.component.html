@@ -15,27 +15,27 @@
         <div style="margin-left:-15px; margin-top:-10px" *ngIf="player && player != 'Custom Games' && player != 'Quick Play'" class="col-md-3">
             <div *ngIf="roleQueueEnabled" class="curr-sr role-queue">
                 <div>
-                    <div *ngIf="currentTankSR">
+                    <div *ngIf="currentSR.tank">
                         <img src="assets/images/roles/tank.svg">
-                        <span>{{currentTankSR}}</span>
-                        <img src="assets/images/icons/{{rank(currentTankSR)}}.png">
+                        <span>{{currentSR.tank}}</span>
+                        <img src="assets/images/icons/{{rank(currentSR.tank)}}.png">
                     </div>
-                    <div *ngIf="currentDamageSR">
+                    <div *ngIf="currentSR.damage">
                         <img src="assets/images/roles/damage.svg">
-                        <span>{{currentDamageSR}}</span>
-                        <img src="assets/images/icons/{{rank(currentDamageSR)}}.png">
+                        <span>{{currentSR.damage}}</span>
+                        <img src="assets/images/icons/{{rank(currentSR.damage)}}.png">
                     </div>
-                    <div *ngIf="currentSupportSR">
+                    <div *ngIf="currentSR.support">
                       <img src="assets/images/roles/support.svg">
-                      <span>{{currentSupportSR}}</span>
-                      <img src="assets/images/icons/{{rank(currentSupportSR)}}.png">
+                      <span>{{currentSR.support}}</span>
+                      <img src="assets/images/icons/{{rank(currentSR.support)}}.png">
                     </div>
                 </div>
             </div>
             <div *ngIf="!roleQueueEnabled" class="curr-sr">
                 Current SR:
                 <span class="num">{{ currentSR }}</span>
-                <img src="assets/images/icons/{{rank(currentSR)}}.png" height="35" style="vertical-align: bottom">
+                <img src="assets/images/icons/{{rank(currentSR.all)}}.png" height="35" style="vertical-align: bottom">
             </div>
         </div>
     </div>

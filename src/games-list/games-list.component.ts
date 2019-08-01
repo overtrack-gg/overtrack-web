@@ -5,7 +5,7 @@ import * as D3 from 'd3';
 import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 
-import { GamesListService, PlayerGameList } from './games-list.service';
+import { GamesListService, PlayerGameList, ListGraphData, RoleInts } from './games-list.service';
 import { Game } from '../game/game.service';
 import { UserLoginService, User } from '../login/user-login.service';
 
@@ -25,16 +25,13 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     gamesByDay: Array<Array<Game>>;
 
     accountNames: Array<string>;
-    currentSR: number;
     player: string;
 
     playedTank: boolean = false;
     playedDamage: boolean = false;
     playedSupport: boolean = false;
     numRolesPlayed: number = 0;
-    currentTankSR: number;
-    currentDamageSR: number;
-    currentSupportSR: number;
+    currentSR: RoleInts = new RoleInts();
     lastPlayedRole: string;
     roleQueueEnabled: boolean;
     roleFilter: string = 'all';
@@ -237,13 +234,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
             this.fetchSeasons = [ this.allSeasons[0] ];
         }
 
-        let sr: Array<number> = [];
-        let gamePoints: Array<number> = [];
-        let last: number = null;
-        let lastTank: number = null;
-        let lastDamage: number = null;
-        let lastSupport: number = null;
-        let lastRole: string = null;
+        let graphData: ListGraphData = new ListGraphData();
 
         // check which roles have actually been played before we try to filter them
         this.playedTank = false;
@@ -320,72 +311,79 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
         games = games.slice();
         games.reverse();
-        if (games.length > 40){
-            games = games.slice(sr.length - 40);
-        }
         let index2id: Map<number, number> = new Map<number, number>();
-        let x = 0;
+        let currentSR = new RoleInts();
         this.roleQueueEnabled = false;
         for (let game of games){
-            if (game.endSR == null){
-                if (last != null){
-                    sr.push(null);
-                    gamePoints.push(null);
+            const gameRole = game.role ? game.role : "all";
+            if (game.endSR == null) {
+                if (currentSR[gameRole] !== null) {
+                    graphData.sr.all.push(null);
+                    graphData.gamePoints.all.push(null);
+                    if (game.role) {
+                        graphData.sr[game.role].push(null);
+                        graphData.gamePoints[game.role].push(null);
+                    }
                 }
             } else {
-                if (last != null && last != game.startSR){
-                    if (game.startSR != null){
-                        sr.push(null);
-                        gamePoints.push(null);
+                if (currentSR[gameRole] !== null && currentSR[gameRole] !== game.startSR) {
+                    if (game.startSR != null) {
+                        graphData.sr.all.push(null);
+                        graphData.gamePoints.all.push(null);
+                        if (game.role) {
+                            graphData.sr[game.role].push(null);
+                            graphData.gamePoints[game.role].push(null);
+                        }
                     }
-                    sr.push(game.startSR);
-                    gamePoints.push(null);
+                    graphData.sr.all.push(game.startSR);
+                    graphData.gamePoints.all.push(null);
+                    if (game.role) {
+                        graphData.sr[game.role].push(game.startSR);
+                        graphData.gamePoints[game.role].push(null);
+                    }
                 }
-                gamePoints.push(game.endSR);
-                sr.push(game.endSR);
-                index2id.set(sr.length-1, game.num);
+                graphData.sr.all.push(game.endSR);
+                graphData.gamePoints.all.push(game.endSR);
+                if (game.role) {
+                    graphData.sr[game.role].push(game.endSR);
+                    graphData.gamePoints[game.role].push(game.endSR);
+                }
+
+                if (game.role) {
+                    index2id.set(graphData.sr[game.role].length-1, game.num);
+                } else {
+                    index2id.set(graphData.sr.all.length-1, game.num);
+                }
             }
-            last = game.endSR;
-            if (game.role) { this.roleQueueEnabled = true; }
-            switch(game.role) {
-                case "tank":
-                    lastRole = 'tank';
-                    lastTank = last;
-                    break;
-                case "damage":
-                    lastRole = 'damage';
-                    lastDamage = last;
-                    break;
-                case "support":
-                    lastRole = 'support';
-                    lastSupport = last;
-                    break;
+            currentSR.all = game.endSR;
+            if (game.role) {
+                this.roleQueueEnabled = true;
+                currentSR[game.role] = game.endSR;
+                this.lastPlayedRole = game.role;
             }
         }
-        this.currentSR = last;
-        this.lastPlayedRole = lastRole;
-        this.currentTankSR = lastTank;
-        this.currentDamageSR = lastDamage;
-        this.currentSupportSR = lastSupport;
 
+        this.currentSR = currentSR;
+
+        const graphRole = this.lastPlayedRole ? this.lastPlayedRole : "all";
         let srDottedX: Array<number> = [];
         let srDottedY: Array<number> = [];
-        for (let i = 1; i < sr.length-1; ++i){
-            if (sr[i] == null){
+        for (let i = 1; i < graphData.sr[graphRole].length-1; ++i) {
+            if (graphData.sr[graphRole][i] === null) {
                 srDottedX.push(i-2);
                 srDottedX.push(i-1);
                 srDottedX.push(i+1);
                 srDottedX.push(i+2);
 
                 srDottedY.push(null);
-                srDottedY.push(sr[i-1]);
-                srDottedY.push(sr[i+1]);
+                srDottedY.push(graphData.sr[graphRole][i-1]);
+                srDottedY.push(graphData.sr[graphRole][i+1]);
                 srDottedY.push(null);
             }
         }
         Plotly.newPlot('sr-graph', [
                 {
-                    y: sr,
+                    y: graphData.sr[graphRole],
                     mode: 'lines',
                     hoverinfo: 'skip',
                     line: {
@@ -395,7 +393,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                     }
                 },
                 {
-                    y: gamePoints,
+                    y: graphData.gamePoints[graphRole],
                     mode: 'markers',
                     hoverinfo: 'y',
                     marker: {
