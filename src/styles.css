@@ -572,15 +572,15 @@ a.navbar-brand > img {
     display: inline-block;
 }
 
-.jumbotron .curr-sr.role-queue div {
+.jumbotron .curr-sr div {
     padding-left: 15px;
 }
 
-.jumbotron .curr-sr.role-queue div:first-of-type {
+.jumbotron .curr-sr div:first-of-type {
     padding-left: 0;
 }
 
-.jumbotron .curr-sr.role-queue img:first-of-type {
+.jumbotron .curr-sr img:first-of-type {
     -webkit-filter: invert(100%);
     filter: invert(100%);
     padding-right: 5px;
@@ -589,7 +589,7 @@ a.navbar-brand > img {
     margin-bottom: 4px;
 }
 
-.jumbotron .curr-sr.role-queue img:last-of-type {
+.jumbotron .curr-sr img:last-of-type {
     height: 35px;
     vertical-align: bottom;
 }
