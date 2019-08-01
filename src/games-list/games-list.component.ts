@@ -35,7 +35,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     currentSR: RoleInts = new RoleInts();
     lastPlayedRole: string;
     roleQueueEnabled: boolean;
-    roleFilter: string = 'all';
+    roleFilter: string;
 
     isOwnGames = false;
 
@@ -87,6 +87,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
             }
         );
         this.isCompactView = (localStorage.getItem('isCompactView') === 'true');
+        this.roleFilter = localStorage.getItem('roleFilter') || 'all';
     }
 
     rank(sr: number) {
@@ -612,6 +613,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
 
     setRoleFilter(role) {
         this.roleFilter = role;
+        localStorage.setItem('roleFilter', role);
         this.updateGamesList();
     }
 }
