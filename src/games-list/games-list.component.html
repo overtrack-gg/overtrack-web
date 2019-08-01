@@ -66,6 +66,7 @@
 
                     <div *ngIf="roleQueueEnabled && player !== 'Custom Games'" class="col-xs-6 btn-group btn-group-toggle toggle-buttons role-select" data-toggle="buttons">
                         <label
+                            *ngIf="numRolesPlayed > 1"
                             class="btn btn-primary{{ roleFilter === 'all' ? ' active' : '' }}"
                             (click)="setRoleFilter('all')"
                             title="All Roles"

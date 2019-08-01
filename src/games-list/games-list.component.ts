@@ -30,6 +30,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
     playedTank: boolean = false;
     playedDamage: boolean = false;
     playedSupport: boolean = false;
+    playedFlex: boolean = false;
     numRolesPlayed: number = 0;
     currentSR: RoleInts = new RoleInts();
     lastPlayedRole: string;
@@ -240,6 +241,7 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.playedTank = false;
         this.playedDamage = false;
         this.playedSupport = false;
+        this.playedFlex = false;
         this.numRolesPlayed = 0;
         for (let gl of this.gamesLists) {
             if (gl.player == this.player) {
@@ -257,8 +259,11 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
                             if (!this.playedSupport) { this.numRolesPlayed++; }
                             this.playedSupport = true;
                             break;
+                        default:
+                            if (!this.playedFlex) { this.numRolesPlayed++; }
+                            this.playedFlex = true;
                     }
-                    if (this.playedTank && this.playedDamage && this.playedSupport) {
+                    if (this.playedTank && this.playedDamage && this.playedSupport && this.playedFlex) {
                         break;
                     }
                 }
