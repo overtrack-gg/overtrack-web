@@ -586,6 +586,7 @@ a.navbar-brand > img {
     padding-right: 5px;
     height: 25px;
     vertical-align: middle;
+    margin-bottom: 4px;
 }
 
 .jumbotron .curr-sr.role-queue img:last-of-type {
