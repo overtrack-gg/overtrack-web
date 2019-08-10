@@ -115,6 +115,17 @@ export class RedirectToGamesComponent implements OnInit {
 	}
 }
 
+@Component({
+	selector: 'discord-redirect',
+	template: ``
+})
+export class DiscordRedirect implements OnInit {
+
+	ngOnInit(): void {
+		window.location.replace('https://discord.gg/JywstAB');
+	}
+}
+
 const appRoutes: Routes = [
 		{ path: '', component: RedirectToGamesComponent, canActivate: [LoggedIn] },
 		{ path: 'games',  component: GamesListComponent, canActivate: [LoggedIn] },
@@ -139,6 +150,8 @@ const appRoutes: Routes = [
 		{ path: 'streamer', component: StreamerInfoComponent },
 
 		{ path: 'video', component: VideoSearchComponent },
+
+		{ path: 'discord', component: DiscordRedirect },
 
 		{ path: '**', component: NotFoundComponent },
 ];
@@ -190,7 +203,8 @@ const appRoutes: Routes = [
 		NotFoundComponent,
 		PlaylistsComponent,
 		VideoSearchComponent,
-		KillfeedEventComponent
+		KillfeedEventComponent,
+		DiscordRedirect
 	],
 	bootstrap: [ 
 		AppComponent
