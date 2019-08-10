@@ -7,10 +7,10 @@
 <div class="container overview view">
 	<div class="jumbotron container">
 		<div class="col-lg-6">
-			<h3 style="margin-top:0px">Get great insights and become a grand master in no time</h3>
+			<h3 style="margin-top:0px">Start tracking your matches today</h3>
 		</div>
 		<div class="col-lg-6 text-right">
-			<a href="https://overtrack-client.s3.amazonaws.com/overtrack.exe" class="btn btn-success"><span class="
+			<a href="https://overtrack-client-2.s3-us-west-2.amazonaws.com/setup/OverTrack+setup.exe" class="btn btn-success"><span class="
 				glyphicon glyphicon-ok-sign"></span> Download Client</a>
 		</div>
 	</div>
@@ -24,48 +24,50 @@
 			<div class="alert alert-dismissible alert-info">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4>Tip!</h4>
-				<p>Depending on your system security you may be warned by Windows SmartScreen, or other such similar security system, that overtrack.exe has been prevented from running - in the case of Windows SmartScreen, click on More info, then, Run anyway to proceed. This only needs to be done once..</p>
+				<p>Depending on your system security you may be warned by Windows SmartScreen, or other such similar security system, that OverTrack setup has been prevented from running - in the case of Windows SmartScreen, click on More info, then, Run anyway to proceed. This only needs to be done once..</p>
 			</div>
-
-			<p>Once the download has completed you may open overtrack.exe. OverTrack runs directly from this launcher, so make sure the executable is stored somewhere where it won't be deleted (e.g. on your desktop or in your documents folder).</p>
-
-
 
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#setup" data-toggle="tab" aria-expanded="true">1. Setup</a></li>
-				<li class=""><a href="#startup" data-toggle="tab" aria-expanded="false">2. Launch on Startup</a></li>
+				<li class=""><a href="#link" data-toggle="tab" aria-expanded="true">2. Link Account</a></li>
 				<li class=""><a href="#general" data-toggle="tab" aria-expanded="false">3. General Use</a></li>
 			</ul>
 			<div id="myTabContent" class="tab-content well">
 				<div class="tab-pane fade active in" id="setup">
-					<p>Upon first launch of the client you will be asked to authenticate/pair the client to your account using the OverTrack site. This should automatically open a page in your browser where you can click the <i>Authenticate Client</i> button: </p>
+					<p>Step through the install process. We reccomend leaving "start on login" enabled so you don't miss any games.</p>
+					<p><img class="tut-image" src="assets/images/tracker/setup.png"></p>
+					<p>Upon first launch, OverTrack will need to fetch additional requirements.<br/>
+						This process can take some time on first run, but OverTrack will reuse most of the downloaded requirements for updates.</p>
+					<p><img class="tut-image" src="assets/images/tracker/requirements.png"></p>
+				</div>
+				<div class="tab-pane fade" id="link">
+					<p>Upon first launch of the client you will be asked to authenticate/pair the client to your account using the OverTrack site. </p>
 
 					<p><img class="tut-image" src="assets/images/tracker/authenticate.png"></p>
 
 					<p>If you are not logged in you will instead be presented with the welcome page - simply use the sign-in button and you will be redirected to the authenticate page.</p>
 				</div>
-				<div class="tab-pane fade" id="startup">
-					<p>By default OverTrack will not launch on startup - if you would like OverTrack to start automatically, right click on the icon in the notifications tray and check "Start OverTrack when Windows starts" </p>
-					<p><img alt="Menu" class="tut-image" src="assets/images/tracker/menu.png"></p>
-					</div>
-					<div class="tab-pane fade" id="general">
-						<p> OverTrack has a taskbar icon showing the current state and will present toasts (only visible if Overwatch is not fullscreen): </p><img alt="Tray icon" class="tut-image" src="assets/images/tracker/taskbar.png"><br><img alt="sample toasts of the client in action" class="tut-image" src="assets/images/tracker/toasts.png"><br><p> To ensure SR is tracked correctly you must visit the <i>Play Menu</i> (where the <i>Quick Play</i>, <i>Arcade</i>, <i>Competitive Play</i>, and, <i>Play vs. AI</i> buttons are seen) BEFORE and AFTER each game, as prompted by the toasts. </p><p> For best results for tracking scores, let the tracker see all score screens - this means not tabbing out or leaving the game at the round/game end score screens. </p><p> To close the client, right click the tray icon and select <i>Quit</i></p>
-					</div>
-
-
+				<div class="tab-pane fade" id="general">
+					<p> OverTrack has a taskbar icon showing the current state and will present toasts updating you to tracking events (toasts may not be visible in fullscreen) .</p>
+					<img alt="Tray icon" class="tut-image" src="assets/images/tracker/taskbar.png"><br>
+					<img alt="sample toasts of the client in action" class="tut-image" src="assets/images/tracker/toasts.png"><br>
+					<p>To ensure SR is tracked correctly you must visit the <i>Role Selection Menu</i> BEFORE and AFTER each game</p>
+					<p>For best results for tracking scores, let the tracker see all score screens - this means not tabbing out or leaving the game at the round/game end score screens. </p>
+					<p>To close the client, right click the tray icon and select <i>Quit</i></p>
 				</div>
 			</div>
 
 
-			<h2>Notes:</h2>
-			<p>
-				Fullscreen tracking is not available in Windows 7.
-			</p>
-			<p>
-				In order to help with bugs and development the client will upload logs and occasionally full screenshots of Overwatch. For normal operation it will only upload small
-				sections of the screen, but, when the client encounters oddities, these testing builds can upload more. This means that, for now, images of your whispers may be uploaded
-				and the uploaded logs may contain your username.
-			</p>
-
+		<h2>Notes:</h2>
+		<p>
+			Fullscreen tracking is not available in Windows 7.
+		</p>
+		<p>
+			In order to help with bugs and development the client will upload logs, extracted data, and occasionally full screenshots. <br/>
+			Care is taken in the application to mask out any non-game windows or content before extrating data or saving screenshots.
+		</p>
+			
 		</div>
+
+	</div>
 </div>

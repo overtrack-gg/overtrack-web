@@ -30,6 +30,7 @@ export class UserLoginService {
                         id       : body["user-id"],
                         battletag: body.battletag,
                         currentUploadRequested: currentUploadRequested,
+                        v1Client: body.v1_client,
                     };
                     this.user.next(currentUser);
                 },
@@ -69,4 +70,5 @@ export class User {
     id: number;
     battletag: string;
     currentUploadRequested: Date;
+    v1Client: boolean;
 }

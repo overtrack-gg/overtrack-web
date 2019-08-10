@@ -42,10 +42,15 @@
 </div>
 
 <div class="container overview view" *ngIf="loaded && (currentUploadRequested || (gamesLists && gamesLists.length))">
-    <!-- <div class="col-md-12 alert alert-warning" role="alert">
-        Blizzard's current stance on third party programs is unclear. Some third party programs with similar functionality to OverTrack have been forbidden.<br>
-        You may wish to discontinue use of OverTrack until its legality is resolved. Get more details and keep up to date on this issue in the <a href="https://discord.gg/JywstAB">OverTrack Discord</a>
-    </div> -->
+    <div *ngIf="showV1Alert" class="row col-md-12 alert alert-dismissible alert-warning" role="alert" style="color: #1E2B3B;">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h2>Outdated Client</h2>
+        You are currently using Version 1 of the OverTrack client.<br/>
+        Version 2 will be required to track role queue, new heroes, and new features going forward. <br/><br/>
+        <a href="https://overtrack-client-2.s3-us-west-2.amazonaws.com/setup/OverTrack+setup.exe" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Download OverTrack Client Version 2</a><br/><br/>
+        The new client adds quickplay support, instant uploads, and much more!<br/>
+        If you use OBS capture mode, the new client uses an alternate method - use !obs in the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> for info on how to use the new method.
+    </div>
 
     <edit-game [game]="gameToEdit" [leaveOnDelete]="false" [allowRename]="false" ></edit-game>
     <div class="row col-md-12">

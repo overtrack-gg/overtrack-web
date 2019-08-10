@@ -20,6 +20,8 @@ declare var Plotly: any;
 })
 export class GamesListComponent implements OnInit, AfterContentChecked {
 
+    showV1Alert: boolean = false;
+
     gamesLists: Array<PlayerGameList>;
     visibleGames: Array<Game>;
     gamesByDay: Array<Array<Game>>;
@@ -212,6 +214,9 @@ export class GamesListComponent implements OnInit, AfterContentChecked {
         this.showUploadingGames = true;
         this.loginService.getUser().subscribe(user => {
             this.updateUploadingGame(user);
+            if (this.isOwnGames && user.v1Client){
+                this.showV1Alert = true;
+            }
         });
     }
 

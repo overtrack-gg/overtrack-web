@@ -19,21 +19,20 @@
         Data is only uploaded after a game has completed, so OverTrack has no way of providing an advantage while in game.
     </p>
 
-    <br/>
+    <!-- <br/>
     <h3 id="failed-to-execute">How do I solve 'Failed to execute script wrapper' when launching OverTrack?</h3>
     <img src="assets\images\faq\wrapper.png" style="padding-bottom: 20px;">
     <p>
         Download and install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48145">vc_redist.x64.exe</a> from Microsoft.<br/>
         This issue can also be caused if you have non-english characters in your username.<br/>
         If the problem persists join the <a href="https://discord.gg/JywstAB">OverTrack Discord</a> and ask for help there.
-    </p>
+    </p> -->
 
     <br/>
     <h3 id="install">Where does OverTrack install to?</h3>
     <p>
-        OverTrack runs directly from the .exe file you downloaded. To launch manually simply run the .exe or the desktop shortcut OverTrack creates when it first runs.<br/>
-        OverTrack also creates a config.json file in "%appdata%\overtrack", which can be deleted to unlink your account and places a copy of the executable here.<br/>
-        To uninstall OverTrack just uncheck 'Start OverTrack when Windows starts' from OverTracks menu in the taskbar (and optionally delete the executable).
+        OverTrack installs to "%appdata%\overtrack" and should be availible under all programs > OverTrack launcher.<br/>
+        To stop using OverTrack, you can remove it through "Add or remove programs" or just disable 'Launch on Startup' in the Settings menu in from the taskbar.
     </p>
 
     <br/>
@@ -45,11 +44,10 @@
         <li>Overwatch is being run as admin, but OverTrack is not.</li>
         <li>Overwatch is being run in fullscreen mode on Windows 7. Windows 7 fullscreen capture requires using <a href="#obs" class="scrollto">OBS Capture</a>.</li>
         <li>You are using a laptop with switchable graphics and running Overwatch on the dedicated GPU. Laptop fullscreen capture requires using <a href="#obs" class="scrollto">OBS Capture</a>.</li>
-        <li>Overwatch is being run in 21:9 aspect ratio (ingame setting).</li>
+        <li>Overwatch is not being run in 16:9 aspect aspect ratio (ingame setting).</li>
         <li>You have an in-game overlay (e.g. ShadowPlay overlay, Discord Overlay, Windows registration text). Either disable this overlay or use <a href="#obs" class="scrollto">OBS Capture</a>.</li>
         <li>Overwatch is not set to English.</li>
         <li>The killfeed is disabled.</li>
-        <li>You are using an unusual brightness/contrast or colorblind mode.</li>
     </ul>
 
     <br/>
@@ -62,34 +60,30 @@
     <br/>
     <h3 id="obs">OBS Integration</h3>
     <p>
-        OverTrack can make use of OBS's capture, provided you have a Game Capture for Overwatch active in the current scene.<br/>
-        This option offers the minimum performance impact of all capture methods and has the least chance of causing stutter.<br/>
-        Additionally OBS capture allows recording on Windows 7, Laptops with switchable graphics and from Overwatch when alt-tabbed (other fullscreen capture methods only work when Overwatch is in the foreground).<br/><br/>
-        To use this feature, make sure you are running OBS (64 bit) or OBS Streamlabs and capturing from Overwatch using a Game Capture source and enable "Capture from OBS".
-    </p>
-    <img src="assets\images\faq\obs-capture.png" style="padding-bottom: 20px;">
-    <p>Note that:</p>
-    <ul>
-        <li>If OBS is being run as admin, OverTrack must be as well.</li>
-        <li>The capture source must be enabled and in the current scene. The scene preview can still be disabled.</li>
-        <li>Because the capture must be in the current scene, if you are streaming and switching scenes you may need to add the Game Capture source to the other scenes (you can drag it outside of the scene canvas or make it small and hide it behind another source).</li>
-        <li>If you are not streaming and want the minimum possible performance impact, set OBS's FPS to 4, limit the game capture FPS and disable the preview.</li>
-        <li>If you are using a laptop with switchable graphics, both OBS and OverTrack must also be run on the GPU (either through right click > Run with Graphics Processor or with the Nvidia control panel) or OBS must be using the Game Capture setting "SLI/Crossfire Support".</li>
-    </ul>
+        To use OBS capture mode will need to run OBS alongside OverTrack, with a plugin installed allowing OverTrack to use OBS's capture method.<br/><br/>
 
-    <br/>
-    <h3 id="battletag">Battletag Reading</h3>
-    <p>
-        OverTrack can read your Battletag from the Blizzard App to improve name recognition.<br/>
-        This feature must be enabled manually, but is recommended provided you are prepared for OverTrack to read from the Blizzard App's memory (OverTrack still does not and will never read from Overwatch's memory as this would classify it as a cheat).<br/>
-        Additionally you should only enable this option if you switch accounts using a single Blizzard App. If you run multiple apps, or switch accounts in-game this method will cause incorrect results. 
+        Download <code>obs-screenshot-plugin.dll</code> from <a href="https://github.com/synap5e/obs-screenshot-plugin/releases/">the releases page</a> 
+        and install it to <code>C:\Program Files\obs-studio\obs-plugins\64bit</code><br/>
+        Relaunch OBS and ensure you have a source for your game (game capture or capture card) then right click your target source and select Filters then add a Screenshot Filter:<br/>
+        <img src="assets\images\faq\add-filter.png" style="padding-bottom: 20px;"><br/>
+
+        Select the Destination type Output to <code>Named Shared Memory</code> and, the Shared Memory Name to <code>overtrack:overwatch</code> or <code>overtrack</code>(for autoselecting game) and the Interval to 1.0<br/>
+        <img src="assets\images\faq\screenshot-filter.png" style="padding-bottom: 20px;"><br/>
+
+        If the source is a display capture, capture card, or game capture for "any fullscreen application" and you used the name <code>overtrack</code> and OverTrack will attempt to automatically detect the game.
+        It does this by checking for the main menu periodically. You may need to wait at most 5s in the main menu for OverTrack to pick up the OBS source fully. 
+        Once seen, OverTrack should show that the source is Shared Memory in the Status Window. If the source is a game capture for a specific game and using the name <code>overtrack:overwatch</code> it will override the autodetection.<br/>
+
+        Do not create multiple filters with the same shared memory name.<br/><br/>
+        
+        To check if OBS capture is working, enable the Status Window and look for the text OBS shmem in the image, or SharedMemorySource in the text.
+        <img src="assets\images\faq\shmem.png" style="padding-bottom: 20px;"><br/>
     </p>
-    <img src="assets\images\faq\battletag.png" style="padding-bottom: 20px; width: 800px;">
 
     <br/>
     <h3 id="suggestions">I have a suggestion/feature request for OverTrack. How should I make it known?</h3>
     <p>
-        Please join our <a href="https://discord.gg/JywstAB">Discord</a> and post it in #support-and-feedback.
+        Please join our <a href="https://discord.gg/JywstAB">Discord</a> and come chat in #support-and-feedback.
     </p>
 
     <br/>
