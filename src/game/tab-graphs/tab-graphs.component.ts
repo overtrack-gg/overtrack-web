@@ -245,6 +245,14 @@ export let heroStatNames = {
       "transcendence healing",
       "offensive assists",
       null
+    ],
+    "sigma": [
+        "damage blocked",
+        "accretion kills",
+        "kill streak - best",
+        "gravitic flux kills",
+        "damage absorbed",
+        null
     ]
   }
 
