@@ -152,7 +152,7 @@ const appRoutes: Routes = [
 		{ path: 'video', component: VideoSearchComponent },
 
 		{ path: 'discord', component: DiscordRedirect },
-        { path: 'games/:share_key', redirectTo: '/player/:share_key' },
+        { path: 'games/:share_key', redirectTo: 'player/:share_key' },
 
 		{ path: '**', component: NotFoundComponent },
 ];
