@@ -32,18 +32,32 @@ export class GameService {
             for (let i in tab.time){
                 if (tab.blue_team){
                     for (let j=0; j < 6; j++){
-                        killfeedAndTab.push({
-                            player: j,
-                            blue: true,
-                            time: tab.time[i],
-                            hero: j != 0 ? tab.blue_team[i][j] : tab.hero[i]
-                        });
-                        killfeedAndTab.push({
-                            player: j,
-                            blue: false,
-                            time: tab.time[i],
-                            hero: tab.red_team[i][j]
-                        });
+                        let hero = null
+                        if (j == 0){
+                            hero = tab.hero[i];
+                        } else if (tab.blue_team[i].reduce((p, c) => p && c != null, true)){
+                            hero = tab.blue_team[i][j];
+                        }
+                        if (hero){
+                            killfeedAndTab.push({
+                                player: j,
+                                blue: true,
+                                time: tab.time[i],
+                                hero: hero
+                            });
+                        }
+                        hero = null;
+                        if (tab.red_team[i].reduce((p, c) => p && c != null, true)){
+                            hero = tab.red_team[i][j];
+                        }
+                        if (hero){
+                            killfeedAndTab.push({
+                                player: j,
+                                blue: false,
+                                time: tab.time[i],
+                                hero: hero
+                            });
+                        }
                     }
                 } else {
                     killfeedAndTab.push({
