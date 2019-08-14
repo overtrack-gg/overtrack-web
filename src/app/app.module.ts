@@ -133,12 +133,12 @@ const appRoutes: Routes = [
 		{ path: 'graph', component: GamesGraphComponent, canActivate: [LoggedIn] },
 		{ path: 'winrates', component: WinRatesComponent, canActivate: [LoggedIn] },
 		
-		{ path: 'games/:share_key', component: GamesListComponent},
+		{ path: 'player/:share_key', component: GamesListComponent},
 		{ path: 'statistics/:share_key', component: AllTimeHeroStatisticsComponent },
 		{ path: 'graph/:share_key', component: GamesGraphComponent },
 		{ path: 'winrates/:share_key', component: WinRatesComponent },
 		
-		{ path: 'game/:user/:game',  component: GameComponent },
+		{ path: 'player/:user/:game',  component: GameComponent },
 
 		{ path: 'authenticate_client', component: AuthenticateClientComponent },
 		{ path: 'subscribe', component: SubscribeComponent, canActivate: [LoggedIn]  },
@@ -152,6 +152,7 @@ const appRoutes: Routes = [
 		{ path: 'video', component: VideoSearchComponent },
 
 		{ path: 'discord', component: DiscordRedirect },
+        { path: 'games/:share_key', redirectTo: '/player/:share_key' },
 
 		{ path: '**', component: NotFoundComponent },
 ];
