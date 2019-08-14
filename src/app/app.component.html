@@ -32,9 +32,11 @@
                  <li class="nav-item" [class.active]="router.isActive('/faq', false)" routerLink="faq">
                         <a class="nav-link" (click)="prevent($event)" href="/faq">Help</a>
                     </li>
-
-            
-
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link">Switch to APEX</a>
+                </li>
             </ul>
             <user-login></user-login>
         </div>
