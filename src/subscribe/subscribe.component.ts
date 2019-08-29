@@ -11,7 +11,8 @@ export enum SubscriptionState {
     TrialOver,
     CanCancel,
     WillNotRenew,
-    TrialNotStarted
+    TrialNotStarted,
+    Version2,
 }
 
 
@@ -84,7 +85,9 @@ export class SubscribeComponent implements OnInit {
                 }
                 console.log(this.subscription);
 
-                if (this.subscription.subscriptionActive){
+                if (this.subscription.subscriptionType == "v2.stripe" || this.subscription.subscriptionType == "v2.paypal"){
+                    this.subscriptionState = SubscriptionState.Version2;
+                } else if (this.subscription.subscriptionActive){
                     if (this.subscription.cancelAtPeriodEnd){
                         this.subscriptionState = SubscriptionState.WillNotRenew;
                     } else {
