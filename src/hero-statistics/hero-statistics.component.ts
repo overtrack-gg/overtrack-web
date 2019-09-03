@@ -1,9 +1,30 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 
-import { HeroStatisticsService, HeroStatistics } from './hero-statistics.service';
-import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
+import { HeroStatisticsService, HeroStatistics, HeroStatistic } from './hero-statistics.service';
 
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'statsFilter',
+    pure: false
+})
+export class StatsFilterPipe implements PipeTransform {
+    transform(items: HeroStatistic[], filter: {selectedAccount: string, selectedMode: string, endgameOnly: boolean}): any {
+        if (!items || !filter) {
+            return items;
+        }
+        return items.filter(item => 
+            !item.is_role &&
+
+            item.account == filter.selectedAccount && 
+            item.mode == filter.selectedMode && 
+            filter.endgameOnly == item.endgame_only
+        ).sort(
+            (a, b) => b.statistics.time_played - a.statistics.time_played
+        );
+    }
+}
 
 @Component({
     selector: 'hero-statistics',
@@ -13,152 +34,108 @@ import { heroStatNames } from '../game/tab-graphs/tab-graphs.component';
 })
 export class AllTimeHeroStatisticsComponent implements OnInit {
 
-    allTimeStats: Array<HeroStatistics>;
-    playerList: Array<string>;
-    heroStatsByPlayer: Map<string, Array<HeroStatistics>>;
+    statistics: HeroStatistics;
+
+    selectedAccount: string;
+    selectedMode: string;
+    endgameOnly: boolean;
  
-    constructor(public statsService: HeroStatisticsService, 
-                public router: Router,
-                public activatedRoute: ActivatedRoute) { }
+    constructor(public statsService: HeroStatisticsService) { }
  
     ngOnInit(): void {
-        this.activatedRoute.params.subscribe(
-            params => {
-                this.statsService.getStats(params['share_key']).subscribe(
-                    res => {
-                        this.initStatistics(res);
-                    },
-                    err => {
-                        console.error(err);
-                    }
-                );
+
+        this.statsService.getStats().subscribe(
+            s => {
+                console.log(s);
+                this.statistics = s;
+
+                this.selectedAccount = s.accounts[0];
+                this.selectedMode = s.modes[0];
+                this.endgameOnly = true;
             }
-        );
+        )
     }
 
-    initStatistics(res: any) {
-        // TODO: this should be done by the service
-        this.allTimeStats = this.statsService.toAllTimeStats(res);
-        this.playerList = [];
-        this.heroStatsByPlayer = new Map<string, Array<HeroStatistics>>();
-        let playerPlayedTime = new Map<string, number>();
-        for (let stat of this.allTimeStats){
-            if (this.playerList.indexOf(stat.playerName) == -1){
-                this.playerList.push(stat.playerName);
-            }
-            if (!this.heroStatsByPlayer.has(stat.playerName)){
-                this.heroStatsByPlayer.set(stat.playerName, []);
-            }
-            this.heroStatsByPlayer.get(stat.playerName).push(stat);
-            if (stat.heroName == 'ALL'){
-                playerPlayedTime.set(stat.playerName, stat.timePlayed);
-            }
+    totalTime(): number {
+        return this.statistics.hero_statistics.filter(
+            e => e.hero == 'all heroes' &&
+            e.account == this.selectedAccount &&
+            e.mode == this.selectedMode &&
+            e.endgame_only == this.endgameOnly
+        )[0].statistics.time_played;
+    }
+
+    formatMode(mode: string): string {
+        if (mode == 'competitive'){
+            return 'Competitive';
+        } else if (mode == 'quickplay'){
+            return 'Quick Play';
+        } else if (mode == 'custom'){
+            return 'Custom Games';
+        } else {
+            return mode;
         }
-
-        for (let player of this.playerList){
-            for (let heroStat of this.heroStatsByPlayer.get(player)){
-                heroStat.playRate = heroStat.timePlayed / playerPlayedTime.get(player) * 100;
-            }
-        }
-        console.log(this.heroStatsByPlayer);
     }
 
-    playerHref(s: string): string{
-        return 'player_' + s.replace(/\W/g, '_');
-    }
-
-    sorted(heroes: Array<HeroStatistics>){
-        return heroes.sort((a, b) => {
-			return b.timePlayed - a.timePlayed;
-		})
-    }
 }
+
 
 @Component({
     selector: 'hero-statistic',
     styleUrls: ['./hero-statistics.component.css'],
     templateUrl: './hero-statistic.component.html'
 })
-export class HeroStatisticPaneComponent implements OnInit {
-    @Input() stat: HeroStatistics;
-    normTime: number;
+export class AllTimeHeroStatisticComponent implements OnInit {
+    @Input() stat: HeroStatistic;
+    @Input() totalTime: number;
+    timePlayed10m: number;
 
     ngOnInit(): void {
-        this.normTime = this.stat.timePlayed / (10 * 60 * 1000);
+        this.timePlayed10m = this.stat.statistics.time_played / (60 * 10);
     }
 
-    // getHeroWinrateByTime(){
-    //     return 60;
-    // }
-    
-    // getHeroWinrateByGames(){
-    //     return 40;
-    // }
-
-    formatTime(time: number): string{
-		let seconds = Math.floor( (time) % 60 );
-		let minutes = Math.floor( (time/60) % 60 );
-		let hours = Math.floor( time/(60*60));
-		return (hours < 10 ? "0" : "")+hours+":"+(minutes < 10 ? "0" : "")+minutes+":"+(seconds < 10 ? "0" : "")+seconds;
-	}
-
-    toTitleCase(str: string){
-        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    isAllHeroes(): boolean {
+        return this.stat.hero == 'all heroes';
     }
 
-    getHeroName() {
-        let str = this.stat.heroName;
-        if (str == 'ALL'){
-            str = 'All Heroes'
-        }else if (str == 's76'){
-            str = 'Soldier: 76';
-        } else if (str == 'torb'){
-            str = 'Torbjörn';
-        } else if (str == 'dva'){
-           return 'D.Va';
+    heroImage(): string {
+        if (this.isAllHeroes()){
+            return 'ALL';
+        } else {
+            return this.stat.hero;
         }
-        return this.toTitleCase(str);
-    } 
-
-    getObjTime(){
-        let v = this.stat.objectiveTime / (this.stat.timePlayed / 1000);
-        return v * 100;
     }
 
-    getHeroSpecificStatName(index: number){
-        return heroStatNames[this.stat.heroName][index];
+    s2ts(seconds: number): string {
+        console.log(seconds, 's2ts')
+        let s = Math.floor(seconds % 60);
+		let m = Math.floor(seconds / 60) % 60;
+		let h = Math.floor(seconds / (60 * 60));
+		return (h > 0 ? (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s;
     }
 
-    averageHeroStatPerGames(index: number): boolean {
-        let statName = heroStatNames[this.stat.heroName][index];
-        let blacklist = [
-            'best', // best transcendance heal, kill streak - best
-            'accuracy', // weapon, hook, etc. 
-            'average', // average energy
-            'uptime',
-            'percentage'
-        ]
-        for (let b of blacklist) {
-            if (statName.indexOf(b) != -1){
-                return true
-            }
+    heroStatNames(): string[] {
+        return Object.keys(this.stat.statistics.hero_specific_stats);
+    }
+
+    averageHeroStatPerGames(k: string): boolean {
+        if (k.indexOf('best') != -1){
+            return true;
+        } else if (k.indexOf('accuracy') != -1){
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
-    getHeroSpecificStat(index: number){
-        return this.stat['heroStat' + (index + 1)];
-    }
-
-    getHeroSpecificStatUnit(index: number){
-        let statName = heroStatNames[this.stat.heroName][index];
-        if (statName.indexOf('best') != -1){
-            return 'AVG / game';
+    heroStatUnit(k: string): string {
+        if (k.indexOf('best') != -1){
+            return ' AVG PER GAME';
+        } else if (k.indexOf('accuracy') != -1){
+            return '% AVG PER GAME';
+        } else {
+            return ' /10min';
         }
-
-        return '%';
     }
-
-
 
 }

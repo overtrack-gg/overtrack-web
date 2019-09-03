@@ -27,7 +27,7 @@ import { TabGraphsComponent } from '../game/tab-graphs/tab-graphs.component';
 import { HeroStatisticsComponent, TabStatisticsComponent } from '../game/tab-stats/tab-stats.component';
 import { AuthenticateClientComponent } from '../authenticate-client/authenticate-client.component';
 import { WinRatesComponent } from '../win-rates/win-rates.component';
-import { AllTimeHeroStatisticsComponent, HeroStatisticPaneComponent } from '../hero-statistics/hero-statistics.component';
+import { AllTimeHeroStatisticsComponent, AllTimeHeroStatisticComponent, StatsFilterPipe } from '../hero-statistics/hero-statistics.component';
 import { GamesGraphComponent } from '../games-graph/games-graph.component';
 import { InstallInstructionsComponent } from '../install-instructions/install-instructions.component';
 import { RegisterComponent } from '../register/register.component';
@@ -191,8 +191,8 @@ const appRoutes: Routes = [
 		HeroStatisticsComponent,
 		TabStatisticsComponent,
 		AllTimeHeroStatisticsComponent,
+		AllTimeHeroStatisticComponent,
 		AuthenticateClientComponent,
-		HeroStatisticPaneComponent,
 		InstallInstructionsComponent,
 		RegisterComponent,
 		WelcomeComponent,
@@ -204,7 +204,9 @@ const appRoutes: Routes = [
 		PlaylistsComponent,
 		VideoSearchComponent,
 		KillfeedEventComponent,
-		DiscordRedirect
+		DiscordRedirect,
+
+		StatsFilterPipe
 	],
 	bootstrap: [ 
 		AppComponent

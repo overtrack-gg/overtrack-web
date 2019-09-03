@@ -40,14 +40,22 @@
     float: left;
 }
 .hero-card .general-info{
+    margin: 3px 10px 0;
+    text-align: right;
+    width: 100%;
+    color: #ccc;
+}
+.hero-card .left-info{
 	display: inline-block;
-    float: left;
     margin: 3px 10px 0;
 }
-.hero-card .info-right{
-	display: inline-block;
-	float: right;
+.hero-card .right-info{
+    display: inline-block;
+    text-align: right;
+    width: 100%;
 }
+
+
 .hero-card .info-right:first-child{
 	margin-left: 20%;
 }
@@ -203,7 +211,11 @@ button.multi-choice:last-child{
     background-color: rgb(193, 148, 119);
     box-shadow: rgb(206, 170, 147) 0px 0.2rem 0px 0px inset;
 }
-.progress-bar-s76{
+.progress-bar-sigma{
+    background-color: rgb(143, 152, 155);
+    box-shadow: rgb(143, 152, 155) 0px 0.2rem 0px 0px inset;
+}
+.progress-bar-soldier{
     background-color: rgb(88, 112, 182);
     box-shadow: rgb(117, 136, 195) 0px 0.2rem 0px 0px inset;
 }
@@ -215,7 +227,7 @@ button.multi-choice:last-child{
     background-color: rgb(92, 236, 255);
     box-shadow: rgb(133, 241, 255) 0px 0.2rem 0px 0px inset;
 }
-.progress-bar-torb{
+.progress-bar-torbjorn{
     background-color: rgb(255, 98, 0);
     box-shadow: rgb(255, 123, 40) 0px 0.2rem 0px 0px inset;
 }

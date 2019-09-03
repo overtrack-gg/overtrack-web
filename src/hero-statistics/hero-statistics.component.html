@@ -6,26 +6,60 @@
 
 
 <div class="container overview view">
-
-    <div class="row col-md-12">
+    <!-- <div *ngIf="statistics" class="row col-md-12">
         <div id="gametable" class="panel with-nav-tabs panel-default">
             <div class="panel-heading">
-                <ul class="nav nav-tabs">
-                    <li [class.hidden]="!(playerList && playerList.length > 1)" ><b>Accounts:</b></li>
-                    <li [class.hidden]="!(playerList && playerList.length > 1)"
-						*ngFor="let player of playerList; let f = first;" [class.active]="f">
-						<a href="#{{ playerHref(player) }}" data-toggle="tab">{{ player }}</a>
-					</li>
-                </ul>
+                <label>{{statistics.season}}</label>
+
+                <label for="selected-account">Account: </label>
+                <select id="selected-account" [(ngModel)]="selectedAccount">
+                    <option *ngFor="let e of statistics.accounts" [value]="e">{{e}}</option>
+                </select>
+
+                <label for="selected-mode">Mode: </label>
+                <select id="selected-mode" [(ngModel)]="selectedMode">
+                    <option *ngFor="let e of statistics.modes" [value]="e">{{formatMode(e)}}</option>
+                </select>
+
+                <label for="endgame-only">Complete statistics only: </label>
+                <input type="checkbox" id="endgame-only" [(ngModel)]="endgameOnly" [ngModelOptions]="{standalone: true}">
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div *ngFor="let s of statistics.hero_statistics | statsFilter:{selectedAccount: selectedAccount, selectedMode: selectedMode, endgameOnly: endgameOnly}">
+                        <hero-statistic [stat]=s></hero-statistic>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row col-md-12">
+        <div *ngIf="statistics" id="gametable" class="panel with-nav-tabs panel-default">
+            <div class="panel-heading">
+                <label>{{statistics.season}}</label>
+
+                <label for="selected-account">Account: </label>
+                <select id="selected-account" [(ngModel)]="selectedAccount">
+                    <option *ngFor="let e of statistics.accounts" [value]="e">{{e}}</option>
+                </select>
+
+                <label for="selected-mode">Mode: </label>
+                <select id="selected-mode" [(ngModel)]="selectedMode">
+                    <option *ngFor="let e of statistics.modes" [value]="e">{{formatMode(e)}}</option>
+                </select>
+
+                <label for="endgame-only">Complete statistics only: </label>
+                <input type="checkbox" id="endgame-only" [(ngModel)]="endgameOnly" [ngModelOptions]="{standalone: true}">
             </div>
             <div class="panel-body">
                 <div class="tab-content">
-                    <div class="tab-pane {{f ? 'active' : ''}}" *ngFor="let player of playerList; let f = first;"  id="{{ playerHref(player) }}">
-                        <ng-container *ngFor="let heroStat of sorted(heroStatsByPlayer.get(player))">
-                            <hero-statistic *ngIf="heroStat.timePlayed > 10 * 60 * 1000"
-                                [stat]=heroStat
-                            ></hero-statistic>
-                        </ng-container>
+                    <div class="tab-pane active">
+                        <div *ngFor="let s of statistics.hero_statistics | statsFilter:{selectedAccount: selectedAccount, selectedMode: selectedMode, endgameOnly: endgameOnly}">
+                                <hero-statistic [stat]="s" [totalTime]="totalTime()"></hero-statistic>
+                        </div>
                     </div>
                 </div>
             </div>
