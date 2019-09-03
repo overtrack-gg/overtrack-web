@@ -121,7 +121,7 @@ export class AllTimeHeroStatisticComponent implements OnInit {
     averageHeroStatPerGames(k: string): boolean {
         if (k.indexOf('best') != -1){
             return true;
-        } else if (k.indexOf('accuracy') != -1){
+        } else if (k.indexOf('accuracy') != -1 || k.indexOf('average') != -1){
             return true;
         } else {
             return false;
@@ -131,11 +131,86 @@ export class AllTimeHeroStatisticComponent implements OnInit {
     heroStatUnit(k: string): string {
         if (k.indexOf('best') != -1){
             return ' AVG PER GAME';
-        } else if (k.indexOf('accuracy') != -1){
+        } else if (k.indexOf('accuracy') != -1 || k.indexOf('average') != -1){
             return '% AVG PER GAME';
         } else {
             return ' /10min';
         }
     }
+
+
+    /*
+    // getHeroWinrateByTime(){
+    //     return 60;
+    // }
+    
+    // getHeroWinrateByGames(){
+    //     return 40;
+    // }
+
+    formatTime(time: number): string{
+		let seconds = Math.floor( (time) % 60 );
+		let minutes = Math.floor( (time/60) % 60 );
+		let hours = Math.floor( time/(60*60));
+		return (hours < 10 ? "0" : "")+hours+":"+(minutes < 10 ? "0" : "")+minutes+":"+(seconds < 10 ? "0" : "")+seconds;
+	}
+
+    toTitleCase(str: string){
+        return str.replace(/\w\S*__DELETE__/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
+    getHeroName() {
+        let str = this.stat.heroName;
+        if (str == 'ALL'){
+            str = 'All Heroes'
+        }else if (str == 's76'){
+            str = 'Soldier: 76';
+        } else if (str == 'torb'){
+            str = 'Torbjörn';
+        } else if (str == 'dva'){
+           return 'D.Va';
+        }
+        return this.toTitleCase(str);
+    } 
+
+    getObjTime(){
+        let v = this.stat.objectiveTime / (this.stat.timePlayed / 1000);
+        return v * 100;
+    }
+
+    getHeroSpecificStatName(index: number){
+        return heroStatNames[this.stat.heroName][index];
+    }
+
+    averageHeroStatPerGames(index: number): boolean {
+        let statName = heroStatNames[this.stat.heroName][index];
+        let blacklist = [
+            'best', // best transcendance heal, kill streak - best
+            'accuracy', // weapon, hook, etc. 
+            'average', // average energy
+            'uptime',
+            'percentage'
+        ]
+        for (let b of blacklist) {
+            if (statName.indexOf(b) != -1){
+                return true
+            }
+        }
+        return false;
+    }
+
+    getHeroSpecificStat(index: number){
+        return this.stat['heroStat' + (index + 1)];
+    }
+
+    getHeroSpecificStatUnit(index: number){
+        let statName = heroStatNames[this.stat.heroName][index];
+        if (statName.indexOf('best') != -1){
+            return 'AVG / game';
+        }
+
+        return '%';
+    }
+    */
 
 }
