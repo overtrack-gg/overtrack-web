@@ -58,11 +58,12 @@ export class AllTimeHeroStatisticsComponent implements OnInit {
 
     totalTime(): number {
         return this.statistics.hero_statistics.filter(
-            e => e.hero == 'all heroes' &&
+            e => !e.is_role &&
+            e.hero != 'all heroes' &&
             e.account == this.selectedAccount &&
             e.mode == this.selectedMode &&
             e.endgame_only == this.endgameOnly
-        )[0].statistics.time_played;
+        ).reduce((p, e) => p + e.statistics.time_played, 0);
     }
 
     formatMode(mode: string): string {
