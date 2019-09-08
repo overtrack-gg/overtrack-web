@@ -35,7 +35,7 @@
 						(onSelectAll)="selectAll($event)"
 					>
 					</ng-multiselect-dropdown>
-					<div class="col-lg-10">
+					<!-- <div class="col-lg-10">
 						<div class="center">
 							<button class="multi-choice" *ngFor="let singleMap of mapList;"
 								(click)="switchMap(singleMap)"
@@ -50,7 +50,7 @@
 								{{singleMap}}
 							</button>
 						</div>
-					</div>
+					</div> -->
 				</div>
 				
 				<h2 class="center">{{activeMap | uppercase}}</h2>
@@ -83,7 +83,7 @@
 							<label class="checkbox-inline" style="position: absolute; right: 20px; top: 20px; line-height: 12pt;"><input type="checkbox" [checked]="normalise" (click)="toggleNormalise()">Normalise<br> by playtime</label>
 						</div>
 						
-						<div *ngFor="let nextName of sortedByWR(currentMapHeroes())"
+						<div *ngFor="let nextName of sortedByPlaytime(currentMapHeroes())"
 							class="hero-row" [class.hidden]="hideHero(nextName)">
 							<div class="hero-img">
 							</div>
@@ -118,7 +118,7 @@
 				<br><br>
 				<h4>Reading Winrates</h4>
 				<p>
-					When normalising by playtime, winrate is calculated as <i>time playing in games that were won</i> out of <i>total time played</i> for each hero.<br>
+					When normalising by playtime, winrate is calculated as <i>sum of percentage on that hero in won games</i> over <i>sum of percentage on that hero in all games</i><br>
 					Without normalization, only games where the hero was played for more than 20% of the match are counted.<br>
 				</p>
 

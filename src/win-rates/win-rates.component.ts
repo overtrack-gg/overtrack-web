@@ -160,11 +160,14 @@ export class WinRatesComponent implements OnInit {
 		//thisHeroWR.lastGameTimePlayed = hero.percentagePlayed * game.duration;
 		thisHeroWR.gamesPlayed += 1;
 		thisHeroWR.significantGamesPlayed += hero.percentagePlayed * 100 > this.lfhp ? 1 : 0;
+		thisHeroWR.percentPlayedSum += hero.percentagePlayed;
 		if(game.result === "WIN")
 		{
 			thisHeroWR.timewon += hero.percentagePlayed * game.duration;
 			thisHeroWR.gamesWon += 1;
 			thisHeroWR.significantGamesWon += hero.percentagePlayed * 100 > this.lfhp ? 1 : 0;
+
+			thisHeroWR.percentWonSum += hero.percentagePlayed;
 		}
 	}
 	
@@ -323,7 +326,8 @@ export class WinRatesComponent implements OnInit {
 		let heroWinrates = this.mapStats.get(this.activeMap).heroWinrates;
 		if(heroWinrates.get(heroName).timewon == 0)
 			return 0;
-		return heroWinrates.get(heroName).timewon / heroWinrates.get(heroName).timeplayed * 100;
+		
+		return (heroWinrates.get(heroName).percentWonSum / heroWinrates.get(heroName).percentPlayedSum) * 100;
 	}
 
 	getHeroWinrateByGames(heroName: string) {
@@ -382,6 +386,9 @@ class HeroWinrate{
 	significantGamesPlayed: number = 0;
 	gamesWon: number = 0;
 	significantGamesWon: number = 0;
+
+	percentWonSum: number = 0;
+	percentPlayedSum: number = 0;
 }
 
 class MapStats{
