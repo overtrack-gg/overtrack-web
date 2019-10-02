@@ -72,6 +72,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "zhang1pr",
+      "name": "Chao Zhang",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/26691304?v=4",
+      "profile": "http://linkedin.com/in/chaozhang1pr/",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
