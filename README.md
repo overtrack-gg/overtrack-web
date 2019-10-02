@@ -29,7 +29,7 @@
 
 ## Introduction
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Discord chat](https://img.shields.io/badge/chat-on_discord-008080.svg?style=flat-square)](https://discord.gg/JywstAB)
 
@@ -66,6 +66,9 @@ Feel free to discuss ideas and development on [Discord](https://discord.gg/Jywst
     <td align="center"><a href="https://github.com/jeremyBanks"><img src="https://avatars3.githubusercontent.com/u/18020?v=4" width="100px;" alt="Jeremy Banks"/><br /><sub><b>Jeremy Banks</b></sub></a><br /><a href="#design-jeremyBanks" title="Design">🎨</a></td>
     <td align="center"><a href="https://github.com/Jamigrith"><img src="https://avatars1.githubusercontent.com/u/3393742?v=4" width="100px;" alt="Jamigrith"/><br /><sub><b>Jamigrith</b></sub></a><br /><a href="https://github.com/overtrack-gg/overtrack-web/commits?author=Jamigrith" title="Code">💻</a> <a href="#design-Jamigrith" title="Design">🎨</a></td>
     <td align="center"><a href="https://github.com/zsol"><img src="https://avatars3.githubusercontent.com/u/66740?v=4" width="100px;" alt="Zsolt Dollenstein"/><br /><sub><b>Zsolt Dollenstein</b></sub></a><br /><a href="https://github.com/overtrack-gg/overtrack-web/commits?author=zsol" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://linkedin.com/in/chaozhang1pr/"><img src="https://avatars3.githubusercontent.com/u/26691304?v=4" width="100px;" alt="Chao Zhang"/><br /><sub><b>Chao Zhang</b></sub></a><br /><a href="#design-zhang1pr" title="Design">🎨</a></td>
   </tr>
 </table>
 
