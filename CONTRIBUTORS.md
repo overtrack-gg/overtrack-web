@@ -12,6 +12,9 @@
     <td align="center"><a href="https://github.com/Jamigrith"><img src="https://avatars1.githubusercontent.com/u/3393742?v=4" width="100px;" alt="Jamigrith"/><br /><sub><b>Jamigrith</b></sub></a><br /><a href="https://github.com/overtrack-gg/overtrack-web/commits?author=Jamigrith" title="Code">💻</a> <a href="#design-Jamigrith" title="Design">🎨</a></td>
     <td align="center"><a href="https://github.com/zsol"><img src="https://avatars3.githubusercontent.com/u/66740?v=4" width="100px;" alt="Zsolt Dollenstein"/><br /><sub><b>Zsolt Dollenstein</b></sub></a><br /><a href="https://github.com/overtrack-gg/overtrack-web/commits?author=zsol" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://linkedin.com/in/chaozhang1pr/"><img src="https://avatars3.githubusercontent.com/u/26691304?v=4" width="100px;" alt="Chao Zhang"/><br /><sub><b>Chao Zhang</b></sub></a><br /><a href="#design-zhang1pr" title="Design">🎨</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
