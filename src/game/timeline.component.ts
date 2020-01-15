@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import * as D3 from 'd3';
 
-import { Stage, GameHero, GameEvent, Player, KillFeedEntry, PayloadObjectiveInfo } from './game.service';
+import { Stage, GameHero, GameEvent, Player, KillFeedEntry, PayloadObjectiveInfo, OvertimePeriod } from './game.service';
 
 declare var Twitch: any; // TODO
 
@@ -573,6 +573,10 @@ export class TimelineComponent implements OnChanges, AfterViewInit {
 
     widthPercentage(hero: GameHero) {
         return 100 * (hero.end - hero.start) / (this.stage.end - this.stage.start);
+    }
+
+    leftPercentage(overtime: OvertimePeriod) {
+        return 100 * (overtime.start - this.stage.start) / (this.stage.end - this.stage.start);
     }
 
     x(time: number) {

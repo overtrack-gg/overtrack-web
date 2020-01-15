@@ -411,7 +411,15 @@ export class GameService {
             this.addAssists(players[0], body.assists, stage);
             this.addKillfeedAssists(players, stage, killfeed);
 
-            let objectiveInfo: ObjectiveInfo;
+            let overtime: Array<OvertimePeriod> = [];
+            for (const p of stage.overtime){   
+                overtime.push({
+                    start: p.start,
+                    end: p.end
+                })
+            }
+
+            let objectiveInfo: PayloadObjectiveInfo|KOTHObjectiveInfo;
             if (body.map_type === 'KOTH' || body.map_type == 'Control') {
                 const ownership: Array<KothOwnership> = [];
                 ownership.push({
@@ -429,7 +437,8 @@ export class GameService {
                 }
 
                 objectiveInfo = {
-                    ownership: ownership
+                    overtime: overtime,
+                    ownership: ownership,
                 };
             } else if (stage.checkpoints) {
                 const checkpoints: Array<PayloadCheckpoint> = [];
@@ -441,11 +450,13 @@ export class GameService {
                     })
                 }
                 objectiveInfo = {
+                    overtime: overtime,
                     checkpoints: checkpoints
                 };
             } else {
-                objectiveInfo = {};
+                objectiveInfo = null;
             }
+            
 
             let progress: number = null;
             let formatProgress: string = null;
@@ -776,10 +787,17 @@ export class Stage {
     events: Array<GameEvent>;
 }
 
+export class OvertimePeriod{
+    start: number;
+    end: number;
+}
+
 export interface ObjectiveInfo {
+    overtime: Array<OvertimePeriod>;
 }
 
 export class KOTHObjectiveInfo implements ObjectiveInfo {
+    overtime: Array<OvertimePeriod>;
     ownership: Array<KothOwnership>;
 }
 
@@ -790,6 +808,7 @@ export class KothOwnership {
 }
 
 export class PayloadObjectiveInfo implements ObjectiveInfo{
+    overtime: Array<OvertimePeriod>;
     checkpoints: Array<PayloadCheckpoint>;
 }
 

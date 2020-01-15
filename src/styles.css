@@ -122,6 +122,11 @@ a.navbar-brand > img {
     background-repeat: no-repeat;
 }
 
+.timeline-overtime {
+    position: absolute;
+    background-color: #DDB85A;
+}
+
 .timeline-owner-blue{
     background-color: #5bc0de;
 }
