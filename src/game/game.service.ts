@@ -412,14 +412,14 @@ export class GameService {
             this.addKillfeedAssists(players, stage, killfeed);
 
             let overtime: Array<OvertimePeriod> = [];
-            for (const p of stage.overtime){   
+            for (const p of (stage.overtime || [])){   
                 overtime.push({
                     start: p.start,
                     end: p.end
                 })
             }
 
-            let objectiveInfo: PayloadObjectiveInfo|KOTHObjectiveInfo;
+            let objectiveInfo: PayloadObjectiveInfo|KOTHObjectiveInfo|ObjectiveInfo;
             if (body.map_type === 'KOTH' || body.map_type == 'Control') {
                 const ownership: Array<KothOwnership> = [];
                 ownership.push({
@@ -454,7 +454,9 @@ export class GameService {
                     checkpoints: checkpoints
                 };
             } else {
-                objectiveInfo = null;
+                objectiveInfo = {
+                    overtime: []
+                };
             }
             
 
@@ -523,6 +525,7 @@ export class GameService {
                 events: stage.events
             });
         }
+        console.log('stages:', stages)
 
         let heroStatistics: Array<HeroStatistics> = [];
         if (body.hero_statistics){
