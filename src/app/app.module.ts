@@ -139,6 +139,7 @@ const appRoutes: Routes = [
 		{ path: 'winrates/:share_key', component: WinRatesComponent },
 		
 		{ path: 'game/:user/:game',  component: GameComponent },
+		{ path: 'overwatch/games/:user/:game',  component: GameComponent },
 
 		{ path: 'authenticate_client', component: AuthenticateClientComponent },
 		{ path: 'subscribe', component: SubscribeComponent, canActivate: [LoggedIn]  },
